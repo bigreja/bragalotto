@@ -1,0 +1,86 @@
+// Admin styles for Pick'em extension
+
+.PickemPage {
+  &-tabs {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+  }
+
+  &-content {
+    background: var(--control-bg);
+    border: 1px solid var(--control-border-color);
+    border-radius: 4px;
+    padding: 20px;
+  }
+}
+
+.TeamsTab, .EventsTab, .SeasonsTab, .WeeksTab {
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h3 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  }
+}
+
+.Table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--control-border-color);
+  }
+
+  th {
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+
+  .Button {
+    margin-right: 5px;
+  }
+}
+
+.TeamModal, .EventModal, .ResultModal {
+  .Form-group {
+    margin-bottom: 15px;
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    .FormControl {
+      width: 100%;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    input[type="checkbox"] {
+      margin-right: 8px;
+    }
+  }
+}
