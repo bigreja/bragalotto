@@ -34,12 +34,12 @@
   ],
   "autoload": {
     "psr-4": {
-      "huseyinfiliz\\Pickem\\": "src/"
+      "HuseyinFiliz\\Pickem\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "huseyinfiliz\\Pickem\\Tests\\": "tests/"
+      "HuseyinFiliz\\Pickem\\Tests\\": "tests/"
     }
   },
   "extra": {
@@ -51,38 +51,51 @@
         "backgroundColor": "#e74c3c",
         "color": "#fff"
       }
+    },
+    "flarum-cli": {
+      "modules": {
+        "admin": true,
+        "forum": true,
+        "js": true,
+        "jsCommon": false,
+        "css": true,
+        "gitConf": true,
+        "githubActions": true,
+        "prettier": true,
+        "typescript": true,
+        "bundlewatch": false,
+        "backendTesting": true,
+        "editorConfig": true,
+        "styleci": true
+      }
     }
   },
   "scripts": {
     "test": "phpunit -c phpunit.xml",
     "test:coverage": "phpunit -c phpunit.xml --coverage-html coverage",
-    "analyse": "@php -r \"echo '⚠️  PHPStan disabled due to missing sockets extension.\\nTo enable: Install php-sockets extension on your server.\\nRunning tests only...\\n\\n';\"",
-    "analyse:clear": "@php -r \"echo 'PHPStan cache clear skipped (PHPStan disabled)\\n';\"",
-    "cs": [
-      "@php -r \"if (!file_exists('vendor/bin/php-cs-fixer')) { echo '⚠️  php-cs-fixer not installed. Installing...\\n'; exit(0); }\"",
-      "vendor/bin/php-cs-fixer fix --dry-run --diff"
-    ],
-    "cs:fix": [
-      "@php -r \"if (!file_exists('vendor/bin/php-cs-fixer')) { echo '⚠️  php-cs-fixer not installed. Run: composer install\\n'; exit(1); }\"",
-      "vendor/bin/php-cs-fixer fix"
-    ],
+    "analyse": "@php vendor/bin/phpstan analyse",
+    "analyse:clear": "@php vendor/bin/phpstan clear-result-cache",
+    "cs": "vendor/bin/php-cs-fixer fix --dry-run --diff",
+    "cs:fix": "vendor/bin/php-cs-fixer fix",
     "qa": [
+      "@cs",
       "@test"
     ],
     "qa:full": [
       "@cs",
+      "@analyse",
       "@test"
     ]
   },
   "scripts-descriptions": {
     "test": "Run unit tests",
     "test:coverage": "Run tests with code coverage",
-    "analyse": "PHPStan disabled - requires php-sockets extension",
-    "analyse:clear": "PHPStan cache clear (disabled)",
-    "cs": "Check code style (requires php-cs-fixer)",
-    "cs:fix": "Fix code style issues (requires php-cs-fixer)",
-    "qa": "Run essential quality checks (Tests only - PHPStan disabled)",
-    "qa:full": "Run all available quality checks (Code Style + Tests)"
+    "analyse": "Run static analysis with PHPStan",
+    "analyse:clear": "Clear PHPStan cache",
+    "cs": "Check code style (dry run)",
+    "cs:fix": "Fix code style issues",
+    "qa": "Run essential quality checks (Code Style + Tests)",
+    "qa:full": "Run all quality checks (Code Style + PHPStan + Tests)"
   },
   "config": {
     "sort-packages": true,
@@ -96,13 +109,5 @@
     "flarum/phpstan": "*",
     "flarum/testing": "^1.0",
     "friendsofphp/php-cs-fixer": "^3.64"
-  },
-  "flagrow": {
-    "discuss": "https://discuss.flarum.org/d/your-discussion-id"
-  },
-  "flarum-cli": {
-    "modules": {
-      "githubActions": true
-    }
   }
 }

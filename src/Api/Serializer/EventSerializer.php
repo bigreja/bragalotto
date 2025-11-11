@@ -18,13 +18,13 @@ class EventSerializer extends AbstractSerializer
     protected function getDefaultAttributes($event)
     {
         return [
-            'id' => $event->id,
+            'id' => (string) $event->id,
             'weekId' => $event->week_id,
             'homeTeamId' => $event->home_team_id,
             'awayTeamId' => $event->away_team_id,
             'matchDate' => $this->formatDate($event->match_date),
             'cutoffDate' => $this->formatDate($event->cutoff_date),
-            'allowDraw' => $event->allow_draw,
+            'allowDraw' => (bool) $event->allow_draw,
             'status' => $event->status,
             'homeScore' => $event->home_score,
             'awayScore' => $event->away_score,
@@ -40,7 +40,10 @@ class EventSerializer extends AbstractSerializer
      */
     public function week($event)
     {
-        return $this->hasOne($event, WeekSerializer::class);
+        if (!$event->week) {
+            return null;
+        }
+        return $this->hasOne($event, WeekSerializer::class, 'week');
     }
 
     /**
@@ -48,7 +51,10 @@ class EventSerializer extends AbstractSerializer
      */
     public function homeTeam($event)
     {
-        return $this->hasOne($event, TeamSerializer::class);
+        if (!$event->homeTeam) {
+            return null;
+        }
+        return $this->hasOne($event, TeamSerializer::class, 'homeTeam');
     }
 
     /**
@@ -56,7 +62,10 @@ class EventSerializer extends AbstractSerializer
      */
     public function awayTeam($event)
     {
-        return $this->hasOne($event, TeamSerializer::class);
+        if (!$event->awayTeam) {
+            return null;
+        }
+        return $this->hasOne($event, TeamSerializer::class, 'awayTeam');
     }
 
     /**
@@ -64,6 +73,6 @@ class EventSerializer extends AbstractSerializer
      */
     public function picks($event)
     {
-        return $this->hasMany($event, PickSerializer::class);
+        return $this->hasMany($event, PickSerializer::class, 'picks');
     }
 }

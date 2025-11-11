@@ -30,6 +30,7 @@ export default class PickemPage extends Page {
         }),
       };
 
+      // Only fetch picks if user is logged in
       if (app.session.user) {
         promises.picks = app.store.find('pickem-picks', {
           filter: { user: app.session.user.id() },

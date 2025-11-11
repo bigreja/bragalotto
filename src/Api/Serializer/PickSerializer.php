@@ -19,7 +19,7 @@ class PickSerializer extends AbstractSerializer
     protected function getDefaultAttributes($pick)
     {
         return [
-            'id' => $pick->id,
+            'id' => (string) $pick->id,
             'userId' => $pick->user_id,
             'eventId' => $pick->event_id,
             'selectedOutcome' => $pick->selected_outcome,
@@ -34,7 +34,10 @@ class PickSerializer extends AbstractSerializer
      */
     public function user($pick)
     {
-        return $this->hasOne($pick, BasicUserSerializer::class);
+        if (!$pick->user) {
+            return null;
+        }
+        return $this->hasOne($pick, BasicUserSerializer::class, 'user');
     }
 
     /**
@@ -42,6 +45,9 @@ class PickSerializer extends AbstractSerializer
      */
     public function event($pick)
     {
-        return $this->hasOne($pick, EventSerializer::class);
+        if (!$pick->event) {
+            return null;
+        }
+        return $this->hasOne($pick, EventSerializer::class, 'event');
     }
 }

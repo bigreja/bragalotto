@@ -19,8 +19,8 @@ export default class MatchesPage extends Page {
         app.store.find('pickem-events', {
           include: 'homeTeam,awayTeam,week',
         }),
-        app.user ? app.store.find('pickem-picks', {
-          filter: { user: app.user.id() },
+        app.session.user ? app.store.find('pickem-picks', {
+          filter: { user: app.session.user.id() },
           include: 'event',
         }) : Promise.resolve([]),
       ]);
@@ -95,7 +95,7 @@ export default class MatchesPage extends Page {
           )}
         </div>
 
-        {app.user && canPick && (
+        {app.session.user && canPick && (
           <div className="MatchCard-picks">
             <p>{app.translator.trans('huseyinfiliz-pickem.forum.matches.make_pick')}</p>
             <div className="MatchCard-buttons">
@@ -143,7 +143,7 @@ export default class MatchesPage extends Page {
   }
 
   async makePick(event, outcome) {
-    if (!app.user) {
+    if (!app.session.user) {
       alert('You must be logged in to make picks');
       return;
     }

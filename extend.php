@@ -68,7 +68,7 @@ return [
         }),
 
     // Register models for API
-    (new Extend\Model(\Flarum\User\User::class))
+    (new Extend\Model(User::class))
         ->relationship('pickemPicks', function ($model) {
             return $model->hasMany(Pick::class, 'user_id');
         })
@@ -76,10 +76,9 @@ return [
             return $model->hasMany(UserScore::class, 'user_id');
         }),
 
-    // Register event listeners using Laravel Eloquent events
-    (new Extend\Event())
-        ->listen(\Illuminate\Database\Eloquent\Events\Saved::class, Listener\UpdateUserScoresListener::class)
-        ->listen(\Illuminate\Database\Eloquent\Events\Saved::class, Listener\SendResultNotificationsListener::class),
+    // Register model observers
+    (new Extend\ServiceProvider())
+        ->register(Provider\PickemServiceProvider::class),
 
     // Register notification type
     (new Extend\Notification())

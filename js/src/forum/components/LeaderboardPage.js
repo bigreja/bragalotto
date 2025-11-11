@@ -106,7 +106,7 @@ export default class LeaderboardPage extends Page {
     const user = score.user();
 
     return (
-      <tr key={score.id()} className={user && app.user && user.id() === app.user.id() ? 'highlight' : ''}>
+      <tr key={score.id()} className={user && app.session.user && user.id() === app.session.user.id() ? 'highlight' : ''}>
         <td><strong>#{rank}</strong></td>
         <td>{user ? user.displayName() : 'Unknown'}</td>
         <td><strong>{score.totalPoints()}</strong></td>

@@ -19,12 +19,12 @@ class UserScoreSerializer extends AbstractSerializer
     protected function getDefaultAttributes($score)
     {
         return [
-            'id' => $score->id,
+            'id' => (string) $score->id,
             'userId' => $score->user_id,
             'seasonId' => $score->season_id,
-            'totalPoints' => $score->total_points,
-            'totalPicks' => $score->total_picks,
-            'correctPicks' => $score->correct_picks,
+            'totalPoints' => (int) $score->total_points,
+            'totalPicks' => (int) $score->total_picks,
+            'correctPicks' => (int) $score->correct_picks,
             'accuracy' => $score->accuracy,
             'createdAt' => $this->formatDate($score->created_at),
             'updatedAt' => $this->formatDate($score->updated_at),
@@ -36,7 +36,10 @@ class UserScoreSerializer extends AbstractSerializer
      */
     public function user($score)
     {
-        return $this->hasOne($score, BasicUserSerializer::class);
+        if (!$score->user) {
+            return null;
+        }
+        return $this->hasOne($score, BasicUserSerializer::class, 'user');
     }
 
     /**
@@ -44,6 +47,9 @@ class UserScoreSerializer extends AbstractSerializer
      */
     public function season($score)
     {
-        return $this->hasOne($score, SeasonSerializer::class);
+        if (!$score->season) {
+            return null;
+        }
+        return $this->hasOne($score, SeasonSerializer::class, 'season');
     }
 }

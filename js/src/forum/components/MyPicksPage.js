@@ -8,7 +8,7 @@ export default class MyPicksPage extends Page {
     this.loading = true;
     this.picks = [];
 
-    if (app.user) {
+    if (app.session.user) {
       this.loadData();
     }
   }
@@ -16,7 +16,7 @@ export default class MyPicksPage extends Page {
   async loadData() {
     try {
       this.picks = await app.store.find('pickem-picks', {
-        filter: { user: app.user.id() },
+        filter: { user: app.session.user.id() },
         include: 'event,event.homeTeam,event.awayTeam',
       });
     } catch (error) {
@@ -28,7 +28,7 @@ export default class MyPicksPage extends Page {
   }
 
   view() {
-    if (!app.user) {
+    if (!app.session.user) {
       return (
         <div className="MyPicksPage">
           <div className="container">
