@@ -1,361 +1,777 @@
-// Forum styles for Pick'em extension
+// Forum styles for Pick'em extension - Final Clean Version
+
+// ============================================
+// VARIABLES
+// ============================================
+
+@success-color: #27ae60;
+@danger-color: #e74c3c;
+@warning-color: #f39c12;
+@info-color: #3498db;
+
+// ============================================
+// TÜM STILLER .PickemPage SCOPE'UNDA
+// ============================================
 
 .PickemPage {
-  // GÜNCELLEME 1/2: Flarum'un standart 'IndexPage' (tartışma listesi) 
-  // düzenini (layout) buraya kopyalıyoruz.
   .container {
-    display: flex;
-    position: relative;
-    padding: 0;
-  }
-
-  .sideNavOffset {
-    // İçeriğin kenar çubuğuna (sideNav) yapışmasını engeller
-    padding-left: 30px; 
-    // Ana Flarum içeriğiyle aynı üst boşluk
-    padding-top: 20px; 
-    // İçeriğin tam genişliği kaplamasını sağlar
-    flex: 1;
-    min-width: 0; // Flexbox hatasını önler
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
   }
 
   h2 {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     font-size: 24px;
-    font-weight: bold;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--heading-color);
 
     i {
-      margin-right: 10px;
       color: @primary-color;
     }
   }
+
+  // ============================================
+  // TABS - Flarum Native Style
+  // ============================================
   
-  // (Kalan stiller bir öncekiyle aynı)
-  // ... [Aşağıdaki stil kodunu olduğu gibi kopyalayın] ...
-  
-  &-tabs {
+  .PickemPage-tabs {
     display: flex;
-    gap: 10px;
+    gap: 0;
     margin-bottom: 20px;
-    border-bottom: 2px solid var(--control-border-color);
-    padding-bottom: 0;
 
     .Button.PickemPage-tab {
-      border-radius: 4px 4px 0 0;
-      border: 1px solid transparent;
-      border-bottom: none;
-      margin-bottom: -2px;
-      padding: 10px 20px;
-      transition: all 0.2s ease;
-
-      i {
-        margin-right: 8px;
-      }
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 10px 16px;
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--muted-color);
+      transition: color 0.2s;
+      position: relative;
 
       &:hover {
-        background-color: var(--control-bg);
+        color: var(--link-color);
       }
 
       &.active {
-        border-color: var(--control-border-color);
-        border-bottom-color: var(--body-bg);
-        background-color: var(--body-bg);
-        color: @primary-color;
+        color: var(--link-color);
         font-weight: 600;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: var(--link-color);
+        }
       }
     }
   }
 
-  &-tab-content { 
+  .PickemPage-tab-content {
     margin-top: 20px;
   }
-}
 
+  // ============================================
+  // MATCHES LIST
+  // ============================================
 
-.MatchesPage, .MyPicksPage, .LeaderboardPage {
-  &-list {
+  .MatchesList {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
   }
 
-  &-empty {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--muted-color);
-  }
-}
-
-.EventCard {
-  background: var(--control-bg);
-  border: 1px solid var(--control-border-color);
-  border-radius: 8px;
-  padding: 20px;
-  transition: box-shadow 0.2s ease;
-  margin-bottom: 15px; 
-
-  &:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  &-teams {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 15px;
-    font-size: 18px;
-    font-weight: bold;
-  }
-
-  .team-name {
-    flex: 1;
-    text-align: center;
-    padding: 10px;
-    background: fade(@primary-color, 5%);
-    border-radius: 4px;
-  }
-
-  .vs {
-    padding: 0 20px;
-    color: var(--muted-color);
-    font-weight: normal;
-    font-size: 14px;
-  }
-
-  &-info {
-    margin-bottom: 15px;
-    padding: 10px;
-    background: var(--body-bg);
-    border-radius: 4px;
-    color: var(--muted-color);
-    font-size: 14px;
-
-    > div {
-      margin-bottom: 5px;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-  }
-
-  &-date {
-    font-weight: 500;
-    color: var(--body-color);
-  }
-
-  &-score {
-    font-weight: bold;
-    font-size: 16px;
-    color: @primary-color;
-  }
-
-  &-picks {
-    border-top: 1px solid var(--control-border-color);
-    padding-top: 15px;
-    display: flex; 
-    gap: 10px;
-
-    .Button {
-      flex: 1;
-      padding: 12px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-
-      &:hover {
-        transform: translateY(-2px);
-      }
-
-      &.Button--primary {
-        background-color: @primary-color;
-        color: white;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      }
-    }
-  }
-
-  &-pick-result {
-    border-top: 1px solid var(--control-border-color);
-    padding-top: 15px;
-    text-align: center;
-    font-weight: 500;
-
-    .correct {
-      color: #27ae60;
-      font-weight: bold;
-      margin-left: 5px;
-    }
-
-    .incorrect {
-      color: #e74c3c;
-      font-weight: bold;
-      margin-left: 5px;
-    }
-  }
-}
-
-.LeaderboardPage-filter {
-  margin-bottom: 20px;
-  padding: 15px;
-  background: var(--control-bg);
-  border: 1px solid var(--control-border-color);
-  border-radius: 8px;
-
-  label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: var(--body-color);
-  }
-
-  select {
-    width: 100%;
-    max-width: 300px;
-  }
-}
-
-.LeaderboardPage-table, .MyPicksList {
-  background: var(--control-bg);
-  border: 1px solid var(--control-border-color);
-  border-radius: 8px;
-  overflow: hidden;
-
-  .Table {
-    width: 100%;
-    margin: 0;
-
-    tr.highlight {
-      background-color: fade(@primary-color, 10%);
-      font-weight: bold;
-
-      td {
-        color: @primary-color;
-      }
-    }
-
-    tbody tr {
-      &:last-child td {
-        border-bottom: none;
-      }
-    }
-  }
-}
-
-.Badge {
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
-  display: inline-block;
-
-  &--success {
-    background-color: #27ae60;
-    color: white;
-  }
-
-  &--danger {
-    background-color: #e74c3c;
-    color: white;
-  }
-}
-
-.Table {
-  width: 100%;
-  border-collapse: collapse;
-
-  th, td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid var(--control-border-color);
-  }
-
-  th {
-    font-weight: 600;
-    background-color: var(--control-bg);
-    color: var(--body-color);
-    text-transform: uppercase;
-    font-size: 12px;
-    letter-spacing: 0.5px;
-  }
-
-  tbody tr {
-    transition: background-color 0.2s ease;
-
-    &:hover {
-      background-color: var(--control-bg);
-    }
-  }
-
-  td {
-    strong {
-      color: @primary-color;
-    }
-
-    small {
-      color: var(--muted-color);
-      font-size: 12px;
-    }
-  }
-}
-
-// Responsive styles
-@media (max-width: 768px) {
-  // GÜNCELLEME 2/2: Mobil (dar ekran) için Flarum'un standart
-  // kenar çubuğu (sideNav) davranışını kopyalıyoruz.
-  
-  // .sideNav'ı (kenar çubuğu) gizle
-  .PickemPage .sideNav {
-    display: none;
-  }
-
-  .PickemPage .container {
-    padding-top: 10px;
-    display: block; // 'flex'i iptal et
-  }
-  
-  .PickemPage .sideNavOffset {
-     padding-left: 0; // Sol boşluğu sıfırla
-  }
-  
-  // (Kalan stiller bir öncekiyle aynı)
-  // ...
-
-  .PickemPage-tabs {
-    flex-wrap: wrap;
-
-    .Button {
-      flex: 1 1 auto;
-      min-width: 100px;
-    }
-  }
+  // ============================================
+  // EVENT CARD
+  // ============================================
 
   .EventCard {
-    &-teams {
+    background: var(--control-bg);
+    border: 1px solid var(--control-border-color);
+    border-radius: 6px;
+    padding: 16px;
+    transition: all 0.2s;
+    position: relative;
+
+    &:hover {
+      border-color: fade(@primary-color, 40%);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    // STATUS BADGE - Minimal ve net
+    .EventCard-status {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+
+      &.scheduled {
+        background: @success-color;
+        color: white;
+      }
+
+      &.closed {
+        background: @danger-color;
+        color: white;
+      }
+
+      &.finished {
+        background: #666;
+        color: white;
+      }
+    }
+
+    // TEAMS - Grid ile yan yana, ortala
+    .EventCard-teams {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      justify-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding-right: 70px; // Badge için boşluk
+    }
+
+    .team-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      max-width: 100%;
+      
+      &:first-child {
+        justify-self: right;
+      }
+      
+      &:last-child {
+        justify-self: left;
+        flex-direction: row-reverse;
+      }
+    }
+
+    .team-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 16px;
+      font-weight: 600;
+      color: white;
+      background: @primary-color;
+      flex-shrink: 0;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+      }
     }
 
     .team-name {
-      padding: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--heading-color);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
     }
 
     .vs {
-      padding: 0 10px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--body-color);
+      opacity: 0.4;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      flex-shrink: 0;
     }
 
-    &-picks {
-      flex-direction: column;
+    // SCORE - Finished için
+    .EventCard-score {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 12px 0;
+      padding: 12px;
+      background: fade(@primary-color, 8%);
+      border-radius: 4px;
+
+      .score-number {
+        font-size: 28px;
+        font-weight: 800;
+        color: @primary-color;
+      }
+
+      .score-separator {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--body-color);
+        opacity: 0.3;
+      }
+    }
+
+    // INFO - Grid layout ile düzenli
+    .EventCard-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      padding: 12px;
+      background: var(--body-bg);
+      border-radius: 4px;
+      margin: 12px 0;
+      font-size: 12px;
+      justify-items: center;
+
+      > div {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--body-color);
+
+        i {
+          color: @primary-color;
+          font-size: 11px;
+          width: 14px;
+          text-align: center;
+        }
+
+        strong {
+          font-weight: 600;
+          color: var(--heading-color);
+          margin-right: 4px;
+        }
+      }
+    }
+
+    // COUNTDOWN
+    .EventCard-countdown {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      background: @warning-color;
+      color: white;
+      border-radius: 3px;
+      font-weight: 700;
+      font-size: 11px;
+
+      i {
+        color: white !important;
+      }
+
+      &.urgent {
+        background: @danger-color;
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+
+    // PICK BUTTONS
+    .EventCard-picks {
+      display: flex;
+      gap: 8px;
+      padding-top: 12px;
 
       .Button {
-        width: 100%;
+        flex: 1;
+        padding: 10px 12px;
+        font-weight: 600;
+        font-size: 13px;
+        border-radius: 4px;
+        border: 2px solid var(--control-border-color);
+        background: var(--body-bg);
+        color: var(--body-color);
+        transition: all 0.2s;
+
+        &:hover:not(:disabled) {
+          border-color: @primary-color;
+          color: @primary-color;
+          background: fade(@primary-color, 5%);
+        }
+
+        &.Button--primary {
+          background: @primary-color;
+          color: white;
+          border-color: @primary-color;
+          font-weight: 700;
+          box-shadow: 0 2px 4px fade(@primary-color, 30%);
+        }
+
+        &:disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    // PICK RESULT
+    .EventCard-pick-result {
+      padding: 10px 12px;
+      text-align: center;
+      font-size: 13px;
+      background: var(--body-bg);
+      border-radius: 4px;
+      margin-top: 12px;
+      color: var(--body-color);
+
+      strong {
+        font-weight: 700;
+        color: var(--heading-color);
+      }
+
+      .correct {
+        color: @success-color;
+        font-weight: 700;
+      }
+
+      .incorrect {
+        color: @danger-color;
+        font-weight: 700;
       }
     }
   }
 
-  .Table {
-    font-size: 14px;
+  // ============================================
+  // LOAD MORE
+  // ============================================
 
-    th, td {
-      padding: 8px 10px;
+  .LoadMore {
+    text-align: center;
+    margin: 20px 0;
+
+    .Button {
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+
+  // ============================================
+  // MY PICKS TABLE
+  // ============================================
+
+  .MyPicksList {
+    background: var(--control-bg);
+    border: 1px solid var(--control-border-color);
+    border-radius: 6px;
+    overflow: hidden;
+
+    .Table {
+      width: 100%;
+
+      thead {
+        background: var(--body-bg);
+        
+        th {
+          padding: 12px 15px;
+          font-weight: 600;
+          font-size: 11px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          color: var(--heading-color);
+          opacity: 0.6;
+          border-bottom: 2px solid var(--control-border-color);
+        }
+      }
+
+      tbody {
+        tr {
+          border-bottom: 1px solid var(--control-border-color);
+          transition: background 0.15s;
+
+          &:hover {
+            background: var(--body-bg);
+          }
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          &.correct {
+            border-left: 3px solid @success-color;
+          }
+
+          &.incorrect {
+            border-left: 3px solid @danger-color;
+          }
+
+          &.pending {
+            border-left: 3px solid @warning-color;
+          }
+
+          td {
+            padding: 12px 15px;
+            font-size: 13px;
+            color: var(--body-color);
+
+            strong {
+              font-weight: 600;
+              color: var(--heading-color);
+            }
+
+            &:last-child {
+              font-weight: 600;
+            }
+          }
+        }
+
+        tr.correct td:last-child {
+          color: @success-color;
+        }
+
+        tr.incorrect td:last-child {
+          color: @danger-color;
+        }
+
+        tr.pending td:last-child {
+          color: @warning-color;
+        }
+      }
+    }
+  }
+
+  // ============================================
+  // LEADERBOARD
+  // ============================================
+
+  .Podium {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 25px;
+
+    .Podium-card {
+      background: var(--control-bg);
+      border: 2px solid var(--control-border-color);
+      border-radius: 6px;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.2s;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      &.first {
+        border-top: 3px solid #FFD700;
+        
+        .medal {
+          font-size: 42px;
+        }
+        
+        .rank {
+          color: #B8860B;
+        }
+      }
+
+      &.second {
+        border-top: 3px solid #C0C0C0;
+        
+        .medal {
+          font-size: 36px;
+        }
+        
+        .rank {
+          color: #C0C0C0;
+        }
+      }
+
+      &.third {
+        border-top: 3px solid #CD7F32;
+        
+        .medal {
+          font-size: 32px;
+        }
+        
+        .rank {
+          color: #CD7F32;
+        }
+      }
+
+      .medal {
+        margin-bottom: 10px;
+      }
+
+      .rank {
+        font-size: 10px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .username {
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--heading-color);
+      }
+
+      .points {
+        font-size: 24px;
+        font-weight: 800;
+        margin-bottom: 10px;
+        color: @primary-color;
+        
+        small {
+          font-size: 11px;
+          font-weight: 600;
+          opacity: 0.6;
+        }
+      }
+
+      .stats {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        font-size: 11px;
+        padding-top: 10px;
+        border-top: 1px solid var(--control-border-color);
+
+        .stat {
+          .label {
+            font-size: 9px;
+            text-transform: uppercase;
+            color: var(--body-color);
+            opacity: 0.5;
+            margin-bottom: 3px;
+          }
+
+          .value {
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--heading-color);
+          }
+        }
+      }
+    }
+  }
+
+  .LeaderboardTable {
+    width: 100%;
+    background: var(--control-bg);
+    border: 1px solid var(--control-border-color);
+    border-radius: 6px;
+    overflow: hidden;
+
+    thead {
+      background: var(--body-bg);
+
+      th {
+        padding: 12px 15px;
+        font-weight: 600;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--heading-color);
+        opacity: 0.6;
+        border-bottom: 2px solid var(--control-border-color);
+
+        &:first-child {
+          text-align: center;
+          width: 50px;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid var(--control-border-color);
+        transition: background 0.15s;
+
+        &:hover {
+          background: var(--body-bg);
+        }
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        td {
+          padding: 12px 15px;
+          font-size: 13px;
+          color: var(--body-color);
+
+          &:first-child {
+            text-align: center;
+            font-weight: 700;
+            font-size: 15px;
+            color: @primary-color;
+          }
+
+          strong {
+            font-weight: 600;
+            color: var(--heading-color);
+          }
+        }
+      }
+    }
+  }
+
+  // ============================================
+  // EMPTY STATES
+  // ============================================
+
+  .MatchesPage-empty,
+  .MyPicksPage-empty,
+  .LeaderboardPage-empty {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--body-color);
+    opacity: 0.5;
+
+    i {
+      font-size: 40px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    p {
+      font-size: 14px;
+    }
+  }
+
+  // ============================================
+  // RESPONSIVE
+  // ============================================
+
+  @media (max-width: 768px) {
+    .container {
+      padding: 12px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    .PickemPage-tabs {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+
+      .Button {
+        flex-shrink: 0;
+        padding: 10px 14px;
+        font-size: 13px;
+      }
+    }
+
+    .EventCard {
+      padding: 14px;
+
+      .EventCard-teams {
+        padding-right: 65px;
+      }
+
+      .team-logo {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+      }
+
+      .team-name {
+        font-size: 13px;
+      }
+
+      .vs {
+        font-size: 10px;
+      }
+
+      .EventCard-status {
+        top: 10px;
+        right: 10px;
+        font-size: 9px;
+        padding: 3px 6px;
+      }
+
+      .EventCard-info {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        font-size: 11px;
+      }
+
+      .EventCard-picks {
+        flex-direction: column;
+        gap: 6px;
+
+        .Button {
+          width: 100%;
+        }
+      }
+
+      .EventCard-score {
+        .score-number {
+          font-size: 22px;
+        }
+        
+        .score-separator {
+          font-size: 16px;
+        }
+      }
+    }
+
+    .Podium {
+      grid-template-columns: 1fr;
+
+      .Podium-card {
+        &.first .medal,
+        &.second .medal,
+        &.third .medal {
+          font-size: 36px;
+        }
+      }
+    }
+
+    .Table {
+      font-size: 12px;
+
+      thead th,
+      tbody td {
+        padding: 10px 12px;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .EventCard {
+      .EventCard-teams {
+        gap: 8px;
+      }
+
+      .team-name {
+        font-size: 12px;
+      }
+    }
+
+    .Table {
+      font-size: 11px;
+
+      thead th,
+      tbody td {
+        padding: 8px 10px;
+      }
     }
   }
 }

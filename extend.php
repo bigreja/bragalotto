@@ -46,6 +46,8 @@ return [
         ->post('/pickem-events', 'pickem.events.create', Controller\CreateEventController::class)
         ->patch('/pickem-events/{id}', 'pickem.events.update', Controller\UpdateEventController::class)
         ->delete('/pickem-events/{id}', 'pickem.events.delete', Controller\DeleteEventController::class) // Maç silme yolu
+	    ->post('/pickem-events/{id}/result', 'pickem.events.result', Controller\EnterEventResultController::class) // YENİ!
+
         
         // Picks
         ->get('/pickem-picks', 'pickem.picks.index', Controller\ListPicksController::class)

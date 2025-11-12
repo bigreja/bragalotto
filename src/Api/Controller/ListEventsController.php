@@ -13,8 +13,16 @@ use Tobscure\JsonApi\Document;
 class ListEventsController extends AbstractListController
 {
     public $serializer = EventSerializer::class;
-
     public $include = ['homeTeam', 'awayTeam', 'week'];
+    public $limit = 10;
+    public $maxLimit = 50;
+
+    protected $url;
+
+    public function __construct(UrlGenerator $url)
+    {
+        $this->url = $url;
+    }
 
     protected function data(ServerRequestInterface $request, Document $document)
     {
@@ -30,9 +38,28 @@ class ListEventsController extends AbstractListController
             $query->where('status', $status);
         }
 
-        // Order by match date
-        $query->orderBy('match_date', 'asc');
+        // Sıralama - Yeni maçlar üstte (DESC)
+        $query->orderBy('match_date', 'desc');
 
-        return $query->get();
+        // Pagination
+        $limit = $this->extractLimit($request);
+        $offset = $this->extractOffset($request);
+        
+        // Total count for pagination metadata
+        $total = $query->count();
+        
+        // Apply limit and offset
+        $results = $query->limit($limit)->offset($offset)->get();
+        
+        // Add pagination metadata to document
+        $document->addPaginationLinks(
+            $this->url->to('api')->route('pickem.events.index'),
+            $request->getQueryParams(),
+            $offset,
+            $limit,
+            $total
+        );
+
+        return $results;
     }
 }

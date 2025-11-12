@@ -13,10 +13,9 @@ use Flarum\User\User;
  * @property int $total_points
  * @property int $total_picks
  * @property int $correct_picks
- * @property float $accuracy
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * * @property-read User $user
+ * @property-read User $user
  * @property-read Season|null $season
  */
 class UserScore extends AbstractModel
@@ -31,37 +30,15 @@ class UserScore extends AbstractModel
         'total_points',
         'total_picks',
         'correct_picks',
-        'accuracy',
     ];
 
     protected $casts = [
         'total_points' => 'integer',
         'total_picks' => 'integer',
         'correct_picks' => 'integer',
-        'accuracy' => 'float',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
-
-    /**
-     * Boot the model
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        // Auto-calculate accuracy when saving
-        static::saving(function (UserScore $userScore) {
-            if ($userScore->total_picks > 0) {
-                $userScore->accuracy = round(
-                    ($userScore->correct_picks / $userScore->total_picks) * 100,
-                    2
-                );
-            } else {
-                $userScore->accuracy = 0;
-            }
-        });
-    }
 
     /**
      * Relationships
@@ -107,24 +84,14 @@ class UserScore extends AbstractModel
 
     public function getAccuracyPercentage(): float
     {
-        return $this->accuracy;
+        if ($this->total_picks > 0) {
+            return round(($this->correct_picks / $this->total_picks) * 100, 2);
+        }
+        return 0;
     }
 
     public function hasAnyPicks(): bool
     {
         return $this->total_picks > 0;
-    }
-
-    // getRank() metodu kaldırıldı.
-    // Sıralama (rank) JavaScript tarafında (client-side) 
-    // LeaderboardPage.js ve PickemPage.js içinde .sort() ile yapılıyor.
-    // Bu, modeli sadeleştirir ve "ölü kod" (dead code) kaldırılmış olur.
-
-    /**
-     * Get formatted accuracy string
-     */
-    public function getFormattedAccuracy(): string
-    {
-        return number_format($this->accuracy, 1) . '%';
     }
 }

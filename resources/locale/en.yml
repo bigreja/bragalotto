@@ -51,6 +51,10 @@ huseyinfiliz-pickem:
       all_seasons: "All Seasons"
       no_scores: "No scores yet"
       
+    notifications:
+      event_result_text: "Match result: {homeTeam} {homeScore} - {awayScore} {awayTeam}"
+
+      
     event:
       vs: "vs"
       match_date: "Match Date"

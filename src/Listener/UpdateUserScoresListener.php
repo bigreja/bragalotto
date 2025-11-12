@@ -93,15 +93,12 @@ class UpdateUserScoresListener
 
         $picks = $query->get();
         
-        // Hesaplama (sabit 1 puan)
+        // SADECE 3 KOLON
         $userScore->total_picks = $picks->count();
         $userScore->correct_picks = $picks->where('is_correct', true)->count();
-        $userScore->total_points = $userScore->correct_picks; // Her doğru 1 puan
+        $userScore->total_points = $userScore->correct_picks;
 
-        // Accuracy hesapla
-        $userScore->accuracy = $userScore->total_picks > 0 
-            ? round(($userScore->correct_picks / $userScore->total_picks) * 100, 2)
-            : 0;
+        // ACCURACY SİLİNDİ
 
         $userScore->save();
     }

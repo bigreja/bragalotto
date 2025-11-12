@@ -32,7 +32,9 @@ export default class ResultModal extends Modal {
               type="number"
               min="0"
               value={this.homeScore}
-              oninput={(e) => { this.homeScore = parseInt(e.target.value) || 0; }}
+              oninput={(e) => {
+                this.homeScore = parseInt(e.target.value) || 0;
+              }}
             />
           </div>
 
@@ -43,25 +45,26 @@ export default class ResultModal extends Modal {
               type="number"
               min="0"
               value={this.awayScore}
-              oninput={(e) => { this.awayScore = parseInt(e.target.value) || 0; }}
+              oninput={(e) => {
+                this.awayScore = parseInt(e.target.value) || 0;
+              }}
             />
           </div>
 
           <div className="Form-group">
             <p>
               <strong>Result: </strong>
-              {this.homeScore > this.awayScore ? 'Home Win' :
-               this.awayScore > this.homeScore ? 'Away Win' : 'Draw'}
+              {this.homeScore > this.awayScore
+                ? 'Home Win'
+                : this.awayScore > this.homeScore
+                ? 'Away Win'
+                : 'Draw'}
             </p>
           </div>
 
           <div className="Form-group">
-            <Button
-              className="Button Button--primary"
-              type="submit"
-              loading={this.loading}
-            >
-              {app.translator.trans('core.admin.basics.submit_button')}
+            <Button className="Button Button--primary" type="submit" loading={this.loading}>
+              {app.translator.trans('huseyinfiliz-pickem.admin.events.save_result')}
             </Button>
           </div>
         </div>
@@ -69,24 +72,37 @@ export default class ResultModal extends Modal {
     );
   }
 
-  onsubmit(e) {
+  async onsubmit(e) {
     e.preventDefault();
 
     this.loading = true;
 
-    this.event.save({
-      homeScore: parseInt(this.homeScore),
-      awayScore: parseInt(this.awayScore),
-    }).then(
-      () => {
-        this.hide();
-        m.redraw();
-      },
-      (error) => {
-        this.loading = false;
-        this.alertAttrs = error.alert;
-        m.redraw();
-      }
-    );
+    try {
+      // YENİ ENDPOINT'E İSTEK AT
+      await app.request({
+        method: 'POST',
+        url: `${app.forum.attribute('apiUrl')}/pickem-events/${this.event.id()}/result`,
+        body: {
+          data: {
+            type: 'pickem-events',
+            attributes: {
+              homeScore: parseInt(this.homeScore),
+              awayScore: parseInt(this.awayScore),
+            },
+          },
+        },
+      });
+
+      app.alerts.show({ type: 'success' }, 'Result saved and picks updated successfully!');
+      this.hide();
+      
+      // Sayfayı reload et ki güncel datayı görsün
+      window.location.reload();
+    } catch (error) {
+      this.loading = false;
+      console.error('Error saving result:', error);
+      app.alerts.show({ type: 'error' }, 'Failed to save result');
+      m.redraw();
+    }
   }
 }
