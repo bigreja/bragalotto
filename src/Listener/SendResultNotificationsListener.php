@@ -9,7 +9,7 @@ use HuseyinFiliz\Pickem\Pick;
 use Illuminate\Database\Eloquent\Events\Saved;
 
 /**
- * Listener to send notifications when event results are posted
+ * Event result set edildiğinde kullanıcılara bildirim gönderir
  */
 class SendResultNotificationsListener
 {
@@ -20,45 +20,45 @@ class SendResultNotificationsListener
         $this->notifications = $notifications;
     }
 
-    /**
-     * Handle the Eloquent saved event
-     */
-    public function __invoke(Saved $event)
+    public function handle(Saved $event)
     {
-        // Only process Event models
+        // Sadece Event modellerini işle
         if (!($event->model instanceof Event)) {
             return;
         }
 
-        $this->whenEventSaved($event->model);
+        $eventModel = $event->model;
+
+        // Sadece result set edildiğinde ve finished durumunda
+        if ($eventModel->result === null || $eventModel->status !== Event::STATUS_FINISHED) {
+            return;
+        }
+
+        // Result veya status değişmediyse bildirim gönderme
+        if (!$eventModel->wasChanged(['result', 'status'])) {
+            return;
+        }
+
+        $this->sendNotifications($eventModel);
     }
 
-    public function whenEventSaved(Event $event)
+    protected function sendNotifications(Event $event): void
     {
-        // Only send notifications when result is set and status is finished
-        if ($event->result === null || $event->status !== 'finished') {
-            return;
-        }
-
-        // Check if result or status just changed
-        $changes = $event->getChanges();
-        if (!isset($changes['result']) && !isset($changes['status'])) {
-            return;
-        }
-
-        // Get all users who made picks for this event
+        // Bu event için pick yapan kullanıcıları getir
         $picks = Pick::where('event_id', $event->id)
             ->with('user')
             ->get();
 
         $users = $picks->pluck('user')->filter();
 
-        // Send notification to all users who picked
-        if ($users->isNotEmpty()) {
-            $this->notifications->sync(
-                new EventResultBlueprint($event),
-                $users->all()
-            );
+        if ($users->isEmpty()) {
+            return;
         }
+
+        // Hepsine bildirim gönder
+        $this->notifications->sync(
+            new EventResultBlueprint($event),
+            $users->all()
+        );
     }
 }

@@ -2,71 +2,53 @@
 
 namespace HuseyinFiliz\Pickem\Listener;
 
-use Flarum\Settings\SettingsRepositoryInterface;
 use HuseyinFiliz\Pickem\Event;
 use HuseyinFiliz\Pickem\Pick;
 use HuseyinFiliz\Pickem\UserScore;
 use Illuminate\Database\Eloquent\Events\Saved;
 
 /**
- * Listener to update user scores when an event result is set
+ * Event result set edildiğinde pick'leri ve score'ları günceller
  */
 class UpdateUserScoresListener
 {
-    /**
-     * @var SettingsRepositoryInterface
-     */
-    protected $settings;
-
-    /**
-     * @param SettingsRepositoryInterface $settings
-     */
-    public function __construct(SettingsRepositoryInterface $settings)
-    {
-        $this->settings = $settings;
-    }
-
-    /**
-     * Handle the Eloquent saved event
-     *
-     * @param Saved $event
-     */
     public function handle(Saved $event)
     {
-        // Only process Event models
+        // Sadece Event modellerini işle
         if (!($event->model instanceof Event)) {
             return;
         }
 
-        $this->whenEventSaved($event->model);
+        $eventModel = $event->model;
+
+        // Sadece result değiştiyse ve result varsa işle
+        if (!$eventModel->wasChanged(['result', 'home_score', 'away_score'])) {
+            return;
+        }
+
+        if ($eventModel->result === null) {
+            return;
+        }
+
+        $this->updatePicksForEvent($eventModel);
+        $this->updateUserScoresForEvent($eventModel);
     }
 
     /**
-     * Process when an Event is saved with a result
-     *
-     * @param Event $event
+     * Event için tüm pick'lerin doğruluğunu güncelle
      */
-    protected function whenEventSaved(Event $event): void
+    protected function updatePicksForEvent(Event $event): void
     {
-        // Only process if result is set and event is finished
-        if ($event->result === null || !$event->isFinished()) {
-            return;
-        }
-
-        // Only process if result was just changed
-        if (!$event->wasChanged(['result', 'status'])) {
-            return;
-        }
-
-        $this->updateScoresForEvent($event);
+        Pick::where('event_id', $event->id)->get()->each(function (Pick $pick) use ($event) {
+            $pick->is_correct = ($pick->selected_outcome === $event->result);
+            $pick->saveQuietly(); // Event tetikleme, sonsuz döngü önlemek için
+        });
     }
 
     /**
-     * Update scores for all users who made picks for this event
-     *
-     * @param Event $event
+     * Bu event için pick yapan kullanıcıların score'larını güncelle
      */
-    protected function updateScoresForEvent(Event $event): void
+    protected function updateUserScoresForEvent(Event $event): void
     {
         $picks = Pick::where('event_id', $event->id)
             ->with('user')
@@ -76,34 +58,32 @@ class UpdateUserScoresListener
 
         foreach ($picks as $pick) {
             if ($pick->user) {
-                $this->updateUserScore($pick->user_id, $seasonId);
+                $this->recalculateUserScore($pick->user_id, $seasonId);
             }
         }
     }
 
     /**
-     * Recalculate and update user's score
-     *
-     * @param int $userId
-     * @param int|null $seasonId
+     * Kullanıcının score'unu yeniden hesapla
      */
-    protected function updateUserScore(int $userId, ?int $seasonId): void
+    protected function recalculateUserScore(int $userId, ?int $seasonId): void
     {
         $userScore = UserScore::firstOrNew([
             'user_id' => $userId,
             'season_id' => $seasonId,
         ]);
 
+        // Bu kullanıcının bu season için tüm pick'lerini getir
         $query = Pick::where('user_id', $userId)
             ->whereNotNull('is_correct');
 
-        // Filter by season
+        // Season filtresi
         if ($seasonId) {
             $query->whereHas('event.week', function ($q) use ($seasonId) {
                 $q->where('season_id', $seasonId);
             });
         } else {
-            // Only count picks for events without a season
+            // Season olmayan event'ler
             $query->whereHas('event', function ($q) {
                 $q->whereDoesntHave('week');
             })->orWhereHas('event.week', function ($q) {
@@ -113,43 +93,16 @@ class UpdateUserScoresListener
 
         $picks = $query->get();
         
-        // Get points per correct pick from settings
-        $pointsPerCorrect = (int) $this->settings->get(
-            'huseyinfiliz-pickem.points_per_correct', 
-            1
-        );
-
+        // Hesaplama (sabit 1 puan)
         $userScore->total_picks = $picks->count();
         $userScore->correct_picks = $picks->where('is_correct', true)->count();
-        $userScore->total_points = $userScore->correct_picks * $pointsPerCorrect;
+        $userScore->total_points = $userScore->correct_picks; // Her doğru 1 puan
 
-        // Calculate accuracy percentage
-        if ($userScore->total_picks > 0) {
-            $userScore->accuracy = round(($userScore->correct_picks / $userScore->total_picks) * 100, 2);
-        } else {
-            $userScore->accuracy = 0;
-        }
+        // Accuracy hesapla
+        $userScore->accuracy = $userScore->total_picks > 0 
+            ? round(($userScore->correct_picks / $userScore->total_picks) * 100, 2)
+            : 0;
 
         $userScore->save();
-    }
-
-    /**
-     * Recalculate all user scores (useful for data fixes)
-     *
-     * @param int|null $seasonId
-     */
-    public function recalculateAllScores(?int $seasonId = null): void
-    {
-        $query = UserScore::query();
-
-        if ($seasonId !== null) {
-            $query->where('season_id', $seasonId);
-        }
-
-        $userScores = $query->get();
-
-        foreach ($userScores as $userScore) {
-            $this->updateUserScore($userScore->user_id, $userScore->season_id);
-        }
     }
 }

@@ -66,40 +66,37 @@ class Event extends AbstractModel
     const RESULT_AWAY = 'away';
     const RESULT_DRAW = 'draw';
 
-    /**
-     * Boot the model - register event listeners
-     */
-    public static function boot()
-    {
-        parent::boot();
+/**
+ * Boot the model - register event listeners
+ */
+public static function boot()
+{
+    parent::boot();
 
-        // Auto-calculate result when scores are set
-        static::saving(function (Event $event) {
-            if ($event->isDirty(['home_score', 'away_score']) && 
-                $event->home_score !== null && 
-                $event->away_score !== null) {
-                $event->result = $event->calculateResult();
-                
-                // Auto-mark as finished if result is set
-                if ($event->result !== null && $event->status === self::STATUS_SCHEDULED) {
-                    $event->status = self::STATUS_FINISHED;
-                }
-            }
+    // Auto-calculate result when scores are set
+    static::saving(function (Event $event) {
+        // Skorlar set edildiyse result'ı hesapla
+        if ($event->isDirty(['home_score', 'away_score']) && 
+            $event->home_score !== null && 
+            $event->away_score !== null) {
+            $event->result = $event->calculateResult();
             
-            // Auto-close if cutoff date passed
-            if ($event->status === self::STATUS_SCHEDULED && 
-                Carbon::now()->isAfter($event->cutoff_date)) {
-                $event->status = self::STATUS_CLOSED;
+            // Otomatik olarak finished'a çek
+            if ($event->result !== null && $event->status === self::STATUS_SCHEDULED) {
+                $event->status = self::STATUS_FINISHED;
             }
-        });
+        }
+        
+        // Cutoff geçtiyse otomatik kapat
+        if ($event->status === self::STATUS_SCHEDULED && 
+            Carbon::now()->isAfter($event->cutoff_date)) {
+            $event->status = self::STATUS_CLOSED;
+        }
+    });
 
-        // Update pick correctness after saving
-        static::saved(function (Event $event) {
-            if ($event->result !== null && $event->wasChanged('result')) {
-                $event->updatePickCorrectness();
-            }
-        });
-    }
+    // NOT: Pick güncelleme artık UpdateUserScoresListener'da yapılıyor
+    // Burada yapmıyoruz - duplikasyonu önlemek için
+}
 
     /**
      * Relationships
@@ -205,42 +202,6 @@ class Event extends AbstractModel
         } else {
             return self::RESULT_DRAW;
         }
-    }
-
-    /**
-     * Update all picks for this event
-     */
-    public function updatePickCorrectness(): void
-    {
-        if ($this->result === null) {
-            return;
-        }
-
-        Pick::where('event_id', $this->id)->get()->each(function (Pick $pick) {
-            $pick->is_correct = ($pick->selected_outcome === $this->result);
-            $pick->saveQuietly(); // Don't trigger events to avoid recursion
-        });
-    }
-
-    /**
-     * Mark event as finished with scores
-     */
-    public function finish(int $homeScore, int $awayScore): void
-    {
-        $this->home_score = $homeScore;
-        $this->away_score = $awayScore;
-        $this->result = $this->calculateResult();
-        $this->status = self::STATUS_FINISHED;
-        $this->save();
-    }
-
-    /**
-     * Mark event as cancelled
-     */
-    public function cancel(): void
-    {
-        $this->status = self::STATUS_CANCELLED;
-        $this->save();
     }
 
     /**

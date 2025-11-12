@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of huseyinfiliz/pickem.
- *
- * Copyright (c) 2024 Huseyin Filiz.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace HuseyinFiliz\Pickem;
 
 use Flarum\Extend;
@@ -42,20 +33,15 @@ return [
         // Seasons
         ->get('/pickem-seasons', 'pickem.seasons.index', Controller\ListSeasonsController::class)
         ->post('/pickem-seasons', 'pickem.seasons.create', Controller\CreateSeasonController::class)
-        ->patch('/pickem-seasons/{id}', 'pickem.seasons.update', Controller\UpdateSeasonController::class)
-        ->delete('/pickem-seasons/{id}', 'pickem.seasons.delete', Controller\DeleteSeasonController::class)
         
         // Weeks
         ->get('/pickem-weeks', 'pickem.weeks.index', Controller\ListWeeksController::class)
         ->post('/pickem-weeks', 'pickem.weeks.create', Controller\CreateWeekController::class)
-        ->patch('/pickem-weeks/{id}', 'pickem.weeks.update', Controller\UpdateWeekController::class)
-        ->delete('/pickem-weeks/{id}', 'pickem.weeks.delete', Controller\DeleteWeekController::class)
         
         // Events (Matches)
         ->get('/pickem-events', 'pickem.events.index', Controller\ListEventsController::class)
         ->post('/pickem-events', 'pickem.events.create', Controller\CreateEventController::class)
         ->patch('/pickem-events/{id}', 'pickem.events.update', Controller\UpdateEventController::class)
-        ->delete('/pickem-events/{id}', 'pickem.events.delete', Controller\DeleteEventController::class)
         
         // Picks
         ->get('/pickem-picks', 'pickem.picks.index', Controller\ListPicksController::class)
@@ -81,14 +67,14 @@ return [
             return $model->hasMany(UserScore::class, 'user_id');
         }),
 
-    // Model Events - Use Eloquent Events for automatic processing
+    // Event Listeners - Sadece bunlar yeterli
     (new Extend\Event())
         ->listen(\Illuminate\Database\Events\Saved::class, Listener\UpdateUserScoresListener::class)
         ->listen(\Illuminate\Database\Events\Saved::class, Listener\SendResultNotificationsListener::class),
 
     // Notifications
     (new Extend\Notification())
-        ->type(Notification\EventResultBlueprint::class, Serializer\EventSerializer::class, ['alert', 'email']),
+        ->type(Notification\EventResultBlueprint::class, Serializer\EventSerializer::class, ['alert']),
 
     // Permissions
     (new Extend\Policy())
