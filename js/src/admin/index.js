@@ -1,16 +1,12 @@
 import app from 'flarum/admin/app';
-
-// Import extenders
 import extenders from './extend';
-
-// Import components
 import PickemPage from './components/PickemPage';
 
 app.initializers.add('huseyinfiliz/pickem', () => {
-  // Apply extenders (model registration)
+  // Model'leri kaydet
   extenders.forEach(extender => extender.extend(app));
 
-  // Register extension page and permissions
+  // Admin sayfasını kaydet
   app.extensionData
     .for('huseyinfiliz-pickem')
     .registerPage(PickemPage)

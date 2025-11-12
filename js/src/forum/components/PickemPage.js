@@ -1,55 +1,44 @@
 import Page from 'flarum/common/components/Page';
-import Button from 'flarum/common/components/Button';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
-import { extend } from 'flarum/common/extend';
+import Button from 'flarum/common/components/Button';
 
 export default class PickemPage extends Page {
   oninit(vnode) {
     super.oninit(vnode);
-
+    
     this.activeTab = m.route.param('tab') || 'matches';
     this.loading = true;
     this.events = [];
     this.picks = {};
-    this.picksArray = [];
     this.userScores = [];
-    this.seasons = [];
-
+    
     this.loadData();
   }
 
   async loadData() {
     try {
-      const promises = {
-        events: app.store.find('pickem-events', {
-          include: 'homeTeam,awayTeam,week',
-        }),
-        seasons: app.store.find('pickem-seasons'),
-        userScores: app.store.find('pickem-user-scores', {
-          include: 'user,season',
-        }),
-      };
+      // Events yükle
+      this.events = await app.store.find('pickem-events', {
+        include: 'homeTeam,awayTeam,week',
+      });
 
-      // Only fetch picks if user is logged in
+      // Kullanıcı giriş yaptıysa picks yükle
       if (app.session.user) {
-        promises.picks = app.store.find('pickem-picks', {
+        const picksArray = await app.store.find('pickem-picks', {
           filter: { user: app.session.user.id() },
-          include: 'event,event.homeTeam,event.awayTeam',
+          include: 'event',
+        });
+        
+        // Pick'leri event_id'ye göre map yap
+        this.picks = {};
+        picksArray.forEach(pick => {
+          this.picks[pick.eventId()] = pick;
         });
       }
 
-      const results = await Promise.all(Object.values(promises));
-      const keys = Object.keys(promises);
-
-      this.events = results[keys.indexOf('events')] || [];
-      this.seasons = results[keys.indexOf('seasons')] || [];
-      this.picksArray = keys.includes('picks') ? results[keys.indexOf('picks')] || [] : [];
-      this.userScores = results[keys.indexOf('userScores')] || [];
-
-      // Create a map of event ID to pick
-      this.picks = {};
-      this.picksArray.forEach(pick => {
-        this.picks[pick.eventId()] = pick;
+      // Leaderboard için user scores
+      this.userScores = await app.store.find('pickem-user-scores', {
+        include: 'user,season',
       });
     } catch (error) {
       console.error('Error loading data:', error);
@@ -63,12 +52,12 @@ export default class PickemPage extends Page {
     return (
       <div className="PickemPage">
         <div className="container">
-          <h2><i className="fas fa-trophy"></i> Pick'em</h2>
+          <h2><i className="fas fa-trophy"></i> {app.translator.trans('huseyinfiliz-pickem.forum.nav.pickem')}</h2>
 
           <div className="PickemPage-tabs">
-            {this.renderTab('matches', 'fas fa-football-ball', app.translator.trans('huseyinfiliz-pickem.forum.nav.matches'))}
-            {this.renderTab('my_picks', 'fas fa-list', app.translator.trans('huseyinfiliz-pickem.forum.nav.my_picks'))}
-            {this.renderTab('leaderboard', 'fas fa-chart-line', app.translator.trans('huseyinfiliz-pickem.forum.nav.leaderboard'))}
+            {this.renderTab('matches', app.translator.trans('huseyinfiliz-pickem.forum.nav.matches'))}
+            {this.renderTab('my_picks', app.translator.trans('huseyinfiliz-pickem.forum.nav.my_picks'))}
+            {this.renderTab('leaderboard', app.translator.trans('huseyinfiliz-pickem.forum.nav.leaderboard'))}
           </div>
 
           {this.loading ? (
@@ -83,21 +72,17 @@ export default class PickemPage extends Page {
     );
   }
 
-  renderTab(tab, icon, label) {
+  renderTab(tab, label) {
     const active = this.activeTab === tab;
     return (
       <button
-        className={`Button Button--flat ${active ? 'active' : ''}`}
+        className={`Button Button--${active ? 'primary' : 'flat'}`}
         onclick={() => {
-          if (this.activeTab !== tab) {
-            this.activeTab = tab;
-            // Update URL without reloading the page
-            window.history.pushState(null, '', app.route('pickem', { tab }));
-            m.redraw();
-          }
+          this.activeTab = tab;
+          m.redraw();
         }}
       >
-        <i className={icon}></i> {label}
+        {label}
       </button>
     );
   }
@@ -121,84 +106,66 @@ export default class PickemPage extends Page {
     }
 
     return (
-      <div className="MatchesPage-list">
+      <div className="MatchesList">
         {this.events.map(event => this.renderEvent(event))}
       </div>
     );
   }
 
   renderEvent(event) {
+    if (!event) return null;
+    
     const homeTeam = event.homeTeam();
     const awayTeam = event.awayTeam();
     const pick = this.picks[event.id()];
     const canPick = event.canPick();
 
     return (
-      <div className="MatchCard" key={event.id()}>
-        <div className="MatchCard-teams">
-          <div className="MatchCard-team">
-            {homeTeam ? homeTeam.name() : 'TBD'}
-          </div>
-          <div className="MatchCard-vs">vs</div>
-          <div className="MatchCard-team">
-            {awayTeam ? awayTeam.name() : 'TBD'}
-          </div>
+      <div className="EventCard" key={event.id()}>
+        <div className="EventCard-teams">
+          <span className="team-name">{homeTeam ? homeTeam.name() : 'Home Team'}</span>
+          <span className="vs">vs</span>
+          <span className="team-name">{awayTeam ? awayTeam.name() : 'Away Team'}</span>
         </div>
 
-        <div className="MatchCard-info">
-          <div className="MatchCard-date">
-            {new Date(event.matchDate()).toLocaleString()}
-          </div>
-          <div className="MatchCard-status">
-            Status: {event.status()}
-          </div>
-          {event.homeScore() !== null && event.awayScore() !== null && (
-            <div className="MatchCard-score">
-              Score: {event.homeScore()} - {event.awayScore()}
-            </div>
-          )}
+        <div className="EventCard-info">
+          <div>Match: {dayjs(event.matchDate()).format('DD/MM/YYYY HH:mm')}</div>
+          <div>Cutoff: {dayjs(event.cutoffDate()).format('DD/MM/YYYY HH:mm')}</div>
+          {event.result() && <div>Result: {event.result()}</div>}
         </div>
 
         {app.session.user && canPick && (
-          <div className="MatchCard-picks">
-            <p>{app.translator.trans('huseyinfiliz-pickem.forum.matches.make_pick')}</p>
-            <div className="MatchCard-buttons">
-              <Button
-                className={`Button ${pick && pick.selectedOutcome() === 'home' ? 'Button--primary' : ''}`}
-                onclick={() => this.makePick(event, 'home')}
+          <div className="EventCard-picks">
+            <Button 
+              className={pick && pick.selectedOutcome() === 'home' ? 'Button--primary' : ''}
+              onclick={() => this.makePick(event.id(), 'home')}
+            >
+              {homeTeam ? homeTeam.name() : 'Home'}
+            </Button>
+            {event.allowDraw() && (
+              <Button 
+                className={pick && pick.selectedOutcome() === 'draw' ? 'Button--primary' : ''}
+                onclick={() => this.makePick(event.id(), 'draw')}
               >
-                {homeTeam ? homeTeam.name() : 'Home'}
+                Draw
               </Button>
-              {event.allowDraw() && (
-                <Button
-                  className={`Button ${pick && pick.selectedOutcome() === 'draw' ? 'Button--primary' : ''}`}
-                  onclick={() => this.makePick(event, 'draw')}
-                >
-                  Draw
-                </Button>
-              )}
-              <Button
-                className={`Button ${pick && pick.selectedOutcome() === 'away' ? 'Button--primary' : ''}`}
-                onclick={() => this.makePick(event, 'away')}
-              >
-                {awayTeam ? awayTeam.name() : 'Away'}
-              </Button>
-            </div>
+            )}
+            <Button 
+              className={pick && pick.selectedOutcome() === 'away' ? 'Button--primary' : ''}
+              onclick={() => this.makePick(event.id(), 'away')}
+            >
+              {awayTeam ? awayTeam.name() : 'Away'}
+            </Button>
           </div>
         )}
 
         {pick && !canPick && (
-          <div className="MatchCard-pick-made">
-            <p>
-              {app.translator.trans('huseyinfiliz-pickem.forum.matches.your_pick')}:
-              <strong> {pick.selectedOutcome()}</strong>
-            </p>
+          <div className="EventCard-pick-result">
+            Your pick: {pick.selectedOutcome()} 
             {pick.isCorrect() !== null && (
-              <p className={pick.isCorrect() ? 'text-success' : 'text-danger'}>
-                {pick.isCorrect()
-                  ? app.translator.trans('huseyinfiliz-pickem.forum.matches.correct')
-                  : app.translator.trans('huseyinfiliz-pickem.forum.matches.incorrect')}
-              </p>
+              <span className={pick.isCorrect() ? 'correct' : 'incorrect'}>
+                {pick.isCorrect() ? ' ✓ Correct' : ' ✗ Incorrect'}
+              </span>
             )}
           </div>
         )}
@@ -206,133 +173,104 @@ export default class PickemPage extends Page {
     );
   }
 
-  async makePick(event, outcome) {
-    if (!app.session.user) {
-      alert('You must be logged in to make picks');
-      return;
-    }
-
+  async makePick(eventId, outcome) {
     try {
       const pick = await app.store.createRecord('pickem-picks').save({
-        eventId: event.id(),
+        eventId: eventId,
         selectedOutcome: outcome,
       });
-
-      this.picks[event.id()] = pick;
+      
+      this.picks[eventId] = pick;
       m.redraw();
     } catch (error) {
       console.error('Error making pick:', error);
-      alert(error.response?.errors?.[0]?.detail || 'Error making pick');
+      alert('Error making pick');
     }
   }
 
   renderMyPicks() {
     if (!app.session.user) {
-      return (
-        <div className="MyPicksPage-empty">
-          <p>{app.translator.trans('huseyinfiliz-pickem.forum.picks.must_login')}</p>
-        </div>
-      );
+      return <p>Please login to view your picks</p>;
     }
 
-    if (this.picksArray.length === 0) {
-      return <p>{app.translator.trans('huseyinfiliz-pickem.forum.picks.no_picks')}</p>;
+    const myPicks = Object.values(this.picks);
+    
+    if (myPicks.length === 0) {
+      return <p>You haven't made any picks yet</p>;
     }
 
     return (
-      <table className="Table">
-        <thead>
-          <tr>
-            <th>{app.translator.trans('huseyinfiliz-pickem.forum.picks.match')}</th>
-            <th>{app.translator.trans('huseyinfiliz-pickem.forum.picks.your_pick')}</th>
-            <th>{app.translator.trans('huseyinfiliz-pickem.forum.picks.result')}</th>
-            <th>{app.translator.trans('huseyinfiliz-pickem.forum.picks.status')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.picksArray.map(pick => this.renderPick(pick))}
-        </tbody>
-      </table>
-    );
-  }
-
-  renderPick(pick) {
-    const event = pick.event();
-    if (!event) return null;
-
-    const homeTeam = event.homeTeam();
-    const awayTeam = event.awayTeam();
-
-    return (
-      <tr key={pick.id()}>
-        <td>
-          {homeTeam ? homeTeam.name() : 'TBD'} vs {awayTeam ? awayTeam.name() : 'TBD'}
-          <br />
-          <small>{new Date(event.matchDate()).toLocaleString()}</small>
-        </td>
-        <td>
-          <strong>{pick.selectedOutcome()}</strong>
-        </td>
-        <td>
-          {event.result() !== null ? event.result() : '-'}
-        </td>
-        <td>
-          {pick.isCorrect() === null ? (
-            <span className="Badge">Pending</span>
-          ) : pick.isCorrect() ? (
-            <span className="Badge Badge--success">Correct (+1)</span>
-          ) : (
-            <span className="Badge Badge--danger">Incorrect</span>
-          )}
-        </td>
-      </tr>
-    );
-  }
-
-  renderLeaderboard() {
-    if (this.userScores.length === 0) {
-      return <p>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.no_scores')}</p>;
-    }
-
-    // Sort by points descending
-    const sortedScores = this.userScores.sort((a, b) => b.totalPoints() - a.totalPoints());
-
-    return (
-      <div>
+      <div className="MyPicksList">
         <table className="Table">
           <thead>
             <tr>
-              <th>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.rank')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.user')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.points')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.correct')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.total')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.accuracy')}</th>
+              <th>Match</th>
+              <th>Your Pick</th>
+              <th>Result</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
-            {sortedScores.map((score, index) => this.renderLeaderboardRow(score, index + 1))}
+            {myPicks.map(pick => {
+              const event = pick.event();
+              if (!event) return null;
+              
+              const homeTeam = event.homeTeam();
+              const awayTeam = event.awayTeam();
+              
+              return (
+                <tr key={pick.id()}>
+                  <td>{homeTeam ? homeTeam.name() : 'Home'} vs {awayTeam ? awayTeam.name() : 'Away'}</td>
+                  <td>{pick.selectedOutcome()}</td>
+                  <td>{event.result() || '-'}</td>
+                  <td>
+                    {pick.isCorrect() === null ? 'Pending' : 
+                     pick.isCorrect() ? '✓ Correct' : '✗ Incorrect'}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
     );
   }
 
-  renderLeaderboardRow(score, rank) {
-    const user = score.user();
-    const accuracy = score.totalPicks() > 0
-      ? ((score.correctPicks() / score.totalPicks()) * 100).toFixed(1)
-      : '0.0';
+  renderLeaderboard() {
+    if (this.userScores.length === 0) {
+      return <p>No scores yet</p>;
+    }
+
+    // Sort by points
+    const sorted = this.userScores.sort((a, b) => b.totalPoints() - a.totalPoints());
 
     return (
-      <tr key={score.id()}>
-        <td><strong>#{rank}</strong></td>
-        <td>{user ? user.displayName() : 'Unknown'}</td>
-        <td><strong>{score.totalPoints()}</strong></td>
-        <td>{score.correctPicks()}</td>
-        <td>{score.totalPicks()}</td>
-        <td>{accuracy}%</td>
-      </tr>
+      <div className="Leaderboard">
+        <table className="Table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>User</th>
+              <th>Points</th>
+              <th>Correct</th>
+              <th>Total</th>
+              <th>Accuracy</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sorted.map((score, index) => (
+              <tr key={score.id()}>
+                <td>{index + 1}</td>
+                <td>{score.user()?.displayName()}</td>
+                <td>{score.totalPoints()}</td>
+                <td>{score.correctPicks()}</td>
+                <td>{score.totalPicks()}</td>
+                <td>{score.accuracy()}%</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     );
   }
 }

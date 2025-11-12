@@ -1,22 +1,18 @@
 import app from 'flarum/forum/app';
 import { extend } from 'flarum/common/extend';
-import LinkButton from 'flarum/common/components/LinkButton';
 import IndexPage from 'flarum/forum/components/IndexPage';
-
-// Import extenders
+import LinkButton from 'flarum/common/components/LinkButton';
 import extenders from './extend';
-
-// Import components
 import PickemPage from './components/PickemPage';
 
 app.initializers.add('huseyinfiliz/pickem', () => {
-  // Apply extenders (model registration)
+  // Model'leri kaydet
   extenders.forEach(extender => extender.extend(app));
 
-  // Register single route for Pick'em page with tabs
+  // Route kaydet
   app.routes.pickem = { path: '/pickem', component: PickemPage };
 
-  // Add navigation item
+  // Navbar'a link ekle
   extend(IndexPage.prototype, 'navItems', function (items) {
     items.add(
       'pickem',
@@ -25,7 +21,7 @@ app.initializers.add('huseyinfiliz/pickem', () => {
           href: app.route('pickem'),
           icon: 'fas fa-trophy',
         },
-        "Pick'em"
+        app.translator.trans('huseyinfiliz-pickem.forum.nav.pickem')
       ),
       85
     );

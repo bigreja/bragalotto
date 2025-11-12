@@ -13,7 +13,7 @@
   "support": {
     "issues": "https://github.com/huseyinfiliz/pickem/issues",
     "source": "https://github.com/huseyinfiliz/pickem",
-    "forum": "https://discuss.flarum.org/d/your-discussion-id" 
+    "forum": "https://discuss.flarum.org/d/your-discussion-id"
   },
   "homepage": "https://github.com/huseyinfiliz/pickem",
   "funding": [
@@ -57,12 +57,12 @@
         "admin": true,
         "forum": true,
         "js": true,
-        "jsCommon": false,
+        "jsCommon": true,
         "css": true,
         "gitConf": true,
         "githubActions": true,
         "prettier": true,
-        "typescript": true,
+        "typescript": false,
         "bundlewatch": false,
         "backendTesting": true,
         "editorConfig": true,
@@ -73,8 +73,8 @@
   "scripts": {
     "test": "phpunit -c phpunit.xml",
     "test:coverage": "phpunit -c phpunit.xml --coverage-html coverage",
-    "analyse": "@php vendor/bin/phpstan analyse",
-    "analyse:clear": "@php vendor/bin/phpstan clear-result-cache",
+    "analyse": "vendor/bin/phpstan analyse",
+    "analyse:clear": "vendor/bin/phpstan clear-result-cache",
     "cs": "vendor/bin/php-cs-fixer fix --dry-run --diff",
     "cs:fix": "vendor/bin/php-cs-fixer fix",
     "qa": [

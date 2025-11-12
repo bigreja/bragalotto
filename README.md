@@ -1,212 +1,198 @@
 # Pick'em Extension for Flarum
 
-A comprehensive pick'em game extension for Flarum 1.x that allows users to predict match outcomes and compete on a leaderboard.
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Flarum](https://img.shields.io/badge/flarum-%5E1.8.0-orange.svg)
 
-## Features
+A comprehensive pick'em game extension for Flarum 1.8+ that allows users to predict match outcomes and compete on a leaderboard.
 
-### Admin Features
-- **Team Management**: Create and manage teams with names, slugs, and logo uploads
-- **Season Management**: Create seasons to organize matches into time periods
-- **Week Management**: Create weeks and optionally link them to seasons
-- **Match Management**: Create matches (events) with:
-  - Home and away teams
-  - Match date/time
-  - Pick cutoff date/time
-  - **Allow draw** toggle per match
-  - Status (scheduled, closed, finished)
-- **Result Entry**: Enter match scores (home and away)
-- **Automatic Calculation**: System automatically determines results and awards points
+## 🎯 Features
 
-### User Features
-- **Make Picks**: Users can pick one outcome per match before cutoff:
-  - Home win
-  - Away win
-  - Draw (if allowed for that match)
-- **View Matches**: Browse all scheduled matches with pick buttons
-- **My Picks**: View all personal picks with results
-- **Leaderboard**: See rankings with optional season filter
-- **Notifications**: Receive Flarum Alerts when results are posted
+### 👤 User Features
+- **Make Predictions**: Pick home win, away win, or draw for upcoming matches
+- **Real-time Updates**: Change picks before cutoff time
+- **Personal Dashboard**: View all your picks with results and statistics
+- **Leaderboard**: Compete with other users and track your ranking
+- **Statistics**: Track accuracy, total picks, and points earned
+- **Notifications**: Receive alerts when match results are announced
+- **Responsive Design**: Works seamlessly on desktop and mobile
 
-### Technical Features
-- **Server Validation**:
-  - No picks after cutoff time
-  - No duplicate picks per user per match
-  - Draw picks only allowed if match permits
-- **Automatic Scoring**:
-  - +1 point for correct predictions
-  - Cached user scores for performance
-  - Result calculation: equal scores = draw
-- **JSON API**: RESTful API following Flarum conventions
-- **Mithril Frontend**: Modern reactive UI components
-- **Database Migrations**: Proper schema management
+### 🛠️ Admin Features
+- **Team Management**: Create and manage teams with logos
+- **Season Organization**: Organize matches into seasons
+- **Week Grouping**: Group matches by weeks within seasons
+- **Match Management**: 
+  - Set match and cutoff dates
+  - Configure draw allowance per match
+  - Enter results easily
+  - View pick statistics
+- **Flexible Scoring**: Configure points per correct pick
+- **Status Management**: Track scheduled, closed, finished, and cancelled events
+- **Automatic Processing**: Results and scores update automatically
 
-## Installation
+### 🔧 Technical Features
+- **Validation**: Server-side validation prevents invalid picks
+- **Permissions**: Granular permission system for different user roles
+- **Event System**: Eloquent events for automatic score updates
+- **Caching**: User scores cached for performance
+- **API**: RESTful JSON:API endpoints
+- **Modern Frontend**: Mithril.js components
+- **Extensible**: Policy-based authorization system
+- **Console Commands**: Cron job support for automated tasks
+- **Multi-language**: English and Turkish translations included
+
+## 📦 Installation
 
 ```bash
 composer require huseyinfiliz/pickem
 ```
 
-Then enable the extension in your Flarum admin panel.
+Enable the extension in your Flarum admin panel.
 
-## Database Schema
-
-### Tables
-
-1. **pickem_teams**: Team information
-   - id, name, slug, logo_path
-
-2. **pickem_seasons**: Season organization
-   - id, name, slug, start_date, end_date
-
-3. **pickem_weeks**: Week grouping
-   - id, name, season_id, week_number, start_date, end_date
-
-4. **pickem_events**: Matches/Events
-   - id, week_id, home_team_id, away_team_id
-   - match_date, cutoff_date
-   - **allow_draw** (boolean)
-   - status, home_score, away_score, result
-
-5. **pickem_picks**: User predictions
-   - id, user_id, event_id
-   - **selected_outcome** (home|away|draw)
-   - is_correct
-
-6. **pickem_user_scores**: Cached scores
-   - id, user_id, season_id
-   - total_points, total_picks, correct_picks
-
-## API Endpoints
-
-### Teams
-- `GET /api/pickem/teams` - List all teams
-- `POST /api/pickem/teams` - Create team (admin)
-- `PATCH /api/pickem/teams/{id}` - Update team (admin)
-- `DELETE /api/pickem/teams/{id}` - Delete team (admin)
-
-### Seasons
-- `GET /api/pickem/seasons` - List all seasons
-- `POST /api/pickem/seasons` - Create season (admin)
-
-### Weeks
-- `GET /api/pickem/weeks` - List all weeks
-- `POST /api/pickem/weeks` - Create week (admin)
-
-### Events
-- `GET /api/pickem/events` - List all events
-- `POST /api/pickem/events` - Create event (admin)
-- `PATCH /api/pickem/events/{id}` - Update event/enter result (admin)
-
-### Picks
-- `GET /api/pickem/picks` - List user's picks
-- `POST /api/pickem/picks` - Create/update pick
-
-Example pick creation:
-```json
-POST /api/pickem/picks
-{
-  "data": {
-    "attributes": {
-      "eventId": 1,
-      "selectedOutcome": "home"
-    }
-  }
-}
-```
-
-### Leaderboard
-- `GET /api/pickem/leaderboard` - Get leaderboard
-  - Optional filter: `?filter[season]=1`
-
-## Usage Guide
+## 🚀 Quick Start
 
 ### For Administrators
 
 1. **Create Teams**:
-   - Go to Admin → Pick'em → Teams
-   - Click "Create Team"
-   - Enter name, slug, and optional logo path
-   - Save
+   - Navigate to Admin → Pick'em → Teams
+   - Add teams with names and logos
 
-2. **Create Season** (Optional):
-   - Go to Seasons tab
-   - Create a season to organize matches
+2. **Create a Season** (Optional):
+   - Navigate to Admin → Pick'em → Seasons
+   - Set season name and date range
 
-3. **Create Weeks** (Optional):
-   - Go to Weeks tab
-   - Create weeks and link to seasons
-
-4. **Create Matches**:
-   - Go to Events tab
-   - Click "Create Event"
+3. **Create Matches**:
+   - Navigate to Admin → Pick'em → Matches
    - Select home and away teams
-   - Set match date and cutoff date
-   - **Toggle "Allow Draw"** if draws are possible
-   - Save
+   - Set match date and cutoff time
+   - Choose whether to allow draw picks
 
-5. **Enter Results**:
-   - Find the match in Events tab
-   - Click "Enter Result"
+4. **Enter Results**:
+   - Edit the match after it's finished
    - Enter home and away scores
-   - System automatically:
-     - Determines the result (home/away/draw)
-     - Marks picks as correct/incorrect
-     - Updates user scores
-     - Sends notifications
+   - System automatically calculates results and updates scores
 
 ### For Users
 
-1. **Make Picks**:
-   - Navigate to "Matches" page
-   - See all upcoming matches
-   - Click your prediction (Home/Draw/Away)
-   - Can change pick before cutoff
+1. **View Matches**:
+   - Navigate to Pick'em → Matches
+   - See all upcoming matches with cutoff times
 
-2. **View Your Picks**:
-   - Navigate to "My Picks" page
-   - See all your predictions
-   - Check which were correct
+2. **Make Picks**:
+   - Click on your prediction (Home/Draw/Away)
+   - Change your pick anytime before cutoff
 
-3. **Check Leaderboard**:
-   - Navigate to "Leaderboard" page
-   - See rankings by points
-   - Filter by season (optional)
+3. **Track Performance**:
+   - View your picks: Pick'em → My Picks
+   - Check leaderboard: Pick'em → Leaderboard
 
-## Validation Rules
+## ⚙️ Configuration
 
-1. **Pick Submission**:
-   - Must be before cutoff date
-   - Must be valid outcome (home/away/draw)
-   - Draw only if `allow_draw` is true for that match
-   - One pick per user per match (updates allowed)
+### Settings
 
-2. **Result Entry**:
-   - Only admins can enter results
-   - System calculates: home_score > away_score = home win
-   - System calculates: away_score > home_score = away win
-   - System calculates: home_score == away_score = draw
+Access settings in Admin → Pick'em → Settings:
 
-3. **Scoring**:
-   - Correct pick = +1 point
-   - Incorrect pick = 0 points
-   - Scores cached per user per season
+- **Points per correct pick**: Default is 1 point
+- **Enable notifications**: Send alerts when results are announced
+- **Show other picks after cutoff**: Allow users to see others' picks after deadline
 
-## Customization
+### Permissions
+
+Configure in Admin → Permissions:
+
+- **Manage pick'em system**: Admin-only access (Moderate)
+- **Make picks**: Allow users to make predictions (Start)
+- **View leaderboard**: Allow viewing the leaderboard (View)
+
+## 🔄 Automated Tasks
+
+Set up cron jobs for automatic maintenance:
+
+```bash
+# Close expired events (runs every 15 minutes)
+*/15 * * * * php /path/to/flarum pickem:close-expired
+
+# Recalculate all scores (runs daily at 3am)
+0 3 * * * php /path/to/flarum pickem:update-scores --all
+```
+
+## 🗄️ Database Schema
+
+### Tables
+
+1. **pickem_teams**: Team information
+   - `id`, `name`, `slug`, `logo_path`, `created_at`, `updated_at`
+
+2. **pickem_seasons**: Season organization
+   - `id`, `name`, `slug`, `start_date`, `end_date`, `created_at`, `updated_at`
+
+3. **pickem_weeks**: Week grouping
+   - `id`, `name`, `season_id`, `week_number`, `start_date`, `end_date`, `created_at`, `updated_at`
+
+4. **pickem_events**: Matches/Events
+   - `id`, `week_id`, `home_team_id`, `away_team_id`
+   - `match_date`, `cutoff_date`, `allow_draw`
+   - `status` (scheduled|closed|finished|cancelled)
+   - `home_score`, `away_score`, `result` (home|away|draw)
+   - `created_at`, `updated_at`
+
+5. **pickem_picks**: User predictions
+   - `id`, `user_id`, `event_id`
+   - `selected_outcome` (home|away|draw)
+   - `is_correct` (boolean|null)
+   - `created_at`, `updated_at`
+
+6. **pickem_user_scores**: Cached user scores
+   - `id`, `user_id`, `season_id`
+   - `total_points`, `total_picks`, `correct_picks`, `accuracy`
+   - `created_at`, `updated_at`
+
+## 🏗️ Architecture
+
+### Models
+- **Event**: Match model with automatic result calculation
+- **Pick**: User prediction with correctness checking
+- **UserScore**: Cached score with automatic accuracy calculation
+- **Team, Season, Week**: Organizational models
+
+### Controllers
+All follow Flarum's AbstractController patterns:
+- List, Create, Update, Delete for each resource
+- Proper validation and error handling
+- Permission checks built-in
+
+### Validators
+- **PickValidator**: Validates pick creation
+- **EventValidator**: Validates event creation/updates
+
+### Policies
+- **EventPolicy**: Event authorization
+- **PickPolicy**: Pick authorization
+- **PickemPolicy**: General system authorization
+
+### Listeners
+- **EventSavedListener**: Handles result notifications
+- **UpdateUserScoresListener**: Recalculates scores automatically
+
+## 🎨 Customization
 
 ### Translations
-Edit `/resources/locale/en/pickem.yml` to customize text.
+
+Edit translation files in `/resources/locale/`:
+- `en.yml`: English translations
+- `tr.yml`: Turkish translations
+
+Add your own language by creating a new YAML file.
 
 ### Styling
+
 - Forum styles: `/resources/less/forum.less`
 - Admin styles: `/resources/less/admin.less`
 
 ### Point System
-To change the point system, edit `UpdateUserScoresListener.php`:
-```php
-$userScore->total_points = $userScore->correct_picks; // Currently 1 point per correct pick
-```
 
-## Development
+Adjust in Admin Settings or modify `UpdateUserScoresListener.php` for custom calculation logic.
+
+## 🛠️ Development
 
 ```bash
 # Install dependencies
@@ -217,50 +203,92 @@ npm install
 # Build frontend
 npm run build
 
-# Watch for changes
+# Watch for changes (development)
 npm run dev
+
+# Run tests
+composer test
+
+# Code style check
+composer cs
+
+# Code style fix
+composer cs:fix
+
+# Static analysis
+composer analyse
+
+# Run all quality checks
+composer qa:full
 ```
 
-## Code Structure
+## 📁 Project Structure
 
 ```
 pickem/
-├── extend.php                 # Main extension configuration
-├── composer.json             # Package definition
+├── extend.php                      # Extension configuration
+├── composer.json                   # Package definition
 ├── src/
-│   ├── Team.php             # Team model
-│   ├── Season.php           # Season model
-│   ├── Week.php             # Week model
-│   ├── Event.php            # Match/Event model
-│   ├── Pick.php             # User pick model
-│   ├── UserScore.php        # Cached score model
+│   ├── Event.php                  # Match/Event model
+│   ├── Pick.php                   # User pick model
+│   ├── UserScore.php              # Cached score model
+│   ├── Team.php                   # Team model
+│   ├── Season.php                 # Season model
+│   ├── Week.php                   # Week model
 │   ├── Api/
-│   │   ├── Controller/      # API controllers
-│   │   └── Serializer/      # JSON API serializers
-│   ├── Listener/            # Event listeners
-│   └── Notification/        # Notification blueprints
-├── migrations/              # Database migrations
+│   │   ├── Controller/            # API controllers
+│   │   └── Serializer/            # JSON API serializers
+│   ├── Validator/                 # Input validators
+│   ├── Access/                    # Authorization policies
+│   ├── Listener/                  # Event listeners
+│   ├── Console/                   # CLI commands
+│   └── Notification/              # Notification blueprints
+├── migrations/                    # Database migrations
 ├── js/
 │   └── src/
-│       ├── admin/          # Admin panel components
-│       └── forum/          # User-facing components
+│       ├── admin/                 # Admin panel components
+│       ├── forum/                 # User-facing components
+│       └── common/                # Shared components
 └── resources/
-    ├── locale/             # Translations
-    └── less/               # Styles
+    ├── locale/                    # Translations
+    └── less/                      # Styles
 ```
 
-## License
+## 🤝 Contributing
 
-MIT License
+Contributions are welcome! Please follow these guidelines:
 
-## Support
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run quality checks: `composer qa:full`
+5. Submit a pull request
 
-For issues, questions, or feature requests, please open an issue on the GitHub repository.
+## 📝 License
 
-## Credits
+MIT License - see LICENSE file for details
 
-Developed by Huseyin Filiz for Flarum 1.x
+## 👨‍💻 Author
+
+**Hüseyin Filiz**
+- GitHub: [@huseyinfiliz](https://github.com/huseyinfiliz)
+- Email: mysuperuser01@gmail.com
+
+## 🙏 Support
+
+If you find this extension helpful:
+- ⭐ Star the repository
+- 🐛 Report bugs via GitHub Issues
+- 💡 Suggest features via GitHub Discussions
+- 📖 Improve documentation
+
+## 🔗 Links
+
+- [Flarum](https://flarum.org)
+- [Documentation](https://github.com/huseyinfiliz/pickem/wiki)
+- [Issue Tracker](https://github.com/huseyinfiliz/pickem/issues)
+- [Flarum Community](https://discuss.flarum.org)
 
 ---
 
-**Note**: This extension follows Flarum 1.x conventions and best practices. All API endpoints follow JSON:API specification, and frontend components use Mithril.js as per Flarum standards.
+**Flarum 1.8 Compatible** | Built with ❤️ for the Flarum community

@@ -20,6 +20,11 @@ use Flarum\Database\ScopeVisibilityTrait;
  * @property string|null $result
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * 
+ * @property-read Week|null $week
+ * @property-read Team $homeTeam
+ * @property-read Team $awayTeam
+ * @property-read \Illuminate\Database\Eloquent\Collection|Pick[] $picks
  */
 class Event extends AbstractModel
 {
@@ -28,9 +33,16 @@ class Event extends AbstractModel
     protected $table = 'pickem_events';
 
     protected $fillable = [
-        'week_id', 'home_team_id', 'away_team_id',
-        'match_date', 'cutoff_date', 'allow_draw',
-        'status', 'home_score', 'away_score', 'result'
+        'week_id', 
+        'home_team_id', 
+        'away_team_id',
+        'match_date', 
+        'cutoff_date', 
+        'allow_draw',
+        'status', 
+        'home_score', 
+        'away_score', 
+        'result'
     ];
 
     protected $casts = [
@@ -43,61 +55,242 @@ class Event extends AbstractModel
         'updated_at' => 'datetime',
     ];
 
+    // Status constants
+    const STATUS_SCHEDULED = 'scheduled';
+    const STATUS_CLOSED = 'closed';
+    const STATUS_FINISHED = 'finished';
+    const STATUS_CANCELLED = 'cancelled';
+
+    // Result constants
+    const RESULT_HOME = 'home';
+    const RESULT_AWAY = 'away';
+    const RESULT_DRAW = 'draw';
+
     /**
-     * Get the week this event belongs to
+     * Boot the model - register event listeners
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        // Auto-calculate result when scores are set
+        static::saving(function (Event $event) {
+            if ($event->isDirty(['home_score', 'away_score']) && 
+                $event->home_score !== null && 
+                $event->away_score !== null) {
+                $event->result = $event->calculateResult();
+                
+                // Auto-mark as finished if result is set
+                if ($event->result !== null && $event->status === self::STATUS_SCHEDULED) {
+                    $event->status = self::STATUS_FINISHED;
+                }
+            }
+            
+            // Auto-close if cutoff date passed
+            if ($event->status === self::STATUS_SCHEDULED && 
+                Carbon::now()->isAfter($event->cutoff_date)) {
+                $event->status = self::STATUS_CLOSED;
+            }
+        });
+
+        // Update pick correctness after saving
+        static::saved(function (Event $event) {
+            if ($event->result !== null && $event->wasChanged('result')) {
+                $event->updatePickCorrectness();
+            }
+        });
+    }
+
+    /**
+     * Relationships
      */
     public function week()
     {
         return $this->belongsTo(Week::class);
     }
 
-    /**
-     * Get the home team
-     */
     public function homeTeam()
     {
         return $this->belongsTo(Team::class, 'home_team_id');
     }
 
-    /**
-     * Get the away team
-     */
     public function awayTeam()
     {
         return $this->belongsTo(Team::class, 'away_team_id');
     }
 
-    /**
-     * Get picks for this event
-     */
     public function picks()
     {
         return $this->hasMany(Pick::class);
     }
 
     /**
-     * Check if picks are still allowed for this event
+     * Query Scopes
      */
-    public function canPick()
+    public function scopeScheduled($query)
     {
-        return Carbon::now()->isBefore($this->cutoff_date) && $this->status === 'scheduled';
+        return $query->where('status', self::STATUS_SCHEDULED);
+    }
+
+    public function scopeFinished($query)
+    {
+        return $query->where('status', self::STATUS_FINISHED);
+    }
+
+    public function scopePickable($query)
+    {
+        return $query->where('status', self::STATUS_SCHEDULED)
+                     ->where('cutoff_date', '>', Carbon::now());
+    }
+
+    public function scopeUpcoming($query)
+    {
+        return $query->where('match_date', '>', Carbon::now())
+                     ->orderBy('match_date', 'asc');
+    }
+
+    public function scopePast($query)
+    {
+        return $query->where('match_date', '<', Carbon::now())
+                     ->orderBy('match_date', 'desc');
+    }
+
+    /**
+     * Helper Methods
+     */
+    public function canPick(): bool
+    {
+        return $this->status === self::STATUS_SCHEDULED && 
+               Carbon::now()->isBefore($this->cutoff_date);
+    }
+
+    public function isFinished(): bool
+    {
+        return $this->status === self::STATUS_FINISHED;
+    }
+
+    public function isClosed(): bool
+    {
+        return $this->status === self::STATUS_CLOSED;
+    }
+
+    public function isScheduled(): bool
+    {
+        return $this->status === self::STATUS_SCHEDULED;
+    }
+
+    public function hasResult(): bool
+    {
+        return $this->result !== null;
+    }
+
+    public function hasScores(): bool
+    {
+        return $this->home_score !== null && $this->away_score !== null;
     }
 
     /**
      * Calculate the result based on scores
      */
-    public function calculateResult()
+    public function calculateResult(): ?string
     {
-        if ($this->home_score === null || $this->away_score === null) {
+        if (!$this->hasScores()) {
             return null;
         }
 
         if ($this->home_score > $this->away_score) {
-            return 'home';
+            return self::RESULT_HOME;
         } elseif ($this->away_score > $this->home_score) {
-            return 'away';
+            return self::RESULT_AWAY;
         } else {
-            return 'draw';
+            return self::RESULT_DRAW;
         }
+    }
+
+    /**
+     * Update all picks for this event
+     */
+    public function updatePickCorrectness(): void
+    {
+        if ($this->result === null) {
+            return;
+        }
+
+        Pick::where('event_id', $this->id)->get()->each(function (Pick $pick) {
+            $pick->is_correct = ($pick->selected_outcome === $this->result);
+            $pick->saveQuietly(); // Don't trigger events to avoid recursion
+        });
+    }
+
+    /**
+     * Mark event as finished with scores
+     */
+    public function finish(int $homeScore, int $awayScore): void
+    {
+        $this->home_score = $homeScore;
+        $this->away_score = $awayScore;
+        $this->result = $this->calculateResult();
+        $this->status = self::STATUS_FINISHED;
+        $this->save();
+    }
+
+    /**
+     * Mark event as cancelled
+     */
+    public function cancel(): void
+    {
+        $this->status = self::STATUS_CANCELLED;
+        $this->save();
+    }
+
+    /**
+     * Get pick for specific user
+     */
+    public function getPickForUser(int $userId): ?Pick
+    {
+        return $this->picks()->where('user_id', $userId)->first();
+    }
+
+    /**
+     * Check if user has made a pick for this event
+     */
+    public function hasPickFromUser(int $userId): bool
+    {
+        return $this->picks()->where('user_id', $userId)->exists();
+    }
+
+    /**
+     * Get pick statistics
+     */
+    public function getPickStatistics(): array
+    {
+        $picks = $this->picks;
+        $total = $picks->count();
+
+        if ($total === 0) {
+            return [
+                'total' => 0,
+                'home' => 0,
+                'away' => 0,
+                'draw' => 0,
+                'home_percentage' => 0,
+                'away_percentage' => 0,
+                'draw_percentage' => 0,
+            ];
+        }
+
+        $homeCount = $picks->where('selected_outcome', self::RESULT_HOME)->count();
+        $awayCount = $picks->where('selected_outcome', self::RESULT_AWAY)->count();
+        $drawCount = $picks->where('selected_outcome', self::RESULT_DRAW)->count();
+
+        return [
+            'total' => $total,
+            'home' => $homeCount,
+            'away' => $awayCount,
+            'draw' => $drawCount,
+            'home_percentage' => round(($homeCount / $total) * 100, 1),
+            'away_percentage' => round(($awayCount / $total) * 100, 1),
+            'draw_percentage' => round(($drawCount / $total) * 100, 1),
+        ];
     }
 }
