@@ -20,8 +20,7 @@ use Flarum\Database\ScopeVisibilityTrait;
  * @property string|null $result
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * 
- * @property-read Week|null $week
+ * * @property-read Week|null $week
  * @property-read Team $homeTeam
  * @property-read Team $awayTeam
  * @property-read \Illuminate\Database\Eloquent\Collection|Pick[] $picks
@@ -220,38 +219,7 @@ public static function boot()
         return $this->picks()->where('user_id', $userId)->exists();
     }
 
-    /**
-     * Get pick statistics
-     */
-    public function getPickStatistics(): array
-    {
-        $picks = $this->picks;
-        $total = $picks->count();
-
-        if ($total === 0) {
-            return [
-                'total' => 0,
-                'home' => 0,
-                'away' => 0,
-                'draw' => 0,
-                'home_percentage' => 0,
-                'away_percentage' => 0,
-                'draw_percentage' => 0,
-            ];
-        }
-
-        $homeCount = $picks->where('selected_outcome', self::RESULT_HOME)->count();
-        $awayCount = $picks->where('selected_outcome', self::RESULT_AWAY)->count();
-        $drawCount = $picks->where('selected_outcome', self::RESULT_DRAW)->count();
-
-        return [
-            'total' => $total,
-            'home' => $homeCount,
-            'away' => $awayCount,
-            'draw' => $drawCount,
-            'home_percentage' => round(($homeCount / $total) * 100, 1),
-            'away_percentage' => round(($awayCount / $total) * 100, 1),
-            'draw_percentage' => round(($drawCount / $total) * 100, 1),
-        ];
-    }
+    // getPickStatistics() metodu kaldırıldı.
+    // Frontend (JavaScript) tarafında kullanılmayan "ölü kod" idi.
+    // Bu, modeli sadeleştirir.
 }

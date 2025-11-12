@@ -1,10 +1,11 @@
 import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
+import WeekModal from './WeekModal'; // Modal import edildi
 
 export default class WeeksTab extends Component {
   view() {
     const weeks = app.store.all('pickem-weeks');
-    const seasons = app.store.all('pickem-seasons');
+    // const seasons = app.store.all('pickem-seasons'); // Artık burada gerekmiyor
 
     return (
       <div className="WeeksTab">
@@ -13,7 +14,7 @@ export default class WeeksTab extends Component {
           <Button
             className="Button Button--primary"
             icon="fas fa-plus"
-            onclick={() => this.createWeek(seasons)}
+            onclick={() => app.modal.show(WeekModal, { week: null })} // prompt() yerine modal kullanıldı
           >
             {app.translator.trans('huseyinfiliz-pickem.admin.weeks.create')}
           </Button>
@@ -25,6 +26,7 @@ export default class WeeksTab extends Component {
               <th>{app.translator.trans('huseyinfiliz-pickem.admin.weeks.name')}</th>
               <th>{app.translator.trans('huseyinfiliz-pickem.admin.weeks.season')}</th>
               <th>{app.translator.trans('huseyinfiliz-pickem.admin.weeks.week_number')}</th>
+              <th>{app.translator.trans('huseyinfiliz-pickem.admin.buttons.actions')}</th> {/* Eylem sütunu eklendi */}
             </tr>
           </thead>
           <tbody>
@@ -35,6 +37,24 @@ export default class WeeksTab extends Component {
                   <td>{week.name()}</td>
                   <td>{season ? season.name() : 'None'}</td>
                   <td>{week.weekNumber() || '-'}</td>
+                  <td>
+                    {/* Düzenle butonu eklendi */}
+                    <Button
+                      className="Button Button--primary"
+                      icon="fas fa-edit"
+                      onclick={() => app.modal.show(WeekModal, { week })}
+                    >
+                      {app.translator.trans('huseyinfiliz-pickem.admin.buttons.edit')}
+                    </Button>
+                    {/* Sil butonu eklendi */}
+                    <Button
+                      className="Button Button--danger"
+                      icon="fas fa-trash"
+                      onclick={() => this.deleteWeek(week)}
+                    >
+                      {app.translator.trans('huseyinfiliz-pickem.admin.buttons.delete')}
+                    </Button>
+                  </td>
                 </tr>
               );
             })}
@@ -44,15 +64,16 @@ export default class WeeksTab extends Component {
     );
   }
 
-  createWeek(seasons) {
-    const name = prompt('Week name:');
-    if (!name) return;
+  // createWeek() metodu kaldırıldı (artık WeekModal'da)
 
-    const weeks = app.store.all('pickem-weeks');
+  // Silme fonksiyonu eklendi
+  deleteWeek(week) {
+    if (!confirm(app.translator.trans('huseyinfiliz-pickem.admin.weeks.delete_confirmation'))) {
+      return;
+    }
 
-    app.store.createRecord('pickem-weeks').save({
-      name,
-      weekNumber: weeks.length + 1,
-    }).then(() => m.redraw());
+    week.delete().then(() => {
+      m.redraw();
+    });
   }
 }

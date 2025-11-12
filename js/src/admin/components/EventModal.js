@@ -6,9 +6,9 @@ export default class EventModal extends Modal {
     super.oninit(vnode);
 
     this.event = this.attrs.event;
-    this.homeTeamId = this.event ? this.event.homeTeamId() : '';
-    this.awayTeamId = this.event ? this.event.awayTeamId() : '';
-    this.weekId = this.event ? this.event.weekId() : '';
+    this.homeTeamId = this.event ? this.event.homeTeamId() : '0'; // '0' olarak başla
+    this.awayTeamId = this.event ? this.event.awayTeamId() : '0'; // '0' olarak başla
+    this.weekId = this.event ? this.event.weekId() : '0'; // '0' olarak başla
     this.matchDate = this.event ? this.formatDateForInput(this.event.matchDate()) : '';
     this.cutoffDate = this.event ? this.formatDateForInput(this.event.cutoffDate()) : '';
     this.allowDraw = this.event ? this.event.allowDraw() : false;
@@ -16,8 +16,9 @@ export default class EventModal extends Modal {
   }
 
   formatDateForInput(dateString) {
+    if (!dateString) return '';
     const date = new Date(dateString);
-    return date.toISOString().slice(0, 16);
+    return date.toISOString().slice(0, 16); // datetime-local formatı
   }
 
   className() {
@@ -44,7 +45,8 @@ export default class EventModal extends Modal {
               value={this.weekId}
               onchange={(e) => { this.weekId = e.target.value; }}
             >
-              <option value="">{app.translator.trans('huseyinfiliz-pickem.admin.events.no_week')}</option>
+              {/* Değer "0" olarak değiştirildi */}
+              <option value="0">{app.translator.trans('huseyinfiliz-pickem.admin.events.no_week')}</option>
               {weeks.map(week => (
                 <option value={week.id()}>{week.name()}</option>
               ))}
@@ -58,7 +60,8 @@ export default class EventModal extends Modal {
               value={this.homeTeamId}
               onchange={(e) => { this.homeTeamId = e.target.value; }}
             >
-              <option value="">{app.translator.trans('huseyinfiliz-pickem.admin.events.select_team')}</option>
+              {/* Değer "0" olarak değiştirildi */}
+              <option value="0">{app.translator.trans('huseyinfiliz-pickem.admin.events.select_team')}</option>
               {teams.map(team => (
                 <option value={team.id()}>{team.name()}</option>
               ))}
@@ -72,7 +75,8 @@ export default class EventModal extends Modal {
               value={this.awayTeamId}
               onchange={(e) => { this.awayTeamId = e.target.value; }}
             >
-              <option value="">{app.translator.trans('huseyinfiliz-pickem.admin.events.select_team')}</option>
+              {/* Değer "0" olarak değiştirildi */}
+              <option value="0">{app.translator.trans('huseyinfiliz-pickem.admin.events.select_team')}</option>
               {teams.map(team => (
                 <option value={team.id()}>{team.name()}</option>
               ))}
@@ -129,7 +133,7 @@ export default class EventModal extends Modal {
               type="submit"
               loading={this.loading}
             >
-              {app.translator.trans('core.admin.basics.submit_button')}
+              {app.translator.trans('huseyinfiliz-pickem.admin.buttons.save')}
             </Button>
           </div>
         </div>
@@ -139,15 +143,19 @@ export default class EventModal extends Modal {
 
   onsubmit(e) {
     e.preventDefault();
-
     this.loading = true;
 
+    // HATA DÜZELTMESİ: '0' ise null, değilse parseInt yap
+    const weekId = this.weekId === '0' ? null : parseInt(this.weekId);
+    const homeTeamId = this.homeTeamId === '0' ? null : parseInt(this.homeTeamId);
+    const awayTeamId = this.awayTeamId === '0' ? null : parseInt(this.awayTeamId);
+
     const data = {
-      weekId: this.weekId || null,
-      homeTeamId: parseInt(this.homeTeamId),
-      awayTeamId: parseInt(this.awayTeamId),
-      matchDate: new Date(this.matchDate).toISOString(),
-      cutoffDate: new Date(this.cutoffDate).toISOString(),
+      weekId: weekId,
+      homeTeamId: homeTeamId,
+      awayTeamId: awayTeamId,
+      matchDate: this.matchDate ? new Date(this.matchDate).toISOString() : null,
+      cutoffDate: this.cutoffDate ? new Date(this.cutoffDate).toISOString() : null,
       allowDraw: this.allowDraw,
       status: this.status,
     };

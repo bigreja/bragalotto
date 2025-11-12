@@ -1,7 +1,23 @@
 // Forum styles for Pick'em extension
 
 .PickemPage {
-  padding: 20px 0;
+  // GÜNCELLEME 1/2: Flarum'un standart 'IndexPage' (tartışma listesi) 
+  // düzenini (layout) buraya kopyalıyoruz.
+  .container {
+    display: flex;
+    position: relative;
+    padding: 0;
+  }
+
+  .sideNavOffset {
+    // İçeriğin kenar çubuğuna (sideNav) yapışmasını engeller
+    padding-left: 30px; 
+    // Ana Flarum içeriğiyle aynı üst boşluk
+    padding-top: 20px; 
+    // İçeriğin tam genişliği kaplamasını sağlar
+    flex: 1;
+    min-width: 0; // Flexbox hatasını önler
+  }
 
   h2 {
     margin-bottom: 20px;
@@ -13,7 +29,10 @@
       color: @primary-color;
     }
   }
-
+  
+  // (Kalan stiller bir öncekiyle aynı)
+  // ... [Aşağıdaki stil kodunu olduğu gibi kopyalayın] ...
+  
   &-tabs {
     display: flex;
     gap: 10px;
@@ -21,7 +40,7 @@
     border-bottom: 2px solid var(--control-border-color);
     padding-bottom: 0;
 
-    .Button {
+    .Button.PickemPage-tab {
       border-radius: 4px 4px 0 0;
       border: 1px solid transparent;
       border-bottom: none;
@@ -47,10 +66,11 @@
     }
   }
 
-  &-content {
+  &-tab-content { 
     margin-top: 20px;
   }
 }
+
 
 .MatchesPage, .MyPicksPage, .LeaderboardPage {
   &-list {
@@ -66,12 +86,13 @@
   }
 }
 
-.MatchCard {
+.EventCard {
   background: var(--control-bg);
   border: 1px solid var(--control-border-color);
   border-radius: 8px;
   padding: 20px;
   transition: box-shadow 0.2s ease;
+  margin-bottom: 15px; 
 
   &:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -86,7 +107,7 @@
     font-weight: bold;
   }
 
-  &-team {
+  .team-name {
     flex: 1;
     text-align: center;
     padding: 10px;
@@ -94,7 +115,7 @@
     border-radius: 4px;
   }
 
-  &-vs {
+  .vs {
     padding: 0 20px;
     color: var(--muted-color);
     font-weight: normal;
@@ -132,16 +153,7 @@
   &-picks {
     border-top: 1px solid var(--control-border-color);
     padding-top: 15px;
-
-    p {
-      margin-bottom: 10px;
-      font-weight: 500;
-      color: var(--body-color);
-    }
-  }
-
-  &-buttons {
-    display: flex;
+    display: flex; 
     gap: 10px;
 
     .Button {
@@ -162,71 +174,68 @@
     }
   }
 
-  &-pick-made {
+  &-pick-result {
     border-top: 1px solid var(--control-border-color);
     padding-top: 15px;
     text-align: center;
+    font-weight: 500;
 
-    p {
-      margin: 5px 0;
-    }
-
-    .text-success {
+    .correct {
       color: #27ae60;
       font-weight: bold;
+      margin-left: 5px;
     }
 
-    .text-danger {
+    .incorrect {
       color: #e74c3c;
       font-weight: bold;
+      margin-left: 5px;
     }
   }
 }
 
-.LeaderboardPage {
-  &-filter {
-    margin-bottom: 20px;
-    padding: 15px;
-    background: var(--control-bg);
-    border: 1px solid var(--control-border-color);
-    border-radius: 8px;
+.LeaderboardPage-filter {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: var(--control-bg);
+  border: 1px solid var(--control-border-color);
+  border-radius: 8px;
 
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: var(--body-color);
-    }
-
-    select {
-      width: 100%;
-      max-width: 300px;
-    }
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--body-color);
   }
 
-  &-table {
-    background: var(--control-bg);
-    border: 1px solid var(--control-border-color);
-    border-radius: 8px;
-    overflow: hidden;
+  select {
+    width: 100%;
+    max-width: 300px;
+  }
+}
 
-    .Table {
-      width: 100%;
-      margin: 0;
+.LeaderboardPage-table, .MyPicksList {
+  background: var(--control-bg);
+  border: 1px solid var(--control-border-color);
+  border-radius: 8px;
+  overflow: hidden;
 
-      tr.highlight {
-        background-color: fade(@primary-color, 10%);
-        font-weight: bold;
+  .Table {
+    width: 100%;
+    margin: 0;
 
-        td {
-          color: @primary-color;
-        }
+    tr.highlight {
+      background-color: fade(@primary-color, 10%);
+      font-weight: bold;
+
+      td {
+        color: @primary-color;
       }
+    }
 
-      tbody tr {
-        &:last-child td {
-          border-bottom: none;
-        }
+    tbody tr {
+      &:last-child td {
+        border-bottom: none;
       }
     }
   }
@@ -291,31 +300,49 @@
 
 // Responsive styles
 @media (max-width: 768px) {
-  .PickemPage {
-    &-tabs {
-      flex-wrap: wrap;
+  // GÜNCELLEME 2/2: Mobil (dar ekran) için Flarum'un standart
+  // kenar çubuğu (sideNav) davranışını kopyalıyoruz.
+  
+  // .sideNav'ı (kenar çubuğu) gizle
+  .PickemPage .sideNav {
+    display: none;
+  }
 
-      .Button {
-        flex: 1 1 auto;
-        min-width: 100px;
-      }
+  .PickemPage .container {
+    padding-top: 10px;
+    display: block; // 'flex'i iptal et
+  }
+  
+  .PickemPage .sideNavOffset {
+     padding-left: 0; // Sol boşluğu sıfırla
+  }
+  
+  // (Kalan stiller bir öncekiyle aynı)
+  // ...
+
+  .PickemPage-tabs {
+    flex-wrap: wrap;
+
+    .Button {
+      flex: 1 1 auto;
+      min-width: 100px;
     }
   }
 
-  .MatchCard {
+  .EventCard {
     &-teams {
       font-size: 16px;
     }
 
-    &-team {
+    .team-name {
       padding: 8px;
     }
 
-    &-vs {
+    .vs {
       padding: 0 10px;
     }
 
-    &-buttons {
+    &-picks {
       flex-direction: column;
 
       .Button {

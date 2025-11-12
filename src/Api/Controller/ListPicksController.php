@@ -20,16 +20,15 @@ class ListPicksController extends AbstractListController
     {
         $actor = RequestUtil::getActor($request);
 
-        // Require authentication
-        if ($actor->isGuest()) {
-            return [];
-        }
+        // isGuest() kontrolü yerine standart Flarum izni kullanıldı.
+        $actor->assertPermission('pickem.makePicks');
 
         $query = Pick::query();
 
         // Filter by user (show only current user's picks unless admin)
         if ($userId = Arr::get($request->getQueryParams(), 'filter.user')) {
-            if ($actor->isAdmin() || $actor->id == $userId) {
+            // Adminler başkalarınınkini görebilir (veya 'pickem.manage' izni olanlar)
+            if ($actor->hasPermission('pickem.manage') || $actor->id == $userId) {
                 $query->where('user_id', $userId);
             } else {
                 $query->where('user_id', $actor->id);

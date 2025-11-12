@@ -4,21 +4,20 @@ namespace HuseyinFiliz\Pickem\Api\Controller;
 
 use Flarum\Api\Controller\AbstractDeleteController;
 use Flarum\Http\RequestUtil;
-use HuseyinFiliz\Pickem\Team;
+use HuseyinFiliz\Pickem\Season;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 
-class DeleteTeamController extends AbstractDeleteController
+class DeleteSeasonController extends AbstractDeleteController
 {
     protected function delete(ServerRequestInterface $request)
     {
         $actor = RequestUtil::getActor($request);
-        // assertAdmin() yerine standart Flarum izni kullanıldı.
         $actor->assertPermission('pickem.manage');
 
         $id = Arr::get($request->getQueryParams(), 'id');
-        $team = Team::findOrFail($id);
+        $season = Season::findOrFail($id);
 
-        $team->delete();
+        $season->delete();
     }
 }

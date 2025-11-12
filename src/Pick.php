@@ -14,8 +14,7 @@ use Flarum\User\User;
  * @property bool|null $is_correct
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * 
- * @property-read User $user
+ * * @property-read User $user
  * @property-read Event $event
  */
 class Pick extends AbstractModel
@@ -37,20 +36,10 @@ class Pick extends AbstractModel
         'updated_at' => 'datetime',
     ];
 
-    /**
-     * Boot the model
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        // Auto-check correctness when saved if event has result
-        static::saved(function (Pick $pick) {
-            if ($pick->event && $pick->event->result !== null && $pick->is_correct === null) {
-                $pick->checkAndUpdateCorrectness();
-            }
-        });
-    }
+    // boot() metodu kaldırıldı. 
+    // 'is_correct' alanının güncellenmesi artık sadece 
+    // UpdateUserScoresListener tarafından merkezi olarak yönetiliyor.
+    // Bu, mantıksal çiftlenmeyi (redundancy) ortadan kaldırır ve bakımı kolaylaştırır.
 
     /**
      * Relationships
@@ -116,33 +105,8 @@ class Pick extends AbstractModel
         return $this->is_correct !== null;
     }
 
-    /**
-     * Check if this pick is correct based on event result
-     */
-    public function checkCorrectness(): ?bool
-    {
-        if (!$this->event || $this->event->result === null) {
-            return null;
-        }
-
-        return $this->selected_outcome === $this->event->result;
-    }
-
-    /**
-     * Check and update correctness
-     */
-    public function checkAndUpdateCorrectness(): bool
-    {
-        $isCorrect = $this->checkCorrectness();
-        
-        if ($isCorrect !== null && $this->is_correct !== $isCorrect) {
-            $this->is_correct = $isCorrect;
-            $this->saveQuietly(); // Use saveQuietly to avoid triggering events
-            return true;
-        }
-
-        return false;
-    }
+    // checkCorrectness() ve checkAndUpdateCorrectness() metotları kaldırıldı.
+    // Bu mantık artık UpdateUserScoresListener'da.
 
     /**
      * Get the outcome display name

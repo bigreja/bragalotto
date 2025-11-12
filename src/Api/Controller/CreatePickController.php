@@ -20,7 +20,8 @@ class CreatePickController extends AbstractCreateController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertRegistered();
+        // assertRegistered() yerine standart Flarum izni kullanıldı.
+        $actor->assertPermission('pickem.makePicks');
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
         

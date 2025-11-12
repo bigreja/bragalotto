@@ -33,6 +33,11 @@ class SeasonSerializer extends AbstractSerializer
      */
     public function weeks($season)
     {
+        // DÜZELTME: Bu ilişki de null olabilir, 
+        // en iyi pratik olarak buraya da kontrol ekleyelim.
+        if (!$season->weeks) {
+            return null;
+        }
         return $this->hasMany($season, WeekSerializer::class);
     }
 }

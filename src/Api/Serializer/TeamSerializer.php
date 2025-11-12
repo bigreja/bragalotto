@@ -22,7 +22,9 @@ class TeamSerializer extends AbstractSerializer
             'name' => $team->name,
             'slug' => $team->slug,
             'logoPath' => $team->logo_path,
-            'logoUrl' => $team->logo_path ? url('assets/' . $team->logo_path) : null,
+            // Mantık artık Model'deki getLogoUrlAttribute() metodu tarafından yönetiliyor.
+            // Bu, hem daha temiz hem de frontend'deki mantıkla tutarlı.
+            'logoUrl' => $team->logo_url, 
             'createdAt' => $this->formatDate($team->created_at),
             'updatedAt' => $this->formatDate($team->updated_at),
         ];

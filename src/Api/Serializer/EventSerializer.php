@@ -73,6 +73,11 @@ class EventSerializer extends AbstractSerializer
      */
     public function picks($event)
     {
+        // DÜZELTME: Bir maçın hiç tahmini (pick) olmayabilir.
+        // Bu null kontrolü, Flarum'un çökmesini engeller.
+        if (!$event->picks) {
+            return null;
+        }
         return $this->hasMany($event, PickSerializer::class, 'picks');
     }
 }

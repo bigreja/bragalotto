@@ -20,7 +20,8 @@ class UpdateEventController extends AbstractShowController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertAdmin();
+        // assertAdmin() yerine standart Flarum izni kullanıldı.
+        $actor->assertPermission('pickem.manage');
 
         $id = Arr::get($request->getQueryParams(), 'id');
         $event = Event::with(['homeTeam', 'awayTeam', 'week'])->findOrFail($id);

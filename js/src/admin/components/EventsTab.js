@@ -27,9 +27,8 @@ export default class EventsTab extends Component {
               <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.away_team')}</th>
               <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.match_date')}</th>
               <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.status')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.allow_draw')}</th>
               <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.score')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.actions')}</th>
+              <th>{app.translator.trans('huseyinfiliz-pickem.admin.buttons.actions')}</th> {/* Güncellendi */}
             </tr>
           </thead>
           <tbody>
@@ -43,7 +42,6 @@ export default class EventsTab extends Component {
                   <td>{awayTeam ? awayTeam.name() : 'N/A'}</td>
                   <td>{new Date(event.matchDate()).toLocaleString()}</td>
                   <td>{event.status()}</td>
-                  <td>{event.allowDraw() ? 'Yes' : 'No'}</td>
                   <td>
                     {event.homeScore() !== null && event.awayScore() !== null
                       ? `${event.homeScore()} - ${event.awayScore()}`
@@ -55,7 +53,7 @@ export default class EventsTab extends Component {
                       icon="fas fa-edit"
                       onclick={() => app.modal.show(EventModal, { event })}
                     >
-                      {app.translator.trans('huseyinfiliz-pickem.admin.events.edit')}
+                      {app.translator.trans('huseyinfiliz-pickem.admin.buttons.edit')}
                     </Button>
                     <Button
                       className="Button Button--success"
@@ -63,6 +61,14 @@ export default class EventsTab extends Component {
                       onclick={() => app.modal.show(ResultModal, { event })}
                     >
                       {app.translator.trans('huseyinfiliz-pickem.admin.events.enter_result')}
+                    </Button>
+                    {/* YENİ: Sil butonu eklendi */}
+                    <Button
+                      className="Button Button--danger"
+                      icon="fas fa-trash"
+                      onclick={() => this.deleteEvent(event)}
+                    >
+                      {app.translator.trans('huseyinfiliz-pickem.admin.buttons.delete')}
                     </Button>
                   </td>
                 </tr>
@@ -72,5 +78,16 @@ export default class EventsTab extends Component {
         </table>
       </div>
     );
+  }
+
+  // YENİ: Silme fonksiyonu eklendi
+  deleteEvent(event) {
+    if (!confirm(app.translator.trans('huseyinfiliz-pickem.admin.events.delete_confirmation'))) {
+      return;
+    }
+
+    event.delete().then(() => {
+      m.redraw();
+    });
   }
 }

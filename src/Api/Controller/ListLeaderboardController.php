@@ -3,6 +3,7 @@
 namespace HuseyinFiliz\Pickem\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
+use Flarum\Http\RequestUtil; // Import eklendi
 use HuseyinFiliz\Pickem\Api\Serializer\UserScoreSerializer;
 use HuseyinFiliz\Pickem\UserScore;
 use Illuminate\Support\Arr;
@@ -17,6 +18,10 @@ class ListLeaderboardController extends AbstractListController
 
     protected function data(ServerRequestInterface $request, Document $document)
     {
+        $actor = RequestUtil::getActor($request);
+        // Skor tablosunu görmek için Flarum izni kontrolü eklendi.
+        $actor->assertPermission('pickem.viewLeaderboard');
+
         $query = UserScore::query();
 
         // Filter by season if provided

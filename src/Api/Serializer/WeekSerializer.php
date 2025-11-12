@@ -34,6 +34,11 @@ class WeekSerializer extends AbstractSerializer
      */
     public function season($week)
     {
+        // EKLENDİ: İlişki null ise (yani haftanın sezonu yoksa)
+        // Flarum'un çökmemesi için null döndür.
+        if (!$week->season) {
+            return null;
+        }
         return $this->hasOne($week, SeasonSerializer::class);
     }
 
@@ -42,6 +47,11 @@ class WeekSerializer extends AbstractSerializer
      */
     public function events($week)
     {
+        // DÜZELTME: Bu ilişki de null olabilir, 
+        // en iyi pratik olarak buraya da kontrol ekleyelim.
+        if (!$week->events) {
+            return null;
+        }
         return $this->hasMany($week, EventSerializer::class);
     }
 }

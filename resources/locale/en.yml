@@ -199,18 +199,6 @@ huseyinfiliz-pickem:
       draw: "The match ended in a draw."
       
   ##
-  ## EMAILS
+  ## EMAILS (Kaldırıldı)
   ##
-  emails:
-    event_result:
-      subject: "Match Result: {homeTeam} vs {awayTeam}"
-      body: |
-        The match between {homeTeam} and {awayTeam} has finished.
-        
-        Final Score: {homeTeam} {homeScore} - {awayScore} {awayTeam}
-        Result: {result}
-        
-        Your pick: {yourPick}
-        {correctnessMessage}
-        
-        View your updated leaderboard position: {leaderboardUrl}
+  # E-posta ile ilgili çeviriler, e-posta sistemi kaldırıldığı için silindi.

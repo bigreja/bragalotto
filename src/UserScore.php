@@ -16,8 +16,7 @@ use Flarum\User\User;
  * @property float $accuracy
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * 
- * @property-read User $user
+ * * @property-read User $user
  * @property-read Season|null $season
  */
 class UserScore extends AbstractModel
@@ -116,34 +115,10 @@ class UserScore extends AbstractModel
         return $this->total_picks > 0;
     }
 
-    /**
-     * Get rank for this score
-     */
-    public function getRank(): int
-    {
-        $query = self::query()
-            ->where('season_id', $this->season_id);
-
-        // Count users with higher points
-        $higherPoints = $query->clone()
-            ->where('total_points', '>', $this->total_points)
-            ->count();
-
-        // Count users with same points but more correct picks
-        $samePointsHigherCorrect = $query->clone()
-            ->where('total_points', $this->total_points)
-            ->where('correct_picks', '>', $this->correct_picks)
-            ->count();
-
-        // Count users with same points and correct picks but fewer total picks
-        $samePointsSameCorrectFewerTotal = $query->clone()
-            ->where('total_points', $this->total_points)
-            ->where('correct_picks', $this->correct_picks)
-            ->where('total_picks', '<', $this->total_picks)
-            ->count();
-
-        return $higherPoints + $samePointsHigherCorrect + $samePointsSameCorrectFewerTotal + 1;
-    }
+    // getRank() metodu kaldırıldı.
+    // Sıralama (rank) JavaScript tarafında (client-side) 
+    // LeaderboardPage.js ve PickemPage.js içinde .sort() ile yapılıyor.
+    // Bu, modeli sadeleştirir ve "ölü kod" (dead code) kaldırılmış olur.
 
     /**
      * Get formatted accuracy string

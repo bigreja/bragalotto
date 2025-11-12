@@ -19,7 +19,8 @@ class CreateSeasonController extends AbstractCreateController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertAdmin();
+        // assertAdmin() yerine standart Flarum izni kullanıldı.
+        $actor->assertPermission('pickem.manage');
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
 

@@ -4,21 +4,20 @@ namespace HuseyinFiliz\Pickem\Api\Controller;
 
 use Flarum\Api\Controller\AbstractDeleteController;
 use Flarum\Http\RequestUtil;
-use HuseyinFiliz\Pickem\Team;
+use HuseyinFiliz\Pickem\Event;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 
-class DeleteTeamController extends AbstractDeleteController
+class DeleteEventController extends AbstractDeleteController
 {
     protected function delete(ServerRequestInterface $request)
     {
         $actor = RequestUtil::getActor($request);
-        // assertAdmin() yerine standart Flarum izni kullanıldı.
         $actor->assertPermission('pickem.manage');
 
         $id = Arr::get($request->getQueryParams(), 'id');
-        $team = Team::findOrFail($id);
+        $event = Event::findOrFail($id);
 
-        $team->delete();
+        $event->delete();
     }
 }

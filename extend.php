@@ -4,7 +4,6 @@ namespace HuseyinFiliz\Pickem;
 
 use Flarum\Extend;
 use Flarum\User\User;
-use HuseyinFiliz\Pickem\Access\PickemPolicy;
 use HuseyinFiliz\Pickem\Api\Controller;
 use HuseyinFiliz\Pickem\Api\Serializer;
 
@@ -33,15 +32,20 @@ return [
         // Seasons
         ->get('/pickem-seasons', 'pickem.seasons.index', Controller\ListSeasonsController::class)
         ->post('/pickem-seasons', 'pickem.seasons.create', Controller\CreateSeasonController::class)
+        ->patch('/pickem-seasons/{id}', 'pickem.seasons.update', Controller\UpdateSeasonController::class)
+        ->delete('/pickem-seasons/{id}', 'pickem.seasons.delete', Controller\DeleteSeasonController::class)
         
         // Weeks
         ->get('/pickem-weeks', 'pickem.weeks.index', Controller\ListWeeksController::class)
         ->post('/pickem-weeks', 'pickem.weeks.create', Controller\CreateWeekController::class)
+        ->patch('/pickem-weeks/{id}', 'pickem.weeks.update', Controller\UpdateWeekController::class)
+        ->delete('/pickem-weeks/{id}', 'pickem.weeks.delete', Controller\DeleteWeekController::class)
         
         // Events (Matches)
         ->get('/pickem-events', 'pickem.events.index', Controller\ListEventsController::class)
         ->post('/pickem-events', 'pickem.events.create', Controller\CreateEventController::class)
         ->patch('/pickem-events/{id}', 'pickem.events.update', Controller\UpdateEventController::class)
+        ->delete('/pickem-events/{id}', 'pickem.events.delete', Controller\DeleteEventController::class) // Maç silme yolu
         
         // Picks
         ->get('/pickem-picks', 'pickem.picks.index', Controller\ListPicksController::class)
@@ -54,7 +58,7 @@ return [
     (new Extend\ApiSerializer(\Flarum\Api\Serializer\ForumSerializer::class))
         ->attributes(function ($serializer) {
             return [
-                'pickem.canManage' => $serializer->getActor()->isAdmin(),
+                'pickem.canManage' => $serializer->getActor()->hasPermission('pickem.manage'),
             ];
         }),
 
@@ -67,7 +71,7 @@ return [
             return $model->hasMany(UserScore::class, 'user_id');
         }),
 
-    // Event Listeners - Sadece bunlar yeterli
+    // Event Listeners
     (new Extend\Event())
         ->listen(\Illuminate\Database\Events\Saved::class, Listener\UpdateUserScoresListener::class)
         ->listen(\Illuminate\Database\Events\Saved::class, Listener\SendResultNotificationsListener::class),
@@ -76,7 +80,6 @@ return [
     (new Extend\Notification())
         ->type(Notification\EventResultBlueprint::class, Serializer\EventSerializer::class, ['alert']),
 
-    // Permissions
-    (new Extend\Policy())
-        ->modelPolicy(User::class, PickemPolicy::class),
+    // PickemPolicy (Access/PickemPolicy.php) kaldırıldığı için
+    // (new Extend\Policy()) kaydı da buradan kaldırıldı.
 ];
