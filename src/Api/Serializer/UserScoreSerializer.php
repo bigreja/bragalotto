@@ -25,15 +25,15 @@ class UserScoreSerializer extends AbstractSerializer
         }
 
         return [
-            'id' => (string) $score->id,
+            'id' => (string) $score->id, // String olarak döndür
             'userId' => $score->user_id,
             'seasonId' => $score->season_id,
             'totalPoints' => (int) $score->total_points,
             'totalPicks' => (int) $score->total_picks,
             'correctPicks' => (int) $score->correct_picks,
-            'accuracy' => $accuracy, // Hesaplanmış değer
-            'createdAt' => $this->formatDate($score->created_at),
-            'updatedAt' => $this->formatDate($score->updated_at),
+            'accuracy' => $accuracy,
+            'createdAt' => $score->created_at ? $this->formatDate($score->created_at) : null,
+            'updatedAt' => $score->updated_at ? $this->formatDate($score->updated_at) : null,
         ];
     }
 

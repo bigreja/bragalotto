@@ -5,6 +5,16 @@ import MyPicksTab from './MyPicksTab';
 import LeaderboardTab from './LeaderboardTab';
 
 export default class PickemPage extends Page {
+  private activeTab: string = 'matches';
+  private loading: boolean = true;
+  private events: any[] = [];
+  private picks: Record<string, any> = {};
+  private userScores: any[] = [];
+  private pickLoading: Set<number> = new Set();
+  private eventsPage: number = 0;
+  private eventsHasMore: boolean = true;
+  private eventsLoading: boolean = false;
+
   oninit(vnode: any) {
     super.oninit(vnode);
 
@@ -14,7 +24,6 @@ export default class PickemPage extends Page {
     this.picks = {};
     this.userScores = [];
     this.pickLoading = new Set();
-
     this.eventsPage = 0;
     this.eventsHasMore = true;
     this.eventsLoading = false;
@@ -24,7 +33,11 @@ export default class PickemPage extends Page {
 
   async loadInitialData() {
     try {
-      await Promise.all([this.loadEvents(true), this.loadPicks(), this.loadLeaderboard()]);
+      await Promise.all([
+        this.loadEvents(true), 
+        this.loadPicks(), 
+        this.loadLeaderboard()
+      ]);
     } catch (error) {
       console.error('Error loading initial data:', error);
     } finally {
@@ -108,13 +121,13 @@ export default class PickemPage extends Page {
     m.redraw();
 
     try {
-    const pick = await app.store.createRecord('pickem-picks').save({
-      eventId: eventId,
-      selectedOutcome: outcome,
-    });
-    
-    this.picks[idStr] = pick as any;
-    app.alerts.show({ type: 'success' }, 'Pick saved successfully!');
+      const pick = await app.store.createRecord('pickem-picks').save({
+        eventId: eventId,
+        selectedOutcome: outcome,
+      });
+      
+      this.picks[idStr] = pick as any;
+      app.alerts.show({ type: 'success' }, 'Pick saved successfully!');
     } catch (error: any) {
       console.error('Error making pick:', error);
       const message = error?.response?.errors?.[0]?.detail || 'Failed to save pick';

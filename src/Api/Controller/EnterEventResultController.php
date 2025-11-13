@@ -59,7 +59,8 @@ class EnterEventResultController extends AbstractShowController
         // Status'u finished yap
         $event->status = Event::STATUS_FINISHED;
         
-        $event->save();
+        // SaveQuietly - Listener'ı tetikleme (çünkü biz zaten aşağıda yapıyoruz)
+        $event->saveQuietly();
 
         // PICKS'LERİ GÜNCELLE
         $this->updatePicksForEvent($event);
@@ -91,30 +92,35 @@ class EnterEventResultController extends AbstractShowController
 
         $seasonId = $event->week ? $event->week->season_id : null;
 
-        foreach ($picks as $pick) {
-            if ($pick->user) {
-                $this->recalculateUserScore($pick->user_id, $seasonId);
-            }
+        // Benzersiz user_id'leri al
+        $userIds = $picks->pluck('user_id')->unique();
+
+        foreach ($userIds as $userId) {
+            $this->recalculateUserScore($userId, $seasonId);
         }
     }
 
     protected function recalculateUserScore(int $userId, ?int $seasonId): void
     {
+        // Bu kullanıcı + season için tek bir kayıt
         $userScore = UserScore::firstOrNew([
             'user_id' => $userId,
             'season_id' => $seasonId,
         ]);
 
+        // Bu season'daki tüm pick'leri getir
         $query = Pick::where('user_id', $userId)
             ->whereNotNull('is_correct');
 
         if ($seasonId) {
+            // Belirli bir season
             $query->whereHas('event.week', function ($q) use ($seasonId) {
                 $q->where('season_id', $seasonId);
             });
         } else {
+            // Season olmayan event'ler veya week olmayan event'ler
             $query->whereHas('event', function ($q) {
-                $q->whereDoesntHave('week');
+                $q->whereNull('week_id');
             })->orWhereHas('event.week', function ($q) {
                 $q->whereNull('season_id');
             });
@@ -131,7 +137,6 @@ class EnterEventResultController extends AbstractShowController
 
     protected function sendNotifications(Event $event): void
     {
-        // Bu event için pick yapan kullanıcıları getir
         $picks = Pick::where('event_id', $event->id)
             ->with('user')
             ->get();
@@ -142,7 +147,6 @@ class EnterEventResultController extends AbstractShowController
             return;
         }
 
-        // Hepsine bildirim gönder
         $this->notifications->sync(
             new EventResultBlueprint($event),
             $users->all()

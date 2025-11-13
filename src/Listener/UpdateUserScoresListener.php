@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Events\Saved;
 
 /**
  * Event result set edildiğinde pick'leri ve score'ları günceller
+ * NOT: EnterEventResultController zaten bu işi yapıyor,
+ * bu listener sadece başka yollarla (UpdateEventController gibi) 
+ * result güncellenirse çalışır
  */
 class UpdateUserScoresListener
 {
@@ -41,7 +44,7 @@ class UpdateUserScoresListener
     {
         Pick::where('event_id', $event->id)->get()->each(function (Pick $pick) use ($event) {
             $pick->is_correct = ($pick->selected_outcome === $event->result);
-            $pick->saveQuietly(); // Event tetikleme, sonsuz döngü önlemek için
+            $pick->saveQuietly(); // Event tetikleme
         });
     }
 
@@ -54,12 +57,14 @@ class UpdateUserScoresListener
             ->with('user')
             ->get();
 
+        // Event'in season'ını bul
         $seasonId = $event->week ? $event->week->season_id : null;
 
-        foreach ($picks as $pick) {
-            if ($pick->user) {
-                $this->recalculateUserScore($pick->user_id, $seasonId);
-            }
+        // Benzersiz user_id'leri al
+        $userIds = $picks->pluck('user_id')->unique();
+
+        foreach ($userIds as $userId) {
+            $this->recalculateUserScore($userId, $seasonId);
         }
     }
 
@@ -68,24 +73,25 @@ class UpdateUserScoresListener
      */
     protected function recalculateUserScore(int $userId, ?int $seasonId): void
     {
+        // Bu kullanıcı + season için tek bir kayıt
         $userScore = UserScore::firstOrNew([
             'user_id' => $userId,
             'season_id' => $seasonId,
         ]);
 
-        // Bu kullanıcının bu season için tüm pick'lerini getir
+        // Bu season'daki tüm pick'leri getir
         $query = Pick::where('user_id', $userId)
             ->whereNotNull('is_correct');
 
-        // Season filtresi
         if ($seasonId) {
+            // Belirli bir season
             $query->whereHas('event.week', function ($q) use ($seasonId) {
                 $q->where('season_id', $seasonId);
             });
         } else {
-            // Season olmayan event'ler
+            // Season olmayan event'ler veya week olmayan event'ler
             $query->whereHas('event', function ($q) {
-                $q->whereDoesntHave('week');
+                $q->whereNull('week_id');
             })->orWhereHas('event.week', function ($q) {
                 $q->whereNull('season_id');
             });
@@ -93,12 +99,10 @@ class UpdateUserScoresListener
 
         $picks = $query->get();
         
-        // SADECE 3 KOLON
+        // Hesaplama
         $userScore->total_picks = $picks->count();
         $userScore->correct_picks = $picks->where('is_correct', true)->count();
         $userScore->total_points = $userScore->correct_picks;
-
-        // ACCURACY SİLİNDİ
 
         $userScore->save();
     }

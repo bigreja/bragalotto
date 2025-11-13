@@ -1,118 +1,112 @@
 import Component from 'flarum/common/Component';
 
-export default class LeaderboardTab extends Component {
+interface LeaderboardTabAttrs {
+  userScores: any[];
+}
+
+export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
   view() {
     const { userScores } = this.attrs;
 
     if (!userScores || userScores.length === 0) {
       return (
-        <div className="LeaderboardPage-empty">
-          <i className="fas fa-trophy" style="font-size: 48px; opacity: 0.3; margin-bottom: 16px;" />
-          <p>No scores yet</p>
+        <div className="LeaderboardTab">
+          <p>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.no_scores')}</p>
         </div>
       );
     }
 
-    const sorted = [...userScores].sort((a: any, b: any) => {
-      const aPoints = typeof a.totalPoints === 'function' ? a.totalPoints() : 0;
-      const bPoints = typeof b.totalPoints === 'function' ? b.totalPoints() : 0;
-      return bPoints - aPoints;
-    });
-
-    const top3 = sorted.slice(0, 3);
-    const rest = sorted.slice(3);
-
     return (
-      <div>
-        {top3.length > 0 && <div className="Podium">{top3.map((score, index) => this.renderPodiumCard(score, index + 1))}</div>}
-
-        {rest.length > 0 && (
-          <table className="LeaderboardTable">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Player</th>
-                <th>Points</th>
-                <th>Correct</th>
-                <th>Total</th>
-                <th>Accuracy</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rest.map((score: any, index: number) => {
-                const rank = index + 4;
-                const user = typeof score.user === 'function' ? score.user() : null;
-                const scoreId = typeof score.id === 'function' ? score.id() : Math.random();
-
-                return (
-                  <tr key={scoreId}>
-                    <td>{rank}</td>
-                    <td>{user && typeof user.displayName === 'function' ? user.displayName() : 'Unknown'}</td>
-                    <td>
-                      <strong>{typeof score.totalPoints === 'function' ? score.totalPoints() : 0}</strong>
-                    </td>
-                    <td>{typeof score.correctPicks === 'function' ? score.correctPicks() : 0}</td>
-                    <td>{typeof score.totalPicks === 'function' ? score.totalPicks() : 0}</td>
-                    <td>{typeof score.accuracy === 'function' ? score.accuracy() : 0}%</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        )}
+      <div className="LeaderboardTab">
+        <div className="Leaderboard">
+          {userScores.length >= 3 && this.renderPodium(userScores.slice(0, 3))}
+          {this.renderTable(userScores)}
+        </div>
       </div>
     );
   }
 
-  renderPodiumCard(score: any, rank: number) {
-    const user = typeof score.user === 'function' ? score.user() : null;
-    const username = user && typeof user.displayName === 'function' ? user.displayName() : 'Unknown';
-    const points = typeof score.totalPoints === 'function' ? score.totalPoints() : 0;
-    const correct = typeof score.correctPicks === 'function' ? score.correctPicks() : 0;
-    const total = typeof score.totalPicks === 'function' ? score.totalPicks() : 0;
-    const accuracy = typeof score.accuracy === 'function' ? score.accuracy() : 0;
-
-    let rankClass = '';
-    let medal = '';
-    let rankText = '';
-
-    if (rank === 1) {
-      rankClass = 'first';
-      medal = '🥇';
-      rankText = '1st Place';
-    } else if (rank === 2) {
-      rankClass = 'second';
-      medal = '🥈';
-      rankText = '2nd Place';
-    } else if (rank === 3) {
-      rankClass = 'third';
-      medal = '🥉';
-      rankText = '3rd Place';
-    }
+  renderPodium(topThree: any[]) {
+    const medals = ['🥇', '🥈', '🥉'];
+    const positions = ['first', 'second', 'third'];
 
     return (
-      <div className={`Podium-card ${rankClass}`} key={rank}>
-        <div className="medal">{medal}</div>
-        <div className="rank">{rankText}</div>
-        <div className="username">{username}</div>
-        <div className="points">
-          {points} <small>pts</small>
-        </div>
-        <div className="stats">
-          <div className="stat">
-            <div className="label">Correct</div>
-            <div className="value">{correct}</div>
-          </div>
-          <div className="stat">
-            <div className="label">Total</div>
-            <div className="value">{total}</div>
-          </div>
-          <div className="stat">
-            <div className="label">Accuracy</div>
-            <div className="value">{accuracy}%</div>
-          </div>
-        </div>
+      <div className="Podium">
+        {topThree.map((score: any, index: number) => {
+          const user = score && (typeof score.user === 'function' ? score.user() : score.user);
+          const totalPoints = typeof score.totalPoints === 'function' ? score.totalPoints() : score.totalPoints;
+          const correctPicks = typeof score.correctPicks === 'function' ? score.correctPicks() : score.correctPicks;
+          const totalPicks = typeof score.totalPicks === 'function' ? score.totalPicks() : score.totalPicks;
+          const accuracy = totalPicks > 0 ? ((correctPicks / totalPicks) * 100).toFixed(1) : '0.0';
+
+          return (
+            <div className={`Podium-card ${positions[index]}`} key={index}>
+              <div className="medal">{medals[index]}</div>
+              <div className="rank">#{index + 1}</div>
+              <div className="username">
+                {user ? (typeof user.displayName === 'function' ? user.displayName() : user.displayName) : 'Unknown'}
+              </div>
+              <div className="points">
+                {totalPoints}
+                <small>pts</small>
+              </div>
+              <div className="stats">
+                <div className="stat">
+                  <div className="label">Correct</div>
+                  <div className="value">{correctPicks}</div>
+                </div>
+                <div className="stat">
+                  <div className="label">Accuracy</div>
+                  <div className="value">{accuracy}%</div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
+    );
+  }
+
+  renderTable(userScores: any[]) {
+    return (
+      <table className="LeaderboardTable">
+        <thead>
+          <tr>
+            <th>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.rank')}</th>
+            <th>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.player')}</th>
+            <th>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.points')}</th>
+            <th>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.correct')}</th>
+            <th>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.total')}</th>
+            <th>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.accuracy')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {userScores.map((score: any, index: number) => {
+            const user = score && (typeof score.user === 'function' ? score.user() : score.user);
+            const scoreId = (score && (typeof score.id === 'function' ? score.id() : score.id)) || index;
+            
+            const totalPoints = typeof score.totalPoints === 'function' ? score.totalPoints() : score.totalPoints;
+            const correctPicks = typeof score.correctPicks === 'function' ? score.correctPicks() : score.correctPicks;
+            const totalPicks = typeof score.totalPicks === 'function' ? score.totalPicks() : score.totalPicks;
+            const accuracy = totalPicks > 0 ? ((correctPicks / totalPicks) * 100).toFixed(1) : '0.0';
+
+            return (
+              <tr key={String(scoreId)} className={index < 3 ? `top-${index + 1}` : ''}>
+                <td>{index + 1}</td>
+                <td>
+                  <strong>
+                    {user ? (typeof user.displayName === 'function' ? user.displayName() : user.displayName) : 'Unknown'}
+                  </strong>
+                </td>
+                <td><strong>{totalPoints}</strong></td>
+                <td>{correctPicks}</td>
+                <td>{totalPicks}</td>
+                <td>{accuracy}%</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     );
   }
 }
