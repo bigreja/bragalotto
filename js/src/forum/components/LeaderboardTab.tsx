@@ -36,8 +36,9 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
           const user = score && (typeof score.user === 'function' ? score.user() : score.user);
           const totalPoints = typeof score.totalPoints === 'function' ? score.totalPoints() : score.totalPoints;
           const correctPicks = typeof score.correctPicks === 'function' ? score.correctPicks() : score.correctPicks;
-          const totalPicks = typeof score.totalPicks === 'function' ? score.totalPicks() : score.totalPicks;
-          const accuracy = totalPicks > 0 ? ((correctPicks / totalPicks) * 100).toFixed(1) : '0.0';
+          // DÜZELTME: Manuel 'accuracy' hesaplaması kaldırıldı.
+          // const totalPicks = typeof score.totalPicks === 'function' ? score.totalPicks() : score.totalPicks;
+          // const accuracy = totalPicks > 0 ? ((correctPicks / totalPicks) * 100).toFixed(1) : '0.0';
 
           return (
             <div className={`Podium-card ${positions[index]}`} key={index}>
@@ -57,7 +58,8 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
                 </div>
                 <div className="stat">
                   <div className="label">Accuracy</div>
-                  <div className="value">{accuracy}%</div>
+                  {/* DÜZELTME: API'den gelen 'accuracy' verisi kullanıldı */}
+                  <div className="value">{score.accuracy()}%</div>
                 </div>
               </div>
             </div>
@@ -88,7 +90,8 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
             const totalPoints = typeof score.totalPoints === 'function' ? score.totalPoints() : score.totalPoints;
             const correctPicks = typeof score.correctPicks === 'function' ? score.correctPicks() : score.correctPicks;
             const totalPicks = typeof score.totalPicks === 'function' ? score.totalPicks() : score.totalPicks;
-            const accuracy = totalPicks > 0 ? ((correctPicks / totalPicks) * 100).toFixed(1) : '0.0';
+            // DÜZELTME: Manuel 'accuracy' hesaplaması kaldırıldı.
+            // const accuracy = totalPicks > 0 ? ((correctPicks / totalPicks) * 100).toFixed(1) : '0.0';
 
             return (
               <tr key={String(scoreId)} className={index < 3 ? `top-${index + 1}` : ''}>
@@ -101,7 +104,8 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
                 <td><strong>{totalPoints}</strong></td>
                 <td>{correctPicks}</td>
                 <td>{totalPicks}</td>
-                <td>{accuracy}%</td>
+                {/* DÜZELTME: API'den gelen 'accuracy' verisi kullanıldı */}
+                <td>{score.accuracy()}%</td>
               </tr>
             );
           })}

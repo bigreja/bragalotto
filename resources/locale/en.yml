@@ -79,7 +79,7 @@ huseyinfiliz-pickem:
       seasons: "Seasons"
       weeks: "Weeks"
       events: "Matches"
-      settings: "Settings"
+      settings: "Settings" # YENİ EKLENDİ
       
     permissions:
       manage: "Manage pick'em system"
@@ -94,6 +94,12 @@ huseyinfiliz-pickem:
       enable_notifications_help: "Send notifications to users when match results are available"
       show_other_picks_after_cutoff: "Show other users' picks after cutoff"
       show_other_picks_after_cutoff_help: "Allow users to see what others picked after the cutoff time"
+      # YENİ METİNLER
+      recalculate_scores_button: "Recalculate All Scores"
+      recalculate_scores_help: "This will delete all current scores and recalculate them from scratch for every user. This is a heavy operation and should be run in the background. It will use your Flarum queue."
+      recalculate_scores_confirm: "Are you sure you want to recalculate all scores? This cannot be undone and may take a long time."
+      recalculate_scores_success: "Score recalculation has been queued. It will be processed in the background."
+      recalculate_scores_fail: "An error occurred while queueing the score recalculation."
       
     buttons:
       save: "Save"

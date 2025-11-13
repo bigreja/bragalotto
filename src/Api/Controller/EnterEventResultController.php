@@ -8,8 +8,9 @@ use Flarum\Notification\NotificationSyncer;
 use HuseyinFiliz\Pickem\Api\Serializer\EventSerializer;
 use HuseyinFiliz\Pickem\Event;
 use HuseyinFiliz\Pickem\Pick;
-use HuseyinFiliz\Pickem\UserScore;
+// use HuseyinFiliz\Pickem\UserScore; // Artık burada gerekmiyor
 use HuseyinFiliz\Pickem\Notification\EventResultBlueprint;
+use HuseyinFiliz\Pickem\PickemScoringService; // YENİ: Servisi import et
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
@@ -20,10 +21,12 @@ class EnterEventResultController extends AbstractShowController
     public $include = ['homeTeam', 'awayTeam', 'week'];
 
     protected $notifications;
+    protected $scoringService; // YENİ: Servis için özellik
 
-    public function __construct(NotificationSyncer $notifications)
+    public function __construct(NotificationSyncer $notifications, PickemScoringService $scoringService) // YENİ: Servisi enjekte et
     {
         $this->notifications = $notifications;
+        $this->scoringService = $scoringService; // YENİ: Servisi ata
     }
 
     protected function data(ServerRequestInterface $request, Document $document)
@@ -62,12 +65,9 @@ class EnterEventResultController extends AbstractShowController
         // SaveQuietly - Listener'ı tetikleme (çünkü biz zaten aşağıda yapıyoruz)
         $event->saveQuietly();
 
-        // PICKS'LERİ GÜNCELLE
-        $this->updatePicksForEvent($event);
+        // DÜZELTME: Yinelenen mantık yerine servisi çağır
+        $this->scoringService->updateScoresForEvent($event);
         
-        // SCORES'LARI GÜNCELLE
-        $this->updateUserScoresForEvent($event);
-
         // BİLDİRİMLER GÖNDER
         $this->sendNotifications($event);
 
@@ -76,64 +76,10 @@ class EnterEventResultController extends AbstractShowController
         return $event;
     }
 
-    protected function updatePicksForEvent(Event $event): void
-    {
-        Pick::where('event_id', $event->id)->get()->each(function (Pick $pick) use ($event) {
-            $pick->is_correct = ($pick->selected_outcome === $event->result);
-            $pick->save();
-        });
-    }
-
-    protected function updateUserScoresForEvent(Event $event): void
-    {
-        $picks = Pick::where('event_id', $event->id)
-            ->with('user')
-            ->get();
-
-        $seasonId = $event->week ? $event->week->season_id : null;
-
-        // Benzersiz user_id'leri al
-        $userIds = $picks->pluck('user_id')->unique();
-
-        foreach ($userIds as $userId) {
-            $this->recalculateUserScore($userId, $seasonId);
-        }
-    }
-
-    protected function recalculateUserScore(int $userId, ?int $seasonId): void
-    {
-        // Bu kullanıcı + season için tek bir kayıt
-        $userScore = UserScore::firstOrNew([
-            'user_id' => $userId,
-            'season_id' => $seasonId,
-        ]);
-
-        // Bu season'daki tüm pick'leri getir
-        $query = Pick::where('user_id', $userId)
-            ->whereNotNull('is_correct');
-
-        if ($seasonId) {
-            // Belirli bir season
-            $query->whereHas('event.week', function ($q) use ($seasonId) {
-                $q->where('season_id', $seasonId);
-            });
-        } else {
-            // Season olmayan event'ler veya week olmayan event'ler
-            $query->whereHas('event', function ($q) {
-                $q->whereNull('week_id');
-            })->orWhereHas('event.week', function ($q) {
-                $q->whereNull('season_id');
-            });
-        }
-
-        $picks = $query->get();
-        
-        $userScore->total_picks = $picks->count();
-        $userScore->correct_picks = $picks->where('is_correct', true)->count();
-        $userScore->total_points = $userScore->correct_picks;
-
-        $userScore->save();
-    }
+    // DÜZELTME: Bu metodlar artık Scoring Service'te olduğu için kaldırıldı
+    // protected function updatePicksForEvent(Event $event): void { ... }
+    // protected function updateUserScoresForEvent(Event $event): void { ... }
+    // protected function recalculateUserScore(int $userId, ?int $seasonId): void { ... }
 
     protected function sendNotifications(Event $event): void
     {

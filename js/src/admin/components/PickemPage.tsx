@@ -4,6 +4,7 @@ import TeamsTab from './TeamsTab';
 import SeasonsTab from './SeasonsTab';
 import WeeksTab from './WeeksTab';
 import EventsTab from './EventsTab';
+import SettingsTab from './SettingsTab'; // YENİ: SettingsTab'ı import et
 
 export default class PickemPage extends ExtensionPage {
   private activeTab: string = 'events';
@@ -12,9 +13,9 @@ export default class PickemPage extends ExtensionPage {
   oninit(vnode: any) {
     super.oninit(vnode);
     
-    // URL'den tab al ama sadece ilk kez
     const urlTab = m.route.param('tab');
-    if (urlTab && ['events', 'teams', 'seasons', 'weeks'].includes(urlTab)) {
+    // YENİ: 'settings' sekmesini geçerli tab'lara ekle
+    if (urlTab && ['events', 'teams', 'seasons', 'weeks', 'settings'].includes(urlTab)) {
       this.activeTab = urlTab;
     }
     
@@ -46,6 +47,8 @@ export default class PickemPage extends ExtensionPage {
             {this.renderTab('teams', 'fas fa-users', app.translator.trans('huseyinfiliz-pickem.admin.nav.teams'))}
             {this.renderTab('seasons', 'fas fa-calendar-alt', app.translator.trans('huseyinfiliz-pickem.admin.nav.seasons'))}
             {this.renderTab('weeks', 'fas fa-calendar-week', app.translator.trans('huseyinfiliz-pickem.admin.nav.weeks'))}
+            {/* YENİ: Settings sekme butonu eklendi */}
+            {this.renderTab('settings', 'fas fa-cogs', app.translator.trans('huseyinfiliz-pickem.admin.nav.settings'))}
           </div>
 
           <div className="PickemPage-content">
@@ -90,6 +93,9 @@ export default class PickemPage extends ExtensionPage {
         return <SeasonsTab />;
       case 'weeks':
         return <WeeksTab />;
+      // YENİ: 'settings' durumu için SettingsTab bileşenini döndür
+      case 'settings':
+        return <SettingsTab />;
       default:
         return <EventsTab />;
     }

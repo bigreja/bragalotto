@@ -14,7 +14,7 @@ class ListLeaderboardController extends AbstractListController
 {
     public $serializer = UserScoreSerializer::class;
 
-    public $include = ['user', 'season'];
+    public $include = ['user']; // 'season' ilişkisine artık gerek yok
 
     protected function data(ServerRequestInterface $request, Document $document)
     {
@@ -23,17 +23,16 @@ class ListLeaderboardController extends AbstractListController
 
         $query = UserScore::query();
 
-        // Filter by season if provided
-        if ($seasonId = Arr::get($request->getQueryParams(), 'filter.season')) {
-            $query->where('season_id', $seasonId);
-        }
+        // DÜZELTME: Sezon filtresi mantığı tamamen kaldırıldı.
+        // Her zaman 'season_id'si olmayan (genel toplam) puanları getir.
+        $query->whereNull('season_id');
 
-        // Order by total points descending
+        // Puana göre sırala
         $query->orderBy('total_points', 'desc')
               ->orderBy('correct_picks', 'desc');
 
-        // Eager load relationships
-        $query->with(['user', 'season']);
+        // İlişkisel veriyi yükle
+        $query->with(['user']);
 
         return $query->get();
     }

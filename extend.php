@@ -45,16 +45,21 @@ return [
         ->get('/pickem-events', 'pickem.events.index', Controller\ListEventsController::class)
         ->post('/pickem-events', 'pickem.events.create', Controller\CreateEventController::class)
         ->patch('/pickem-events/{id}', 'pickem.events.update', Controller\UpdateEventController::class)
-        ->delete('/pickem-events/{id}', 'pickem.events.delete', Controller\DeleteEventController::class) // Maç silme yolu
-	    ->post('/pickem-events/{id}/result', 'pickem.events.result', Controller\EnterEventResultController::class) // YENİ!
+        ->delete('/pickem-events/{id}', 'pickem.events.delete', Controller\DeleteEventController::class)
+	    ->post('/pickem-events/{id}/result', 'pickem.events.result', Controller\EnterEventResultController::class)
 
         
         // Picks
         ->get('/pickem-picks', 'pickem.picks.index', Controller\ListPicksController::class)
         ->post('/pickem-picks', 'pickem.picks.create', Controller\CreatePickController::class)
         
-        // Leaderboard
-        ->get('/pickem-user-scores', 'pickem.leaderboard.index', Controller\ListLeaderboardController::class),
+        // --- HATA BURADAYDI ---
+        // Leaderboard (EKSİK SATIR EKLENDİ)
+        ->get('/pickem-user-scores', 'pickem.leaderboard.index', Controller\ListLeaderboardController::class)
+        // --- HATA DÜZELTİLDİ ---
+
+        // Admin Tools
+        ->post('/pickem/recalculate-all-scores', 'pickem.recalculate_scores', Controller\RecalculateAllScoresController::class),
 
     // API Serializers
     (new Extend\ApiSerializer(\Flarum\Api\Serializer\ForumSerializer::class))
@@ -81,7 +86,4 @@ return [
     // Notifications
     (new Extend\Notification())
         ->type(Notification\EventResultBlueprint::class, Serializer\EventSerializer::class, ['alert']),
-
-    // PickemPolicy (Access/PickemPolicy.php) kaldırıldığı için
-    // (new Extend\Policy()) kaydı da buradan kaldırıldı.
 ];

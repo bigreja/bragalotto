@@ -24,6 +24,10 @@ class UserScore extends AbstractModel
 
     protected $table = 'pickem_user_scores';
 
+    // YENİ EKLENDİ: Bu satır, Eloquent'in created_at ve updated_at
+    // alanlarını otomatik olarak yönetmesini sağlar.
+    public $timestamps = true; 
+
     protected $fillable = [
         'user_id',
         'season_id',

@@ -18,11 +18,11 @@ class UserScoreSerializer extends AbstractSerializer
      */
     protected function getDefaultAttributes($score)
     {
-        // Accuracy'yi anlık hesapla
-        $accuracy = 0;
-        if ($score->total_picks > 0) {
-            $accuracy = round(($score->correct_picks / $score->total_picks) * 100, 2);
-        }
+        // DÜZELTME: Manuel hesaplama kaldırıldı.
+        // $accuracy = 0;
+        // if ($score->total_picks > 0) {
+        //     $accuracy = round(($score->correct_picks / $score->total_picks) * 100, 2);
+        // }
 
         return [
             'id' => (string) $score->id, // String olarak döndür
@@ -31,7 +31,8 @@ class UserScoreSerializer extends AbstractSerializer
             'totalPoints' => (int) $score->total_points,
             'totalPicks' => (int) $score->total_picks,
             'correctPicks' => (int) $score->correct_picks,
-            'accuracy' => $accuracy,
+            // DÜZELTME: Doğrudan modeldeki metod kullanıldı.
+            'accuracy' => $score->getAccuracyPercentage(),
             'createdAt' => $score->created_at ? $this->formatDate($score->created_at) : null,
             'updatedAt' => $score->updated_at ? $this->formatDate($score->updated_at) : null,
         ];

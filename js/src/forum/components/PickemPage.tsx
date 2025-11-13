@@ -108,7 +108,8 @@ export default class PickemPage extends Page {
 
   async loadLeaderboard() {
     try {
-      const scores = (await app.store.find('pickem-user-scores', { include: 'user,season' })) as any[];
+      // DÜZELTME: 'season' ilişkisini istemeyi bıraktık.
+      const scores = (await app.store.find('pickem-user-scores', { include: 'user' })) as any[];
       this.userScores = (scores || []).filter((s: any) => s != null);
     } catch (error) {
       console.error('Error loading leaderboard:', error);
