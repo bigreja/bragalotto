@@ -77,7 +77,6 @@ export default class EventCard extends Component<EventCardAttrs> {
           {status === 'scheduled' && '🟢 Live'}
           {status === 'closed' && '🔴 Closed'}
           {status === 'finished' && '⚫ Finished'}
-          {status === 'cancelled' && '⭕ Cancelled'}
         </div>
 
         {/* Teams */}

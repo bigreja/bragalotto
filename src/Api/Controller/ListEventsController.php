@@ -4,6 +4,7 @@ namespace HuseyinFiliz\Pickem\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
 use Flarum\Http\UrlGenerator;
+use Flarum\Http\RequestUtil; // Added for permission check
 use HuseyinFiliz\Pickem\Api\Serializer\EventSerializer;
 use HuseyinFiliz\Pickem\Event;
 use Illuminate\Support\Arr;
@@ -26,6 +27,10 @@ class ListEventsController extends AbstractListController
 
     protected function data(ServerRequestInterface $request, Document $document)
     {
+        // Permission check added
+        $actor = RequestUtil::getActor($request);
+        $actor->assertCan('pickem.view');
+
         $query = Event::query();
 
         // Filter by week if provided

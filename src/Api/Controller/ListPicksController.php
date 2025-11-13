@@ -21,7 +21,7 @@ class ListPicksController extends AbstractListController
         $actor = RequestUtil::getActor($request);
 
         // isGuest() kontrolü yerine standart Flarum izni kullanıldı.
-        $actor->assertPermission('pickem.makePicks');
+        $actor->assertCan('pickem.makePicks');
 
         $query = Pick::query();
 

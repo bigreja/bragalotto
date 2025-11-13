@@ -7,7 +7,7 @@ use Flarum\Http\RequestUtil;
 use HuseyinFiliz\Pickem\Api\Serializer\EventSerializer;
 use HuseyinFiliz\Pickem\Event;
 use HuseyinFiliz\Pickem\Validator\EventValidator; // YENİ: Validator'ı import et
-use Illuminate.Support\Arr;
+use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 use Carbon\Carbon;
@@ -33,7 +33,7 @@ class CreateEventController extends AbstractCreateController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertPermission('pickem.manage');
+        $actor->assertCan('pickem.manage');
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
 

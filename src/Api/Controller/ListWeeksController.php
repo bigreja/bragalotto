@@ -20,7 +20,7 @@ class ListWeeksController extends AbstractListController
     {
         // YENİ: Admin yetkisi kontrolü eklendi
         $actor = RequestUtil::getActor($request);
-        $actor->assertPermission('pickem.manage');
+        $actor->assertCan('pickem.manage');
 
         $query = Week::query();
 

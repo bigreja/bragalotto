@@ -61,7 +61,6 @@ huseyinfiliz-pickem:
         scheduled: "Scheduled"
         closed: "Closed"
         finished: "Finished"
-        cancelled: "Cancelled"
       result: "Result"
       score: "Score"
       
@@ -84,7 +83,7 @@ huseyinfiliz-pickem:
     permissions:
       manage: "Manage pick'em system"
       make_picks: "Make picks"
-      view_leaderboard: "View leaderboard"
+      view_page: "View Pick'em page"
       
     settings:
       title: "Pick'em Settings"
@@ -195,13 +194,12 @@ huseyinfiliz-pickem:
       scheduled: "Scheduled"
       closed: "Closed"
       finished: "Finished"
-      cancelled: "Cancelled"
+      # cancelled: "Cancelled" # Removed
       
     loading:
       title: "Loading..."
       data: "Loading data..."
 
-    # YENİ EKLENEN BÖLÜM
     alerts:
       result_saved_success: "Result saved and picks updated successfully!"
       result_saved_fail: "Failed to save result"
@@ -224,7 +222,6 @@ huseyinfiliz-pickem:
       unauthorized: "You don't have permission to perform this action."
       same_team: "Home team and away team cannot be the same."
 
-      # YENİ EKLENEN ANAHTARLAR
       team_in_use: "This team cannot be deleted because it is used in matches. Please update or delete the relevant matches first."
       season_in_use: "This season cannot be deleted because it has weeks associated with it. Please delete the relevant weeks first."
       week_in_use: "This week cannot be deleted because it has matches associated with it. Please update or delete the relevant matches first."

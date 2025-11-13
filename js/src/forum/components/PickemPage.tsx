@@ -18,6 +18,11 @@ export default class PickemPage extends Page {
   oninit(vnode: any) {
     super.oninit(vnode);
 
+    if (!app.forum.attribute('pickem.canView')) {
+      m.route.set('/'); 
+      return;
+    }
+
     this.activeTab = (m.route && m.route.param && m.route.param('tab')) || 'matches';
     this.loading = true;
     this.events = [];
@@ -33,11 +38,18 @@ export default class PickemPage extends Page {
 
   async loadInitialData() {
     try {
-      await Promise.all([
-        this.loadEvents(true), 
-        this.loadPicks(), 
-        this.loadLeaderboard()
-      ]);
+      const promises = [
+        this.loadEvents(true),
+      ];
+
+      if (app.session.user && app.forum.attribute('pickem.makePicks')) {
+        promises.push(this.loadPicks());
+      }
+      
+      promises.push(this.loadLeaderboard());
+
+      await Promise.all(promises);
+
     } catch (error) {
       console.error('Error loading initial data:', error);
     } finally {
@@ -80,7 +92,7 @@ export default class PickemPage extends Page {
   }
 
   async loadPicks() {
-    if (!app.session.user) return;
+    if (!app.session.user || !app.forum.attribute('pickem.makePicks')) return;
 
     try {
       const picks = (await app.store.find('pickem-picks', {
@@ -108,7 +120,6 @@ export default class PickemPage extends Page {
 
   async loadLeaderboard() {
     try {
-      // DÜZELTME: 'season' ilişkisini istemeyi bıraktık.
       const scores = (await app.store.find('pickem-user-scores', { include: 'user' })) as any[];
       this.userScores = (scores || []).filter((s: any) => s != null);
     } catch (error) {
@@ -128,11 +139,17 @@ export default class PickemPage extends Page {
       });
       
       this.picks[idStr] = pick as any;
-      app.alerts.show({ type: 'success' }, 'Pick saved successfully!');
+      app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.validation.success.pick_updated'));
     } catch (error: any) {
       console.error('Error making pick:', error);
-      const message = error?.response?.errors?.[0]?.detail || 'Failed to save pick';
-      app.alerts.show({ type: 'error' }, message);
+      
+      // Hata yönetimini Flarum'un standartlarına uygun hale getir
+      if (error.alert) {
+          app.alerts.show(error.alert);
+      } else {
+          app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.validation.errors.unauthorized'));
+      }
+
     } finally {
       this.pickLoading.delete(eventId);
       m.redraw();
@@ -150,7 +167,10 @@ export default class PickemPage extends Page {
 
           <div className="PickemPage-tabs">
             {this.renderTab('matches', app.translator.trans('huseyinfiliz-pickem.forum.nav.matches'))}
-            {this.renderTab('my_picks', app.translator.trans('huseyinfiliz-pickem.forum.nav.my_picks'))}
+            
+            {app.session.user && app.forum.attribute('pickem.makePicks') &&
+              this.renderTab('my_picks', app.translator.trans('huseyinfiliz-pickem.forum.nav.my_picks'))}
+
             {this.renderTab('leaderboard', app.translator.trans('huseyinfiliz-pickem.forum.nav.leaderboard'))}
           </div>
 
@@ -190,6 +210,7 @@ export default class PickemPage extends Page {
           />
         );
       case 'my_picks':
+        if (!app.session.user || !app.forum.attribute('pickem.makePicks')) return null;
         return <MyPicksTab picks={this.picks} />;
       case 'leaderboard':
         return <LeaderboardTab userScores={this.userScores} />;

@@ -9,8 +9,13 @@ export default class EventModal extends Modal {
     this.homeTeamId = this.event ? this.event.homeTeamId() : '0'; // '0' olarak başla
     this.awayTeamId = this.event ? this.event.awayTeamId() : '0'; // '0' olarak başla
     this.weekId = this.event ? this.event.weekId() : '0'; // '0' olarak başla
+    
+    // Bu kısım (formatDateForInput) DOĞRU. 
+    // Sunucudan gelen UTC saati (17:40) alıp, 
+    // input'ta sizin yerel saatiniz (20:40) olarak göstermeye yarıyor.
     this.matchDate = this.event ? this.formatDateForInput(this.event.matchDate()) : '';
     this.cutoffDate = this.event ? this.formatDateForInput(this.event.cutoffDate()) : '';
+
     this.allowDraw = this.event ? this.event.allowDraw() : false;
     this.status = this.event ? this.event.status() : 'scheduled';
   }
@@ -18,7 +23,8 @@ export default class EventModal extends Modal {
   formatDateForInput(dateString) {
     if (!dateString) return '';
     const date = new Date(dateString);
-    return date.toISOString().slice(0, 16); // datetime-local formatı
+    // Bu, UTC tarihi alır ve onu kullanıcının yerel saatine göre formatlar (datetime-local için gereklidir)
+    return date.toISOString().slice(0, 16); 
   }
 
   className() {
@@ -145,7 +151,6 @@ export default class EventModal extends Modal {
     e.preventDefault();
     this.loading = true;
 
-    // HATA DÜZELTMESİ: '0' ise null, değilse parseInt yap
     const weekId = this.weekId === '0' ? null : parseInt(this.weekId);
     const homeTeamId = this.homeTeamId === '0' ? null : parseInt(this.homeTeamId);
     const awayTeamId = this.awayTeamId === '0' ? null : parseInt(this.awayTeamId);
@@ -154,8 +159,15 @@ export default class EventModal extends Modal {
       weekId: weekId,
       homeTeamId: homeTeamId,
       awayTeamId: awayTeamId,
-      matchDate: this.matchDate ? new Date(this.matchDate).toISOString() : null,
-      cutoffDate: this.cutoffDate ? new Date(this.cutoffDate).toISOString() : null,
+      
+      // ---- DÜZELTME BURADA ----
+      // new Date(...).toISOString() DÖNÜŞÜMÜ KALDIRILDI.
+      // Artık input'taki (YYYY-MM-DDTHH:mm) string değeri neyse o gönderiliyor.
+      // Sunucu (Carbon::parse) bunu forumun varsayılan saati (UTC) olarak yorumlayacak.
+      matchDate: this.matchDate || null,
+      cutoffDate: this.cutoffDate || null,
+      // ---- DÜZELTME SONU ----
+
       allowDraw: this.allowDraw,
       status: this.status,
     };

@@ -3,11 +3,10 @@
 namespace HuseyinFiliz\Pickem\Api\Controller;
 
 use Flarum\Api\Controller\AbstractShowController;
-// use Flarum\Foundation\ValidationException; // Artık buna gerek yok
 use Flarum\Http\RequestUtil;
 use HuseyinFiliz\Pickem\Api\Serializer\EventSerializer;
 use HuseyinFiliz\Pickem\Event;
-use HuseyinFiliz\Pickem\Validator\EventValidator; // YENİ: Validator'ı import et
+use HuseyinFiliz\Pickem\Validator\EventValidator;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
@@ -21,12 +20,9 @@ class UpdateEventController extends AbstractShowController
     /**
      * @var EventValidator
      */
-    protected $validator; // YENİ: Validator için özellik
+    protected $validator;
 
-    /**
-     * @param EventValidator $validator
-     */
-    public function __construct(EventValidator $validator) // YENİ: Validator'ı enjekte et
+    public function __construct(EventValidator $validator)
     {
         $this->validator = $validator;
     }
@@ -34,19 +30,16 @@ class UpdateEventController extends AbstractShowController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertPermission('pickem.manage');
+        $actor->assertCan('pickem.manage');
 
         $id = Arr::get($request->getQueryParams(), 'id');
         $event = Event::with(['homeTeam', 'awayTeam', 'week'])->findOrFail($id);
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
 
-        // YENİ: Gelen veriyi Flarum Validator ile doğrula
-        // Validator, 'homeTeamId' 'awayTeamId'den farklı mı diye de kontrol edecek
-        // 'ignore($event)' ekleyerek mevcut modelin kendisini benzersizlik kontrolünden muaf tutarız
-        $this->validator->for($event)->assertValid($data);
-
-        // KALDIRILDI: Manuel doğrulama blokları kaldırıldı
+        // DÜZELTME: Model, 'model' özelliğine (property) atanmalıdır.
+        $this->validator->model = $event;
+        $this->validator->assertValid($data);
 
         // Temel alanları güncelle
         if (Arr::has($data, 'weekId')) {
@@ -71,7 +64,6 @@ class UpdateEventController extends AbstractShowController
             $event->status = Arr::get($data, 'status');
         }
 
-        // Skor güncellemesi (Validator zaten ikisinin de girilmesini zorunlu kıldı)
         if (Arr::has($data, 'homeScore') && Arr::has($data, 'awayScore')) {
             $event->home_score = (int) Arr::get($data, 'homeScore');
             $event->away_score = (int) Arr::get($data, 'awayScore');

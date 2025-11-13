@@ -3,10 +3,8 @@ import extenders from './extend';
 import PickemPage from './components/PickemPage';
 
 app.initializers.add('huseyinfiliz/pickem', () => {
-  // Model'leri kaydet
   extenders.forEach(extender => extender.extend(app));
 
-  // Admin sayfasını kaydet
   app.extensionData
     .for('huseyinfiliz-pickem')
     .registerPage(PickemPage)
@@ -21,8 +19,9 @@ app.initializers.add('huseyinfiliz/pickem', () => {
       permission: 'pickem.makePicks'
     }, 'start')
     .registerPermission({
-      icon: 'fas fa-chart-line',
-      label: app.translator.trans('huseyinfiliz-pickem.admin.permissions.view_leaderboard'),
-      permission: 'pickem.viewLeaderboard'
+      icon: 'fas fa-eye',
+      label: app.translator.trans('huseyinfiliz-pickem.admin.permissions.view_page'),
+      permission: 'pickem.view',
+	  allowGuest: true
     }, 'view');
 });

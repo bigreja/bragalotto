@@ -6,7 +6,7 @@ use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Http\RequestUtil;
 use HuseyinFiliz\Pickem\Api\Serializer\SeasonSerializer;
 use HuseyinFiliz\Pickem\Season;
-use HuseyinFiliz\Pickem\Validator\SeasonValidator; // YENİ
+use HuseyinFiliz\Pickem\Validator\SeasonValidator;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
@@ -16,15 +16,9 @@ class UpdateSeasonController extends AbstractShowController
 {
     public $serializer = SeasonSerializer::class;
 
-    /**
-     * @var SeasonValidator
-     */
-    protected $validator; // YENİ
+    protected $validator;
 
-    /**
-     * @param SeasonValidator $validator
-     */
-    public function __construct(SeasonValidator $validator) // YENİ
+    public function __construct(SeasonValidator $validator)
     {
         $this->validator = $validator;
     }
@@ -32,17 +26,17 @@ class UpdateSeasonController extends AbstractShowController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertPermission('pickem.manage');
+        $actor->assertCan('pickem.manage');
 
         $id = Arr::get($request->getQueryParams(), 'id');
         $season = Season::findOrFail($id);
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
 
-        // YENİ: Sadece gönderilen veriyi doğrula
-        $this->validator->for($season)->assertValid($data);
+        // DÜZELTME: Model, 'model' özelliğine (property) atanmalıdır.
+        $this->validator->model = $season;
+        $this->validator->assertValid($data);
 
-        // Alanlar 'data' dizisinde varsa güncelle
         if (Arr::has($data, 'name')) {
             $season->name = Arr::get($data, 'name');
         }

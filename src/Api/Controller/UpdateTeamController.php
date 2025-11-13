@@ -6,7 +6,7 @@ use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Http\RequestUtil;
 use HuseyinFiliz\Pickem\Api\Serializer\TeamSerializer;
 use HuseyinFiliz\Pickem\Team;
-use HuseyinFiliz\Pickem\Validator\TeamValidator; // YENİ
+use HuseyinFiliz\Pickem\Validator\TeamValidator;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
@@ -15,15 +15,9 @@ class UpdateTeamController extends AbstractShowController
 {
     public $serializer = TeamSerializer::class;
 
-    /**
-     * @var TeamValidator
-     */
-    protected $validator; // YENİ
+    protected $validator;
 
-    /**
-     * @param TeamValidator $validator
-     */
-    public function __construct(TeamValidator $validator) // YENİ
+    public function __construct(TeamValidator $validator)
     {
         $this->validator = $validator;
     }
@@ -31,15 +25,16 @@ class UpdateTeamController extends AbstractShowController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertPermission('pickem.manage');
+        $actor->assertCan('pickem.manage');
 
         $id = Arr::get($request->getQueryParams(), 'id');
         $team = Team::findOrFail($id);
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
 
-        // YENİ: Sadece gönderilen veriyi doğrula
-        $this->validator->for($team)->assertValid($data);
+        // DÜZELTME: Model, 'model' özelliğine (property) atanmalıdır.
+        $this->validator->model = $team;
+        $this->validator->assertValid($data);
 
         if (Arr::has($data, 'name')) {
             $team->name = Arr::get($data, 'name');

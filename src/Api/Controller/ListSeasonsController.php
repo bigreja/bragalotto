@@ -17,7 +17,7 @@ class ListSeasonsController extends AbstractListController
     {
         // YENİ: Admin yetkisi kontrolü eklendi
         $actor = RequestUtil::getActor($request);
-        $actor->assertPermission('pickem.manage');
+        $actor->assertCan('pickem.manage');
 
         return Season::orderBy('start_date', 'desc')->get();
     }

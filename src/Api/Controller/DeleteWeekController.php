@@ -28,7 +28,7 @@ class DeleteWeekController extends AbstractDeleteController
     protected function delete(ServerRequestInterface $request)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertPermission('pickem.manage');
+        $actor->assertCan('pickem.manage');
 
         $id = Arr::get($request->getQueryParams(), 'id');
         $week = Week::findOrFail($id);

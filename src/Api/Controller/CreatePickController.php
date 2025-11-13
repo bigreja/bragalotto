@@ -8,7 +8,8 @@ use Flarum\Http\RequestUtil;
 use HuseyinFiliz\Pickem\Api\Serializer\PickSerializer;
 use HuseyinFiliz\Pickem\Event;
 use HuseyinFiliz\Pickem\Pick;
-use HuseyinFiliz\Pickem\PickemScoringService; // YENİ: Scoring Service'i import et
+use HuseyinFiliz\Pickem\PickemScoringService;
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
@@ -18,23 +19,19 @@ class CreatePickController extends AbstractCreateController
     public $serializer = PickSerializer::class;
     public $include = ['event', 'event.homeTeam', 'event.awayTeam', 'user'];
 
-    /**
-     * @var PickemScoringService
-     */
-    protected $scoringService; // YENİ: Servis için özellik
+    protected $scoringService;
+    protected $translator;
 
-    /**
-     * @param PickemScoringService $scoringService
-     */
-    public function __construct(PickemScoringService $scoringService) // YENİ: Servisi enjekte et
+    public function __construct(PickemScoringService $scoringService, Translator $translator) // Translator eklendi
     {
         $this->scoringService = $scoringService;
+        $this->translator = $translator; // EKLENDİ
     }
 
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertPermission('pickem.makePicks');
+        $actor->assertCan('pickem.makePicks'); // assertCan olarak güncellendi
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
         
@@ -43,7 +40,7 @@ class CreatePickController extends AbstractCreateController
 
         if (!$eventId || !$selectedOutcome) {
             throw new ValidationException([
-                'message' => 'Event ID and selected outcome are required'
+                'message' => $this->translator->trans('huseyinfiliz-pickem.validation.errors.unauthorized') // Çeviri anahtarı kullanıldı
             ]);
         }
 
@@ -51,20 +48,20 @@ class CreatePickController extends AbstractCreateController
 
         if (!$event->canPick()) {
             throw new ValidationException([
-                'message' => 'Picks are no longer allowed for this event'
+                'message' => $this->translator->trans('huseyinfiliz-pickem.validation.errors.pick_after_cutoff') // Çeviri anahtarı kullanıldı
             ]);
         }
 
         if ($selectedOutcome === Event::RESULT_DRAW && !$event->allow_draw) {
             throw new ValidationException([
-                'message' => 'Draw picks are not allowed for this event'
+                'message' => $this->translator->trans('huseyinfiliz-pickem.validation.errors.invalid_outcome') // Çeviri anahtarı kullanıldı
             ]);
         }
 
         $validOutcomes = [Event::RESULT_HOME, Event::RESULT_AWAY, Event::RESULT_DRAW];
         if (!in_array($selectedOutcome, $validOutcomes)) {
             throw new ValidationException([
-                'message' => 'Invalid outcome selected'
+                'message' => $this.translator->trans('huseyinfiliz-pickem.validation.errors.invalid_outcome') // Çeviri anahtarı kullanıldı
             ]);
         }
 
@@ -74,16 +71,13 @@ class CreatePickController extends AbstractCreateController
         ]);
 
         $isUpdate = $pick->exists;
-        $recalculateScore = false; // YENİ: Puan hesaplama bayrağı
+        $recalculateScore = false; 
 
         $pick->selected_outcome = $selectedOutcome;
 
         if ($isUpdate && $pick->isDirty('selected_outcome')) {
-            // Eğer tahmin değiştirildiyse 'is_correct' sıfırla
             $pick->is_correct = null;
             
-            // YENİ: Eğer bu maçın sonucu zaten belliyse (yani puanı etkiliyorsa)
-            // skoru yeniden hesaplamamız gerekiyor.
             if ($event->isFinished() || $event->isClosed()) {
                  $recalculateScore = true;
             }
@@ -91,7 +85,6 @@ class CreatePickController extends AbstractCreateController
 
         $pick->save();
 
-        // YENİ: Eğer bayrak true ise, bu kullanıcının puanını yeniden hesapla
         if ($recalculateScore) {
             $this->scoringService->recalculateUserScore($actor->id);
         }

@@ -4,35 +4,34 @@ namespace HuseyinFiliz\Pickem\Api\Controller;
 
 use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Http\RequestUtil;
-use Flarum\Notification\NotificationSyncer;
+use Flarum\Foundation\ValidationException;
+use Illuminate\Contracts\Translation\Translator;
 use HuseyinFiliz\Pickem\Api\Serializer\EventSerializer;
 use HuseyinFiliz\Pickem\Event;
-use HuseyinFiliz\Pickem\Pick;
-// use HuseyinFiliz\Pickem\UserScore; // Artık burada gerekmiyor
-use HuseyinFiliz\Pickem\Notification\EventResultBlueprint;
-use HuseyinFiliz\Pickem\PickemScoringService; // YENİ: Servisi import et
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
+use Illuminate\Contracts\Bus\Dispatcher;
+use HuseyinFiliz\Pickem\Job\ProcessEventResultsJob;
 
 class EnterEventResultController extends AbstractShowController
 {
     public $serializer = EventSerializer::class;
     public $include = ['homeTeam', 'awayTeam', 'week'];
 
-    protected $notifications;
-    protected $scoringService; // YENİ: Servis için özellik
+    protected $translator;
+    protected $bus; 
 
-    public function __construct(NotificationSyncer $notifications, PickemScoringService $scoringService) // YENİ: Servisi enjekte et
+    public function __construct(Translator $translator, Dispatcher $bus)
     {
-        $this->notifications = $notifications;
-        $this->scoringService = $scoringService; // YENİ: Servisi ata
+        $this->translator = $translator;
+        $this->bus = $bus;
     }
 
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertPermission('pickem.manage');
+        $actor->assertCan('pickem.manage');
 
         $id = Arr::get($request->getQueryParams(), 'id');
         $event = Event::with(['homeTeam', 'awayTeam', 'week'])->findOrFail($id);
@@ -43,14 +42,14 @@ class EnterEventResultController extends AbstractShowController
         $awayScore = Arr::get($data, 'awayScore');
 
         if ($homeScore === null || $awayScore === null) {
-            throw new \Exception('Both home and away scores are required');
+            throw new ValidationException([
+                'scores' => $this->translator->trans('huseyinfiliz-pickem.validation.errors.scores_must_be_together')
+            ]);
         }
 
-        // Skorları set et
         $event->home_score = (int) $homeScore;
         $event->away_score = (int) $awayScore;
         
-        // Result'ı hesapla
         if ($event->home_score > $event->away_score) {
             $event->result = Event::RESULT_HOME;
         } elseif ($event->away_score > $event->home_score) {
@@ -59,43 +58,16 @@ class EnterEventResultController extends AbstractShowController
             $event->result = Event::RESULT_DRAW;
         }
         
-        // Status'u finished yap
         $event->status = Event::STATUS_FINISHED;
         
-        // SaveQuietly - Listener'ı tetikleme (çünkü biz zaten aşağıda yapıyoruz)
-        $event->saveQuietly();
+        $event->save(); 
 
-        // DÜZELTME: Yinelenen mantık yerine servisi çağır
-        $this->scoringService->updateScoresForEvent($event);
-        
-        // BİLDİRİMLER GÖNDER
-        $this->sendNotifications($event);
+        $this->bus->dispatch(
+            new ProcessEventResultsJob($event->id)
+        );
 
         $event->load(['homeTeam', 'awayTeam', 'week']);
 
         return $event;
-    }
-
-    // DÜZELTME: Bu metodlar artık Scoring Service'te olduğu için kaldırıldı
-    // protected function updatePicksForEvent(Event $event): void { ... }
-    // protected function updateUserScoresForEvent(Event $event): void { ... }
-    // protected function recalculateUserScore(int $userId, ?int $seasonId): void { ... }
-
-    protected function sendNotifications(Event $event): void
-    {
-        $picks = Pick::where('event_id', $event->id)
-            ->with('user')
-            ->get();
-
-        $users = $picks->pluck('user')->filter();
-
-        if ($users->isEmpty()) {
-            return;
-        }
-
-        $this->notifications->sync(
-            new EventResultBlueprint($event),
-            $users->all()
-        );
     }
 }

@@ -9,16 +9,10 @@ class SeasonSerializer extends AbstractSerializer
 {
     protected $type = 'pickem-seasons';
 
-    /**
-     * Get the default set of serialized attributes for a model.
-     *
-     * @param Season $season
-     * @return array
-     */
     protected function getDefaultAttributes($season)
     {
         return [
-            'id' => $season->id,
+            'id' => (string) $season->id,
             'name' => $season->name,
             'slug' => $season->slug,
             'startDate' => $this->formatDate($season->start_date),
@@ -28,13 +22,8 @@ class SeasonSerializer extends AbstractSerializer
         ];
     }
 
-    /**
-     * Get weeks relationship
-     */
     public function weeks($season)
     {
-        // DÜZELTME: Bu ilişki de null olabilir, 
-        // en iyi pratik olarak buraya da kontrol ekleyelim.
         if (!$season->weeks) {
             return null;
         }

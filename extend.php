@@ -62,14 +62,13 @@ return [
 
     // API Serializers
     (new Extend\ApiSerializer(ForumSerializer::class))
-        // DÜZELTME: Fonksiyon sadece 1 parametre ($serializer) alır
         ->attributes(function ($serializer) { 
-            // DÜZELTME: $actor, $serializer içinden çağrılır
             $actor = $serializer->getActor();
 
             return [
-                'pickem.canManage' => $actor->hasPermission('pickem.manage'),
-                'pickem.canViewLeaderboard' => $actor->hasPermission('pickem.viewLeaderboard')
+                'pickem.canManage' => $actor->can('pickem.manage'),
+                'pickem.canView' => $actor->can('pickem.view'),
+                'pickem.makePicks' => $actor->can('pickem.makePicks') 
             ];
         }),
 

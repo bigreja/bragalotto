@@ -14,24 +14,16 @@ class ListLeaderboardController extends AbstractListController
 {
     public $serializer = UserScoreSerializer::class;
 
-    public $include = ['user']; // 'season' ilişkisine artık gerek yok
+    public $include = ['user'];
 
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertPermission('pickem.viewLeaderboard');
-
+        $actor->assertCan('pickem.view');
         $query = UserScore::query();
-
-        // DÜZELTME: Sezon filtresi mantığı tamamen kaldırıldı.
-        // Her zaman 'season_id'si olmayan (genel toplam) puanları getir.
         $query->whereNull('season_id');
-
-        // Puana göre sırala
         $query->orderBy('total_points', 'desc')
               ->orderBy('correct_picks', 'desc');
-
-        // İlişkisel veriyi yükle
         $query->with(['user']);
 
         return $query->get();

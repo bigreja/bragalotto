@@ -27,7 +27,7 @@ class RecalculateAllScoresController implements RequestHandlerInterface
     {
         // Sadece admin yetkisi olanlar bu işlemi yapabilir
         $actor = RequestUtil::getActor($request);
-        $actor->assertPermission('pickem.manage');
+        $actor->assertCan('pickem.manage');
 
         // 1. En az bir tahmini olan tüm benzersiz kullanıcı ID'lerini al
         $userIds = Pick::query()->distinct()->pluck('user_id');

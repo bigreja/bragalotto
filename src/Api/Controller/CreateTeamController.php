@@ -32,7 +32,7 @@ class CreateTeamController extends AbstractCreateController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertPermission('pickem.manage');
+        $actor->assertCan('pickem.manage');
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
         

@@ -29,7 +29,6 @@ class Event extends AbstractModel
 {
     use ScopeVisibilityTrait;
 
-    // YENİ EKLENDİ: Zaman damgalarını otomatik yönet
     public $timestamps = true;
 
     protected $table = 'pickem_events';
@@ -61,7 +60,6 @@ class Event extends AbstractModel
     const STATUS_SCHEDULED = 'scheduled';
     const STATUS_CLOSED = 'closed';
     const STATUS_FINISHED = 'finished';
-    const STATUS_CANCELLED = 'cancelled';
 
     // Result constants
     const RESULT_HOME = 'home';

@@ -9,16 +9,10 @@ class WeekSerializer extends AbstractSerializer
 {
     protected $type = 'pickem-weeks';
 
-    /**
-     * Get the default set of serialized attributes for a model.
-     *
-     * @param Week $week
-     * @return array
-     */
     protected function getDefaultAttributes($week)
     {
         return [
-            'id' => $week->id,
+            'id' => (string) $week->id,
             'name' => $week->name,
             'seasonId' => $week->season_id,
             'weekNumber' => $week->week_number,
@@ -29,26 +23,16 @@ class WeekSerializer extends AbstractSerializer
         ];
     }
 
-    /**
-     * Get season relationship
-     */
     public function season($week)
     {
-        // EKLENDİ: İlişki null ise (yani haftanın sezonu yoksa)
-        // Flarum'un çökmemesi için null döndür.
         if (!$week->season) {
             return null;
         }
         return $this->hasOne($week, SeasonSerializer::class);
     }
 
-    /**
-     * Get events relationship
-     */
     public function events($week)
     {
-        // DÜZELTME: Bu ilişki de null olabilir, 
-        // en iyi pratik olarak buraya da kontrol ekleyelim.
         if (!$week->events) {
             return null;
         }
