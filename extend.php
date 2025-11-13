@@ -6,6 +6,7 @@ use Flarum\Extend;
 use Flarum\User\User;
 use HuseyinFiliz\Pickem\Api\Controller;
 use HuseyinFiliz\Pickem\Api\Serializer;
+use Flarum\Api\Serializer\ForumSerializer;
 
 return [
     // Frontend Assets
@@ -53,19 +54,22 @@ return [
         ->get('/pickem-picks', 'pickem.picks.index', Controller\ListPicksController::class)
         ->post('/pickem-picks', 'pickem.picks.create', Controller\CreatePickController::class)
         
-        // --- HATA BURADAYDI ---
-        // Leaderboard (EKSİK SATIR EKLENDİ)
+        // Leaderboard
         ->get('/pickem-user-scores', 'pickem.leaderboard.index', Controller\ListLeaderboardController::class)
-        // --- HATA DÜZELTİLDİ ---
 
         // Admin Tools
         ->post('/pickem/recalculate-all-scores', 'pickem.recalculate_scores', Controller\RecalculateAllScoresController::class),
 
     // API Serializers
-    (new Extend\ApiSerializer(\Flarum\Api\Serializer\ForumSerializer::class))
-        ->attributes(function ($serializer) {
+    (new Extend\ApiSerializer(ForumSerializer::class))
+        // DÜZELTME: Fonksiyon sadece 1 parametre ($serializer) alır
+        ->attributes(function ($serializer) { 
+            // DÜZELTME: $actor, $serializer içinden çağrılır
+            $actor = $serializer->getActor();
+
             return [
-                'pickem.canManage' => $serializer->getActor()->hasPermission('pickem.manage'),
+                'pickem.canManage' => $actor->hasPermission('pickem.manage'),
+                'pickem.canViewLeaderboard' => $actor->hasPermission('pickem.viewLeaderboard')
             ];
         }),
 

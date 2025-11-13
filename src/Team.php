@@ -21,6 +21,9 @@ class Team extends AbstractModel
 {
     use ScopeVisibilityTrait;
 
+    // YENİ EKLENDİ: Zaman damgalarını otomatik yönet
+    public $timestamps = true;
+
     protected $table = 'pickem_teams';
 
     protected $fillable = ['name', 'slug', 'logo_path'];

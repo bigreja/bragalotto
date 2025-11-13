@@ -3,6 +3,7 @@
 namespace HuseyinFiliz\Pickem\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
+use Flarum\Http\RequestUtil; // YENİ
 use HuseyinFiliz\Pickem\Api\Serializer\SeasonSerializer;
 use HuseyinFiliz\Pickem\Season;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,6 +15,10 @@ class ListSeasonsController extends AbstractListController
 
     protected function data(ServerRequestInterface $request, Document $document)
     {
+        // YENİ: Admin yetkisi kontrolü eklendi
+        $actor = RequestUtil::getActor($request);
+        $actor->assertPermission('pickem.manage');
+
         return Season::orderBy('start_date', 'desc')->get();
     }
 }

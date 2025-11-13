@@ -79,7 +79,7 @@ huseyinfiliz-pickem:
       seasons: "Seasons"
       weeks: "Weeks"
       events: "Matches"
-      settings: "Settings" # YENİ EKLENDİ
+      settings: "Settings"
       
     permissions:
       manage: "Manage pick'em system"
@@ -94,7 +94,6 @@ huseyinfiliz-pickem:
       enable_notifications_help: "Send notifications to users when match results are available"
       show_other_picks_after_cutoff: "Show other users' picks after cutoff"
       show_other_picks_after_cutoff_help: "Allow users to see what others picked after the cutoff time"
-      # YENİ METİNLER
       recalculate_scores_button: "Recalculate All Scores"
       recalculate_scores_help: "This will delete all current scores and recalculate them from scratch for every user. This is a heavy operation and should be run in the background. It will use your Flarum queue."
       recalculate_scores_confirm: "Are you sure you want to recalculate all scores? This cannot be undone and may take a long time."
@@ -201,6 +200,11 @@ huseyinfiliz-pickem:
     loading:
       title: "Loading..."
       data: "Loading data..."
+
+    # YENİ EKLENEN BÖLÜM
+    alerts:
+      result_saved_success: "Result saved and picks updated successfully!"
+      result_saved_fail: "Failed to save result"
       
   ##
   ## VALIDATION & ERRORS
@@ -219,6 +223,16 @@ huseyinfiliz-pickem:
       pick_not_found: "Pick not found."
       unauthorized: "You don't have permission to perform this action."
       same_team: "Home team and away team cannot be the same."
+
+      # YENİ EKLENEN ANAHTARLAR
+      team_in_use: "This team cannot be deleted because it is used in matches. Please update or delete the relevant matches first."
+      season_in_use: "This season cannot be deleted because it has weeks associated with it. Please delete the relevant weeks first."
+      week_in_use: "This week cannot be deleted because it has matches associated with it. Please update or delete the relevant matches first."
+      slug_format: "The slug must be in a valid format (e.g., 'my-new-slug')."
+      slug_unique: "This slug is already in use by another team/season."
+      team_exists: "The selected team does not exist."
+      week_exists: "The selected week does not exist."
+      cutoff_before_match: "The pick cutoff date must be before the match date."
       
     success:
       pick_created: "Pick created successfully"

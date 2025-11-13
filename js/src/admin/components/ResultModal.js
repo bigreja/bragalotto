@@ -2,6 +2,7 @@ import Modal from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
 
 export default class ResultModal extends Modal {
+  // ... (oninit, className, title, content metodları aynı, değişiklik yok) ...
   oninit(vnode) {
     super.oninit(vnode);
 
@@ -25,6 +26,7 @@ export default class ResultModal extends Modal {
     return (
       <div className="Modal-body">
         <div className="Form">
+          {/* ... (Form-group'lar aynı, değişiklik yok) ... */}
           <div className="Form-group">
             <label>{homeTeam ? homeTeam.name() : 'Home Team'} Score</label>
             <input
@@ -78,8 +80,7 @@ export default class ResultModal extends Modal {
     this.loading = true;
 
     try {
-      // YENİ ENDPOINT'E İSTEK AT
-      await app.request({
+      const response = await app.request({
         method: 'POST',
         url: `${app.forum.attribute('apiUrl')}/pickem-events/${this.event.id()}/result`,
         body: {
@@ -93,15 +94,19 @@ export default class ResultModal extends Modal {
         },
       });
 
-      app.alerts.show({ type: 'success' }, 'Result saved and picks updated successfully!');
+      app.store.pushPayload(response);
+
+      // DÜZELTME: Hardcoded başarı mesajı yerine locale anahtarı kullan
+      app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.admin.alerts.result_saved_success'));
       this.hide();
       
-      // Sayfayı reload et ki güncel datayı görsün
-      window.location.reload();
+      m.redraw();
+
     } catch (error) {
       this.loading = false;
       console.error('Error saving result:', error);
-      app.alerts.show({ type: 'error' }, 'Failed to save result');
+      // DÜZELTME: Hardcoded hata mesajı yerine locale anahtarı kullan
+      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.admin.alerts.result_saved_fail'));
       m.redraw();
     }
   }

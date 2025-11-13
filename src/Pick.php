@@ -21,6 +21,9 @@ class Pick extends AbstractModel
 {
     use ScopeVisibilityTrait;
 
+    // YENİ EKLENDİ: Zaman damgalarını otomatik yönet
+    public $timestamps = true;
+
     protected $table = 'pickem_picks';
 
     protected $fillable = [
@@ -35,11 +38,6 @@ class Pick extends AbstractModel
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
-
-    // boot() metodu kaldırıldı. 
-    // 'is_correct' alanının güncellenmesi artık sadece 
-    // UpdateUserScoresListener tarafından merkezi olarak yönetiliyor.
-    // Bu, mantıksal çiftlenmeyi (redundancy) ortadan kaldırır ve bakımı kolaylaştırır.
 
     /**
      * Relationships
@@ -104,9 +102,6 @@ class Pick extends AbstractModel
     {
         return $this->is_correct !== null;
     }
-
-    // checkCorrectness() ve checkAndUpdateCorrectness() metotları kaldırıldı.
-    // Bu mantık artık UpdateUserScoresListener'da.
 
     /**
      * Get the outcome display name

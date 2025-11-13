@@ -6,6 +6,7 @@ use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Http\RequestUtil;
 use HuseyinFiliz\Pickem\Api\Serializer\WeekSerializer;
 use HuseyinFiliz\Pickem\Week;
+use HuseyinFiliz\Pickem\Validator\WeekValidator; // YENİ
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
@@ -13,6 +14,19 @@ use Tobscure\JsonApi\Document;
 class UpdateWeekController extends AbstractShowController
 {
     public $serializer = WeekSerializer::class;
+
+    /**
+     * @var WeekValidator
+     */
+    protected $validator; // YENİ
+
+    /**
+     * @param WeekValidator $validator
+     */
+    public function __construct(WeekValidator $validator) // YENİ
+    {
+        $this->validator = $validator;
+    }
 
     protected function data(ServerRequestInterface $request, Document $document)
     {
@@ -24,14 +38,15 @@ class UpdateWeekController extends AbstractShowController
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
 
-        if ($name = Arr::get($data, 'name')) {
-            $week->name = $name;
+        // YENİ: Sadece gönderilen veriyi doğrula
+        $this->validator->for($week)->assertValid($data);
+
+        if (Arr::has($data, 'name')) {
+            $week->name = Arr::get($data, 'name');
         }
-        
         if (Arr::has($data, 'weekNumber')) {
             $week->week_number = Arr::get($data, 'weekNumber');
         }
-
         if (Arr::has($data, 'seasonId')) {
             $week->season_id = Arr::get($data, 'seasonId');
         }

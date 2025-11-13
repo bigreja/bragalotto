@@ -18,6 +18,9 @@ class Season extends AbstractModel
 {
     use ScopeVisibilityTrait;
 
+    // YENİ EKLENDİ: Zaman damgalarını otomatik yönet
+    public $timestamps = true;
+
     protected $table = 'pickem_seasons';
 
     protected $fillable = ['name', 'slug', 'start_date', 'end_date'];

@@ -6,6 +6,7 @@ use Flarum\Api\Controller\AbstractCreateController;
 use Flarum\Http\RequestUtil;
 use HuseyinFiliz\Pickem\Api\Serializer\WeekSerializer;
 use HuseyinFiliz\Pickem\Week;
+use HuseyinFiliz\Pickem\Validator\WeekValidator; // YENİ
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
@@ -15,13 +16,28 @@ class CreateWeekController extends AbstractCreateController
 {
     public $serializer = WeekSerializer::class;
 
+    /**
+     * @var WeekValidator
+     */
+    protected $validator; // YENİ
+
+    /**
+     * @param WeekValidator $validator
+     */
+    public function __construct(WeekValidator $validator) // YENİ
+    {
+        $this->validator = $validator;
+    }
+
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        // assertAdmin() yerine standart Flarum izni kullanıldı.
         $actor->assertPermission('pickem.manage');
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
+
+        // YENİ: Veriyi Flarum Validator ile doğrula
+        $this->validator->assertValid($data);
 
         $week = Week::create([
             'name' => Arr::get($data, 'name'),

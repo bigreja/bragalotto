@@ -29,6 +29,9 @@ class Event extends AbstractModel
 {
     use ScopeVisibilityTrait;
 
+    // YENİ EKLENDİ: Zaman damgalarını otomatik yönet
+    public $timestamps = true;
+
     protected $table = 'pickem_events';
 
     protected $fillable = [
@@ -65,37 +68,34 @@ class Event extends AbstractModel
     const RESULT_AWAY = 'away';
     const RESULT_DRAW = 'draw';
 
-/**
- * Boot the model - register event listeners
- */
-public static function boot()
-{
-    parent::boot();
+    /**
+     * Boot the model - register event listeners
+     */
+    public static function boot()
+    {
+        parent::boot();
 
-    // Auto-calculate result when scores are set
-    static::saving(function (Event $event) {
-        // Skorlar set edildiyse result'ı hesapla
-        if ($event->isDirty(['home_score', 'away_score']) && 
-            $event->home_score !== null && 
-            $event->away_score !== null) {
-            $event->result = $event->calculateResult();
-            
-            // Otomatik olarak finished'a çek
-            if ($event->result !== null && $event->status === self::STATUS_SCHEDULED) {
-                $event->status = self::STATUS_FINISHED;
+        // Auto-calculate result when scores are set
+        static::saving(function (Event $event) {
+            // Skorlar set edildiyse result'ı hesapla
+            if ($event->isDirty(['home_score', 'away_score']) && 
+                $event->home_score !== null && 
+                $event->away_score !== null) {
+                $event->result = $event->calculateResult();
+                
+                // Otomatik olarak finished'a çek
+                if ($event->result !== null && $event->status === self::STATUS_SCHEDULED) {
+                    $event->status = self::STATUS_FINISHED;
+                }
             }
-        }
-        
-        // Cutoff geçtiyse otomatik kapat
-        if ($event->status === self::STATUS_SCHEDULED && 
-            Carbon::now()->isAfter($event->cutoff_date)) {
-            $event->status = self::STATUS_CLOSED;
-        }
-    });
-
-    // NOT: Pick güncelleme artık UpdateUserScoresListener'da yapılıyor
-    // Burada yapmıyoruz - duplikasyonu önlemek için
-}
+            
+            // Cutoff geçtiyse otomatik kapat
+            if ($event->status === self::STATUS_SCHEDULED && 
+                Carbon::now()->isAfter($event->cutoff_date)) {
+                $event->status = self::STATUS_CLOSED;
+            }
+        });
+    }
 
     /**
      * Relationships
@@ -218,8 +218,4 @@ public static function boot()
     {
         return $this->picks()->where('user_id', $userId)->exists();
     }
-
-    // getPickStatistics() metodu kaldırıldı.
-    // Frontend (JavaScript) tarafında kullanılmayan "ölü kod" idi.
-    // Bu, modeli sadeleştirir.
 }

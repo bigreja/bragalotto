@@ -19,6 +19,9 @@ class Week extends AbstractModel
 {
     use ScopeVisibilityTrait;
 
+    // YENİ EKLENDİ: Zaman damgalarını otomatik yönet
+    public $timestamps = true;
+
     protected $table = 'pickem_weeks';
 
     protected $fillable = ['name', 'season_id', 'week_number', 'start_date', 'end_date'];

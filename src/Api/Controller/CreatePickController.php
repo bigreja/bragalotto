@@ -8,6 +8,7 @@ use Flarum\Http\RequestUtil;
 use HuseyinFiliz\Pickem\Api\Serializer\PickSerializer;
 use HuseyinFiliz\Pickem\Event;
 use HuseyinFiliz\Pickem\Pick;
+use HuseyinFiliz\Pickem\PickemScoringService; // YENİ: Scoring Service'i import et
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
@@ -17,15 +18,26 @@ class CreatePickController extends AbstractCreateController
     public $serializer = PickSerializer::class;
     public $include = ['event', 'event.homeTeam', 'event.awayTeam', 'user'];
 
+    /**
+     * @var PickemScoringService
+     */
+    protected $scoringService; // YENİ: Servis için özellik
+
+    /**
+     * @param PickemScoringService $scoringService
+     */
+    public function __construct(PickemScoringService $scoringService) // YENİ: Servisi enjekte et
+    {
+        $this->scoringService = $scoringService;
+    }
+
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        // assertRegistered() yerine standart Flarum izni kullanıldı.
         $actor->assertPermission('pickem.makePicks');
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
         
-        // Basit validation
         $eventId = Arr::get($data, 'eventId');
         $selectedOutcome = Arr::get($data, 'selectedOutcome');
 
@@ -35,24 +47,20 @@ class CreatePickController extends AbstractCreateController
             ]);
         }
 
-        // Event yükle
         $event = Event::with(['homeTeam', 'awayTeam', 'week'])->findOrFail($eventId);
 
-        // Pick yapılabilir mi kontrol et
         if (!$event->canPick()) {
             throw new ValidationException([
                 'message' => 'Picks are no longer allowed for this event'
             ]);
         }
 
-        // Draw kontrolü
         if ($selectedOutcome === Event::RESULT_DRAW && !$event->allow_draw) {
             throw new ValidationException([
                 'message' => 'Draw picks are not allowed for this event'
             ]);
         }
 
-        // Outcome geçerli mi
         $validOutcomes = [Event::RESULT_HOME, Event::RESULT_AWAY, Event::RESULT_DRAW];
         if (!in_array($selectedOutcome, $validOutcomes)) {
             throw new ValidationException([
@@ -60,22 +68,34 @@ class CreatePickController extends AbstractCreateController
             ]);
         }
 
-        // Pick oluştur veya güncelle
         $pick = Pick::firstOrNew([
             'user_id' => $actor->id,
             'event_id' => $eventId,
         ]);
 
         $isUpdate = $pick->exists;
+        $recalculateScore = false; // YENİ: Puan hesaplama bayrağı
 
         $pick->selected_outcome = $selectedOutcome;
 
-        // Eğer değişiklik yapılıyorsa correctness'i temizle
         if ($isUpdate && $pick->isDirty('selected_outcome')) {
+            // Eğer tahmin değiştirildiyse 'is_correct' sıfırla
             $pick->is_correct = null;
+            
+            // YENİ: Eğer bu maçın sonucu zaten belliyse (yani puanı etkiliyorsa)
+            // skoru yeniden hesaplamamız gerekiyor.
+            if ($event->isFinished() || $event->isClosed()) {
+                 $recalculateScore = true;
+            }
         }
 
         $pick->save();
+
+        // YENİ: Eğer bayrak true ise, bu kullanıcının puanını yeniden hesapla
+        if ($recalculateScore) {
+            $this->scoringService->recalculateUserScore($actor->id);
+        }
+
         $pick->load(['event.homeTeam', 'event.awayTeam', 'event.week', 'user']);
 
         return $pick;
