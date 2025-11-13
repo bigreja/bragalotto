@@ -1,20 +1,22 @@
 import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
-import WeekModal from './WeekModal'; // Modal import edildi
+import WeekModal from './WeekModal';
 
 export default class WeeksTab extends Component {
   view() {
     const weeks = app.store.all('pickem-weeks');
-    // const seasons = app.store.all('pickem-seasons'); // Artık burada gerekmiyor
 
     return (
       <div className="WeeksTab">
         <div className="WeeksTab-header">
-          <h3>{app.translator.trans('huseyinfiliz-pickem.admin.weeks.title')}</h3>
+          <h3>
+            <i className="fas fa-calendar-week" />
+            {app.translator.trans('huseyinfiliz-pickem.admin.weeks.title')}
+          </h3>
           <Button
             className="Button Button--primary"
             icon="fas fa-plus"
-            onclick={() => app.modal.show(WeekModal, { week: null })} // prompt() yerine modal kullanıldı
+            onclick={() => app.modal.show(WeekModal, { week: null })}
           >
             {app.translator.trans('huseyinfiliz-pickem.admin.weeks.create')}
           </Button>
@@ -26,7 +28,7 @@ export default class WeeksTab extends Component {
               <th>{app.translator.trans('huseyinfiliz-pickem.admin.weeks.name')}</th>
               <th>{app.translator.trans('huseyinfiliz-pickem.admin.weeks.season')}</th>
               <th>{app.translator.trans('huseyinfiliz-pickem.admin.weeks.week_number')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.buttons.actions')}</th> {/* Eylem sütunu eklendi */}
+              <th>{app.translator.trans('huseyinfiliz-pickem.admin.buttons.actions')}</th>
             </tr>
           </thead>
           <tbody>
@@ -38,7 +40,6 @@ export default class WeeksTab extends Component {
                   <td>{season ? season.name() : 'None'}</td>
                   <td>{week.weekNumber() || '-'}</td>
                   <td>
-                    {/* Düzenle butonu eklendi */}
                     <Button
                       className="Button Button--primary"
                       icon="fas fa-edit"
@@ -46,7 +47,6 @@ export default class WeeksTab extends Component {
                     >
                       {app.translator.trans('huseyinfiliz-pickem.admin.buttons.edit')}
                     </Button>
-                    {/* Sil butonu eklendi */}
                     <Button
                       className="Button Button--danger"
                       icon="fas fa-trash"
@@ -64,10 +64,7 @@ export default class WeeksTab extends Component {
     );
   }
 
-  // createWeek() metodu kaldırıldı (artık WeekModal'da)
-
-  // Silme fonksiyonu eklendi
-  deleteWeek(week) {
+  deleteWeek(week: any) {
     if (!confirm(app.translator.trans('huseyinfiliz-pickem.admin.weeks.delete_confirmation'))) {
       return;
     }

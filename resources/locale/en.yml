@@ -27,6 +27,8 @@ huseyinfiliz-pickem:
       correct: "Correct"
       incorrect: "Incorrect"
       pending: "Pending"
+      login_to_view: "Please login to view your picks"
+      no_picks: "You haven't made any picks yet"
       
     my_picks:
       title: "My Picks"
@@ -49,11 +51,7 @@ huseyinfiliz-pickem:
       accuracy: "Accuracy"
       filter_season: "Filter by season"
       all_seasons: "All Seasons"
-      no_scores: "No scores yet"
-      
-    notifications:
-      event_result_text: "Match result: {homeTeam} {homeScore} - {awayScore} {awayTeam}"
-
+      no_scores: "No scores available yet"
       
     event:
       vs: "vs"
@@ -66,6 +64,9 @@ huseyinfiliz-pickem:
         cancelled: "Cancelled"
       result: "Result"
       score: "Score"
+      
+    notifications:
+      event_result_text: "Match result: {homeTeam} {homeScore} - {awayScore} {awayTeam}"
       
   ##
   ## ADMIN PANEL
@@ -94,6 +95,14 @@ huseyinfiliz-pickem:
       show_other_picks_after_cutoff: "Show other users' picks after cutoff"
       show_other_picks_after_cutoff_help: "Allow users to see what others picked after the cutoff time"
       
+    buttons:
+      save: "Save"
+      cancel: "Cancel"
+      edit: "Edit"
+      delete: "Delete"
+      create: "Create"
+      actions: "Actions"
+      
     teams:
       title: "Teams"
       create: "Create Team"
@@ -103,8 +112,10 @@ huseyinfiliz-pickem:
       name: "Team Name"
       slug: "Slug"
       logo: "Team Logo"
+      logo_url: "Logo URL"
       upload_logo: "Upload Logo"
       no_teams: "No teams created yet"
+      actions: "Actions"
       
     seasons:
       title: "Seasons"
@@ -116,6 +127,7 @@ huseyinfiliz-pickem:
       slug: "Slug"
       start_date: "Start Date"
       end_date: "End Date"
+      dates: "Dates"
       no_seasons: "No seasons created yet"
       
     weeks:
@@ -130,42 +142,68 @@ huseyinfiliz-pickem:
       start_date: "Start Date"
       end_date: "End Date"
       no_weeks: "No weeks created yet"
+      select_season: "Select Season"
+      none: "None"
       
     events:
       title: "Matches"
       create: "Create Match"
+      create_match: "Create Match"
       edit: "Edit Match"
       delete: "Delete Match"
       delete_confirmation: "Are you sure you want to delete this match?"
       home_team: "Home Team"
       away_team: "Away Team"
-      week: "Week"
       match_date: "Match Date"
       cutoff_date: "Cutoff Date"
-      allow_draw: "Allow Draw Picks"
+      allow_draw: "Allow Draw"
       status: "Status"
+      score: "Score"
       home_score: "Home Score"
       away_score: "Away Score"
       result: "Result"
       enter_result: "Enter Result"
+      enter_result_title: "Enter Match Result"
+      save_result: "Save Result"
       no_events: "No matches created yet"
-      picks_count: "{count} pick|{count} picks"
+      select_week: "Select Week"
+      select_home_team: "Select Home Team"
+      select_away_team: "Select Away Team"
       
-    buttons:
-      save: "Save"
-      cancel: "Cancel"
-      delete: "Delete"
-      create: "Create"
-      edit: "Edit"
-      back: "Back"
+    filters:
+      all_seasons: "All Seasons"
+      all_teams: "All Teams"
+      all_statuses: "All Statuses"
+      season: "Season"
+      team: "Team"
+      status: "Status"
+      sort: "Sort"
+      newest_first: "Newest First"
+      oldest_first: "Oldest First"
+      reset: "Reset"
+      showing: "Showing"
+      of: "of"
+      matches: "matches"
+      no_matches_found: "No matches found with the selected filters."
+      
+    status:
+      scheduled: "Scheduled"
+      closed: "Closed"
+      finished: "Finished"
+      cancelled: "Cancelled"
+      
+    loading:
+      title: "Loading..."
+      data: "Loading data..."
       
   ##
-  ## API ERROR MESSAGES
+  ## VALIDATION & ERRORS
   ##
-  api:
+  validation:
     errors:
-      pick_closed: "Picks are no longer allowed for this event. The cutoff time passed {cutoff}."
-      draw_not_allowed: "Draw picks are not allowed for this event."
+      pick_after_cutoff: "Cannot make picks after the cutoff date."
+      pick_already_exists: "You have already made a pick for this event."
+      event_not_pickable: "This event is not currently accepting picks."
       invalid_outcome: "Invalid outcome selected. Must be home, away, or draw."
       event_cancelled: "This event has been cancelled and no longer accepts picks."
       scores_must_be_together: "Both home and away scores must be provided together."
@@ -174,6 +212,7 @@ huseyinfiliz-pickem:
       event_not_found: "Event not found."
       pick_not_found: "Pick not found."
       unauthorized: "You don't have permission to perform this action."
+      same_team: "Home team and away team cannot be the same."
       
     success:
       pick_created: "Pick created successfully"
@@ -191,6 +230,7 @@ huseyinfiliz-pickem:
       week_created: "Week created successfully"
       week_updated: "Week updated successfully"
       week_deleted: "Week deleted successfully"
+      result_saved: "Result saved and picks updated successfully!"
       
   ##
   ## NOTIFICATIONS
@@ -201,8 +241,3 @@ huseyinfiliz-pickem:
       correct: "Congratulations! Your pick was correct. You earned {points} point|You earned {points} points."
       incorrect: "Unfortunately, your pick was incorrect this time."
       draw: "The match ended in a draw."
-      
-  ##
-  ## EMAILS (Kaldırıldı)
-  ##
-  # E-posta ile ilgili çeviriler, e-posta sistemi kaldırıldığı için silindi.

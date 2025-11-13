@@ -1,6 +1,6 @@
 import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
-import SeasonModal from './SeasonModal'; // Modal import edildi
+import SeasonModal from './SeasonModal';
 
 export default class SeasonsTab extends Component {
   view() {
@@ -9,11 +9,14 @@ export default class SeasonsTab extends Component {
     return (
       <div className="SeasonsTab">
         <div className="SeasonsTab-header">
-          <h3>{app.translator.trans('huseyinfiliz-pickem.admin.seasons.title')}</h3>
+          <h3>
+            <i className="fas fa-calendar-alt" />
+            {app.translator.trans('huseyinfiliz-pickem.admin.seasons.title')}
+          </h3>
           <Button
             className="Button Button--primary"
             icon="fas fa-plus"
-            onclick={() => app.modal.show(SeasonModal, { season: null })} // prompt() yerine modal kullanıldı
+            onclick={() => app.modal.show(SeasonModal, { season: null })}
           >
             {app.translator.trans('huseyinfiliz-pickem.admin.seasons.create')}
           </Button>
@@ -25,7 +28,7 @@ export default class SeasonsTab extends Component {
               <th>{app.translator.trans('huseyinfiliz-pickem.admin.seasons.name')}</th>
               <th>{app.translator.trans('huseyinfiliz-pickem.admin.seasons.slug')}</th>
               <th>{app.translator.trans('huseyinfiliz-pickem.admin.seasons.dates')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.buttons.actions')}</th> {/* Eylem sütunu eklendi */}
+              <th>{app.translator.trans('huseyinfiliz-pickem.admin.buttons.actions')}</th>
             </tr>
           </thead>
           <tbody>
@@ -39,7 +42,6 @@ export default class SeasonsTab extends Component {
                     : '-'}
                 </td>
                 <td>
-                  {/* Düzenle butonu eklendi */}
                   <Button
                     className="Button Button--primary"
                     icon="fas fa-edit"
@@ -47,7 +49,6 @@ export default class SeasonsTab extends Component {
                   >
                     {app.translator.trans('huseyinfiliz-pickem.admin.buttons.edit')}
                   </Button>
-                  {/* Sil butonu eklendi */}
                   <Button
                     className="Button Button--danger"
                     icon="fas fa-trash"
@@ -64,10 +65,7 @@ export default class SeasonsTab extends Component {
     );
   }
 
-  // createSeason() metodu kaldırıldı (artık SeasonModal'da)
-
-  // Silme fonksiyonu eklendi
-  deleteSeason(season) {
+  deleteSeason(season: any) {
     if (!confirm(app.translator.trans('huseyinfiliz-pickem.admin.seasons.delete_confirmation'))) {
       return;
     }
