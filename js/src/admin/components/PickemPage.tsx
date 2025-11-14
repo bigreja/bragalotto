@@ -1,20 +1,21 @@
 import ExtensionPage from 'flarum/admin/components/ExtensionPage';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
+import Alert from 'flarum/common/components/Alert';
 import TeamsTab from './TeamsTab';
 import SeasonsTab from './SeasonsTab';
 import WeeksTab from './WeeksTab';
 import EventsTab from './EventsTab';
-import SettingsTab from './SettingsTab'; // YENİ: SettingsTab'ı import et
+import SettingsTab from './SettingsTab'; 
 
 export default class PickemPage extends ExtensionPage {
   private activeTab: string = 'events';
   private loading: boolean = true;
+  private error: string | null = null; 
 
   oninit(vnode: any) {
     super.oninit(vnode);
     
     const urlTab = m.route.param('tab');
-    // YENİ: 'settings' sekmesini geçerli tab'lara ekle
     if (urlTab && ['events', 'teams', 'seasons', 'weeks', 'settings'].includes(urlTab)) {
       this.activeTab = urlTab;
     }
@@ -28,10 +29,13 @@ export default class PickemPage extends ExtensionPage {
         app.store.find('pickem-teams'),
         app.store.find('pickem-seasons'),
         app.store.find('pickem-weeks', { include: 'season' }),
-        app.store.find('pickem-events', { include: 'homeTeam,awayTeam,week' })
+        // pickem-events yüklemesi buradan kaldırıldı.
+        // Artık EventsTab tarafından yüklenecek.
       ]);
-    } catch (error) {
+      this.error = null;
+    } catch (error: any) {
       console.error('Pickem admin data load error:', error);
+      this.error = error.message || 'An unknown error occurred while loading data.';
     } finally {
       this.loading = false;
       m.redraw();
@@ -39,6 +43,21 @@ export default class PickemPage extends ExtensionPage {
   }
 
   content() {
+    let tabContent;
+
+    if (this.loading) {
+      tabContent = (
+        <div className="LoadingState">
+          <LoadingIndicator />
+          <p>Loading data...</p>
+        </div>
+      );
+    } else if (this.error) {
+      tabContent = <Alert type="error">{this.error}</Alert>;
+    } else {
+      tabContent = this.renderTabContent();
+    }
+
     return (
       <div className="PickemPage">
         <div className="container">
@@ -47,19 +66,11 @@ export default class PickemPage extends ExtensionPage {
             {this.renderTab('teams', 'fas fa-users', app.translator.trans('huseyinfiliz-pickem.admin.nav.teams'))}
             {this.renderTab('seasons', 'fas fa-calendar-alt', app.translator.trans('huseyinfiliz-pickem.admin.nav.seasons'))}
             {this.renderTab('weeks', 'fas fa-calendar-week', app.translator.trans('huseyinfiliz-pickem.admin.nav.weeks'))}
-            {/* YENİ: Settings sekme butonu eklendi */}
             {this.renderTab('settings', 'fas fa-cogs', app.translator.trans('huseyinfiliz-pickem.admin.nav.settings'))}
           </div>
 
           <div className="PickemPage-content">
-            {this.loading ? (
-              <div className="LoadingState">
-                <LoadingIndicator />
-                <p>Loading data...</p>
-              </div>
-            ) : (
-              this.renderTabContent()
-            )}
+            {tabContent}
           </div>
         </div>
       </div>
@@ -73,7 +84,6 @@ export default class PickemPage extends ExtensionPage {
         className={`Button ${isActive ? 'Button--primary' : ''}`}
         onclick={() => {
           this.activeTab = key;
-          // URL'i tamamen yeniden set et (biriktirme olmadan)
           const currentRoute = m.route.get().split('?')[0];
           m.route.set(currentRoute, { tab: key }, { replace: true });
         }}
@@ -93,7 +103,6 @@ export default class PickemPage extends ExtensionPage {
         return <SeasonsTab />;
       case 'weeks':
         return <WeeksTab />;
-      // YENİ: 'settings' durumu için SettingsTab bileşenini döndür
       case 'settings':
         return <SettingsTab />;
       default:

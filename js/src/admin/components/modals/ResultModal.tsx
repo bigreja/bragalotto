@@ -1,9 +1,20 @@
 import Modal from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
+import PickemEvent from '../../../common/models/Event';
+import Team from '../../../common/models/Team';
 
-export default class ResultModal extends Modal {
-  // ... (oninit, className, title, content metodları aynı, değişiklik yok) ...
-  oninit(vnode) {
+interface IResultModalAttrs {
+  event: PickemEvent;
+  onsave: () => void; // Listeyi yenilemek için
+}
+
+export default class ResultModal extends Modal<IResultModalAttrs> {
+  private event: PickemEvent;
+  private homeScore: string | number = '';
+  private awayScore: string | number = '';
+  private loading: boolean = false;
+
+  oninit(vnode: any) {
     super.oninit(vnode);
 
     this.event = this.attrs.event;
@@ -11,22 +22,31 @@ export default class ResultModal extends Modal {
     this.awayScore = this.event.awayScore() !== null ? this.event.awayScore() : '';
   }
 
-  className() {
+  className(): string {
     return 'ResultModal Modal--small';
   }
 
-  title() {
+  title(): string {
     return app.translator.trans('huseyinfiliz-pickem.admin.events.enter_result_title');
   }
 
   content() {
-    const homeTeam = this.event.homeTeam();
-    const awayTeam = this.event.awayTeam();
+    const homeTeam = this.event.homeTeam() as Team | null;
+    const awayTeam = this.event.awayTeam() as Team | null;
+
+    let resultText = '';
+    const home = Number(this.homeScore);
+    const away = Number(this.awayScore);
+
+    if (this.homeScore !== '' && this.awayScore !== '') {
+      if (home > away) resultText = homeTeam ? homeTeam.name() : 'Home Win';
+      else if (away > home) resultText = awayTeam ? awayTeam.name() : 'Away Win';
+      else resultText = app.translator.trans('huseyinfiliz-pickem.forum.picks.draw');
+    }
 
     return (
       <div className="Modal-body">
         <div className="Form">
-          {/* ... (Form-group'lar aynı, değişiklik yok) ... */}
           <div className="Form-group">
             <label>{homeTeam ? homeTeam.name() : 'Home Team'} Score</label>
             <input
@@ -34,8 +54,8 @@ export default class ResultModal extends Modal {
               type="number"
               min="0"
               value={this.homeScore}
-              oninput={(e) => {
-                this.homeScore = parseInt(e.target.value) || 0;
+              oninput={(e: InputEvent) => {
+                this.homeScore = (e.target as HTMLInputElement).value;
               }}
             />
           </div>
@@ -47,22 +67,20 @@ export default class ResultModal extends Modal {
               type="number"
               min="0"
               value={this.awayScore}
-              oninput={(e) => {
-                this.awayScore = parseInt(e.target.value) || 0;
+              oninput={(e: InputEvent) => {
+                this.awayScore = (e.target as HTMLInputElement).value;
               }}
             />
           </div>
 
-          <div className="Form-group">
-            <p>
-              <strong>Result: </strong>
-              {this.homeScore > this.awayScore
-                ? 'Home Win'
-                : this.awayScore > this.homeScore
-                ? 'Away Win'
-                : 'Draw'}
-            </p>
-          </div>
+          {resultText && (
+            <div className="Form-group">
+              <p>
+                <strong>Result: </strong>
+                {resultText}
+              </p>
+            </div>
+          )}
 
           <div className="Form-group">
             <Button className="Button Button--primary" type="submit" loading={this.loading}>
@@ -74,12 +92,13 @@ export default class ResultModal extends Modal {
     );
   }
 
-  async onsubmit(e) {
+  async onsubmit(e: SubmitEvent) {
     e.preventDefault();
-
     this.loading = true;
+    m.redraw();
 
     try {
+      // Bu, özel bir API rotası olduğu için app.request kullanıyoruz
       const response = await app.request({
         method: 'POST',
         url: `${app.forum.attribute('apiUrl')}/pickem-events/${this.event.id()}/result`,
@@ -87,26 +106,23 @@ export default class ResultModal extends Modal {
           data: {
             type: 'pickem-events',
             attributes: {
-              homeScore: parseInt(this.homeScore),
-              awayScore: parseInt(this.awayScore),
+              homeScore: parseInt(this.homeScore as string) || 0,
+              awayScore: parseInt(this.awayScore as string) || 0,
             },
           },
         },
       });
 
+      // API yanıtını Flarum store'una push et
       app.store.pushPayload(response);
 
-      // DÜZELTME: Hardcoded başarı mesajı yerine locale anahtarı kullan
       app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.admin.alerts.result_saved_success'));
+      this.attrs.onsave(); // Listeyi yenile
       this.hide();
-      
-      m.redraw();
 
-    } catch (error) {
+    } catch (error: any) {
       this.loading = false;
-      console.error('Error saving result:', error);
-      // DÜZELTME: Hardcoded hata mesajı yerine locale anahtarı kullan
-      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.admin.alerts.result_saved_fail'));
+      this.alertAttrs = error.alert; // Hata yönetimi
       m.redraw();
     }
   }

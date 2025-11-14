@@ -2,44 +2,32 @@
 
 namespace HuseyinFiliz\Pickem\Api\Controller;
 
-use Flarum\Api\Controller\AbstractDeleteController;
-use Flarum\Foundation\ValidationException;
-use Flarum\Http\RequestUtil;
 use HuseyinFiliz\Pickem\Week;
-use Illuminate\Support\Arr;
-use Psr\Http\Message\ServerRequestInterface;
-use Illuminate\Contracts\Translation\Translator; // YENİ: Translator import et
 
-class DeleteWeekController extends AbstractDeleteController
+class DeleteWeekController extends AbstractDeleteControllerWithRelationCheck
 {
     /**
-     * @var Translator
+     * {@inheritdoc}
      */
-    protected $translator; // YENİ
-
-    /**
-     * @param Translator $translator
-     */
-    public function __construct(Translator $translator) // YENİ: Translator enjekte et
+    protected function getModelClass(): string
     {
-        $this->translator = $translator;
+        return Week::class;
     }
 
-    protected function delete(ServerRequestInterface $request)
+    /**
+     * {@inheritdoc}
+     */
+    protected function getRelationName(): string
     {
-        $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.manage');
+        // Week modelindeki 'events' ilişkisinin adı
+        return 'events';
+    }
 
-        $id = Arr::get($request->getQueryParams(), 'id');
-        $week = Week::findOrFail($id);
-
-        if ($week->events()->exists()) {
-            // DÜZELTME: Hardcoded metin yerine locale anahtarı kullan
-            throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.validation.errors.week_in_use')
-            ]);
-        }
-
-        $week->delete();
+    /**
+     * {@inheritdoc}
+     */
+    protected function getErrorMessageKey(): string
+    {
+        return 'huseyinfiliz-pickem.validation.errors.week_in_use';
     }
 }

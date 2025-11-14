@@ -4,14 +4,13 @@ namespace HuseyinFiliz\Pickem\Api\Controller;
 
 use Flarum\Api\Controller\AbstractDeleteController;
 use Flarum\Http\RequestUtil;
-use HuseyinFiliz\Pickem\Event;
 use HuseyinFiliz\Pickem\Pick;
 use HuseyinFiliz\Pickem\Job\RecalculateUserScoreJob;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 
-class DeleteEventController extends AbstractDeleteController
+class DeletePickController extends AbstractDeleteController
 {
     /**
      * @var Dispatcher
@@ -29,22 +28,21 @@ class DeleteEventController extends AbstractDeleteController
     protected function delete(ServerRequestInterface $request)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.manage');
-
         $id = Arr::get($request->getQueryParams(), 'id');
-        $event = Event::findOrFail($id);
 
-        $affectedUserIds = Pick::where('event_id', $id)
-            ->distinct()
-            ->pluck('user_id')
-            ->all();
+        $pick = Pick::findOrFail($id);
+        
+        // Use the new PickPolicy to authorize
+        $actor->assertCan('delete', $pick);
 
-        $event->delete();
+        // Get the user ID before deleting
+        $userId = $pick->user_id;
 
-        foreach ($affectedUserIds as $userId) {
-            $this->bus->dispatch(
-                new RecalculateUserScoreJob($userId)
-            );
-        }
+        $pick->delete();
+
+        // Recalculate score for the user
+        $this->bus->dispatch(
+            new RecalculateUserScoreJob($userId)
+        );
     }
 }

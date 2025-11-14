@@ -24,8 +24,8 @@ export default [
   new Extend.Model(Season)
     .attribute('name')
     .attribute('slug')
-    .attribute('startDate', Model.transformDate)
-    .attribute('endDate', Model.transformDate),
+    .attribute<Date>('startDate', Model.transformDate) // Tip ataması
+    .attribute<Date>('endDate', Model.transformDate),   // Tip ataması
 
   new Extend.Store()
     .add('pickem-weeks', Week),
@@ -43,8 +43,8 @@ export default [
     .attribute('weekId')
     .attribute('homeTeamId')
     .attribute('awayTeamId')
-    .attribute('matchDate', Model.transformDate)
-    .attribute('cutoffDate', Model.transformDate)
+    .attribute<Date>('matchDate', Model.transformDate) // Tip ataması
+    .attribute<Date>('cutoffDate', Model.transformDate) // Tip ataması
     .attribute('allowDraw')
     .attribute('status')
     .attribute('homeScore')

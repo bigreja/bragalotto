@@ -8,6 +8,7 @@ use HuseyinFiliz\Pickem\Api\Serializer\TeamSerializer;
 use HuseyinFiliz\Pickem\Team;
 use HuseyinFiliz\Pickem\Validator\TeamValidator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str; // EKLENDİ
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
@@ -32,21 +33,21 @@ class UpdateTeamController extends AbstractShowController
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
 
-        // DÜZELTME: Model, 'model' özelliğine (property) atanmalıdır.
+        // --- YENİ MANTIK ---
+        // 1. Gelen camelCase (logoPath) veriyi snake_case (logo_path) veriye dönüştür
+        $attributes = [];
+        foreach ($data as $key => $value) {
+            $attributes[Str::snake($key)] = $value;
+        }
+
+        // 2. Modeli ve veriyi doğrula
         $this->validator->model = $team;
-        $this->validator->assertValid($data);
+        $this->validator->assertValid($attributes);
 
-        if (Arr::has($data, 'name')) {
-            $team->name = Arr::get($data, 'name');
-        }
-        if (Arr::has($data, 'slug')) {
-            $team->slug = Arr::get($data, 'slug');
-        }
-        if (Arr::has($data, 'logoPath')) {
-            $team->logo_path = Arr::get($data, 'logoPath');
-        }
-
+        // 3. Modeli $fillable kullanarak doldur ve kaydet
+        $team->fill($attributes);
         $team->save();
+        // --- YENİ MANTIK SONU ---
 
         return $team;
     }

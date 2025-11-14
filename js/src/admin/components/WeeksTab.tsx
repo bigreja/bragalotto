@@ -1,10 +1,11 @@
 import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
-import WeekModal from './WeekModal';
+import WeekModal from './modals/WeekModal'; // İÇE AKTARMA YOLU GÜNCELLENDİ
+import Week from '../../common/models/Week'; // Model import edildi
 
 export default class WeeksTab extends Component {
   view() {
-    const weeks = app.store.all('pickem-weeks');
+    const weeks = app.store.all('pickem-weeks') as Week[];
 
     return (
       <div className="WeeksTab">
@@ -16,7 +17,10 @@ export default class WeeksTab extends Component {
           <Button
             className="Button Button--primary"
             icon="fas fa-plus"
-            onclick={() => app.modal.show(WeekModal, { week: null })}
+            onclick={() => app.modal.show(WeekModal, {
+              week: null,
+              onsave: () => m.redraw() // Kaydettikten sonra listeyi yenile
+            })}
           >
             {app.translator.trans('huseyinfiliz-pickem.admin.weeks.create')}
           </Button>
@@ -43,7 +47,10 @@ export default class WeeksTab extends Component {
                     <Button
                       className="Button Button--primary"
                       icon="fas fa-edit"
-                      onclick={() => app.modal.show(WeekModal, { week })}
+                      onclick={() => app.modal.show(WeekModal, {
+                        week: week,
+                        onsave: () => m.redraw() // Düzenledikten sonra listeyi yenile
+                      })}
                     >
                       {app.translator.trans('huseyinfiliz-pickem.admin.buttons.edit')}
                     </Button>
@@ -64,7 +71,7 @@ export default class WeeksTab extends Component {
     );
   }
 
-  deleteWeek(week: any) {
+  deleteWeek(week: Week) {
     if (!confirm(app.translator.trans('huseyinfiliz-pickem.admin.weeks.delete_confirmation'))) {
       return;
     }

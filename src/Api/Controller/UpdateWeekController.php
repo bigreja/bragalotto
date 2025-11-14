@@ -8,6 +8,7 @@ use HuseyinFiliz\Pickem\Api\Serializer\WeekSerializer;
 use HuseyinFiliz\Pickem\Week;
 use HuseyinFiliz\Pickem\Validator\WeekValidator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str; // EKLENDİ
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
@@ -32,21 +33,21 @@ class UpdateWeekController extends AbstractShowController
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
 
-        // DÜZELTME: Model, 'model' özelliğine (property) atanmalıdır.
-        $this.validator->model = $week;
-        $this->validator->assertValid($data);
-
-        if (Arr::has($data, 'name')) {
-            $week->name = Arr::get($data, 'name');
-        }
-        if (Arr::has($data, 'weekNumber')) {
-            $week->week_number = Arr::get($data, 'weekNumber');
-        }
-        if (Arr::has($data, 'seasonId')) {
-            $week->season_id = Arr::get($data, 'seasonId');
+        // --- YENİ MANTIK ---
+        // 1. Gelen camelCase (weekNumber) veriyi snake_case (week_number) veriye dönüştür
+        $attributes = [];
+        foreach ($data as $key => $value) {
+            $attributes[Str::snake($key)] = $value;
         }
 
+        // 2. Modeli ve veriyi doğrula
+        $this->validator->model = $week;
+        $this->validator->assertValid($attributes);
+
+        // 3. Modeli $fillable kullanarak doldur ve kaydet
+        $week->fill($attributes);
         $week->save();
+        // --- YENİ MANTIK SONU ---
 
         return $week;
     }

@@ -1,30 +1,48 @@
 import Modal from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
 import Select from 'flarum/common/components/Select';
+import Week from '../../../common/models/Week';
+import Season from '../../../common/models/Season';
 
-export default class WeekModal extends Modal {
-  oninit(vnode) {
+interface IWeekModalAttrs {
+  week?: Week | null;
+  onsave: () => void; // Listeyi yenilemek için callback
+}
+
+export default class WeekModal extends Modal<IWeekModalAttrs> {
+  private week: Week | null | undefined;
+  private name: string = '';
+  private weekNumber: string | number = '';
+  private seasonId: string = '0'; // '0' string olarak başla
+  private loading: boolean = false;
+
+  oninit(vnode: any) {
     super.oninit(vnode);
 
     this.week = this.attrs.week;
-    this.name = this.week ? this.week.name() : '';
-    this.weekNumber = this.week ? this.week.weekNumber() : '';
-    this.seasonId = this.week ? this.week.seasonId() : '';
+    if (this.week) {
+      this.name = this.week.name() || '';
+      this.weekNumber = this.week.weekNumber() || '';
+      this.seasonId = this.week.seasonId() || '0';
+    }
   }
 
-  className() {
+  className(): string {
     return 'WeekModal Modal--small';
   }
 
-  title() {
+  title(): string {
     return app.translator.trans(
-      this.week ? 'huseyinfiliz-pickem.admin.weeks.edit_title' : 'huseyinfiliz-pickem.admin.weeks.create_title'
+      this.week
+        ? 'huseyinfiliz-pickem.admin.weeks.edit_title'
+        : 'huseyinfiliz-pickem.admin.weeks.create_title'
     );
   }
 
   content() {
-    const seasons = app.store.all('pickem-seasons');
-    const seasonOptions = seasons.reduce((options, season) => {
+    const seasons = app.store.all('pickem-seasons') as Season[];
+    // Tip güvenliği için 'any' yerine 'Record<string, string>' kullan
+    const seasonOptions: Record<string, string> = seasons.reduce((options: Record<string, string>, season) => {
       options[season.id()] = season.name();
       return options;
     }, {});
@@ -38,7 +56,7 @@ export default class WeekModal extends Modal {
               className="FormControl"
               type="text"
               value={this.name}
-              oninput={(e) => { this.name = e.target.value; }}
+              oninput={(e: InputEvent) => { this.name = (e.target as HTMLInputElement).value; }}
             />
           </div>
 
@@ -47,7 +65,7 @@ export default class WeekModal extends Modal {
             <Select
               className="FormControl"
               value={this.seasonId}
-              onchange={(value) => { this.seasonId = value; }}
+              onchange={(value: string) => { this.seasonId = value; }}
               options={seasonOptions}
               default="0"
             >
@@ -61,7 +79,7 @@ export default class WeekModal extends Modal {
               className="FormControl"
               type="number"
               value={this.weekNumber}
-              oninput={(e) => { this.weekNumber = e.target.value; }}
+              oninput={(e: InputEvent) => { this.weekNumber = (e.target as HTMLInputElement).value; }}
             />
           </div>
 
@@ -79,9 +97,10 @@ export default class WeekModal extends Modal {
     );
   }
 
-  onsubmit(e) {
+  async onsubmit(e: SubmitEvent) {
     e.preventDefault();
     this.loading = true;
+    m.redraw();
 
     const data = {
       name: this.name,
@@ -89,20 +108,19 @@ export default class WeekModal extends Modal {
       seasonId: this.seasonId === '0' ? null : this.seasonId,
     };
 
-    const promise = this.week
-      ? this.week.save(data)
-      : app.store.createRecord('pickem-weeks').save(data);
+    try {
+      const promise = this.week
+        ? this.week.save(data)
+        : app.store.createRecord('pickem-weeks').save(data);
 
-    promise.then(
-      () => {
-        this.hide();
-        m.redraw();
-      },
-      (error) => {
-        this.loading = false;
-        this.alertAttrs = error.alert;
-        m.redraw();
-      }
-    );
+      await promise;
+
+      this.attrs.onsave(); // Listeyi yenilemek için callback'i çağır
+      this.hide();
+    } catch (error: any) {
+      this.loading = false;
+      this.alertAttrs = error.alert;
+      m.redraw();
+    }
   }
 }

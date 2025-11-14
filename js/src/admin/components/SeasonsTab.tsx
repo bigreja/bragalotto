@@ -1,10 +1,11 @@
 import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
-import SeasonModal from './SeasonModal';
+import SeasonModal from './modals/SeasonModal'; // İÇE AKTARMA YOLU GÜNCELLENDİ
+import Season from '../../common/models/Season'; // Model import edildi
 
 export default class SeasonsTab extends Component {
   view() {
-    const seasons = app.store.all('pickem-seasons');
+    const seasons = app.store.all('pickem-seasons') as Season[];
 
     return (
       <div className="SeasonsTab">
@@ -16,7 +17,10 @@ export default class SeasonsTab extends Component {
           <Button
             className="Button Button--primary"
             icon="fas fa-plus"
-            onclick={() => app.modal.show(SeasonModal, { season: null })}
+            onclick={() => app.modal.show(SeasonModal, {
+              season: null,
+              onsave: () => m.redraw() // Kaydettikten sonra listeyi yenile
+            })}
           >
             {app.translator.trans('huseyinfiliz-pickem.admin.seasons.create')}
           </Button>
@@ -45,7 +49,10 @@ export default class SeasonsTab extends Component {
                   <Button
                     className="Button Button--primary"
                     icon="fas fa-edit"
-                    onclick={() => app.modal.show(SeasonModal, { season })}
+                    onclick={() => app.modal.show(SeasonModal, {
+                      season: season,
+                      onsave: () => m.redraw() // Düzenledikten sonra listeyi yenile
+                    })}
                   >
                     {app.translator.trans('huseyinfiliz-pickem.admin.buttons.edit')}
                   </Button>
@@ -65,7 +72,7 @@ export default class SeasonsTab extends Component {
     );
   }
 
-  deleteSeason(season: any) {
+  deleteSeason(season: Season) {
     if (!confirm(app.translator.trans('huseyinfiliz-pickem.admin.seasons.delete_confirmation'))) {
       return;
     }

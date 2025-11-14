@@ -1,48 +1,92 @@
 import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
-import EventModal from './EventModal';
-import ResultModal from './ResultModal';
+import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
+import Placeholder from 'flarum/common/components/Placeholder'; // EKLENDİ
+import Pagination from 'flarum/common/components/Pagination'; // EKLENDİ
+import EventModal from './modals/EventModal';
+import ResultModal from './modals/ResultModal';
+import PickemEvent from '../../common/models/Event';
+import Team from '../../common/models/Team';
 
 export default class EventsTab extends Component {
+  // Filtre state'leri
   private selectedSeason: string = 'all';
   private selectedTeam: string = 'all';
   private selectedStatus: string = 'all';
   private sortOrder: string = 'desc';
 
+  // Veri ve yükleme state'leri
+  private loading: boolean = true;
+  private events: PickemEvent[] = [];
+
+  // Sayfalama (Pagination) state'leri
+  private totalEvents: number = 0;
+  private page: number = 1; // Flarum Pagination 1-based index kullanır
+  private limit: number = 20; // Sayfa başına 20 sonuç göster
+
+  oninit(vnode: any) {
+    super.oninit(vnode);
+    this.loadEvents(); // İlk yükleme
+  }
+
+  buildFilters() {
+    const filters: any = {};
+    const weekIds = [];
+
+    if (this.selectedSeason !== 'all') {
+      const weeks = app.store.all('pickem-weeks').filter((week: any) => week.seasonId() == this.selectedSeason);
+      weekIds.push(...weeks.map((week: any) => week.id()));
+      if (weekIds.length === 0) weekIds.push('0');
+      filters.week = weekIds.join(',');
+    }
+
+    if (this.selectedTeam !== 'all') {
+      filters.team = this.selectedTeam;
+    }
+
+    if (this.selectedStatus !== 'all') {
+      filters.status = this.selectedStatus;
+    }
+
+    return filters;
+  }
+
+  // Sayfa değiştiğinde veya filtre değiştiğinde veriyi yükler
+  loadEvents(page: number = 1) {
+    this.loading = true;
+    this.page = page; // Sayfa numarasını güncelle
+    m.redraw();
+
+    const filters = this.buildFilters();
+    const sort = this.sortOrder === 'desc' ? '-matchDate' : 'matchDate';
+    
+    // API'nin 'page[offset]' (0-based) beklentisine göre 'offset' hesapla
+    const offset = (this.page - 1) * this.limit;
+
+    app.store.find('pickem-events', {
+      include: 'homeTeam,awayTeam,week',
+      filter: filters,
+      sort: sort,
+      page: { limit: this.limit, offset: offset } // Limit ve offset gönder
+    }).then(results => {
+      this.events = results as PickemEvent[];
+      this.totalEvents = results.payload.meta.total; 
+      this.loading = false;
+      m.redraw();
+    }).catch(error => {
+      this.loading = false;
+      console.error(error);
+      m.redraw();
+    });
+  }
+
   view() {
-    const allEvents = app.store.all('pickem-events');
     const allSeasons = app.store.all('pickem-seasons');
     const allTeams = app.store.all('pickem-teams');
 
-    // Filtreleme
-    let filteredEvents = allEvents.filter((event: any) => {
-      if (this.selectedSeason !== 'all') {
-        const week = event.week();
-        const seasonId = week ? week.season()?.id() : null;
-        if (seasonId !== this.selectedSeason) return false;
-      }
-
-      if (this.selectedTeam !== 'all') {
-        const homeTeamId = event.homeTeam()?.id();
-        const awayTeamId = event.awayTeam()?.id();
-        if (homeTeamId !== this.selectedTeam && awayTeamId !== this.selectedTeam) {
-          return false;
-        }
-      }
-
-      if (this.selectedStatus !== 'all') {
-        if (event.status() !== this.selectedStatus) return false;
-      }
-
-      return true;
-    });
-
-    // Sıralama
-    filteredEvents.sort((a: any, b: any) => {
-      const dateA = new Date(a.matchDate()).getTime();
-      const dateB = new Date(b.matchDate()).getTime();
-      return this.sortOrder === 'desc' ? dateB - dateA : dateA - dateB;
-    });
+    const total = this.totalEvents;
+    const hasEvents = this.events.length > 0;
+    const canShowPagination = total > this.limit;
 
     return (
       <div className="EventsTab">
@@ -54,7 +98,7 @@ export default class EventsTab extends Component {
           <Button
             className="Button Button--primary"
             icon="fas fa-plus"
-            onclick={() => app.modal.show(EventModal, { event: null })}
+            onclick={() => app.modal.show(EventModal, { event: null, onsave: () => this.loadEvents(this.page) })} // Mevcut sayfayı yenile
           >
             {app.translator.trans('huseyinfiliz-pickem.admin.events.create')}
           </Button>
@@ -72,6 +116,7 @@ export default class EventsTab extends Component {
               value={this.selectedSeason}
               onchange={(e: any) => {
                 this.selectedSeason = e.target.value;
+                this.loadEvents(1); // Filtre değişti, 1. sayfaya git
               }}
             >
               <option value="all">{app.translator.trans('huseyinfiliz-pickem.admin.filters.all_seasons')}</option>
@@ -93,6 +138,7 @@ export default class EventsTab extends Component {
               value={this.selectedTeam}
               onchange={(e: any) => {
                 this.selectedTeam = e.target.value;
+                this.loadEvents(1); // Filtre değişti, 1. sayfaya git
               }}
             >
               <option value="all">{app.translator.trans('huseyinfiliz-pickem.admin.filters.all_teams')}</option>
@@ -114,6 +160,7 @@ export default class EventsTab extends Component {
               value={this.selectedStatus}
               onchange={(e: any) => {
                 this.selectedStatus = e.target.value;
+                this.loadEvents(1); // Filtre değişti, 1. sayfaya git
               }}
             >
               <option value="all">{app.translator.trans('huseyinfiliz-pickem.admin.filters.all_statuses')}</option>
@@ -133,6 +180,7 @@ export default class EventsTab extends Component {
               value={this.sortOrder}
               onchange={(e: any) => {
                 this.sortOrder = e.target.value;
+                this.loadEvents(1); // Filtre değişti, 1. sayfaya git
               }}
             >
               <option value="desc">{app.translator.trans('huseyinfiliz-pickem.admin.filters.newest_first')}</option>
@@ -152,6 +200,7 @@ export default class EventsTab extends Component {
                 this.selectedTeam = 'all';
                 this.selectedStatus = 'all';
                 this.sortOrder = 'desc';
+                this.loadEvents(1); // Filtreleri sıfırla, 1. sayfaya git
               }}
             >
               {app.translator.trans('huseyinfiliz-pickem.admin.filters.reset')}
@@ -159,96 +208,98 @@ export default class EventsTab extends Component {
           )}
         </div>
 
-        <div className="EventsTab-count">
-          <i className="fas fa-list" />
-          <span>
-            {app.translator.trans('huseyinfiliz-pickem.admin.filters.showing')} <strong>{filteredEvents.length}</strong> {app.translator.trans('huseyinfiliz-pickem.admin.filters.of')} <strong>{allEvents.length}</strong> {app.translator.trans('huseyinfiliz-pickem.admin.filters.matches')}
-          </span>
-        </div>
+        {/* Sonuç Sayısı kaldırıldı, sayfalama bileşeni bunu zaten gösteriyor */}
 
-        <table className="Table">
-          <thead>
-            <tr>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.home_team')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.away_team')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.match_date')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.status')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.score')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.buttons.actions')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredEvents.length === 0 ? (
+        {this.loading ? (
+          <LoadingIndicator />
+        ) : !hasEvents ? (
+            <Placeholder text={app.translator.trans('huseyinfiliz-pickem.admin.filters.no_matches_found')} />
+        ) : (
+          <table className="Table">
+            <thead>
               <tr>
-                <td colspan="6" className="EmptyState-table">
-                  <i className="fas fa-search" />
-                  <p>{app.translator.trans('huseyinfiliz-pickem.admin.filters.no_matches_found')}</p>
-                </td>
+                <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.home_team')}</th>
+                <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.away_team')}</th>
+                <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.match_date')}</th>
+                <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.status')}</th>
+                <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.score')}</th>
+                <th>{app.translator.trans('huseyinfiliz-pickem.admin.buttons.actions')}</th>
               </tr>
-            ) : (
-              filteredEvents.map((event: any) => {
-                const homeTeam = event.homeTeam();
-                const awayTeam = event.awayTeam();
+            </thead>
+            <tbody>
+              {this.events.map((event) => {
+                  const homeTeam = event.homeTeam() as Team | null;
+                  const awayTeam = event.awayTeam() as Team | null;
 
-                return (
-                  <tr key={event.id()}>
-                    <td>
-                      <div className="TeamCell">
-                        {this.renderTeamLogo(homeTeam)}
-                        <span>{homeTeam ? homeTeam.name() : 'N/A'}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="TeamCell">
-                        {this.renderTeamLogo(awayTeam)}
-                        <span>{awayTeam ? awayTeam.name() : 'N/A'}</span>
-                      </div>
-                    </td>
-                    <td>{new Date(event.matchDate()).toLocaleString()}</td>
-                    <td>
-                      <span className={`StatusBadge StatusBadge--${event.status()}`}>
-                        {event.status()}
-                      </span>
-                    </td>
-                    <td>
-                      {event.homeScore() !== null && event.awayScore() !== null
-                        ? `${event.homeScore()} - ${event.awayScore()}`
-                        : '-'}
-                    </td>
-                    <td>
-                      <Button
-                        className="Button Button--primary"
-                        icon="fas fa-edit"
-                        onclick={() => app.modal.show(EventModal, { event })}
-                      >
-                        {app.translator.trans('huseyinfiliz-pickem.admin.buttons.edit')}
-                      </Button>
-                      <Button
-                        className="Button Button--success"
-                        icon="fas fa-check"
-                        onclick={() => app.modal.show(ResultModal, { event })}
-                      >
-                        {app.translator.trans('huseyinfiliz-pickem.admin.events.enter_result')}
-                      </Button>
-                      <Button
-                        className="Button Button--danger"
-                        icon="fas fa-trash"
-                        onclick={() => this.deleteEvent(event)}
-                      >
-                        {app.translator.trans('huseyinfiliz-pickem.admin.buttons.delete')}
-                      </Button>
-                    </td>
-                  </tr>
-                );
-              })
-            )}
-          </tbody>
-        </table>
+                  return (
+                    <tr key={event.id()}>
+                      <td>
+                        <div className="TeamCell">
+                          {this.renderTeamLogo(homeTeam)}
+                          <span>{homeTeam ? homeTeam.name() : 'N/A'}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="TeamCell">
+                          {this.renderTeamLogo(awayTeam)}
+                          <span>{awayTeam ? awayTeam.name() : 'N/A'}</span>
+                        </div>
+                      </td>
+                      <td>{event.matchDate() ? new Date(event.matchDate()!).toLocaleString() : '-'}</td>
+                      <td>
+                        <span className={`StatusBadge StatusBadge--${event.status()}`}>
+                          {event.status()}
+                        </span>
+                      </td>
+                      <td>
+                        {event.homeScore() !== null && event.awayScore() !== null
+                          ? `${event.homeScore()} - ${event.awayScore()}`
+                          : '-'}
+                      </td>
+                      <td>
+                        <Button
+                          className="Button Button--primary"
+                          icon="fas fa-edit"
+                          onclick={() => app.modal.show(EventModal, { event: event, onsave: () => this.loadEvents(this.page) })} 
+                        >
+                          {app.translator.trans('huseyinfiliz-pickem.admin.buttons.edit')}
+                        </Button>
+                        <Button
+                          className="Button Button--success"
+                          icon="fas fa-check"
+                          onclick={() => app.modal.show(ResultModal, { event: event, onsave: () => this.loadEvents(this.page) })} 
+                        >
+                          {app.translator.trans('huseyinfiliz-pickem.admin.events.enter_result')}
+                        </Button>
+                        <Button
+                          className="Button Button--danger"
+                          icon="fas fa-trash"
+                          onclick={() => this.deleteEvent(event)}
+                        >
+                          {app.translator.trans('huseyinfiliz-pickem.admin.buttons.delete')}
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+        )}
+
+        {/* SAYFALAMA BİLEŞENİ EKLENDİ */}
+        {canShowPagination && (
+          <Pagination
+            total={total}
+            limit={this.limit}
+            page={this.page}
+            onchange={this.loadEvents.bind(this)} // Sayfa değiştiğinde loadEvents'i çağır
+          />
+        )}
       </div>
     );
   }
 
-  renderTeamLogo(team: any) {
+  renderTeamLogo(team: Team | null) {
     if (!team) {
       return (
         <div className="TeamLogo TeamLogo--letter" style="background-color: #999">
@@ -283,13 +334,18 @@ export default class EventsTab extends Component {
     );
   }
 
-  deleteEvent(event: any) {
+  deleteEvent(event: PickemEvent) {
     if (!confirm(app.translator.trans('huseyinfiliz-pickem.admin.events.delete_confirmation'))) {
       return;
     }
 
     event.delete().then(() => {
-      m.redraw();
+      // Listenin son elemanını sildiysek ve 1. sayfada değilsek, bir önceki sayfayı yükle
+      if (this.events.length === 1 && this.page > 1) {
+        this.loadEvents(this.page - 1);
+      } else {
+        this.loadEvents(this.page);
+      }
     });
   }
 }

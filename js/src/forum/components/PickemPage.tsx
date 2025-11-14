@@ -3,17 +3,28 @@ import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import MatchesTab from './MatchesTab';
 import MyPicksTab from './MyPicksTab';
 import LeaderboardTab from './LeaderboardTab';
+// Gerekli modelleri import et
+import Team from '../../common/models/Team';
+import Season from '../../common/models/Season';
+import Week from '../../common/models/Week';
 
 export default class PickemPage extends Page {
   private activeTab: string = 'matches';
   private loading: boolean = true;
-  private events: any[] = [];
+  // Events state'i MatchesTab'e taşınacak
+  // private events: any[] = []; 
   private picks: Record<string, any> = {};
   private userScores: any[] = [];
-  private pickLoading: Set<number> = new Set();
-  private eventsPage: number = 0;
-  private eventsHasMore: boolean = true;
-  private eventsLoading: boolean = false;
+  // PickLoading state'i MatchesTab'e taşınacak
+  // private pickLoading: Set<number> = new Set();
+  
+  // Events paginasyon state'i MatchesTab'e taşınacak
+  // private eventsPage: number = 0;
+  // private eventsHasMore: boolean = true;
+  // private eventsLoading: boolean = false;
+
+  // Filtre verilerini tutmak için
+  private filterDataLoaded: boolean = false;
 
   oninit(vnode: any) {
     super.oninit(vnode);
@@ -25,28 +36,29 @@ export default class PickemPage extends Page {
 
     this.activeTab = (m.route && m.route.param && m.route.param('tab')) || 'matches';
     this.loading = true;
-    this.events = [];
     this.picks = {};
     this.userScores = [];
-    this.pickLoading = new Set();
-    this.eventsPage = 0;
-    this.eventsHasMore = true;
-    this.eventsLoading = false;
+    this.filterDataLoaded = false; // Başlangıçta filtre verisi yüklenmedi
 
     this.loadInitialData();
   }
 
   async loadInitialData() {
     try {
-      const promises = [
-        this.loadEvents(true),
-      ];
+      const promises = [];
+
+      // Artık maçları (events) burada yüklemiyoruz, MatchesTab yüklenecek.
+      // promises.push(this.loadEvents(true)); 
 
       if (app.session.user && app.forum.attribute('pickem.makePicks')) {
         promises.push(this.loadPicks());
       }
       
       promises.push(this.loadLeaderboard());
+      
+      // --- YENİ EKLENDİ: Filtre Verilerini Yükle ---
+      promises.push(this.loadFilterData());
+      // --- YENİ EKLENDİ SONU ---
 
       await Promise.all(promises);
 
@@ -54,42 +66,12 @@ export default class PickemPage extends Page {
       console.error('Error loading initial data:', error);
     } finally {
       this.loading = false;
+      this.filterDataLoaded = true; // Filtre verisi yüklendi (veya hata verdi)
       m.redraw();
     }
   }
 
-  async loadEvents(initial = false) {
-    if (this.eventsLoading || (!initial && !this.eventsHasMore)) return;
-
-    this.eventsLoading = true;
-    m.redraw();
-
-    try {
-      const offset = initial ? 0 : this.eventsPage * 10;
-      const response = (await app.store.find('pickem-events', {
-        include: 'homeTeam,awayTeam,week',
-        page: { offset, limit: 10 },
-      })) as any;
-
-      const newEvents = Array.isArray(response) ? response : response.payload?.data || [];
-
-      if (initial) {
-        this.events = newEvents.filter((e: any) => e != null && typeof e.id === 'function');
-        this.eventsPage = 1;
-      } else {
-        const filtered = newEvents.filter((e: any) => e != null && typeof e.id === 'function');
-        this.events = [...this.events, ...filtered];
-        this.eventsPage++;
-      }
-
-      this.eventsHasMore = newEvents.length >= 10;
-    } catch (error) {
-      console.error('Error loading events:', error);
-    } finally {
-      this.eventsLoading = false;
-      m.redraw();
-    }
-  }
+  // loadEvents metodu artık MatchesTab içinde olacağı için buradan kaldırıldı.
 
   async loadPicks() {
     if (!app.session.user || !app.forum.attribute('pickem.makePicks')) return;
@@ -127,34 +109,22 @@ export default class PickemPage extends Page {
     }
   }
 
-  async makePick(eventId: number, outcome: string) {
-    const idStr = String(eventId);
-    this.pickLoading.add(eventId);
-    m.redraw();
-
+  // --- YENİ EKLENDİ: Filtre Veri Yükleme Fonksiyonu ---
+  async loadFilterData() {
     try {
-      const pick = await app.store.createRecord('pickem-picks').save({
-        eventId: eventId,
-        selectedOutcome: outcome,
-      });
-      
-      this.picks[idStr] = pick as any;
-      app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.validation.success.pick_updated'));
-    } catch (error: any) {
-      console.error('Error making pick:', error);
-      
-      // Hata yönetimini Flarum'un standartlarına uygun hale getir
-      if (error.alert) {
-          app.alerts.show(error.alert);
-      } else {
-          app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.validation.errors.unauthorized'));
-      }
-
-    } finally {
-      this.pickLoading.delete(eventId);
-      m.redraw();
+      await Promise.all([
+        app.store.find('pickem-public-seasons'),
+        app.store.find('pickem-public-teams'),
+        app.store.find('pickem-public-weeks')
+      ]);
+    } catch (error) {
+      console.error('Error loading filter data:', error);
+      // Hata olsa bile sayfanın geri kalanının yüklenmesine izin ver
     }
   }
+  // --- YENİ EKLENDİ SONU ---
+
+  // makePick metodu artık MatchesTab içinde olacağı için buradan kaldırıldı.
 
   view() {
     return (
@@ -198,22 +168,21 @@ export default class PickemPage extends Page {
   renderTabContent() {
     switch (this.activeTab) {
       case 'matches':
-        return (
+        // MatchesTab artık filtre verilerinin yüklenmesini bekleyecek
+        return this.filterDataLoaded ? (
           <MatchesTab
-            events={this.events}
             picks={this.picks}
-            pickLoading={this.pickLoading}
-            eventsHasMore={this.eventsHasMore}
-            eventsLoading={this.eventsLoading}
-            loadEvents={() => this.loadEvents()}
-            onMakePick={(eventId, outcome) => this.makePick(eventId, outcome)}
+            onPickChange={(picks: Record<string, any>) => { this.picks = picks; }} // Pick state'ini güncellemek için callback
           />
-        );
+        ) : <LoadingIndicator />;
+      
       case 'my_picks':
         if (!app.session.user || !app.forum.attribute('pickem.makePicks')) return null;
         return <MyPicksTab picks={this.picks} />;
+      
       case 'leaderboard':
         return <LeaderboardTab userScores={this.userScores} />;
+      
       default:
         return null;
     }

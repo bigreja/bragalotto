@@ -8,6 +8,7 @@ use HuseyinFiliz\Pickem\Api\Serializer\SeasonSerializer;
 use HuseyinFiliz\Pickem\Season;
 use HuseyinFiliz\Pickem\Validator\SeasonValidator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str; // EKLENDİ
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 use Carbon\Carbon;
@@ -33,24 +34,29 @@ class UpdateSeasonController extends AbstractShowController
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
 
-        // DÜZELTME: Model, 'model' özelliğine (property) atanmalıdır.
+        // --- YENİ MANTIK ---
+        // 1. Gelen camelCase (startDate) veriyi snake_case (start_date) veriye dönüştür
+        $attributes = [];
+        foreach ($data as $key => $value) {
+            $attributes[Str::snake($key)] = $value;
+        }
+
+        // 2. Modeli ve veriyi doğrula
         $this->validator->model = $season;
-        $this->validator->assertValid($data);
+        $this->validator->assertValid($attributes);
 
-        if (Arr::has($data, 'name')) {
-            $season->name = Arr::get($data, 'name');
+        // 3. Tarih alanlarını Carbon nesnesine dönüştür
+        if ($startDate = Arr::get($attributes, 'start_date')) {
+            $attributes['start_date'] = Carbon::parse($startDate);
         }
-        if (Arr::has($data, 'slug')) {
-            $season->slug = Arr::get($data, 'slug');
-        }
-        if (Arr::has($data, 'startDate')) {
-            $season->start_date = Arr::get($data, 'startDate') ? Carbon::parse(Arr::get($data, 'startDate')) : null;
-        }
-        if (Arr::has($data, 'endDate')) {
-            $season->end_date = Arr::get($data, 'endDate') ? Carbon::parse(Arr::get($data, 'endDate')) : null;
+        if ($endDate = Arr::get($attributes, 'end_date')) {
+            $attributes['end_date'] = Carbon::parse($endDate);
         }
 
+        // 4. Modeli $fillable kullanarak doldur ve kaydet
+        $season->fill($attributes);
         $season->save();
+        // --- YENİ MANTIK SONU ---
 
         return $season;
     }

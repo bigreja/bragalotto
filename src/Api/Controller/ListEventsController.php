@@ -4,7 +4,7 @@ namespace HuseyinFiliz\Pickem\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
 use Flarum\Http\UrlGenerator;
-use Flarum\Http\RequestUtil; // Added for permission check
+use Flarum\Http\RequestUtil;
 use HuseyinFiliz\Pickem\Api\Serializer\EventSerializer;
 use HuseyinFiliz\Pickem\Event;
 use Illuminate\Support\Arr;
@@ -15,8 +15,8 @@ class ListEventsController extends AbstractListController
 {
     public $serializer = EventSerializer::class;
     public $include = ['homeTeam', 'awayTeam', 'week'];
-    public $limit = 10;
-    public $maxLimit = 50;
+    
+    public $sortFields = ['matchDate'];
 
     protected $url;
 
@@ -27,36 +27,53 @@ class ListEventsController extends AbstractListController
 
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        // Permission check added
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.view');
+        $actor->assertCan('pickem.view'); 
 
         $query = Event::query();
+        $filters = $this->extractFilter($request);
 
-        // Filter by week if provided
-        if ($weekId = Arr::get($request->getQueryParams(), 'filter.week')) {
-            $query->where('week_id', $weekId);
+        // --- DÜZELTME BURADA BAŞLIYOR ---
+        // `filter[week]` artık '2,3,4' gibi bir string gelebilir.
+        if ($weekIdString = Arr::get($filters, 'week')) {
+            // Bu string'i virgüllerden ayırarak bir diziye dönüştür: ['2', '3', '4']
+            $weekIds = explode(',', $weekIdString);
+            
+            // Veritabanı sorgusunda 'whereIn' kullanarak bu dizideki ID'leri ara
+            $query->whereIn('week_id', $weekIds);
         }
+        // --- DÜZELTME BURADA BİTİYOR ---
 
-        // Filter by status if provided
-        if ($status = Arr::get($request->getQueryParams(), 'filter.status')) {
+        if ($status = Arr::get($filters, 'status')) {
             $query->where('status', $status);
         }
 
-        // Sıralama - Yeni maçlar üstte (DESC)
-        $query->orderBy('match_date', 'desc');
+        if ($teamId = Arr::get($filters, 'team')) {
+            $query->where(function ($query) use ($teamId) {
+                $query->where('home_team_id', $teamId)
+                      ->orWhere('away_team_id', $teamId);
+            });
+        }
+        
+        $sort = $this->extractSort($request);
+        $sortOrder = 'desc'; 
 
-        // Pagination
+        if (is_array($sort) && !empty($sort)) {
+            $sortField = ltrim(key($sort), '-');
+            if ($sortField === 'matchDate') {
+                $sortOrder = $sort[key($sort)];
+            }
+        }
+        
+        $query->orderBy('match_date', $sortOrder); 
+        
         $limit = $this->extractLimit($request);
         $offset = $this->extractOffset($request);
         
-        // Total count for pagination metadata
         $total = $query->count();
         
-        // Apply limit and offset
         $results = $query->limit($limit)->offset($offset)->get();
         
-        // Add pagination metadata to document
         $document->addPaginationLinks(
             $this->url->to('api')->route('pickem.events.index'),
             $request->getQueryParams(),
@@ -64,6 +81,8 @@ class ListEventsController extends AbstractListController
             $limit,
             $total
         );
+
+        $document->setMeta(['total' => $total]);
 
         return $results;
     }

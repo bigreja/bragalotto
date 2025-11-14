@@ -6,7 +6,7 @@ use Flarum\Api\Controller\AbstractCreateController;
 use Flarum\Http\RequestUtil;
 use HuseyinFiliz\Pickem\Api\Serializer\SeasonSerializer;
 use HuseyinFiliz\Pickem\Season;
-use HuseyinFiliz\Pickem\Validator\SeasonValidator; // YENİ
+use HuseyinFiliz\Pickem\Validator\SeasonValidator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,15 +17,9 @@ class CreateSeasonController extends AbstractCreateController
 {
     public $serializer = SeasonSerializer::class;
 
-    /**
-     * @var SeasonValidator
-     */
-    protected $validator; // YENİ
+    protected $validator;
 
-    /**
-     * @param SeasonValidator $validator
-     */
-    public function __construct(SeasonValidator $validator) // YENİ
+    public function __construct(SeasonValidator $validator)
     {
         $this->validator = $validator;
     }
@@ -37,20 +31,33 @@ class CreateSeasonController extends AbstractCreateController
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
 
-        // Slug boşsa, isimden otomatik oluştur
+        // --- YENİ MANTIK ---
+
+        // 1. Specific logic: Auto-generate slug if empty
         if (empty($data['slug'])) {
             $data['slug'] = Str::slug(Arr::get($data, 'name'));
         }
 
-        // YENİ: Veriyi Flarum Validator ile doğrula
-        $this->validator->assertValid($data);
+        // 2. Convert camelCase keys (startDate) to snake_case (start_date)
+        $attributes = [];
+        foreach ($data as $key => $value) {
+            $attributes[Str::snake($key)] = $value;
+        }
 
-        $season = Season::create([
-            'name' => Arr::get($data, 'name'),
-            'slug' => Arr::get($data, 'slug'),
-            'start_date' => Arr::get($data, 'startDate') ? Carbon::parse(Arr::get($data, 'startDate')) : null,
-            'end_date' => Arr::get($data, 'endDate') ? Carbon::parse(Arr::get($data, 'endDate')) : null,
-        ]);
+        // 3. Handle date transformations
+        if ($startDate = Arr::get($attributes, 'start_date')) {
+            $attributes['start_date'] = Carbon::parse($startDate);
+        }
+        if ($endDate = Arr::get($attributes, 'end_date')) {
+            $attributes['end_date'] = Carbon::parse($endDate);
+        }
+
+        // 4. Validate the converted attributes
+        $this->validator->assertValid($attributes);
+
+        // 5. Create the model using the $fillable array in Season.php
+        $season = Season::create($attributes);
+        // --- YENİ MANTIK SONU ---
 
         return $season;
     }

@@ -2,44 +2,32 @@
 
 namespace HuseyinFiliz\Pickem\Api\Controller;
 
-use Flarum\Api\Controller\AbstractDeleteController;
-use Flarum\Foundation\ValidationException;
-use Flarum\Http\RequestUtil;
 use HuseyinFiliz\Pickem\Season;
-use Illuminate\Support\Arr;
-use Psr\Http\Message\ServerRequestInterface;
-use Illuminate\Contracts\Translation\Translator; // YENİ: Translator import et
 
-class DeleteSeasonController extends AbstractDeleteController
+class DeleteSeasonController extends AbstractDeleteControllerWithRelationCheck
 {
     /**
-     * @var Translator
+     * {@inheritdoc}
      */
-    protected $translator; // YENİ
-
-    /**
-     * @param Translator $translator
-     */
-    public function __construct(Translator $translator) // YENİ: Translator enjekte et
+    protected function getModelClass(): string
     {
-        $this->translator = $translator;
+        return Season::class;
     }
 
-    protected function delete(ServerRequestInterface $request)
+    /**
+     * {@inheritdoc}
+     */
+    protected function getRelationName(): string
     {
-        $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.manage');
+        // Season modelindeki 'weeks' ilişkisinin adı
+        return 'weeks';
+    }
 
-        $id = Arr::get($request->getQueryParams(), 'id');
-        $season = Season::findOrFail($id);
-
-        if ($season->weeks()->exists()) {
-            // DÜZELTME: Hardcoded metin yerine locale anahtarı kullan
-            throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.validation.errors.season_in_use')
-            ]);
-        }
-
-        $season->delete();
+    /**
+     * {@inheritdoc}
+     */
+    protected function getErrorMessageKey(): string
+    {
+        return 'huseyinfiliz-pickem.validation.errors.season_in_use';
     }
 }

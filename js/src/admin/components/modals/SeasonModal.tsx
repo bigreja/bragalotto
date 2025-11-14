@@ -1,35 +1,49 @@
 import Modal from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
 import { slug } from 'flarum/common/utils/string';
+import Season from '../../../common/models/Season'; // İçe aktarma yolu güncellendi
 
-export default class SeasonModal extends Modal {
-  oninit(vnode) {
+interface ISeasonModalAttrs {
+  season?: Season | null;
+  onsave: () => void; // Listeyi yenilemek için callback
+}
+
+export default class SeasonModal extends Modal<ISeasonModalAttrs> {
+  private season: Season | null | undefined;
+  private name: string = '';
+  private slug: string = '';
+  private startDate: string = '';
+  private endDate: string = '';
+  private loading: boolean = false;
+
+  oninit(vnode: any) {
     super.oninit(vnode);
 
     this.season = this.attrs.season;
-    this.name = this.season ? this.season.name() : '';
-    this.slug = this.season ? this.season.slug() : '';
-    this.startDate = this.season ? this.formatDateForInput(this.season.startDate()) : '';
-    this.endDate = this.season ? this.formatDateForInput(this.season.endDate()) : '';
+    if (this.season) {
+      this.name = this.season.name() || '';
+      this.slug = this.season.slug() || '';
+      this.startDate = this.formatDateForInput(this.season.startDate());
+      this.endDate = this.formatDateForInput(this.season.endDate());
+    }
   }
 
-  formatDateForInput(dateString) {
+  formatDateForInput(dateString: string | Date | undefined): string {
     if (!dateString) return '';
     const date = new Date(dateString);
-    // YYYY-MM-DD formatına çevirir (input[type=date] için)
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    // Returns YYYY-MM-DD format for input[type=date]
+    return date.toISOString().slice(0, 10);
   }
 
-  className() {
+  className(): string {
     return 'SeasonModal Modal--small';
   }
 
-  title() {
+  title(): string {
     return app.translator.trans(
-      this.season ? 'huseyinfiliz-pickem.admin.seasons.edit_title' : 'huseyinfiliz-pickem.admin.seasons.create_title'
+      this.season
+        ? 'huseyinfiliz-pickem.admin.seasons.edit_title'
+        : 'huseyinfiliz-pickem.admin.seasons.create_title'
     );
   }
 
@@ -43,8 +57,8 @@ export default class SeasonModal extends Modal {
               className="FormControl"
               type="text"
               value={this.name}
-              oninput={(e) => {
-                this.name = e.target.value;
+              oninput={(e: InputEvent) => {
+                this.name = (e.target as HTMLInputElement).value;
                 if (!this.season) {
                   this.slug = slug(this.name);
                 }
@@ -58,7 +72,7 @@ export default class SeasonModal extends Modal {
               className="FormControl"
               type="text"
               value={this.slug}
-              oninput={(e) => { this.slug = e.target.value; }}
+              oninput={(e: InputEvent) => { this.slug = (e.target as HTMLInputElement).value; }}
             />
           </div>
 
@@ -68,7 +82,7 @@ export default class SeasonModal extends Modal {
               className="FormControl"
               type="date"
               value={this.startDate}
-              oninput={(e) => { this.startDate = e.target.value; }}
+              oninput={(e: InputEvent) => { this.startDate = (e.target as HTMLInputElement).value; }}
             />
           </div>
 
@@ -78,7 +92,7 @@ export default class SeasonModal extends Modal {
               className="FormControl"
               type="date"
               value={this.endDate}
-              oninput={(e) => { this.endDate = e.target.value; }}
+              oninput={(e: InputEvent) => { this.endDate = (e.target as HTMLInputElement).value; }}
             />
           </div>
 
@@ -96,31 +110,31 @@ export default class SeasonModal extends Modal {
     );
   }
 
-  onsubmit(e) {
+  async onsubmit(e: SubmitEvent) {
     e.preventDefault();
     this.loading = true;
+    m.redraw();
 
     const data = {
       name: this.name,
       slug: this.slug,
-      startDate: this.startDate || null,
-      endDate: this.endDate || null,
+      startDate: this.startDate || null, // Boşsa null gönder
+      endDate: this.endDate || null,     // Boşsa null gönder
     };
 
-    const promise = this.season
-      ? this.season.save(data)
-      : app.store.createRecord('pickem-seasons').save(data);
+    try {
+      const promise = this.season
+        ? this.season.save(data)
+        : app.store.createRecord('pickem-seasons').save(data);
 
-    promise.then(
-      () => {
-        this.hide();
-        m.redraw();
-      },
-      (error) => {
-        this.loading = false;
-        this.alertAttrs = error.alert;
-        m.redraw();
-      }
-    );
+      await promise;
+
+      this.attrs.onsave(); // Listeyi yenilemek için callback'i çağır
+      this.hide();
+    } catch (error: any) {
+      this.loading = false;
+      this.alertAttrs = error.alert;
+      m.redraw();
+    }
   }
 }

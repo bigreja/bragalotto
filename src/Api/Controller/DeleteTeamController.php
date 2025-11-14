@@ -8,19 +8,19 @@ use Flarum\Http\RequestUtil;
 use HuseyinFiliz\Pickem\Team;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
-use Illuminate\Contracts\Translation\Translator; // YENİ: Translator import et
+use Illuminate\Contracts\Translation\Translator;
 
 class DeleteTeamController extends AbstractDeleteController
 {
     /**
      * @var Translator
      */
-    protected $translator; // YENİ
+    protected $translator;
 
     /**
      * @param Translator $translator
      */
-    public function __construct(Translator $translator) // YENİ: Translator enjekte et
+    public function __construct(Translator $translator)
     {
         $this->translator = $translator;
     }
@@ -34,7 +34,6 @@ class DeleteTeamController extends AbstractDeleteController
         $team = Team::findOrFail($id);
 
         if ($team->homeEvents()->exists() || $team->awayEvents()->exists()) {
-            // DÜZELTME: Hardcoded metin yerine locale anahtarı kullan
             throw new ValidationException([
                 'message' => $this->translator->trans('huseyinfiliz-pickem.validation.errors.team_in_use')
             ]);

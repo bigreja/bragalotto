@@ -12,6 +12,7 @@ huseyinfiliz-pickem:
     matches:
       title: "Upcoming Matches"
       no_matches: "No matches available"
+      load_more: "Load More Matches"
       make_pick: "Make Your Pick"
       change_pick: "Change Pick"
       pick_saved: "Pick saved successfully"
@@ -194,7 +195,6 @@ huseyinfiliz-pickem:
       scheduled: "Scheduled"
       closed: "Closed"
       finished: "Finished"
-      # cancelled: "Cancelled" # Removed
       
     loading:
       title: "Loading..."
@@ -209,7 +209,7 @@ huseyinfiliz-pickem:
   ##
   validation:
     errors:
-      pick_after_cutoff: "Cannot make picks after the cutoff date."
+      pick_after_cutoff: "Cannot make or change picks after the cutoff date."
       pick_already_exists: "You have already made a pick for this event."
       event_not_pickable: "This event is not currently accepting picks."
       invalid_outcome: "Invalid outcome selected. Must be home, away, or draw."
@@ -234,7 +234,7 @@ huseyinfiliz-pickem:
     success:
       pick_created: "Pick created successfully"
       pick_updated: "Pick updated successfully"
-      pick_deleted: "Pick deleted successfully"
+      pick_deleted: "Pick cancelled successfully" # EKLENDİ
       event_created: "Match created successfully"
       event_updated: "Match updated successfully"
       event_deleted: "Match deleted successfully"

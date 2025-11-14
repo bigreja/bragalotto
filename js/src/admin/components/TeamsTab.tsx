@@ -1,10 +1,11 @@
 import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
-import TeamModal from './TeamModal';
+import TeamModal from './modals/TeamModal'; // İÇE AKTARMA YOLU GÜNCELLENDİ
+import Team from '../../common/models/Team';
 
 export default class TeamsTab extends Component {
   view() {
-    const teams = app.store.all('pickem-teams');
+    const teams = app.store.all('pickem-teams') as Team[];
 
     return (
       <div className="TeamsTab">
@@ -16,7 +17,10 @@ export default class TeamsTab extends Component {
           <Button
             className="Button Button--primary"
             icon="fas fa-plus"
-            onclick={() => app.modal.show(TeamModal, { team: null })}
+            onclick={() => app.modal.show(TeamModal, {
+              team: null,
+              onsave: () => m.redraw() 
+            })}
           >
             {app.translator.trans('huseyinfiliz-pickem.admin.teams.create')}
           </Button>
@@ -43,7 +47,10 @@ export default class TeamsTab extends Component {
                   <Button
                     className="Button Button--primary"
                     icon="fas fa-edit"
-                    onclick={() => app.modal.show(TeamModal, { team })}
+                    onclick={() => app.modal.show(TeamModal, {
+                      team: team,
+                      onsave: () => m.redraw()
+                    })}
                   >
                     {app.translator.trans('huseyinfiliz-pickem.admin.buttons.edit')}
                   </Button>
@@ -63,12 +70,11 @@ export default class TeamsTab extends Component {
     );
   }
 
-  renderTeamLogo(team: any) {
+  renderTeamLogo(team: Team) {
     const logoUrl = team.logoUrl();
     const teamName = team.name();
     const firstLetter = teamName ? teamName.charAt(0).toUpperCase() : 'T';
 
-    // Hash fonksiyonu - takım adından renk üret
     const stringToColor = (str: string) => {
       let hash = 0;
       for (let i = 0; i < str.length; i++) {
@@ -91,7 +97,7 @@ export default class TeamsTab extends Component {
     );
   }
 
-  deleteTeam(team: any) {
+  deleteTeam(team: Team) {
     if (!confirm(app.translator.trans('huseyinfiliz-pickem.admin.teams.delete_confirmation'))) {
       return;
     }

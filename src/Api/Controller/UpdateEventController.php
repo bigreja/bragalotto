@@ -8,6 +8,7 @@ use HuseyinFiliz\Pickem\Api\Serializer\EventSerializer;
 use HuseyinFiliz\Pickem\Event;
 use HuseyinFiliz\Pickem\Validator\EventValidator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str; // EKLENDİ
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 use Carbon\Carbon;
@@ -17,9 +18,6 @@ class UpdateEventController extends AbstractShowController
     public $serializer = EventSerializer::class;
     public $include = ['homeTeam', 'awayTeam', 'week'];
 
-    /**
-     * @var EventValidator
-     */
     protected $validator;
 
     public function __construct(EventValidator $validator)
@@ -37,39 +35,32 @@ class UpdateEventController extends AbstractShowController
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
 
-        // DÜZELTME: Model, 'model' özelliğine (property) atanmalıdır.
+        // --- YENİ MANTIK BAŞLANGICI ---
+
+        // 1. Gelen camelCase (weekId) veriyi snake_case (week_id) veriye dönüştür
+        $attributes = [];
+        foreach ($data as $key => $value) {
+            $attributes[Str::snake($key)] = $value;
+        }
+
+        // 2. Modeli ve veriyi doğrula
         $this->validator->model = $event;
-        $this->validator->assertValid($data);
+        $this->validator->assertValid($attributes);
 
-        // Temel alanları güncelle
-        if (Arr::has($data, 'weekId')) {
-            $event->week_id = Arr::get($data, 'weekId');
+        // 3. Tarih alanlarını Carbon nesnesine dönüştür
+        if ($matchDate = Arr::get($attributes, 'match_date')) {
+            $attributes['match_date'] = Carbon::parse($matchDate);
         }
-        if (Arr::has($data, 'homeTeamId')) {
-            $event->home_team_id = Arr::get($data, 'homeTeamId');
-        }
-        if (Arr::has($data, 'awayTeamId')) {
-            $event->away_team_id = Arr::get($data, 'awayTeamId');
-        }
-        if (Arr::has($data, 'matchDate')) {
-            $event->match_date = Carbon::parse(Arr::get($data, 'matchDate'));
-        }
-        if (Arr::has($data, 'cutoffDate')) {
-            $event->cutoff_date = Carbon::parse(Arr::get($data, 'cutoffDate'));
-        }
-        if (Arr::has($data, 'allowDraw')) {
-            $event->allow_draw = (bool) Arr::get($data, 'allowDraw');
-        }
-        if (Arr::has($data, 'status')) {
-            $event->status = Arr::get($data, 'status');
+        if ($cutoffDate = Arr::get($attributes, 'cutoff_date')) {
+            $attributes['cutoff_date'] = Carbon::parse($cutoffDate);
         }
 
-        if (Arr::has($data, 'homeScore') && Arr::has($data, 'awayScore')) {
-            $event->home_score = (int) Arr::get($data, 'homeScore');
-            $event->away_score = (int) Arr::get($data, 'awayScore');
-        }
-
+        // 4. Modeli $fillable kullanarak doldur ve kaydet
+        $event->fill($attributes);
         $event->save();
+
+        // --- ESKİ MANTIK (TÜM 'if (Arr::has...)' BLOKLARI) SİLİNDİ ---
+
         $event->load(['homeTeam', 'awayTeam', 'week']);
 
         return $event;
