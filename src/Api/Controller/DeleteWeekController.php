@@ -28,6 +28,6 @@ class DeleteWeekController extends AbstractDeleteControllerWithRelationCheck
      */
     protected function getErrorMessageKey(): string
     {
-        return 'huseyinfiliz-pickem.validation.errors.week_in_use';
+        return 'huseyinfiliz-pickem.lib.validation.errors.week_in_use';
     }
 }

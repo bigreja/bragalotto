@@ -7,7 +7,7 @@ import Team from '../../../common/models/Team';
 
 interface IEventModalAttrs {
   event?: PickemEvent | null;
-  onsave: () => void; // Listeyi (EventsTab) yenilemek için
+  onsave: () => void;
 }
 
 export default class EventModal extends Modal<IEventModalAttrs> {
@@ -36,14 +36,9 @@ export default class EventModal extends Modal<IEventModalAttrs> {
     }
   }
 
-  /**
-   * Flarum'un Date nesnesini (UTC) alır ve <input type="datetime-local">
-   * için gereken YYYY-MM-DDTHH:mm formatına (kullanıcının yerel saat diliminde) dönüştürür.
-   */
   formatDateForInput(date: Date | undefined): string {
     if (!date) return '';
     
-    // Tarayıcının yerel saat dilimini kullanarak tarih/saat bileşenlerini al
     const YYYY = date.getFullYear();
     const MM = (date.getMonth() + 1).toString().padStart(2, '0');
     const DD = date.getDate().toString().padStart(2, '0');
@@ -59,23 +54,25 @@ export default class EventModal extends Modal<IEventModalAttrs> {
 
   title(): string {
     return app.translator.trans(
-      this.event ? 'huseyinfiliz-pickem.admin.events.edit_title' : 'huseyinfiliz-pickem.admin.events.create_title'
+      this.event
+        ? 'huseyinfiliz-pickem.admin.events.edit_title'
+        : 'huseyinfiliz-pickem.admin.events.create_title'
     );
   }
 
   content() {
-    const teams = app.store.all('pickem-teams') as Team[];
-    const weeks = app.store.all('pickem-weeks') as Week[];
+    const teams = app.store.all<Team>('pickem-teams');
+    const weeks = app.store.all<Week>('pickem-weeks');
 
-    const teamOptions = teams.reduce((options: Record<string, string>, team) => {
-      options[team.id()] = team.name();
-      return options;
-    }, {});
+    const teamOptions: Record<string, string> = teams.reduce((acc, team) => {
+      acc[team.id()!] = team.name()!;
+      return acc;
+    }, {} as Record<string, string>);
 
-    const weekOptions = weeks.reduce((options: Record<string, string>, week) => {
-      options[week.id()] = week.name();
-      return options;
-    }, {});
+    const weekOptions: Record<string, string> = weeks.reduce((acc, week) => {
+      acc[week.id()!] = week.name()!;
+      return acc;
+    }, {} as Record<string, string>);
 
     return (
       <div className="Modal-body">
@@ -126,6 +123,7 @@ export default class EventModal extends Modal<IEventModalAttrs> {
               type="datetime-local"
               value={this.matchDate}
               oninput={(e: InputEvent) => { this.matchDate = (e.target as HTMLInputElement).value; }}
+              required
             />
           </div>
 
@@ -136,6 +134,7 @@ export default class EventModal extends Modal<IEventModalAttrs> {
               type="datetime-local"
               value={this.cutoffDate}
               oninput={(e: InputEvent) => { this.cutoffDate = (e.target as HTMLInputElement).value; }}
+              required
             />
           </div>
 
@@ -180,17 +179,42 @@ export default class EventModal extends Modal<IEventModalAttrs> {
 
   async onsubmit(e: SubmitEvent) {
     e.preventDefault();
+
+    // VALIDASYON
+    if (!this.matchDate || this.matchDate.trim() === '') {
+      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.admin.validation.match_date_required'));
+      return;
+    }
+
+    if (!this.cutoffDate || this.cutoffDate.trim() === '') {
+      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.admin.validation.cutoff_date_required'));
+      return;
+    }
+
+    if (this.homeTeamId === '0' || this.homeTeamId === '' || !this.homeTeamId) {
+      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.admin.validation.home_team_required'));
+      return;
+    }
+
+    if (this.awayTeamId === '0' || this.awayTeamId === '' || !this.awayTeamId) {
+      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.admin.validation.away_team_required'));
+      return;
+    }
+
+    if (this.homeTeamId === this.awayTeamId) {
+      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.admin.validation.teams_must_differ'));
+      return;
+    }
+
     this.loading = true;
     m.redraw();
 
     const data = {
       weekId: this.weekId === '0' ? null : parseInt(this.weekId),
-      homeTeamId: this.homeTeamId === '0' ? null : parseInt(this.homeTeamId),
-      awayTeamId: this.awayTeamId === '0' ? null : parseInt(this.awayTeamId),
-      // Input'tan gelen 'YYYY-MM-DDTHH:mm' string'ini (yerel saat) doğrudan gönderiyoruz.
-      // Sunucu (Carbon::parse) bunu forumun varsayılan saat dilimi (UTC) olarak yorumlayacaktır.
-      matchDate: this.matchDate || null,
-      cutoffDate: this.cutoffDate || null,
+      homeTeamId: parseInt(this.homeTeamId),
+      awayTeamId: parseInt(this.awayTeamId),
+      matchDate: this.matchDate,
+      cutoffDate: this.cutoffDate,
       allowDraw: this.allowDraw,
       status: this.status,
     };
@@ -202,7 +226,7 @@ export default class EventModal extends Modal<IEventModalAttrs> {
 
       await promise;
 
-      this.attrs.onsave(); // Listeyi yenilemek için callback'i çağır
+      this.attrs.onsave();
       this.hide();
     } catch (error: any) {
       this.loading = false;

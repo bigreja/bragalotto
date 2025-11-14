@@ -28,6 +28,6 @@ class DeleteSeasonController extends AbstractDeleteControllerWithRelationCheck
      */
     protected function getErrorMessageKey(): string
     {
-        return 'huseyinfiliz-pickem.validation.errors.season_in_use';
+        return 'huseyinfiliz-pickem.lib.validation.errors.season_in_use';
     }
 }

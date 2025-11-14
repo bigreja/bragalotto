@@ -1,32 +1,28 @@
 import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
-import Placeholder from 'flarum/common/components/Placeholder'; // EKLENDİ
-import Pagination from 'flarum/common/components/Pagination'; // EKLENDİ
+import Placeholder from 'flarum/common/components/Placeholder';
 import EventModal from './modals/EventModal';
 import ResultModal from './modals/ResultModal';
 import PickemEvent from '../../common/models/Event';
 import Team from '../../common/models/Team';
 
 export default class EventsTab extends Component {
-  // Filtre state'leri
   private selectedSeason: string = 'all';
   private selectedTeam: string = 'all';
   private selectedStatus: string = 'all';
   private sortOrder: string = 'desc';
 
-  // Veri ve yükleme state'leri
   private loading: boolean = true;
   private events: PickemEvent[] = [];
 
-  // Sayfalama (Pagination) state'leri
   private totalEvents: number = 0;
-  private page: number = 1; // Flarum Pagination 1-based index kullanır
-  private limit: number = 20; // Sayfa başına 20 sonuç göster
+  private page: number = 1;
+  private limit: number = 20;
 
   oninit(vnode: any) {
     super.oninit(vnode);
-    this.loadEvents(); // İlk yükleme
+    this.loadEvents();
   }
 
   buildFilters() {
@@ -51,23 +47,20 @@ export default class EventsTab extends Component {
     return filters;
   }
 
-  // Sayfa değiştiğinde veya filtre değiştiğinde veriyi yükler
   loadEvents(page: number = 1) {
     this.loading = true;
-    this.page = page; // Sayfa numarasını güncelle
+    this.page = page;
     m.redraw();
 
     const filters = this.buildFilters();
     const sort = this.sortOrder === 'desc' ? '-matchDate' : 'matchDate';
-    
-    // API'nin 'page[offset]' (0-based) beklentisine göre 'offset' hesapla
     const offset = (this.page - 1) * this.limit;
 
     app.store.find('pickem-events', {
       include: 'homeTeam,awayTeam,week',
       filter: filters,
       sort: sort,
-      page: { limit: this.limit, offset: offset } // Limit ve offset gönder
+      page: { limit: this.limit, offset: offset }
     }).then(results => {
       this.events = results as PickemEvent[];
       this.totalEvents = results.payload.meta.total; 
@@ -87,6 +80,7 @@ export default class EventsTab extends Component {
     const total = this.totalEvents;
     const hasEvents = this.events.length > 0;
     const canShowPagination = total > this.limit;
+    const totalPages = Math.ceil(total / this.limit);
 
     return (
       <div className="EventsTab">
@@ -98,7 +92,7 @@ export default class EventsTab extends Component {
           <Button
             className="Button Button--primary"
             icon="fas fa-plus"
-            onclick={() => app.modal.show(EventModal, { event: null, onsave: () => this.loadEvents(this.page) })} // Mevcut sayfayı yenile
+            onclick={() => app.modal.show(EventModal, { event: null, onsave: () => this.loadEvents(this.page) })}
           >
             {app.translator.trans('huseyinfiliz-pickem.admin.events.create')}
           </Button>
@@ -116,14 +110,12 @@ export default class EventsTab extends Component {
               value={this.selectedSeason}
               onchange={(e: any) => {
                 this.selectedSeason = e.target.value;
-                this.loadEvents(1); // Filtre değişti, 1. sayfaya git
+                this.loadEvents(1);
               }}
             >
               <option value="all">{app.translator.trans('huseyinfiliz-pickem.admin.filters.all_seasons')}</option>
               {allSeasons.map((season: any) => (
-                <option value={season.id()} key={season.id()}>
-                  {season.name()}
-                </option>
+                <option value={season.id()} key={season.id()}>{season.name()}</option>
               ))}
             </select>
           </div>
@@ -138,14 +130,12 @@ export default class EventsTab extends Component {
               value={this.selectedTeam}
               onchange={(e: any) => {
                 this.selectedTeam = e.target.value;
-                this.loadEvents(1); // Filtre değişti, 1. sayfaya git
+                this.loadEvents(1);
               }}
             >
               <option value="all">{app.translator.trans('huseyinfiliz-pickem.admin.filters.all_teams')}</option>
               {allTeams.map((team: any) => (
-                <option value={team.id()} key={team.id()}>
-                  {team.name()}
-                </option>
+                <option value={team.id()} key={team.id()}>{team.name()}</option>
               ))}
             </select>
           </div>
@@ -160,7 +150,7 @@ export default class EventsTab extends Component {
               value={this.selectedStatus}
               onchange={(e: any) => {
                 this.selectedStatus = e.target.value;
-                this.loadEvents(1); // Filtre değişti, 1. sayfaya git
+                this.loadEvents(1);
               }}
             >
               <option value="all">{app.translator.trans('huseyinfiliz-pickem.admin.filters.all_statuses')}</option>
@@ -180,7 +170,7 @@ export default class EventsTab extends Component {
               value={this.sortOrder}
               onchange={(e: any) => {
                 this.sortOrder = e.target.value;
-                this.loadEvents(1); // Filtre değişti, 1. sayfaya git
+                this.loadEvents(1);
               }}
             >
               <option value="desc">{app.translator.trans('huseyinfiliz-pickem.admin.filters.newest_first')}</option>
@@ -200,15 +190,13 @@ export default class EventsTab extends Component {
                 this.selectedTeam = 'all';
                 this.selectedStatus = 'all';
                 this.sortOrder = 'desc';
-                this.loadEvents(1); // Filtreleri sıfırla, 1. sayfaya git
+                this.loadEvents(1);
               }}
             >
               {app.translator.trans('huseyinfiliz-pickem.admin.filters.reset')}
             </Button>
           )}
         </div>
-
-        {/* Sonuç Sayısı kaldırıldı, sayfalama bileşeni bunu zaten gösteriyor */}
 
         {this.loading ? (
           <LoadingIndicator />
@@ -286,14 +274,44 @@ export default class EventsTab extends Component {
           </table>
         )}
 
-        {/* SAYFALAMA BİLEŞENİ EKLENDİ */}
-        {canShowPagination && (
-          <Pagination
-            total={total}
-            limit={this.limit}
-            page={this.page}
-            onchange={this.loadEvents.bind(this)} // Sayfa değiştiğinde loadEvents'i çağır
-          />
+        {/* SAYFALAMA */}
+        {canShowPagination && !this.loading && (
+          <nav className="Pagination">
+            <Button
+              className="Button Pagination-button Pagination-previous"
+              icon="fas fa-chevron-left"
+              disabled={this.page === 1}
+              onclick={() => {
+                if (this.page > 1) {
+                  this.loadEvents(this.page - 1);
+                }
+              }}
+            >
+              {app.translator.trans('huseyinfiliz-pickem.admin.pagination.previous')}
+            </Button>
+            
+            <span className="Pagination-info">
+              {app.translator.trans('huseyinfiliz-pickem.admin.pagination.page_info', {
+                current: this.page,
+                total: totalPages,
+                showing: this.events.length,
+                totalEvents: total
+              })}
+            </span>
+
+            <Button
+              className="Button Pagination-button Pagination-next"
+              icon="fas fa-chevron-right"
+              disabled={this.page >= totalPages}
+              onclick={() => {
+                if (this.page < totalPages) {
+                  this.loadEvents(this.page + 1);
+                }
+              }}
+            >
+              {app.translator.trans('huseyinfiliz-pickem.admin.pagination.next')}
+            </Button>
+          </nav>
         )}
       </div>
     );
@@ -310,42 +328,35 @@ export default class EventsTab extends Component {
 
     const logoUrl = team.logoUrl();
     const teamName = team.name();
-    const firstLetter = teamName ? teamName.charAt(0).toUpperCase() : 'T';
-
-    const stringToColor = (str: string) => {
-      let hash = 0;
-      for (let i = 0; i < str.length; i++) {
-        hash = str.charCodeAt(i) + ((hash << 5) - hash);
-      }
-      const hue = hash % 360;
-      return `hsl(${hue}, 65%, 50%)`;
-    };
-
-    const backgroundColor = stringToColor(teamName || 'Team');
+    const firstLetter = teamName ? teamName.charAt(0).toUpperCase() : '?';
 
     if (logoUrl) {
-      return <img src={logoUrl} alt={teamName} className="TeamLogo TeamLogo--image" />;
+      return (
+        <div className="TeamLogo TeamLogo--image">
+          <img
+            src={logoUrl}
+            alt={teamName || 'Team'}
+            onerror={(e: any) => {
+              e.target.style.display = 'none';
+              e.target.parentElement.innerHTML = `<div class="TeamLogo TeamLogo--letter">${firstLetter}</div>`;
+            }}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div className="TeamLogo TeamLogo--letter">
+          {firstLetter}
+        </div>
+      );
     }
-
-    return (
-      <div className="TeamLogo TeamLogo--letter" style={`background-color: ${backgroundColor}`}>
-        {firstLetter}
-      </div>
-    );
   }
 
   deleteEvent(event: PickemEvent) {
-    if (!confirm(app.translator.trans('huseyinfiliz-pickem.admin.events.delete_confirmation'))) {
-      return;
-    }
-
-    event.delete().then(() => {
-      // Listenin son elemanını sildiysek ve 1. sayfada değilsek, bir önceki sayfayı yükle
-      if (this.events.length === 1 && this.page > 1) {
-        this.loadEvents(this.page - 1);
-      } else {
+    if (confirm(app.translator.trans('huseyinfiliz-pickem.admin.events.delete_confirmation'))) {
+      event.delete().then(() => {
         this.loadEvents(this.page);
-      }
-    });
+      });
+    }
   }
 }

@@ -1,3 +1,2062 @@
-/*! For license information please see forum.js.LICENSE.txt */
-(()=>{var t={24:(t,e,a)=>{var r=a(163),n=a(110),o=a(996),i=a(312),s=a(166),c=a(766),u=a(760);function l(){"use strict";var e=n(),a=e.m(l),m=(Object.getPrototypeOf?Object.getPrototypeOf(a):a.__proto__).constructor;function p(t){var e="function"==typeof t&&t.constructor;return!!e&&(e===m||"GeneratorFunction"===(e.displayName||e.name))}var f={throw:1,return:2,break:3,continue:3};function d(t){var e,a;return function(r){e||(e={stop:function(){return a(r.a,2)},catch:function(){return r.v},abrupt:function(t,e){return a(r.a,f[t],e)},delegateYield:function(t,n,o){return e.resultName=n,a(r.d,u(t),o)},finish:function(t){return a(r.f,t)}},a=function(t,a,n){r.p=e.prev,r.n=e.next;try{return t(a,n)}finally{e.next=r.n}}),e.resultName&&(e[e.resultName]=r.v,e.resultName=void 0),e.sent=r.v,e.next=r.n;try{return t.call(this,e)}finally{r.p=e.prev,r.n=e.next}}}return(t.exports=l=function(){return{wrap:function(t,a,r,n){return e.w(d(t),a,r,n&&n.reverse())},isGeneratorFunction:p,mark:e.m,awrap:function(t,e){return new r(t,e)},AsyncIterator:s,async:function(t,e,a,r,n){return(p(e)?i:o)(d(t),e,a,r,n)},keys:c,values:u}},t.exports.__esModule=!0,t.exports.default=t.exports)()}t.exports=l,t.exports.__esModule=!0,t.exports.default=t.exports},110:(t,e,a)=>{var r=a(397);function n(){var e,a,o="function"==typeof Symbol?Symbol:{},i=o.iterator||"@@iterator",s=o.toStringTag||"@@toStringTag";function c(t,n,o,i){var s=n&&n.prototype instanceof l?n:l,c=Object.create(s.prototype);return r(c,"_invoke",function(t,r,n){var o,i,s,c=0,l=n||[],m=!1,p={p:0,n:0,v:e,a:f,f:f.bind(e,4),d:function(t,a){return o=t,i=0,s=e,p.n=a,u}};function f(t,r){for(i=t,s=r,a=0;!m&&c&&!n&&a<l.length;a++){var n,o=l[a],f=p.p,d=o[2];t>3?(n=d===r)&&(s=o[(i=o[4])?5:(i=3,3)],o[4]=o[5]=e):o[0]<=f&&((n=t<2&&f<o[1])?(i=0,p.v=r,p.n=o[1]):f<d&&(n=t<3||o[0]>r||r>d)&&(o[4]=t,o[5]=r,p.n=d,i=0))}if(n||t>1)return u;throw m=!0,r}return function(n,l,d){if(c>1)throw TypeError("Generator is already running");for(m&&1===l&&f(l,d),i=l,s=d;(a=i<2?e:s)||!m;){o||(i?i<3?(i>1&&(p.n=-1),f(i,s)):p.n=s:p.v=s);try{if(c=2,o){if(i||(n="next"),a=o[n]){if(!(a=a.call(o,s)))throw TypeError("iterator result is not an object");if(!a.done)return a;s=a.value,i<2&&(i=0)}else 1===i&&(a=o.return)&&a.call(o),i<2&&(s=TypeError("The iterator does not provide a '"+n+"' method"),i=1);o=e}else if((a=(m=p.n<0)?s:t.call(r,p))!==u)break}catch(t){o=e,i=1,s=t}finally{c=1}}return{value:a,done:m}}}(t,o,i),!0),c}var u={};function l(){}function m(){}function p(){}a=Object.getPrototypeOf;var f=[][i]?a(a([][i]())):(r(a={},i,function(){return this}),a),d=p.prototype=l.prototype=Object.create(f);function h(t){return Object.setPrototypeOf?Object.setPrototypeOf(t,p):(t.__proto__=p,r(t,s,"GeneratorFunction")),t.prototype=Object.create(d),t}return m.prototype=p,r(d,"constructor",p),r(p,"constructor",m),m.displayName="GeneratorFunction",r(p,s,"GeneratorFunction"),r(d),r(d,s,"Generator"),r(d,i,function(){return this}),r(d,"toString",function(){return"[object Generator]"}),(t.exports=n=function(){return{w:c,m:h}},t.exports.__esModule=!0,t.exports.default=t.exports)()}t.exports=n,t.exports.__esModule=!0,t.exports.default=t.exports},163:t=>{t.exports=function(t,e){this.v=t,this.k=e},t.exports.__esModule=!0,t.exports.default=t.exports},166:(t,e,a)=>{var r=a(163),n=a(397);t.exports=function t(e,a){function o(t,n,i,s){try{var c=e[t](n),u=c.value;return u instanceof r?a.resolve(u.v).then(function(t){o("next",t,i,s)},function(t){o("throw",t,i,s)}):a.resolve(u).then(function(t){c.value=t,i(c)},function(t){return o("throw",t,i,s)})}catch(t){s(t)}}var i;this.next||(n(t.prototype),n(t.prototype,"function"==typeof Symbol&&Symbol.asyncIterator||"@asyncIterator",function(){return this})),n(this,"_invoke",function(t,e,r){function n(){return new a(function(e,a){o(t,r,e,a)})}return i=i?i.then(n,n):n()},!0)},t.exports.__esModule=!0,t.exports.default=t.exports},183:(t,e,a)=>{var r=a(24)();t.exports=r;try{regeneratorRuntime=r}catch(t){"object"==typeof globalThis?globalThis.regeneratorRuntime=r:Function("r","regeneratorRuntime = r")(r)}},312:(t,e,a)=>{var r=a(110),n=a(166);t.exports=function(t,e,a,o,i){return new n(r().w(t,e,a,o),i||Promise)},t.exports.__esModule=!0,t.exports.default=t.exports},397:t=>{function e(a,r,n,o){var i=Object.defineProperty;try{i({},"",{})}catch(a){i=0}t.exports=e=function(t,a,r,n){function o(a,r){e(t,a,function(t){return this._invoke(a,r,t)})}a?i?i(t,a,{value:r,enumerable:!n,configurable:!n,writable:!n}):t[a]=r:(o("next",0),o("throw",1),o("return",2))},t.exports.__esModule=!0,t.exports.default=t.exports,e(a,r,n,o)}t.exports=e,t.exports.__esModule=!0,t.exports.default=t.exports},735:t=>{function e(a){return t.exports=e="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t},t.exports.__esModule=!0,t.exports.default=t.exports,e(a)}t.exports=e,t.exports.__esModule=!0,t.exports.default=t.exports},760:(t,e,a)=>{var r=a(735).default;t.exports=function(t){if(null!=t){var e=t["function"==typeof Symbol&&Symbol.iterator||"@@iterator"],a=0;if(e)return e.call(t);if("function"==typeof t.next)return t;if(!isNaN(t.length))return{next:function(){return t&&a>=t.length&&(t=void 0),{value:t&&t[a++],done:!t}}}}throw new TypeError(r(t)+" is not iterable")},t.exports.__esModule=!0,t.exports.default=t.exports},766:t=>{t.exports=function(t){var e=Object(t),a=[];for(var r in e)a.unshift(r);return function t(){for(;a.length;)if((r=a.pop())in e)return t.value=r,t.done=!1,t;return t.done=!0,t}},t.exports.__esModule=!0,t.exports.default=t.exports},996:(t,e,a)=>{var r=a(312);t.exports=function(t,e,a,n,o){var i=r(t,e,a,n,o);return i.next().then(function(t){return t.done?t.value:i.next()})},t.exports.__esModule=!0,t.exports.default=t.exports}},e={};function a(r){var n=e[r];if(void 0!==n)return n.exports;var o=e[r]={exports:{}};return t[r](o,o.exports,a),o.exports}a.n=t=>{var e=t&&t.__esModule?()=>t.default:()=>t;return a.d(e,{a:e}),e},a.d=(t,e)=>{for(var r in e)a.o(e,r)&&!a.o(t,r)&&Object.defineProperty(t,r,{enumerable:!0,get:e[r]})},a.o=(t,e)=>Object.prototype.hasOwnProperty.call(t,e),(()=>{"use strict";const t=flarum.core.compat["forum/app"];var e=a.n(t);const r=flarum.core.compat["common/extend"],n=flarum.core.compat["forum/components/IndexPage"];var o=a.n(n);const i=flarum.core.compat["common/components/LinkButton"];var s=a.n(i);const c=flarum.core.compat["common/extenders"];var u=a.n(c);const l=flarum.core.compat["common/Model"];var p=a.n(l);function f(t,e){return f=Object.setPrototypeOf?Object.setPrototypeOf.bind():function(t,e){return t.__proto__=e,t},f(t,e)}function d(t,e){t.prototype=Object.create(e.prototype),t.prototype.constructor=t,f(t,e)}var h=function(t){function e(){for(var e,a=arguments.length,r=new Array(a),n=0;n<a;n++)r[n]=arguments[n];return(e=t.call.apply(t,[this].concat(r))||this).name=p().attribute("name"),e.slug=p().attribute("slug"),e.logoPath=p().attribute("logoPath"),e.logoUrl=p().attribute("logoUrl"),e}return d(e,t),e}(p()),v=function(t){function e(){for(var e,a=arguments.length,r=new Array(a),n=0;n<a;n++)r[n]=arguments[n];return(e=t.call.apply(t,[this].concat(r))||this).name=p().attribute("name"),e.slug=p().attribute("slug"),e.startDate=p().attribute("startDate",p().transformDate),e.endDate=p().attribute("endDate",p().transformDate),e}return d(e,t),e}(p()),y=function(t){function e(){for(var e,a=arguments.length,r=new Array(a),n=0;n<a;n++)r[n]=arguments[n];return(e=t.call.apply(t,[this].concat(r))||this).name=p().attribute("name"),e.seasonId=p().attribute("seasonId"),e.weekNumber=p().attribute("weekNumber"),e.season=p().hasOne("season"),e}return d(e,t),e}(p()),k=function(t){function e(){for(var e,a=arguments.length,r=new Array(a),n=0;n<a;n++)r[n]=arguments[n];return(e=t.call.apply(t,[this].concat(r))||this).weekId=p().attribute("weekId"),e.homeTeamId=p().attribute("homeTeamId"),e.awayTeamId=p().attribute("awayTeamId"),e.matchDate=p().attribute("matchDate",p().transformDate),e.cutoffDate=p().attribute("cutoffDate",p().transformDate),e.allowDraw=p().attribute("allowDraw"),e.status=p().attribute("status"),e.homeScore=p().attribute("homeScore"),e.awayScore=p().attribute("awayScore"),e.result=p().attribute("result"),e.canPick=p().attribute("canPick"),e.week=p().hasOne("week"),e.homeTeam=p().hasOne("homeTeam"),e.awayTeam=p().hasOne("awayTeam"),e}return d(e,t),e}(p()),b=function(t){function e(){for(var e,a=arguments.length,r=new Array(a),n=0;n<a;n++)r[n]=arguments[n];return(e=t.call.apply(t,[this].concat(r))||this).userId=p().attribute("userId"),e.eventId=p().attribute("eventId"),e.selectedOutcome=p().attribute("selectedOutcome"),e.isCorrect=p().attribute("isCorrect"),e.event=p().hasOne("event"),e.user=p().hasOne("user"),e}return d(e,t),e}(p()),g=function(t){function e(){for(var e,a=arguments.length,r=new Array(a),n=0;n<a;n++)r[n]=arguments[n];return(e=t.call.apply(t,[this].concat(r))||this).userId=p().attribute("userId"),e.seasonId=p().attribute("seasonId"),e.totalPoints=p().attribute("totalPoints"),e.totalPicks=p().attribute("totalPicks"),e.correctPicks=p().attribute("correctPicks"),e.accuracy=p().attribute("accuracy"),e.user=p().hasOne("user"),e.season=p().hasOne("season"),e}return d(e,t),e}(p());const w=[(new(u().Store)).add("pickem-teams",h),new(u().Model)(h).attribute("name").attribute("slug").attribute("logoPath").attribute("logoUrl"),(new(u().Store)).add("pickem-seasons",v),new(u().Model)(v).attribute("name").attribute("slug").attribute("startDate",p().transformDate).attribute("endDate",p().transformDate),(new(u().Store)).add("pickem-weeks",y),new(u().Model)(y).attribute("name").attribute("seasonId").attribute("weekNumber").hasOne("season"),(new(u().Store)).add("pickem-events",k),new(u().Model)(k).attribute("weekId").attribute("homeTeamId").attribute("awayTeamId").attribute("matchDate",p().transformDate).attribute("cutoffDate",p().transformDate).attribute("allowDraw").attribute("status").attribute("homeScore").attribute("awayScore").attribute("result").attribute("canPick").hasOne("week").hasOne("homeTeam").hasOne("awayTeam"),(new(u().Store)).add("pickem-picks",b),new(u().Model)(b).attribute("userId").attribute("eventId").attribute("selectedOutcome").attribute("isCorrect").hasOne("event").hasOne("user"),(new(u().Store)).add("pickem-user-scores",g),new(u().Model)(g).attribute("userId").attribute("seasonId").attribute("totalPoints").attribute("totalPicks").attribute("correctPicks").attribute("accuracy").hasOne("user").hasOne("season")];function x(t,e,a,r,n,o,i){try{var s=t[o](i),c=s.value}catch(t){return void a(t)}s.done?e(c):Promise.resolve(c).then(r,n)}function P(t){return function(){var e=this,a=arguments;return new Promise(function(r,n){var o=t.apply(e,a);function i(t){x(o,r,n,i,s,"next",t)}function s(t){x(o,r,n,i,s,"throw",t)}i(void 0)})}}var N=a(183),T=a.n(N);const S=flarum.core.compat["common/components/Page"];var _=a.n(S);const D=flarum.core.compat["common/components/LoadingIndicator"];var O=a.n(D);const M=flarum.core.compat["common/Component"];var C=a.n(M);const I=flarum.core.compat["common/components/Placeholder"];var z=a.n(I);const E=flarum.core.compat["common/components/Pagination"];var j=a.n(E);const L=flarum.core.compat["common/components/Button"];var A=a.n(L),F=function(t){function e(){return t.apply(this,arguments)||this}d(e,t);var a=e.prototype;return a.view=function(){var t=this.attrs,e=t.event,a=t.pick,r=t.onMakePick,n=t.isLoading;if(!e||"function"!=typeof e.id)return null;var o=e.homeTeam?e.homeTeam():null,i=e.awayTeam?e.awayTeam():null,s="function"==typeof e.canPick&&e.canPick(),c="function"==typeof e.status?e.status():"scheduled",u="function"==typeof e.result?e.result():null,l="function"==typeof e.homeScore?e.homeScore():null,p="function"==typeof e.awayScore?e.awayScore():null,f="-",d="-";try{f=dayjs(e.matchDate()).format("DD MMM YYYY, HH:mm")}catch(t){f=String(e.matchDate())}try{d=dayjs(e.cutoffDate()).format("DD MMM YYYY, HH:mm")}catch(t){d=String(e.cutoffDate())}var h=this.getCountdown(e.cutoffDate());return m("div",{className:"EventCard"},m("div",{className:"EventCard-status "+c},"scheduled"===c&&"🟢 Live","closed"===c&&"🔴 Closed","finished"===c&&"⚫ Finished"),m("div",{className:"EventCard-teams"},m("div",{className:"team-container"},this.renderTeamLogo(o),m("div",{className:"team-name"},o?o.name():"Home Team")),m("div",{className:"vs"},"VS"),m("div",{className:"team-container"},this.renderTeamLogo(i),m("div",{className:"team-name"},i?i.name():"Away Team"))),"finished"===c&&null!==l&&null!==p&&m("div",{className:"EventCard-score"},m("div",{className:"score-number"},l),m("div",{className:"score-separator"},"-"),m("div",{className:"score-number"},p)),m("div",{className:"EventCard-info"},m("div",null,m("i",{className:"fas fa-calendar"}),m("strong",null,"Match:")," ",f),m("div",null,m("i",{className:"fas fa-clock"}),m("strong",null,"Cutoff:")," ",d),h&&s&&m("div",null,m("span",{className:"EventCard-countdown "+(h.urgent?"urgent":"")},m("i",{className:"fas fa-hourglass-half"}),h.text)),u&&m("div",null,m("i",{className:"fas fa-flag-checkered"}),m("strong",null,"Result:")," ",this.formatResult(u,o,i))),app.session.user&&s&&m("div",{className:"EventCard-picks"},m(A(),{className:a&&"function"==typeof a.selectedOutcome&&"home"===a.selectedOutcome()?"Button--primary":"",onclick:function(){return r(Number(e.id()),"home")},loading:n,disabled:n},o?o.name():"Home"),e.allowDraw&&e.allowDraw()&&m(A(),{className:a&&"function"==typeof a.selectedOutcome&&"draw"===a.selectedOutcome()?"Button--primary":"",onclick:function(){return r(Number(e.id()),"draw")},loading:n,disabled:n},"Draw"),m(A(),{className:a&&"function"==typeof a.selectedOutcome&&"away"===a.selectedOutcome()?"Button--primary":"",onclick:function(){return r(Number(e.id()),"away")},loading:n,disabled:n},i?i.name():"Away")),a&&!s&&m("div",{className:"EventCard-pick-result"},"Your pick: ",m("strong",null,this.formatResult(a.selectedOutcome(),o,i)),a.isCorrect&&"function"==typeof a.isCorrect&&null!==a.isCorrect()&&m("span",{className:a.isCorrect()?"correct":"incorrect"},a.isCorrect()?" ✓ Correct":" ✗ Incorrect")))},a.renderTeamLogo=function(t){if(!t)return m("div",{className:"team-logo"},m("span",null,"?"));var e="function"==typeof t.logoUrl?t.logoUrl():null,a="function"==typeof t.name?t.name():"Team";if(e)return m("div",{className:"team-logo"},m("img",{src:e,alt:a}));var r=a.charAt(0).toUpperCase(),n=["#e74c3c","#3498db","#2ecc71","#f39c12","#9b59b6","#1abc9c","#e67e22","#34495e"],o=a.charCodeAt(0)%n.length;return m("div",{className:"team-logo",style:"background-color: "+n[o]+";"},m("span",null,r))},a.getCountdown=function(t){try{var e=dayjs(),a=dayjs(t).diff(e);if(a<=0)return null;var r=Math.floor(a/36e5),n=Math.floor(a%36e5/6e4);return r<1?{text:n+"m remaining",urgent:n<30}:r<24?{text:r+"h "+n+"m remaining",urgent:r<2}:{text:Math.floor(r/24)+"d remaining",urgent:!1}}catch(t){return null}},a.formatResult=function(t,e,a){return"home"===t?e?e.name():"Home":"away"===t?a?a.name():"Away":"draw"===t?"Draw":t},e}(C()),Y=function(t){function e(){for(var e,a=arguments.length,r=new Array(a),n=0;n<a;n++)r[n]=arguments[n];return(e=t.call.apply(t,[this].concat(r))||this).selectedSeason="all",e.selectedTeam="all",e.selectedStatus="all",e.loading=!0,e.events=[],e.totalEvents=0,e.page=1,e.limit=10,e.pickLoading=new Set,e.picks=void 0,e}d(e,t);var a=e.prototype;return a.oninit=function(e){t.prototype.oninit.call(this,e),this.picks=this.attrs.picks,this.loadEvents(1)},a.buildFilters=function(){var t=this,e={},a=[];if("all"!==this.selectedSeason){var r=app.store.all("pickem-weeks").filter(function(e){return e.seasonId()==t.selectedSeason});a.push.apply(a,r.map(function(t){return t.id()})),0===a.length&&a.push("0"),e.week=a.join(",")}return"all"!==this.selectedTeam&&(e.team=this.selectedTeam),"all"!==this.selectedStatus&&(e.status=this.selectedStatus),e},a.loadEvents=function(t){var e=this;void 0===t&&(t=1),this.loading=!0,this.page=t,m.redraw();var a=this.buildFilters(),r=(this.page-1)*this.limit;app.store.find("pickem-events",{include:"homeTeam,awayTeam,week",filter:a,sort:"-matchDate",page:{limit:this.limit,offset:r}}).then(function(t){e.events=t,e.totalEvents=t.payload.meta.total}).catch(function(t){console.error(t)}).finally(function(){e.loading=!1,m.redraw()})},a.makePick=function(){var t=P(T().mark(function t(e,a){var r,n,o,i,s;return T().wrap(function(t){for(;;)switch(t.prev=t.next){case 0:if(r=String(e),n=this.picks[r],this.pickLoading.add(e),m.redraw(),t.prev=1,!n||n.selectedOutcome()!==a){t.next=3;break}return t.next=2,n.delete();case 2:delete this.picks[r],this.attrs.onPickChange(this.picks),app.alerts.show({type:"success"},app.translator.trans("huseyinfiliz-pickem.validation.success.pick_deleted")),t.next=7;break;case 3:if(!n){t.next=5;break}return t.next=4,n.save({selectedOutcome:a});case 4:o=t.sent,this.picks[r]=o,this.attrs.onPickChange(this.picks),app.alerts.show({type:"success"},app.translator.trans("huseyinfiliz-pickem.validation.success.pick_updated")),t.next=7;break;case 5:return t.next=6,app.store.createRecord("pickem-picks").save({eventId:e,selectedOutcome:a});case 6:i=t.sent,this.picks[r]=i,this.attrs.onPickChange(this.picks),app.alerts.show({type:"success"},app.translator.trans("huseyinfiliz-pickem.validation.success.pick_created"));case 7:t.next=9;break;case 8:t.prev=8,s=t.catch(1),console.error("Error making/deleting pick:",s),s&&s.alert?app.alerts.show(s.alert):app.alerts.show({type:"error"},app.translator.trans("huseyinfiliz-pickem.validation.errors.unauthorized"));case 9:return t.prev=9,this.pickLoading.delete(e),m.redraw(),t.finish(9);case 10:case"end":return t.stop()}},t,this,[[1,8,9,10]])}));return function(e,a){return t.apply(this,arguments)}}(),a.view=function(){var t=this,e=app.store.all("pickem-seasons"),a=app.store.all("pickem-teams"),r=this.events.length>0,n=this.totalEvents>this.limit;return m("div",null,m("div",{className:"EventsTab-filters PickemPage-filters"},m("div",{className:"FilterGroup"},m("label",null,app.translator.trans("huseyinfiliz-pickem.admin.filters.season")),m("select",{className:"FormControl",value:this.selectedSeason,onchange:function(e){t.selectedSeason=e.target.value,t.loadEvents(1)}},m("option",{value:"all"},app.translator.trans("huseyinfiliz-pickem.admin.filters.all_seasons")),e.map(function(t){return m("option",{value:t.id(),key:t.id()},t.name())}))),m("div",{className:"FilterGroup"},m("label",null,app.translator.trans("huseyinfiliz-pickem.admin.filters.team")),m("select",{className:"FormControl",value:this.selectedTeam,onchange:function(e){t.selectedTeam=e.target.value,t.loadEvents(1)}},m("option",{value:"all"},app.translator.trans("huseyinfiliz-pickem.admin.filters.all_teams")),a.map(function(t){return m("option",{value:t.id(),key:t.id()},t.name())}))),m("div",{className:"FilterGroup"},m("label",null,app.translator.trans("huseyinfiliz-pickem.admin.filters.status")),m("select",{className:"FormControl",value:this.selectedStatus,onchange:function(e){t.selectedStatus=e.target.value,t.loadEvents(1)}},m("option",{value:"all"},app.translator.trans("huseyinfiliz-pickem.admin.filters.all_statuses")),m("option",{value:"scheduled"},app.translator.trans("huseyinfiliz-pickem.admin.status.scheduled")),m("option",{value:"closed"},app.translator.trans("huseyinfiliz-pickem.admin.status.closed")),m("option",{value:"finished"},app.translator.trans("huseyinfiliz-pickem.admin.status.finished"))))),this.loading?m(O(),null):r?m("div",{className:"MatchesList"},this.events.map(function(e){var a=String(e.id()),r=t.picks[a],n=t.pickLoading.has(Number(e.id()));return m(F,{event:e,pick:r,onMakePick:function(e,a){return t.makePick(e,a)},isLoading:n})})):m(z(),{text:app.translator.trans("huseyinfiliz-pickem.forum.matches.no_matches")}),n&&!this.loading&&m(j(),{total:this.totalEvents,limit:this.limit,page:this.page,onchange:this.loadEvents.bind(this)}))},e}(C()),R=function(t){function e(){return t.apply(this,arguments)||this}d(e,t);var a=e.prototype;return a.oninit=function(e){t.prototype.oninit.call(this,e),this.picksPage=0},a.view=function(){var t=this;if(!app.session.user)return m("div",{className:"MyPicksPage-empty"},m("p",null,"Please login to view your picks"));var e=this.attrs.picks,a=Object.values(e||{});if(!a||0===a.length)return m("div",{className:"MyPicksPage-empty"},m("i",{className:"fas fa-clipboard-list",style:"font-size: 48px; opacity: 0.3; margin-bottom: 16px;"}),m("p",null,"You haven't made any picks yet"));var r=a.filter(function(t){try{return null!=(t&&("function"==typeof t.event?t.event():t.event))}catch(t){return!1}}).sort(function(t,e){try{var a="function"==typeof t.event?t.event():t.event,r="function"==typeof e.event?e.event():e.event,n=a&&"function"==typeof a.matchDate?new Date(a.matchDate()).getTime():0;return(r&&"function"==typeof r.matchDate?new Date(r.matchDate()).getTime():0)-n}catch(t){return 0}}),n=r.slice(0,10*(this.picksPage+1)),o=r.length>n.length;return m("div",null,m("div",{className:"MyPicksList"},m("table",{className:"Table"},m("thead",null,m("tr",null,m("th",null,"Match"),m("th",null,"Date"),m("th",null,"Your Pick"),m("th",null,"Result"),m("th",null,"Status"))),m("tbody",null,n.map(function(e){var a="function"==typeof e.event?e.event():e.event;if(!a)return null;var r=a.homeTeam?a.homeTeam():null,n=a.awayTeam?a.awayTeam():null,o=e&&("function"==typeof e.id?e.id():e.id),i=e.isCorrect&&"function"==typeof e.isCorrect?e.isCorrect():null,s="pending";!0===i&&(s="correct"),!1===i&&(s="incorrect");var c="-";try{c=dayjs(a.matchDate()).format("DD MMM YYYY")}catch(t){}return m("tr",{key:String(o||Math.random()),className:s},m("td",null,m("strong",null,r?r.name():"Home"," vs ",n?n.name():"Away")),m("td",null,c),m("td",null,m("strong",null,t.formatResult(e.selectedOutcome(),r,n))),m("td",null,a.result&&a.result()?t.formatResult(a.result(),r,n):"-"),m("td",null,null===i?m("span",{style:"color: #f39c12;"},"⏳ Pending"):i?m("span",{style:"color: #27ae60; font-weight: bold;"},"✓ Correct"):m("span",{style:"color: #e74c3c; font-weight: bold;"},"✗ Incorrect")))})))),o&&m("div",{className:"LoadMore"},m(A(),{className:"Button Button--primary",onclick:function(){t.picksPage++,m.redraw()}},"Load More Picks")))},a.formatResult=function(t,e,a){return"home"===t?e?e.name():"Home":"away"===t?a?a.name():"Away":"draw"===t?"Draw":t},e}(C()),G=function(t){function e(){return t.apply(this,arguments)||this}d(e,t);var a=e.prototype;return a.view=function(){var t=this.attrs.userScores;return t&&0!==t.length?m("div",{className:"LeaderboardTab"},m("div",{className:"Leaderboard"},t.length>=3&&this.renderPodium(t.slice(0,3)),this.renderTable(t))):m("div",{className:"LeaderboardTab"},m("p",null,app.translator.trans("huseyinfiliz-pickem.forum.leaderboard.no_scores")))},a.renderPodium=function(t){var e=["🥇","🥈","🥉"],a=["first","second","third"];return m("div",{className:"Podium"},t.map(function(t,r){var n=t&&("function"==typeof t.user?t.user():t.user),o="function"==typeof t.totalPoints?t.totalPoints():t.totalPoints,i="function"==typeof t.correctPicks?t.correctPicks():t.correctPicks;return m("div",{className:"Podium-card "+a[r],key:r},m("div",{className:"medal"},e[r]),m("div",{className:"rank"},"#",r+1),m("div",{className:"username"},n?"function"==typeof n.displayName?n.displayName():n.displayName:"Unknown"),m("div",{className:"points"},o,m("small",null,"pts")),m("div",{className:"stats"},m("div",{className:"stat"},m("div",{className:"label"},"Correct"),m("div",{className:"value"},i)),m("div",{className:"stat"},m("div",{className:"label"},"Accuracy"),m("div",{className:"value"},t.accuracy(),"%"))))}))},a.renderTable=function(t){return m("table",{className:"LeaderboardTable"},m("thead",null,m("tr",null,m("th",null,app.translator.trans("huseyinfiliz-pickem.forum.leaderboard.rank")),m("th",null,app.translator.trans("huseyinfiliz-pickem.forum.leaderboard.player")),m("th",null,app.translator.trans("huseyinfiliz-pickem.forum.leaderboard.points")),m("th",null,app.translator.trans("huseyinfiliz-pickem.forum.leaderboard.correct")),m("th",null,app.translator.trans("huseyinfiliz-pickem.forum.leaderboard.total")),m("th",null,app.translator.trans("huseyinfiliz-pickem.forum.leaderboard.accuracy")))),m("tbody",null,t.map(function(t,e){var a=t&&("function"==typeof t.user?t.user():t.user),r=t&&("function"==typeof t.id?t.id():t.id)||e,n="function"==typeof t.totalPoints?t.totalPoints():t.totalPoints,o="function"==typeof t.correctPicks?t.correctPicks():t.correctPicks,i="function"==typeof t.totalPicks?t.totalPicks():t.totalPicks;return m("tr",{key:String(r),className:e<3?"top-"+(e+1):""},m("td",null,e+1),m("td",null,m("strong",null,a?"function"==typeof a.displayName?a.displayName():a.displayName:"Unknown")),m("td",null,m("strong",null,n)),m("td",null,o),m("td",null,i),m("td",null,t.accuracy(),"%"))})))},e}(C()),H=function(t){function e(){for(var e,a=arguments.length,r=new Array(a),n=0;n<a;n++)r[n]=arguments[n];return(e=t.call.apply(t,[this].concat(r))||this).activeTab="matches",e.loading=!0,e.picks={},e.userScores=[],e.filterDataLoaded=!1,e}d(e,t);var a=e.prototype;return a.oninit=function(e){t.prototype.oninit.call(this,e),app.forum.attribute("pickem.canView")?(this.activeTab=m.route&&m.route.param&&m.route.param("tab")||"matches",this.loading=!0,this.picks={},this.userScores=[],this.filterDataLoaded=!1,this.loadInitialData()):m.route.set("/")},a.loadInitialData=function(){var t=P(T().mark(function t(){var e,a;return T().wrap(function(t){for(;;)switch(t.prev=t.next){case 0:return t.prev=0,e=[],app.session.user&&app.forum.attribute("pickem.makePicks")&&e.push(this.loadPicks()),e.push(this.loadLeaderboard()),e.push(this.loadFilterData()),t.next=1,Promise.all(e);case 1:t.next=3;break;case 2:t.prev=2,a=t.catch(0),console.error("Error loading initial data:",a);case 3:return t.prev=3,this.loading=!1,this.filterDataLoaded=!0,m.redraw(),t.finish(3);case 4:case"end":return t.stop()}},t,this,[[0,2,3,4]])}));return function(){return t.apply(this,arguments)}}(),a.loadPicks=function(){var t=P(T().mark(function t(){var e,a;return T().wrap(function(t){for(;;)switch(t.prev=t.next){case 0:if(app.session.user&&app.forum.attribute("pickem.makePicks")){t.next=1;break}return t.abrupt("return");case 1:return t.prev=1,t.next=2,app.store.find("pickem-picks",{filter:{user:app.session.user.id()},include:"event,event.homeTeam,event.awayTeam"});case 2:(e=t.sent)&&Array.isArray(e)&&(this.picks=e.reduce(function(t,e){try{var a=e&&("function"==typeof e.event?e.event():e.event);a&&"function"==typeof a.id&&(t[String(a.id())]=e)}catch(t){console.warn("Invalid pick:",t)}return t},{})),t.next=4;break;case 3:t.prev=3,a=t.catch(1),console.error("Error loading picks:",a);case 4:case"end":return t.stop()}},t,this,[[1,3]])}));return function(){return t.apply(this,arguments)}}(),a.loadLeaderboard=function(){var t=P(T().mark(function t(){var e,a;return T().wrap(function(t){for(;;)switch(t.prev=t.next){case 0:return t.prev=0,t.next=1,app.store.find("pickem-user-scores",{include:"user"});case 1:e=t.sent,this.userScores=(e||[]).filter(function(t){return null!=t}),t.next=3;break;case 2:t.prev=2,a=t.catch(0),console.error("Error loading leaderboard:",a);case 3:case"end":return t.stop()}},t,this,[[0,2]])}));return function(){return t.apply(this,arguments)}}(),a.loadFilterData=function(){var t=P(T().mark(function t(){var e;return T().wrap(function(t){for(;;)switch(t.prev=t.next){case 0:return t.prev=0,t.next=1,Promise.all([app.store.find("pickem-public-seasons"),app.store.find("pickem-public-teams"),app.store.find("pickem-public-weeks")]);case 1:t.next=3;break;case 2:t.prev=2,e=t.catch(0),console.error("Error loading filter data:",e);case 3:case"end":return t.stop()}},t,null,[[0,2]])}));return function(){return t.apply(this,arguments)}}(),a.view=function(){return m("div",{className:"PickemPage"},m("div",{className:"container"},m("h2",null,m("i",{className:"fas fa-trophy"}),app.translator.trans("huseyinfiliz-pickem.forum.nav.pickem")),m("div",{className:"PickemPage-tabs"},this.renderTab("matches",app.translator.trans("huseyinfiliz-pickem.forum.nav.matches")),app.session.user&&app.forum.attribute("pickem.makePicks")&&this.renderTab("my_picks",app.translator.trans("huseyinfiliz-pickem.forum.nav.my_picks")),this.renderTab("leaderboard",app.translator.trans("huseyinfiliz-pickem.forum.nav.leaderboard"))),this.loading?m(O(),null):m("div",{className:"PickemPage-tab-content"},this.renderTabContent())))},a.renderTab=function(t,e){var a=this,r=this.activeTab===t;return m("button",{className:"Button Button--flat PickemPage-tab "+(r?"active":""),onclick:function(){a.activeTab=t,m.redraw()}},e)},a.renderTabContent=function(){var t=this;switch(this.activeTab){case"matches":return this.filterDataLoaded?m(Y,{picks:this.picks,onPickChange:function(e){t.picks=e}}):m(O(),null);case"my_picks":return app.session.user&&app.forum.attribute("pickem.makePicks")?m(R,{picks:this.picks}):null;case"leaderboard":return m(G,{userScores:this.userScores});default:return null}},e}(_());const B=flarum.core.compat["forum/components/Notification"];var U=function(t){function e(){return t.apply(this,arguments)||this}d(e,t);var a=e.prototype;return a.icon=function(){return"fas fa-trophy"},a.href=function(){return app.route("pickem")},a.content=function(){var t=this.attrs.notification.subject();if(!t)return app.translator.trans("huseyinfiliz-pickem.forum.notifications.event_result_text");var e=t.homeTeam?t.homeTeam().name():"Home",a=t.awayTeam?t.awayTeam().name():"Away",r=t.homeScore?t.homeScore():0,n=t.awayScore?t.awayScore():0;return app.translator.trans("huseyinfiliz-pickem.forum.notifications.event_result_text",{homeTeam:e,awayTeam:a,homeScore:r,awayScore:n})},a.excerpt=function(){return null},e}(a.n(B)());e().initializers.add("huseyinfiliz/pickem",function(){w.forEach(function(t){return t.extend(e())}),e().routes.pickem={path:"/pickem",component:H},(0,r.extend)(o().prototype,"navItems",function(t){e().forum.attribute("pickem.canView")&&t.add("pickem",s().component({href:e().route("pickem"),icon:"fas fa-trophy"},e().translator.trans("huseyinfiliz-pickem.forum.nav.pickem")),85)}),e().notificationComponents.pickem_event_result=U})})(),module.exports={}})();
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./node_modules/@babel/runtime/helpers/OverloadYield.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/OverloadYield.js ***!
+  \**************************************************************/
+/***/ ((module) => {
+
+function _OverloadYield(e, d) {
+  this.v = e, this.k = d;
+}
+module.exports = _OverloadYield, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _asyncToGenerator)
+/* harmony export */ });
+function asyncGeneratorStep(n, t, e, r, o, a, c) {
+  try {
+    var i = n[a](c),
+      u = i.value;
+  } catch (n) {
+    return void e(n);
+  }
+  i.done ? t(u) : Promise.resolve(u).then(r, o);
+}
+function _asyncToGenerator(n) {
+  return function () {
+    var t = this,
+      e = arguments;
+    return new Promise(function (r, o) {
+      var a = n.apply(t, e);
+      function _next(n) {
+        asyncGeneratorStep(a, r, o, _next, _throw, "next", n);
+      }
+      function _throw(n) {
+        asyncGeneratorStep(a, r, o, _next, _throw, "throw", n);
+      }
+      _next(void 0);
+    });
+  };
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _inheritsLoose)
+/* harmony export */ });
+/* harmony import */ var _setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setPrototypeOf.js */ "./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js");
+
+function _inheritsLoose(t, o) {
+  t.prototype = Object.create(o.prototype), t.prototype.constructor = t, (0,_setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__["default"])(t, o);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _setPrototypeOf)
+/* harmony export */ });
+function _setPrototypeOf(t, e) {
+  return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) {
+    return t.__proto__ = e, t;
+  }, _setPrototypeOf(t, e);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/regenerator.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/regenerator.js ***!
+  \************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var regeneratorDefine = __webpack_require__(/*! ./regeneratorDefine.js */ "./node_modules/@babel/runtime/helpers/regeneratorDefine.js");
+function _regenerator() {
+  /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */
+  var e,
+    t,
+    r = "function" == typeof Symbol ? Symbol : {},
+    n = r.iterator || "@@iterator",
+    o = r.toStringTag || "@@toStringTag";
+  function i(r, n, o, i) {
+    var c = n && n.prototype instanceof Generator ? n : Generator,
+      u = Object.create(c.prototype);
+    return regeneratorDefine(u, "_invoke", function (r, n, o) {
+      var i,
+        c,
+        u,
+        f = 0,
+        p = o || [],
+        y = !1,
+        G = {
+          p: 0,
+          n: 0,
+          v: e,
+          a: d,
+          f: d.bind(e, 4),
+          d: function d(t, r) {
+            return i = t, c = 0, u = e, G.n = r, a;
+          }
+        };
+      function d(r, n) {
+        for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) {
+          var o,
+            i = p[t],
+            d = G.p,
+            l = i[2];
+          r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0));
+        }
+        if (o || r > 1) return a;
+        throw y = !0, n;
+      }
+      return function (o, p, l) {
+        if (f > 1) throw TypeError("Generator is already running");
+        for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) {
+          i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u);
+          try {
+            if (f = 2, i) {
+              if (c || (o = "next"), t = i[o]) {
+                if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object");
+                if (!t.done) return t;
+                u = t.value, c < 2 && (c = 0);
+              } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1);
+              i = e;
+            } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break;
+          } catch (t) {
+            i = e, c = 1, u = t;
+          } finally {
+            f = 1;
+          }
+        }
+        return {
+          value: t,
+          done: y
+        };
+      };
+    }(r, o, i), !0), u;
+  }
+  var a = {};
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+  t = Object.getPrototypeOf;
+  var c = [][n] ? t(t([][n]())) : (regeneratorDefine(t = {}, n, function () {
+      return this;
+    }), t),
+    u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c);
+  function f(e) {
+    return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, regeneratorDefine(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e;
+  }
+  return GeneratorFunction.prototype = GeneratorFunctionPrototype, regeneratorDefine(u, "constructor", GeneratorFunctionPrototype), regeneratorDefine(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", regeneratorDefine(GeneratorFunctionPrototype, o, "GeneratorFunction"), regeneratorDefine(u), regeneratorDefine(u, o, "Generator"), regeneratorDefine(u, n, function () {
+    return this;
+  }), regeneratorDefine(u, "toString", function () {
+    return "[object Generator]";
+  }), (module.exports = _regenerator = function _regenerator() {
+    return {
+      w: i,
+      m: f
+    };
+  }, module.exports.__esModule = true, module.exports["default"] = module.exports)();
+}
+module.exports = _regenerator, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/regeneratorAsync.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/regeneratorAsync.js ***!
+  \*****************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var regeneratorAsyncGen = __webpack_require__(/*! ./regeneratorAsyncGen.js */ "./node_modules/@babel/runtime/helpers/regeneratorAsyncGen.js");
+function _regeneratorAsync(n, e, r, t, o) {
+  var a = regeneratorAsyncGen(n, e, r, t, o);
+  return a.next().then(function (n) {
+    return n.done ? n.value : a.next();
+  });
+}
+module.exports = _regeneratorAsync, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/regeneratorAsyncGen.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/regeneratorAsyncGen.js ***!
+  \********************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var regenerator = __webpack_require__(/*! ./regenerator.js */ "./node_modules/@babel/runtime/helpers/regenerator.js");
+var regeneratorAsyncIterator = __webpack_require__(/*! ./regeneratorAsyncIterator.js */ "./node_modules/@babel/runtime/helpers/regeneratorAsyncIterator.js");
+function _regeneratorAsyncGen(r, e, t, o, n) {
+  return new regeneratorAsyncIterator(regenerator().w(r, e, t, o), n || Promise);
+}
+module.exports = _regeneratorAsyncGen, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/regeneratorAsyncIterator.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/regeneratorAsyncIterator.js ***!
+  \*************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var OverloadYield = __webpack_require__(/*! ./OverloadYield.js */ "./node_modules/@babel/runtime/helpers/OverloadYield.js");
+var regeneratorDefine = __webpack_require__(/*! ./regeneratorDefine.js */ "./node_modules/@babel/runtime/helpers/regeneratorDefine.js");
+function AsyncIterator(t, e) {
+  function n(r, o, i, f) {
+    try {
+      var c = t[r](o),
+        u = c.value;
+      return u instanceof OverloadYield ? e.resolve(u.v).then(function (t) {
+        n("next", t, i, f);
+      }, function (t) {
+        n("throw", t, i, f);
+      }) : e.resolve(u).then(function (t) {
+        c.value = t, i(c);
+      }, function (t) {
+        return n("throw", t, i, f);
+      });
+    } catch (t) {
+      f(t);
+    }
+  }
+  var r;
+  this.next || (regeneratorDefine(AsyncIterator.prototype), regeneratorDefine(AsyncIterator.prototype, "function" == typeof Symbol && Symbol.asyncIterator || "@asyncIterator", function () {
+    return this;
+  })), regeneratorDefine(this, "_invoke", function (t, o, i) {
+    function f() {
+      return new e(function (e, r) {
+        n(t, i, e, r);
+      });
+    }
+    return r = r ? r.then(f, f) : f();
+  }, !0);
+}
+module.exports = AsyncIterator, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/regeneratorDefine.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/regeneratorDefine.js ***!
+  \******************************************************************/
+/***/ ((module) => {
+
+function _regeneratorDefine(e, r, n, t) {
+  var i = Object.defineProperty;
+  try {
+    i({}, "", {});
+  } catch (e) {
+    i = 0;
+  }
+  module.exports = _regeneratorDefine = function regeneratorDefine(e, r, n, t) {
+    function o(r, n) {
+      _regeneratorDefine(e, r, function (e) {
+        return this._invoke(r, n, e);
+      });
+    }
+    r ? i ? i(e, r, {
+      value: n,
+      enumerable: !t,
+      configurable: !t,
+      writable: !t
+    }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2));
+  }, module.exports.__esModule = true, module.exports["default"] = module.exports, _regeneratorDefine(e, r, n, t);
+}
+module.exports = _regeneratorDefine, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/regeneratorKeys.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/regeneratorKeys.js ***!
+  \****************************************************************/
+/***/ ((module) => {
+
+function _regeneratorKeys(e) {
+  var n = Object(e),
+    r = [];
+  for (var t in n) r.unshift(t);
+  return function e() {
+    for (; r.length;) if ((t = r.pop()) in n) return e.value = t, e.done = !1, e;
+    return e.done = !0, e;
+  };
+}
+module.exports = _regeneratorKeys, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/regeneratorRuntime.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/regeneratorRuntime.js ***!
+  \*******************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var OverloadYield = __webpack_require__(/*! ./OverloadYield.js */ "./node_modules/@babel/runtime/helpers/OverloadYield.js");
+var regenerator = __webpack_require__(/*! ./regenerator.js */ "./node_modules/@babel/runtime/helpers/regenerator.js");
+var regeneratorAsync = __webpack_require__(/*! ./regeneratorAsync.js */ "./node_modules/@babel/runtime/helpers/regeneratorAsync.js");
+var regeneratorAsyncGen = __webpack_require__(/*! ./regeneratorAsyncGen.js */ "./node_modules/@babel/runtime/helpers/regeneratorAsyncGen.js");
+var regeneratorAsyncIterator = __webpack_require__(/*! ./regeneratorAsyncIterator.js */ "./node_modules/@babel/runtime/helpers/regeneratorAsyncIterator.js");
+var regeneratorKeys = __webpack_require__(/*! ./regeneratorKeys.js */ "./node_modules/@babel/runtime/helpers/regeneratorKeys.js");
+var regeneratorValues = __webpack_require__(/*! ./regeneratorValues.js */ "./node_modules/@babel/runtime/helpers/regeneratorValues.js");
+function _regeneratorRuntime() {
+  "use strict";
+
+  var r = regenerator(),
+    e = r.m(_regeneratorRuntime),
+    t = (Object.getPrototypeOf ? Object.getPrototypeOf(e) : e.__proto__).constructor;
+  function n(r) {
+    var e = "function" == typeof r && r.constructor;
+    return !!e && (e === t || "GeneratorFunction" === (e.displayName || e.name));
+  }
+  var o = {
+    "throw": 1,
+    "return": 2,
+    "break": 3,
+    "continue": 3
+  };
+  function a(r) {
+    var e, t;
+    return function (n) {
+      e || (e = {
+        stop: function stop() {
+          return t(n.a, 2);
+        },
+        "catch": function _catch() {
+          return n.v;
+        },
+        abrupt: function abrupt(r, e) {
+          return t(n.a, o[r], e);
+        },
+        delegateYield: function delegateYield(r, o, a) {
+          return e.resultName = o, t(n.d, regeneratorValues(r), a);
+        },
+        finish: function finish(r) {
+          return t(n.f, r);
+        }
+      }, t = function t(r, _t, o) {
+        n.p = e.prev, n.n = e.next;
+        try {
+          return r(_t, o);
+        } finally {
+          e.next = n.n;
+        }
+      }), e.resultName && (e[e.resultName] = n.v, e.resultName = void 0), e.sent = n.v, e.next = n.n;
+      try {
+        return r.call(this, e);
+      } finally {
+        n.p = e.prev, n.n = e.next;
+      }
+    };
+  }
+  return (module.exports = _regeneratorRuntime = function _regeneratorRuntime() {
+    return {
+      wrap: function wrap(e, t, n, o) {
+        return r.w(a(e), t, n, o && o.reverse());
+      },
+      isGeneratorFunction: n,
+      mark: r.m,
+      awrap: function awrap(r, e) {
+        return new OverloadYield(r, e);
+      },
+      AsyncIterator: regeneratorAsyncIterator,
+      async: function async(r, e, t, o, u) {
+        return (n(e) ? regeneratorAsyncGen : regeneratorAsync)(a(r), e, t, o, u);
+      },
+      keys: regeneratorKeys,
+      values: regeneratorValues
+    };
+  }, module.exports.__esModule = true, module.exports["default"] = module.exports)();
+}
+module.exports = _regeneratorRuntime, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/regeneratorValues.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/regeneratorValues.js ***!
+  \******************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _typeof = (__webpack_require__(/*! ./typeof.js */ "./node_modules/@babel/runtime/helpers/typeof.js")["default"]);
+function _regeneratorValues(e) {
+  if (null != e) {
+    var t = e["function" == typeof Symbol && Symbol.iterator || "@@iterator"],
+      r = 0;
+    if (t) return t.call(e);
+    if ("function" == typeof e.next) return e;
+    if (!isNaN(e.length)) return {
+      next: function next() {
+        return e && r >= e.length && (e = void 0), {
+          value: e && e[r++],
+          done: !e
+        };
+      }
+    };
+  }
+  throw new TypeError(_typeof(e) + " is not iterable");
+}
+module.exports = _regeneratorValues, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/typeof.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/typeof.js ***!
+  \*******************************************************/
+/***/ ((module) => {
+
+function _typeof(o) {
+  "@babel/helpers - typeof";
+
+  return module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
+    return typeof o;
+  } : function (o) {
+    return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+  }, module.exports.__esModule = true, module.exports["default"] = module.exports, _typeof(o);
+}
+module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/regenerator/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+// TODO(Babel 8): Remove this file.
+
+var runtime = __webpack_require__(/*! ../helpers/regeneratorRuntime */ "./node_modules/@babel/runtime/helpers/regeneratorRuntime.js")();
+module.exports = runtime;
+
+// Copied from https://github.com/facebook/regenerator/blob/main/packages/runtime/runtime.js#L736=
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  if (typeof globalThis === "object") {
+    globalThis.regeneratorRuntime = runtime;
+  } else {
+    Function("r", "regeneratorRuntime = r")(runtime);
+  }
+}
+
+/***/ }),
+
+/***/ "./src/common/extend.ts":
+/*!******************************!*\
+  !*** ./src/common/extend.ts ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! flarum/common/extenders */ "flarum/common/extenders");
+/* harmony import */ var flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Model */ "flarum/common/Model");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _models_Team__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./models/Team */ "./src/common/models/Team.ts");
+/* harmony import */ var _models_Season__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./models/Season */ "./src/common/models/Season.ts");
+/* harmony import */ var _models_Week__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./models/Week */ "./src/common/models/Week.ts");
+/* harmony import */ var _models_Event__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./models/Event */ "./src/common/models/Event.ts");
+/* harmony import */ var _models_Pick__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./models/Pick */ "./src/common/models/Pick.ts");
+/* harmony import */ var _models_UserScore__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./models/UserScore */ "./src/common/models/UserScore.ts");
+
+
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Store)().add('pickem-teams', _models_Team__WEBPACK_IMPORTED_MODULE_2__["default"]), new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Model)(_models_Team__WEBPACK_IMPORTED_MODULE_2__["default"]).attribute('name').attribute('slug').attribute('logoPath').attribute('logoUrl'), new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Store)().add('pickem-seasons', _models_Season__WEBPACK_IMPORTED_MODULE_3__["default"]), new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Model)(_models_Season__WEBPACK_IMPORTED_MODULE_3__["default"]).attribute('name').attribute('slug').attribute('startDate', (flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().transformDate)) // Tip ataması
+.attribute('endDate', (flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().transformDate)),
+// Tip ataması
+
+new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Store)().add('pickem-weeks', _models_Week__WEBPACK_IMPORTED_MODULE_4__["default"]), new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Model)(_models_Week__WEBPACK_IMPORTED_MODULE_4__["default"]).attribute('name').attribute('seasonId').attribute('weekNumber').hasOne('season'), new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Store)().add('pickem-events', _models_Event__WEBPACK_IMPORTED_MODULE_5__["default"]), new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Model)(_models_Event__WEBPACK_IMPORTED_MODULE_5__["default"]).attribute('weekId').attribute('homeTeamId').attribute('awayTeamId').attribute('matchDate', (flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().transformDate)) // Tip ataması
+.attribute('cutoffDate', (flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().transformDate)) // Tip ataması
+.attribute('allowDraw').attribute('status').attribute('homeScore').attribute('awayScore').attribute('result').attribute('canPick').hasOne('week').hasOne('homeTeam').hasOne('awayTeam'), new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Store)().add('pickem-picks', _models_Pick__WEBPACK_IMPORTED_MODULE_6__["default"]), new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Model)(_models_Pick__WEBPACK_IMPORTED_MODULE_6__["default"]).attribute('userId').attribute('eventId').attribute('selectedOutcome').attribute('isCorrect').hasOne('event').hasOne('user'), new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Store)().add('pickem-user-scores', _models_UserScore__WEBPACK_IMPORTED_MODULE_7__["default"]), new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Model)(_models_UserScore__WEBPACK_IMPORTED_MODULE_7__["default"]).attribute('userId').attribute('seasonId').attribute('totalPoints').attribute('totalPicks').attribute('correctPicks').attribute('accuracy').hasOne('user').hasOne('season')]);
+
+/***/ }),
+
+/***/ "./src/common/models/Event.ts":
+/*!************************************!*\
+  !*** ./src/common/models/Event.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ PickemEvent)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Model */ "flarum/common/Model");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var PickemEvent = /*#__PURE__*/function (_Model) {
+  function PickemEvent() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Model.call.apply(_Model, [this].concat(args)) || this;
+    _this.weekId = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('weekId');
+    _this.homeTeamId = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('homeTeamId');
+    _this.awayTeamId = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('awayTeamId');
+    _this.matchDate = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('matchDate', (flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().transformDate));
+    _this.cutoffDate = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('cutoffDate', (flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().transformDate));
+    _this.allowDraw = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('allowDraw');
+    _this.status = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('status');
+    _this.homeScore = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('homeScore');
+    _this.awayScore = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('awayScore');
+    _this.result = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('result');
+    _this.canPick = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('canPick');
+    _this.week = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().hasOne('week');
+    _this.homeTeam = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().hasOne('homeTeam');
+    _this.awayTeam = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().hasOne('awayTeam');
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(PickemEvent, _Model);
+  return PickemEvent;
+}((flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "./src/common/models/Pick.ts":
+/*!***********************************!*\
+  !*** ./src/common/models/Pick.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Pick)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Model */ "flarum/common/Model");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var Pick = /*#__PURE__*/function (_Model) {
+  function Pick() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Model.call.apply(_Model, [this].concat(args)) || this;
+    _this.userId = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('userId');
+    _this.eventId = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('eventId');
+    _this.selectedOutcome = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('selectedOutcome');
+    _this.isCorrect = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('isCorrect');
+    _this.event = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().hasOne('event');
+    _this.user = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().hasOne('user');
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(Pick, _Model);
+  return Pick;
+}((flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "./src/common/models/Season.ts":
+/*!*************************************!*\
+  !*** ./src/common/models/Season.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Season)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Model */ "flarum/common/Model");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var Season = /*#__PURE__*/function (_Model) {
+  function Season() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Model.call.apply(_Model, [this].concat(args)) || this;
+    _this.name = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('name');
+    _this.slug = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('slug');
+    _this.startDate = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('startDate', (flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().transformDate));
+    _this.endDate = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('endDate', (flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().transformDate));
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(Season, _Model);
+  return Season;
+}((flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "./src/common/models/Team.ts":
+/*!***********************************!*\
+  !*** ./src/common/models/Team.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Team)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Model */ "flarum/common/Model");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var Team = /*#__PURE__*/function (_Model) {
+  function Team() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Model.call.apply(_Model, [this].concat(args)) || this;
+    _this.name = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('name');
+    _this.slug = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('slug');
+    _this.logoPath = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('logoPath');
+    _this.logoUrl = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('logoUrl');
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(Team, _Model);
+  return Team;
+}((flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "./src/common/models/UserScore.ts":
+/*!****************************************!*\
+  !*** ./src/common/models/UserScore.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ UserScore)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Model */ "flarum/common/Model");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var UserScore = /*#__PURE__*/function (_Model) {
+  function UserScore() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Model.call.apply(_Model, [this].concat(args)) || this;
+    _this.userId = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('userId');
+    _this.seasonId = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('seasonId');
+    _this.totalPoints = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('totalPoints');
+    _this.totalPicks = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('totalPicks');
+    _this.correctPicks = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('correctPicks');
+    _this.accuracy = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('accuracy');
+    _this.user = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().hasOne('user');
+    _this.season = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().hasOne('season');
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(UserScore, _Model);
+  return UserScore;
+}((flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "./src/common/models/Week.ts":
+/*!***********************************!*\
+  !*** ./src/common/models/Week.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Week)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Model */ "flarum/common/Model");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var Week = /*#__PURE__*/function (_Model) {
+  function Week() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Model.call.apply(_Model, [this].concat(args)) || this;
+    _this.name = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('name');
+    _this.seasonId = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('seasonId');
+    _this.weekNumber = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('weekNumber');
+    _this.season = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().hasOne('season');
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(Week, _Model);
+  return Week;
+}((flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "./src/forum/components/EventCard.tsx":
+/*!********************************************!*\
+  !*** ./src/forum/components/EventCard.tsx ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ EventCard)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Component */ "flarum/common/Component");
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Component__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flarum/common/components/Button */ "flarum/common/components/Button");
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+var EventCard = /*#__PURE__*/function (_Component) {
+  function EventCard() {
+    return _Component.apply(this, arguments) || this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(EventCard, _Component);
+  var _proto = EventCard.prototype;
+  _proto.view = function view() {
+    var _this$attrs = this.attrs,
+      event = _this$attrs.event,
+      pick = _this$attrs.pick,
+      onMakePick = _this$attrs.onMakePick,
+      isLoading = _this$attrs.isLoading;
+    if (!event || typeof event.id !== 'function') {
+      return null;
+    }
+    var homeTeam = event.homeTeam ? event.homeTeam() : null;
+    var awayTeam = event.awayTeam ? event.awayTeam() : null;
+    var canPick = typeof event.canPick === 'function' ? event.canPick() : false;
+    var status = typeof event.status === 'function' ? event.status() : 'scheduled';
+    var result = typeof event.result === 'function' ? event.result() : null;
+    var homeScore = typeof event.homeScore === 'function' ? event.homeScore() : null;
+    var awayScore = typeof event.awayScore === 'function' ? event.awayScore() : null;
+    var matchDate = '-';
+    var cutoffDate = '-';
+    try {
+      matchDate = dayjs(event.matchDate()).format('DD MMM YYYY, HH:mm');
+    } catch (_unused) {
+      matchDate = String(event.matchDate());
+    }
+    try {
+      cutoffDate = dayjs(event.cutoffDate()).format('DD MMM YYYY, HH:mm');
+    } catch (_unused2) {
+      cutoffDate = String(event.cutoffDate());
+    }
+    var countdown = this.getCountdown(event.cutoffDate());
+    return m("div", {
+      className: "EventCard"
+    }, m("div", {
+      className: "EventCard-status " + status
+    }, status === 'scheduled' && '🟢 Live', status === 'closed' && '🔴 Closed', status === 'finished' && '⚫ Finished'), m("div", {
+      className: "EventCard-teams"
+    }, m("div", {
+      className: "team-container"
+    }, this.renderTeamLogo(homeTeam), m("div", {
+      className: "team-name"
+    }, homeTeam ? homeTeam.name() : 'Home Team')), m("div", {
+      className: "vs"
+    }, "VS"), m("div", {
+      className: "team-container"
+    }, this.renderTeamLogo(awayTeam), m("div", {
+      className: "team-name"
+    }, awayTeam ? awayTeam.name() : 'Away Team'))), status === 'finished' && homeScore !== null && awayScore !== null && m("div", {
+      className: "EventCard-score"
+    }, m("div", {
+      className: "score-number"
+    }, homeScore), m("div", {
+      className: "score-separator"
+    }, "-"), m("div", {
+      className: "score-number"
+    }, awayScore)), m("div", {
+      className: "EventCard-info"
+    }, m("div", null, m("i", {
+      className: "fas fa-calendar"
+    }), m("strong", null, "Match:"), " ", matchDate), m("div", null, m("i", {
+      className: "fas fa-clock"
+    }), m("strong", null, "Cutoff:"), " ", cutoffDate), countdown && canPick && m("div", null, m("span", {
+      className: "EventCard-countdown " + (countdown.urgent ? 'urgent' : '')
+    }, m("i", {
+      className: "fas fa-hourglass-half"
+    }), countdown.text)), result && m("div", null, m("i", {
+      className: "fas fa-flag-checkered"
+    }), m("strong", null, "Result:"), " ", this.formatResult(result, homeTeam, awayTeam))), app.session.user && canPick && m("div", {
+      className: "EventCard-picks"
+    }, m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2___default()), {
+      className: pick && typeof pick.selectedOutcome === 'function' && pick.selectedOutcome() === 'home' ? 'Button--primary' : '',
+      onclick: function onclick() {
+        return onMakePick(Number(event.id()), 'home');
+      },
+      loading: isLoading,
+      disabled: isLoading
+    }, homeTeam ? homeTeam.name() : 'Home'), event.allowDraw && event.allowDraw() && m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2___default()), {
+      className: pick && typeof pick.selectedOutcome === 'function' && pick.selectedOutcome() === 'draw' ? 'Button--primary' : '',
+      onclick: function onclick() {
+        return onMakePick(Number(event.id()), 'draw');
+      },
+      loading: isLoading,
+      disabled: isLoading
+    }, "Draw"), m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2___default()), {
+      className: pick && typeof pick.selectedOutcome === 'function' && pick.selectedOutcome() === 'away' ? 'Button--primary' : '',
+      onclick: function onclick() {
+        return onMakePick(Number(event.id()), 'away');
+      },
+      loading: isLoading,
+      disabled: isLoading
+    }, awayTeam ? awayTeam.name() : 'Away')), pick && !canPick && m("div", {
+      className: "EventCard-pick-result"
+    }, "Your pick: ", m("strong", null, this.formatResult(pick.selectedOutcome(), homeTeam, awayTeam)), pick.isCorrect && typeof pick.isCorrect === 'function' && pick.isCorrect() !== null && m("span", {
+      className: pick.isCorrect() ? 'correct' : 'incorrect'
+    }, pick.isCorrect() ? ' ✓ Correct' : ' ✗ Incorrect')));
+  };
+  _proto.renderTeamLogo = function renderTeamLogo(team) {
+    if (!team) {
+      return m("div", {
+        className: "team-logo"
+      }, m("span", null, "?"));
+    }
+    var logoUrl = typeof team.logoUrl === 'function' ? team.logoUrl() : null;
+    var teamName = typeof team.name === 'function' ? team.name() : 'Team';
+    if (logoUrl) {
+      return m("div", {
+        className: "team-logo"
+      }, m("img", {
+        src: logoUrl,
+        alt: teamName
+      }));
+    }
+
+    // Generate initial letter logo
+    var initial = teamName.charAt(0).toUpperCase();
+    var colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#34495e'];
+    var colorIndex = teamName.charCodeAt(0) % colors.length;
+    var bgColor = colors[colorIndex];
+    return m("div", {
+      className: "team-logo",
+      style: "background-color: " + bgColor + ";"
+    }, m("span", null, initial));
+  };
+  _proto.getCountdown = function getCountdown(cutoffDate) {
+    try {
+      var now = dayjs();
+      var cutoff = dayjs(cutoffDate);
+      var diff = cutoff.diff(now);
+      if (diff <= 0) return null;
+      var hours = Math.floor(diff / (1000 * 60 * 60));
+      var minutes = Math.floor(diff % (1000 * 60 * 60) / (1000 * 60));
+      if (hours < 1) {
+        return {
+          text: minutes + "m remaining",
+          urgent: minutes < 30
+        };
+      }
+      if (hours < 24) {
+        return {
+          text: hours + "h " + minutes + "m remaining",
+          urgent: hours < 2
+        };
+      }
+      var days = Math.floor(hours / 24);
+      return {
+        text: days + "d remaining",
+        urgent: false
+      };
+    } catch (_unused3) {
+      return null;
+    }
+  };
+  _proto.formatResult = function formatResult(result, homeTeam, awayTeam) {
+    if (result === 'home') return homeTeam ? homeTeam.name() : 'Home';
+    if (result === 'away') return awayTeam ? awayTeam.name() : 'Away';
+    if (result === 'draw') return 'Draw';
+    return result;
+  };
+  return EventCard;
+}((flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "./src/forum/components/EventResultNotification.tsx":
+/*!**********************************************************!*\
+  !*** ./src/forum/components/EventResultNotification.tsx ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ EventResultNotification)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_forum_components_Notification__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/forum/components/Notification */ "flarum/forum/components/Notification");
+/* harmony import */ var flarum_forum_components_Notification__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_forum_components_Notification__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var EventResultNotification = /*#__PURE__*/function (_Notification) {
+  function EventResultNotification() {
+    return _Notification.apply(this, arguments) || this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(EventResultNotification, _Notification);
+  var _proto = EventResultNotification.prototype;
+  _proto.icon = function icon() {
+    return 'fas fa-trophy';
+  };
+  _proto.href = function href() {
+    // Pickem sayfasına yönlendir
+    return app.route('pickem');
+  };
+  _proto.content = function content() {
+    var notification = this.attrs.notification;
+    var data = notification.subject();
+    if (!data) {
+      return app.translator.trans('huseyinfiliz-pickem.forum.notifications.event_result_text');
+    }
+    var homeTeam = data.homeTeam ? data.homeTeam().name() : 'Home';
+    var awayTeam = data.awayTeam ? data.awayTeam().name() : 'Away';
+    var homeScore = data.homeScore ? data.homeScore() : 0;
+    var awayScore = data.awayScore ? data.awayScore() : 0;
+    return app.translator.trans('huseyinfiliz-pickem.forum.notifications.event_result_text', {
+      homeTeam: homeTeam,
+      awayTeam: awayTeam,
+      homeScore: homeScore,
+      awayScore: awayScore
+    });
+  };
+  _proto.excerpt = function excerpt() {
+    return null;
+  };
+  return EventResultNotification;
+}((flarum_forum_components_Notification__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "./src/forum/components/LeaderboardTab.tsx":
+/*!*************************************************!*\
+  !*** ./src/forum/components/LeaderboardTab.tsx ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ LeaderboardTab)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Component */ "flarum/common/Component");
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Component__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var LeaderboardTab = /*#__PURE__*/function (_Component) {
+  function LeaderboardTab() {
+    return _Component.apply(this, arguments) || this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(LeaderboardTab, _Component);
+  var _proto = LeaderboardTab.prototype;
+  _proto.view = function view() {
+    var userScores = this.attrs.userScores;
+    if (!userScores || userScores.length === 0) {
+      return m("div", {
+        className: "LeaderboardTab"
+      }, m("p", null, app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.no_scores')));
+    }
+    return m("div", {
+      className: "LeaderboardTab"
+    }, m("div", {
+      className: "Leaderboard"
+    }, userScores.length >= 3 && this.renderPodium(userScores.slice(0, 3)), this.renderTable(userScores)));
+  };
+  _proto.renderPodium = function renderPodium(topThree) {
+    var medals = ['🥇', '🥈', '🥉'];
+    var positions = ['first', 'second', 'third'];
+    return m("div", {
+      className: "Podium"
+    }, topThree.map(function (score, index) {
+      var user = score && (typeof score.user === 'function' ? score.user() : score.user);
+      var totalPoints = typeof score.totalPoints === 'function' ? score.totalPoints() : score.totalPoints;
+      var correctPicks = typeof score.correctPicks === 'function' ? score.correctPicks() : score.correctPicks;
+      // DÜZELTME: Manuel 'accuracy' hesaplaması kaldırıldı.
+      // const totalPicks = typeof score.totalPicks === 'function' ? score.totalPicks() : score.totalPicks;
+      // const accuracy = totalPicks > 0 ? ((correctPicks / totalPicks) * 100).toFixed(1) : '0.0';
+
+      return m("div", {
+        className: "Podium-card " + positions[index],
+        key: index
+      }, m("div", {
+        className: "medal"
+      }, medals[index]), m("div", {
+        className: "rank"
+      }, "#", index + 1), m("div", {
+        className: "username"
+      }, user ? typeof user.displayName === 'function' ? user.displayName() : user.displayName : 'Unknown'), m("div", {
+        className: "points"
+      }, totalPoints, m("small", null, "pts")), m("div", {
+        className: "stats"
+      }, m("div", {
+        className: "stat"
+      }, m("div", {
+        className: "label"
+      }, "Correct"), m("div", {
+        className: "value"
+      }, correctPicks)), m("div", {
+        className: "stat"
+      }, m("div", {
+        className: "label"
+      }, "Accuracy"), m("div", {
+        className: "value"
+      }, score.accuracy(), "%"))));
+    }));
+  };
+  _proto.renderTable = function renderTable(userScores) {
+    return m("table", {
+      className: "LeaderboardTable"
+    }, m("thead", null, m("tr", null, m("th", null, app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.rank')), m("th", null, app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.player')), m("th", null, app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.points')), m("th", null, app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.correct')), m("th", null, app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.total')), m("th", null, app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.accuracy')))), m("tbody", null, userScores.map(function (score, index) {
+      var user = score && (typeof score.user === 'function' ? score.user() : score.user);
+      var scoreId = score && (typeof score.id === 'function' ? score.id() : score.id) || index;
+      var totalPoints = typeof score.totalPoints === 'function' ? score.totalPoints() : score.totalPoints;
+      var correctPicks = typeof score.correctPicks === 'function' ? score.correctPicks() : score.correctPicks;
+      var totalPicks = typeof score.totalPicks === 'function' ? score.totalPicks() : score.totalPicks;
+      // DÜZELTME: Manuel 'accuracy' hesaplaması kaldırıldı.
+      // const accuracy = totalPicks > 0 ? ((correctPicks / totalPicks) * 100).toFixed(1) : '0.0';
+
+      return m("tr", {
+        key: String(scoreId),
+        className: index < 3 ? "top-" + (index + 1) : ''
+      }, m("td", null, index + 1), m("td", null, m("strong", null, user ? typeof user.displayName === 'function' ? user.displayName() : user.displayName : 'Unknown')), m("td", null, m("strong", null, totalPoints)), m("td", null, correctPicks), m("td", null, totalPicks), m("td", null, score.accuracy(), "%"));
+    })));
+  };
+  return LeaderboardTab;
+}((flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "./src/forum/components/MatchesTab.tsx":
+/*!*********************************************!*\
+  !*** ./src/forum/components/MatchesTab.tsx ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ MatchesTab)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/common/Component */ "flarum/common/Component");
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Component__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/common/components/LoadingIndicator */ "flarum/common/components/LoadingIndicator");
+/* harmony import */ var flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! flarum/common/components/Button */ "flarum/common/components/Button");
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var flarum_common_components_Placeholder__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! flarum/common/components/Placeholder */ "flarum/common/components/Placeholder");
+/* harmony import */ var flarum_common_components_Placeholder__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Placeholder__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _EventCard__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./EventCard */ "./src/forum/components/EventCard.tsx");
+
+
+
+
+
+
+
+
+var MatchesTab = /*#__PURE__*/function (_Component) {
+  function MatchesTab() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Component.call.apply(_Component, [this].concat(args)) || this;
+    _this.selectedSeason = 'all';
+    _this.selectedTeam = 'all';
+    _this.selectedStatus = 'all';
+    _this.loading = true;
+    _this.events = [];
+    _this.totalEvents = 0;
+    _this.page = 1;
+    _this.limit = 10;
+    _this.pickLoading = new Set();
+    _this.picks = void 0;
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(MatchesTab, _Component);
+  var _proto = MatchesTab.prototype;
+  _proto.oninit = function oninit(vnode) {
+    _Component.prototype.oninit.call(this, vnode);
+    this.picks = this.attrs.picks;
+    this.loadEvents(1);
+  };
+  _proto.buildFilters = function buildFilters() {
+    var _this2 = this;
+    var filters = {};
+    var weekIds = [];
+    if (this.selectedSeason !== 'all') {
+      var weeks = app.store.all('pickem-weeks').filter(function (week) {
+        return week.seasonId() == _this2.selectedSeason;
+      });
+      weekIds.push.apply(weekIds, weeks.map(function (week) {
+        return week.id();
+      }));
+      if (weekIds.length === 0) weekIds.push('0');
+      filters.week = weekIds.join(',');
+    }
+    if (this.selectedTeam !== 'all') {
+      filters.team = this.selectedTeam;
+    }
+    if (this.selectedStatus !== 'all') {
+      filters.status = this.selectedStatus;
+    }
+    return filters;
+  };
+  _proto.loadEvents = function loadEvents(page) {
+    var _this3 = this;
+    if (page === void 0) {
+      page = 1;
+    }
+    this.loading = true;
+    this.page = page;
+    m.redraw();
+    var filters = this.buildFilters();
+    var sort = '-matchDate';
+    var offset = (this.page - 1) * this.limit;
+    app.store.find('pickem-events', {
+      include: 'homeTeam,awayTeam,week',
+      filter: filters,
+      sort: sort,
+      page: {
+        limit: this.limit,
+        offset: offset
+      }
+    }).then(function (results) {
+      _this3.events = results;
+      _this3.totalEvents = results.payload.meta.total;
+    })["catch"](function (error) {
+      console.error(error);
+    })["finally"](function () {
+      _this3.loading = false;
+      m.redraw();
+    });
+  };
+  _proto.makePick = /*#__PURE__*/function () {
+    var _makePick = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])(/*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee(eventId, outcome) {
+      var idStr, existingPick, pick, _pick, _t;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function (_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            idStr = String(eventId);
+            existingPick = this.picks[idStr];
+            this.pickLoading.add(eventId);
+            m.redraw();
+            _context.prev = 1;
+            if (!(existingPick && existingPick.selectedOutcome() === outcome)) {
+              _context.next = 3;
+              break;
+            }
+            _context.next = 2;
+            return existingPick["delete"]();
+          case 2:
+            delete this.picks[idStr];
+            this.attrs.onPickChange(this.picks);
+            app.alerts.show({
+              type: 'success'
+            }, app.translator.trans('huseyinfiliz-pickem.lib.validation.success.pick_deleted'));
+            _context.next = 7;
+            break;
+          case 3:
+            if (!existingPick) {
+              _context.next = 5;
+              break;
+            }
+            _context.next = 4;
+            return existingPick.save({
+              selectedOutcome: outcome
+            });
+          case 4:
+            pick = _context.sent;
+            this.picks[idStr] = pick;
+            this.attrs.onPickChange(this.picks);
+            app.alerts.show({
+              type: 'success'
+            }, app.translator.trans('huseyinfiliz-pickem.lib.validation.success.pick_updated'));
+            _context.next = 7;
+            break;
+          case 5:
+            _context.next = 6;
+            return app.store.createRecord('pickem-picks').save({
+              eventId: eventId,
+              selectedOutcome: outcome
+            });
+          case 6:
+            _pick = _context.sent;
+            this.picks[idStr] = _pick;
+            this.attrs.onPickChange(this.picks);
+            app.alerts.show({
+              type: 'success'
+            }, app.translator.trans('huseyinfiliz-pickem.lib.validation.success.pick_created'));
+          case 7:
+            _context.next = 9;
+            break;
+          case 8:
+            _context.prev = 8;
+            _t = _context["catch"](1);
+            console.error('Error making/deleting pick:', _t);
+            if (_t && _t.alert) {
+              app.alerts.show(_t.alert);
+            } else {
+              app.alerts.show({
+                type: 'error'
+              }, app.translator.trans('huseyinfiliz-pickem.lib.validation.errors.unauthorized'));
+            }
+          case 9:
+            _context.prev = 9;
+            this.pickLoading["delete"](eventId);
+            m.redraw();
+            return _context.finish(9);
+          case 10:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee, this, [[1, 8, 9, 10]]);
+    }));
+    function makePick(_x, _x2) {
+      return _makePick.apply(this, arguments);
+    }
+    return makePick;
+  }();
+  _proto.view = function view() {
+    var _this4 = this;
+    var allSeasons = app.store.all('pickem-seasons');
+    var allTeams = app.store.all('pickem-teams');
+    var hasEvents = this.events.length > 0;
+    var canShowPagination = this.totalEvents > this.limit;
+    return m("div", null, m("div", {
+      className: "EventsTab-filters PickemPage-filters"
+    }, m("div", {
+      className: "FilterGroup"
+    }, m("label", null, m("i", {
+      className: "fas fa-calendar-alt"
+    }), m("span", null, app.translator.trans('huseyinfiliz-pickem.forum.filters.season'))), m("select", {
+      className: "FormControl",
+      value: this.selectedSeason,
+      onchange: function onchange(e) {
+        _this4.selectedSeason = e.target.value;
+        _this4.loadEvents(1);
+      }
+    }, m("option", {
+      value: "all"
+    }, app.translator.trans('huseyinfiliz-pickem.forum.filters.all_seasons')), allSeasons.map(function (season) {
+      return m("option", {
+        value: season.id()
+      }, season.name());
+    }))), m("div", {
+      className: "FilterGroup"
+    }, m("label", null, m("i", {
+      className: "fas fa-users"
+    }), m("span", null, app.translator.trans('huseyinfiliz-pickem.forum.filters.team'))), m("select", {
+      className: "FormControl",
+      value: this.selectedTeam,
+      onchange: function onchange(e) {
+        _this4.selectedTeam = e.target.value;
+        _this4.loadEvents(1);
+      }
+    }, m("option", {
+      value: "all"
+    }, app.translator.trans('huseyinfiliz-pickem.forum.filters.all_teams')), allTeams.map(function (team) {
+      return m("option", {
+        value: team.id()
+      }, team.name());
+    }))), m("div", {
+      className: "FilterGroup"
+    }, m("label", null, m("i", {
+      className: "fas fa-filter"
+    }), m("span", null, app.translator.trans('huseyinfiliz-pickem.forum.filters.status'))), m("select", {
+      className: "FormControl",
+      value: this.selectedStatus,
+      onchange: function onchange(e) {
+        _this4.selectedStatus = e.target.value;
+        _this4.loadEvents(1);
+      }
+    }, m("option", {
+      value: "all"
+    }, app.translator.trans('huseyinfiliz-pickem.forum.filters.all')), m("option", {
+      value: "scheduled"
+    }, app.translator.trans('huseyinfiliz-pickem.admin.events.status_scheduled')), m("option", {
+      value: "closed"
+    }, app.translator.trans('huseyinfiliz-pickem.admin.events.status_closed')), m("option", {
+      value: "finished"
+    }, app.translator.trans('huseyinfiliz-pickem.admin.events.status_finished'))))), this.loading ? m((flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_4___default()), null) : !hasEvents ? m((flarum_common_components_Placeholder__WEBPACK_IMPORTED_MODULE_6___default()), {
+      text: app.translator.trans('huseyinfiliz-pickem.forum.matches.no_matches')
+    }) : m("div", {
+      className: "MatchesList"
+    }, this.events.map(function (event) {
+      var idStr = String(event.id());
+      var pick = _this4.picks[idStr];
+      var isLoading = _this4.pickLoading.has(Number(event.id()));
+      return m(_EventCard__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        event: event,
+        pick: pick,
+        onMakePick: function onMakePick(id, out) {
+          return _this4.makePick(id, out);
+        },
+        isLoading: isLoading
+      });
+    })), canShowPagination && !this.loading && m("nav", {
+      className: "Pagination"
+    }, m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_5___default()), {
+      className: "Button Pagination-button Pagination-previous",
+      icon: "fas fa-chevron-left",
+      disabled: this.page === 1,
+      onclick: function onclick() {
+        if (_this4.page > 1) {
+          _this4.loadEvents(_this4.page - 1);
+        }
+      }
+    }), m("span", {
+      className: "Pagination-info"
+    }, app.translator.trans('huseyinfiliz-pickem.forum.pagination.page_info', {
+      current: this.page,
+      total: Math.ceil(this.totalEvents / this.limit)
+    })), m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_5___default()), {
+      className: "Button Pagination-button Pagination-next",
+      icon: "fas fa-chevron-right",
+      disabled: this.page >= Math.ceil(this.totalEvents / this.limit),
+      onclick: function onclick() {
+        if (_this4.page < Math.ceil(_this4.totalEvents / _this4.limit)) {
+          _this4.loadEvents(_this4.page + 1);
+        }
+      }
+    })));
+  };
+  return MatchesTab;
+}((flarum_common_Component__WEBPACK_IMPORTED_MODULE_3___default()));
+
+
+/***/ }),
+
+/***/ "./src/forum/components/MyPicksTab.tsx":
+/*!*********************************************!*\
+  !*** ./src/forum/components/MyPicksTab.tsx ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ MyPicksTab)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Component */ "flarum/common/Component");
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Component__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flarum/common/components/Button */ "flarum/common/components/Button");
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+var MyPicksTab = /*#__PURE__*/function (_Component) {
+  function MyPicksTab() {
+    return _Component.apply(this, arguments) || this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(MyPicksTab, _Component);
+  var _proto = MyPicksTab.prototype;
+  _proto.oninit = function oninit(vnode) {
+    _Component.prototype.oninit.call(this, vnode);
+    this.picksPage = 0;
+  };
+  _proto.view = function view() {
+    var _this = this;
+    if (!app.session.user) {
+      return m("div", {
+        className: "MyPicksPage-empty"
+      }, m("p", null, "Please login to view your picks"));
+    }
+    var picks = this.attrs.picks;
+    var myPicks = Object.values(picks || {});
+    if (!myPicks || myPicks.length === 0) {
+      return m("div", {
+        className: "MyPicksPage-empty"
+      }, m("i", {
+        className: "fas fa-clipboard-list",
+        style: "font-size: 48px; opacity: 0.3; margin-bottom: 16px;"
+      }), m("p", null, "You haven't made any picks yet"));
+    }
+
+    // Sort by date (newest first)
+    var sortedPicks = myPicks.filter(function (pick) {
+      try {
+        var ev = pick && (typeof pick.event === 'function' ? pick.event() : pick.event);
+        return ev != null;
+      } catch (_unused) {
+        return false;
+      }
+    }).sort(function (a, b) {
+      try {
+        var eventA = typeof a.event === 'function' ? a.event() : a.event;
+        var eventB = typeof b.event === 'function' ? b.event() : b.event;
+        var dateA = eventA && typeof eventA.matchDate === 'function' ? new Date(eventA.matchDate()).getTime() : 0;
+        var dateB = eventB && typeof eventB.matchDate === 'function' ? new Date(eventB.matchDate()).getTime() : 0;
+        return dateB - dateA;
+      } catch (_unused2) {
+        return 0;
+      }
+    });
+    var displayPicks = sortedPicks.slice(0, (this.picksPage + 1) * 10);
+    var hasMore = sortedPicks.length > displayPicks.length;
+    return m("div", null, m("div", {
+      className: "MyPicksList"
+    }, m("table", {
+      className: "Table"
+    }, m("thead", null, m("tr", null, m("th", null, "Match"), m("th", null, "Date"), m("th", null, "Your Pick"), m("th", null, "Result"), m("th", null, "Status"))), m("tbody", null, displayPicks.map(function (pick) {
+      var event = typeof pick.event === 'function' ? pick.event() : pick.event;
+      if (!event) return null;
+      var homeTeam = event.homeTeam ? event.homeTeam() : null;
+      var awayTeam = event.awayTeam ? event.awayTeam() : null;
+      var pickId = pick && (typeof pick.id === 'function' ? pick.id() : pick.id);
+      var isCorrect = pick.isCorrect && typeof pick.isCorrect === 'function' ? pick.isCorrect() : null;
+      var rowClass = 'pending';
+      if (isCorrect === true) rowClass = 'correct';
+      if (isCorrect === false) rowClass = 'incorrect';
+      var matchDate = '-';
+      try {
+        matchDate = dayjs(event.matchDate()).format('DD MMM YYYY');
+      } catch (_unused3) {}
+      return m("tr", {
+        key: String(pickId || Math.random()),
+        className: rowClass
+      }, m("td", null, m("strong", null, homeTeam ? homeTeam.name() : 'Home', " vs ", awayTeam ? awayTeam.name() : 'Away')), m("td", null, matchDate), m("td", null, m("strong", null, _this.formatResult(pick.selectedOutcome(), homeTeam, awayTeam))), m("td", null, event.result && event.result() ? _this.formatResult(event.result(), homeTeam, awayTeam) : '-'), m("td", null, isCorrect === null ? m("span", {
+        style: "color: #f39c12;"
+      }, "\u23F3 Pending") : isCorrect ? m("span", {
+        style: "color: #27ae60; font-weight: bold;"
+      }, "\u2713 Correct") : m("span", {
+        style: "color: #e74c3c; font-weight: bold;"
+      }, "\u2717 Incorrect")));
+    })))), hasMore && m("div", {
+      className: "LoadMore"
+    }, m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2___default()), {
+      className: "Button Button--primary",
+      onclick: function onclick() {
+        _this.picksPage++;
+        m.redraw();
+      }
+    }, "Load More Picks")));
+  };
+  _proto.formatResult = function formatResult(result, homeTeam, awayTeam) {
+    if (result === 'home') return homeTeam ? homeTeam.name() : 'Home';
+    if (result === 'away') return awayTeam ? awayTeam.name() : 'Away';
+    if (result === 'draw') return 'Draw';
+    return result;
+  };
+  return MyPicksTab;
+}((flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "./src/forum/components/PickemPage.tsx":
+/*!*********************************************!*\
+  !*** ./src/forum/components/PickemPage.tsx ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ PickemPage)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var flarum_common_components_Page__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/common/components/Page */ "flarum/common/components/Page");
+/* harmony import */ var flarum_common_components_Page__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Page__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/common/components/LoadingIndicator */ "flarum/common/components/LoadingIndicator");
+/* harmony import */ var flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _MatchesTab__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./MatchesTab */ "./src/forum/components/MatchesTab.tsx");
+/* harmony import */ var _MyPicksTab__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./MyPicksTab */ "./src/forum/components/MyPicksTab.tsx");
+/* harmony import */ var _LeaderboardTab__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./LeaderboardTab */ "./src/forum/components/LeaderboardTab.tsx");
+
+
+
+
+
+
+
+
+// Gerekli modelleri import et
+var PickemPage = /*#__PURE__*/function (_Page) {
+  function PickemPage() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Page.call.apply(_Page, [this].concat(args)) || this;
+    _this.activeTab = 'matches';
+    _this.loading = true;
+    // Events state'i MatchesTab'e taşınacak
+    // private events: any[] = []; 
+    _this.picks = {};
+    _this.userScores = [];
+    // PickLoading state'i MatchesTab'e taşınacak
+    // private pickLoading: Set<number> = new Set();
+    // Events paginasyon state'i MatchesTab'e taşınacak
+    // private eventsPage: number = 0;
+    // private eventsHasMore: boolean = true;
+    // private eventsLoading: boolean = false;
+    // Filtre verilerini tutmak için
+    _this.filterDataLoaded = false;
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(PickemPage, _Page);
+  var _proto = PickemPage.prototype;
+  _proto.oninit = function oninit(vnode) {
+    _Page.prototype.oninit.call(this, vnode);
+    if (!app.forum.attribute('pickem.canView')) {
+      m.route.set('/');
+      return;
+    }
+    this.activeTab = m.route && m.route.param && m.route.param('tab') || 'matches';
+    this.loading = true;
+    this.picks = {};
+    this.userScores = [];
+    this.filterDataLoaded = false; // Başlangıçta filtre verisi yüklenmedi
+
+    this.loadInitialData();
+  };
+  _proto.loadInitialData = /*#__PURE__*/function () {
+    var _loadInitialData = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])(/*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee() {
+      var promises, _t;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function (_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            promises = []; // Artık maçları (events) burada yüklemiyoruz, MatchesTab yüklenecek.
+            // promises.push(this.loadEvents(true)); 
+            if (app.session.user && app.forum.attribute('pickem.makePicks')) {
+              promises.push(this.loadPicks());
+            }
+            promises.push(this.loadLeaderboard());
+
+            // --- YENİ EKLENDİ: Filtre Verilerini Yükle ---
+            promises.push(this.loadFilterData());
+            // --- YENİ EKLENDİ SONU ---
+            _context.next = 1;
+            return Promise.all(promises);
+          case 1:
+            _context.next = 3;
+            break;
+          case 2:
+            _context.prev = 2;
+            _t = _context["catch"](0);
+            console.error('Error loading initial data:', _t);
+          case 3:
+            _context.prev = 3;
+            this.loading = false;
+            this.filterDataLoaded = true; // Filtre verisi yüklendi (veya hata verdi)
+            m.redraw();
+            return _context.finish(3);
+          case 4:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee, this, [[0, 2, 3, 4]]);
+    }));
+    function loadInitialData() {
+      return _loadInitialData.apply(this, arguments);
+    }
+    return loadInitialData;
+  }() // loadEvents metodu artık MatchesTab içinde olacağı için buradan kaldırıldı.
+  ;
+  _proto.loadPicks =
+  /*#__PURE__*/
+  function () {
+    var _loadPicks = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])(/*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee2() {
+      var picks, _t2;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function (_context2) {
+        while (1) switch (_context2.prev = _context2.next) {
+          case 0:
+            if (!(!app.session.user || !app.forum.attribute('pickem.makePicks'))) {
+              _context2.next = 1;
+              break;
+            }
+            return _context2.abrupt("return");
+          case 1:
+            _context2.prev = 1;
+            _context2.next = 2;
+            return app.store.find('pickem-picks', {
+              filter: {
+                user: app.session.user.id()
+              },
+              include: 'event,event.homeTeam,event.awayTeam'
+            });
+          case 2:
+            picks = _context2.sent;
+            if (picks && Array.isArray(picks)) {
+              this.picks = picks.reduce(function (acc, pick) {
+                try {
+                  var event = pick && (typeof pick.event === 'function' ? pick.event() : pick.event);
+                  if (event && typeof event.id === 'function') {
+                    acc[String(event.id())] = pick;
+                  }
+                } catch (err) {
+                  console.warn('Invalid pick:', err);
+                }
+                return acc;
+              }, {});
+            }
+            _context2.next = 4;
+            break;
+          case 3:
+            _context2.prev = 3;
+            _t2 = _context2["catch"](1);
+            console.error('Error loading picks:', _t2);
+          case 4:
+          case "end":
+            return _context2.stop();
+        }
+      }, _callee2, this, [[1, 3]]);
+    }));
+    function loadPicks() {
+      return _loadPicks.apply(this, arguments);
+    }
+    return loadPicks;
+  }();
+  _proto.loadLeaderboard = /*#__PURE__*/function () {
+    var _loadLeaderboard = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])(/*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee3() {
+      var scores, _t3;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function (_context3) {
+        while (1) switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.prev = 0;
+            _context3.next = 1;
+            return app.store.find('pickem-user-scores', {
+              include: 'user'
+            });
+          case 1:
+            scores = _context3.sent;
+            this.userScores = (scores || []).filter(function (s) {
+              return s != null;
+            });
+            _context3.next = 3;
+            break;
+          case 2:
+            _context3.prev = 2;
+            _t3 = _context3["catch"](0);
+            console.error('Error loading leaderboard:', _t3);
+          case 3:
+          case "end":
+            return _context3.stop();
+        }
+      }, _callee3, this, [[0, 2]]);
+    }));
+    function loadLeaderboard() {
+      return _loadLeaderboard.apply(this, arguments);
+    }
+    return loadLeaderboard;
+  }() // --- YENİ EKLENDİ: Filtre Veri Yükleme Fonksiyonu ---
+  ;
+  _proto.loadFilterData =
+  /*#__PURE__*/
+  function () {
+    var _loadFilterData = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])(/*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee4() {
+      var _t4;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function (_context4) {
+        while (1) switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.prev = 0;
+            _context4.next = 1;
+            return Promise.all([app.store.find('pickem-public-seasons'), app.store.find('pickem-public-teams'), app.store.find('pickem-public-weeks')]);
+          case 1:
+            _context4.next = 3;
+            break;
+          case 2:
+            _context4.prev = 2;
+            _t4 = _context4["catch"](0);
+            console.error('Error loading filter data:', _t4);
+            // Hata olsa bile sayfanın geri kalanının yüklenmesine izin ver
+          case 3:
+          case "end":
+            return _context4.stop();
+        }
+      }, _callee4, null, [[0, 2]]);
+    }));
+    function loadFilterData() {
+      return _loadFilterData.apply(this, arguments);
+    }
+    return loadFilterData;
+  }() // --- YENİ EKLENDİ SONU ---
+  // makePick metodu artık MatchesTab içinde olacağı için buradan kaldırıldı.
+  ;
+  _proto.view = function view() {
+    return m("div", {
+      className: "PickemPage"
+    }, m("div", {
+      className: "container"
+    }, m("h2", null, m("i", {
+      className: "fas fa-trophy"
+    }), app.translator.trans('huseyinfiliz-pickem.forum.nav.pickem')), m("div", {
+      className: "PickemPage-tabs"
+    }, this.renderTab('matches', app.translator.trans('huseyinfiliz-pickem.forum.nav.matches')), app.session.user && app.forum.attribute('pickem.makePicks') && this.renderTab('my_picks', app.translator.trans('huseyinfiliz-pickem.forum.nav.my_picks')), this.renderTab('leaderboard', app.translator.trans('huseyinfiliz-pickem.forum.nav.leaderboard'))), this.loading ? m((flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_4___default()), null) : m("div", {
+      className: "PickemPage-tab-content"
+    }, this.renderTabContent())));
+  };
+  _proto.renderTab = function renderTab(tab, label) {
+    var _this2 = this;
+    var active = this.activeTab === tab;
+    return m("button", {
+      className: "Button Button--flat PickemPage-tab " + (active ? 'active' : ''),
+      onclick: function onclick() {
+        _this2.activeTab = tab;
+        m.redraw();
+      }
+    }, label);
+  };
+  _proto.renderTabContent = function renderTabContent() {
+    var _this3 = this;
+    switch (this.activeTab) {
+      case 'matches':
+        // MatchesTab artık filtre verilerinin yüklenmesini bekleyecek
+        return this.filterDataLoaded ? m(_MatchesTab__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          picks: this.picks,
+          onPickChange: function onPickChange(picks) {
+            _this3.picks = picks;
+          } // Pick state'ini güncellemek için callback
+        }) : m((flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_4___default()), null);
+      case 'my_picks':
+        if (!app.session.user || !app.forum.attribute('pickem.makePicks')) return null;
+        return m(_MyPicksTab__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          picks: this.picks
+        });
+      case 'leaderboard':
+        return m(_LeaderboardTab__WEBPACK_IMPORTED_MODULE_7__["default"], {
+          userScores: this.userScores
+        });
+      default:
+        return null;
+    }
+  };
+  return PickemPage;
+}((flarum_common_components_Page__WEBPACK_IMPORTED_MODULE_3___default()));
+
+
+/***/ }),
+
+/***/ "./src/forum/index.tsx":
+/*!*****************************!*\
+  !*** ./src/forum/index.tsx ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var flarum_forum_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! flarum/forum/app */ "flarum/forum/app");
+/* harmony import */ var flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(flarum_forum_app__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var flarum_common_extend__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/extend */ "flarum/common/extend");
+/* harmony import */ var flarum_common_extend__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_extend__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var flarum_forum_components_IndexPage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flarum/forum/components/IndexPage */ "flarum/forum/components/IndexPage");
+/* harmony import */ var flarum_forum_components_IndexPage__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(flarum_forum_components_IndexPage__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var flarum_common_components_LinkButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/common/components/LinkButton */ "flarum/common/components/LinkButton");
+/* harmony import */ var flarum_common_components_LinkButton__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_LinkButton__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _common_extend__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/extend */ "./src/common/extend.ts");
+/* harmony import */ var _components_PickemPage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/PickemPage */ "./src/forum/components/PickemPage.tsx");
+/* harmony import */ var _components_EventResultNotification__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/EventResultNotification */ "./src/forum/components/EventResultNotification.tsx");
+
+
+
+
+
+
+
+flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().initializers.add('huseyinfiliz/pickem', function () {
+  _common_extend__WEBPACK_IMPORTED_MODULE_4__["default"].forEach(function (extender) {
+    return extender.extend((flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default()));
+  });
+  (flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().routes).pickem = {
+    path: '/pickem',
+    component: _components_PickemPage__WEBPACK_IMPORTED_MODULE_5__["default"]
+  };
+  (0,flarum_common_extend__WEBPACK_IMPORTED_MODULE_1__.extend)((flarum_forum_components_IndexPage__WEBPACK_IMPORTED_MODULE_2___default().prototype), 'navItems', function (items) {
+    if (flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().forum.attribute('pickem.canView')) {
+      items.add('pickem', flarum_common_components_LinkButton__WEBPACK_IMPORTED_MODULE_3___default().component({
+        href: flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().route('pickem'),
+        icon: 'fas fa-trophy'
+      }, flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().translator.trans('huseyinfiliz-pickem.forum.nav.pickem')), 85);
+    }
+  });
+  (flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().notificationComponents).pickem_event_result = _components_EventResultNotification__WEBPACK_IMPORTED_MODULE_6__["default"];
+});
+
+/***/ }),
+
+/***/ "flarum/common/Component":
+/*!*********************************************************!*\
+  !*** external "flarum.core.compat['common/Component']" ***!
+  \*********************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/Component'];
+
+/***/ }),
+
+/***/ "flarum/common/Model":
+/*!*****************************************************!*\
+  !*** external "flarum.core.compat['common/Model']" ***!
+  \*****************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/Model'];
+
+/***/ }),
+
+/***/ "flarum/common/components/Button":
+/*!*****************************************************************!*\
+  !*** external "flarum.core.compat['common/components/Button']" ***!
+  \*****************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/components/Button'];
+
+/***/ }),
+
+/***/ "flarum/common/components/LinkButton":
+/*!*********************************************************************!*\
+  !*** external "flarum.core.compat['common/components/LinkButton']" ***!
+  \*********************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/components/LinkButton'];
+
+/***/ }),
+
+/***/ "flarum/common/components/LoadingIndicator":
+/*!***************************************************************************!*\
+  !*** external "flarum.core.compat['common/components/LoadingIndicator']" ***!
+  \***************************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/components/LoadingIndicator'];
+
+/***/ }),
+
+/***/ "flarum/common/components/Page":
+/*!***************************************************************!*\
+  !*** external "flarum.core.compat['common/components/Page']" ***!
+  \***************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/components/Page'];
+
+/***/ }),
+
+/***/ "flarum/common/components/Placeholder":
+/*!**********************************************************************!*\
+  !*** external "flarum.core.compat['common/components/Placeholder']" ***!
+  \**********************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/components/Placeholder'];
+
+/***/ }),
+
+/***/ "flarum/common/extend":
+/*!******************************************************!*\
+  !*** external "flarum.core.compat['common/extend']" ***!
+  \******************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/extend'];
+
+/***/ }),
+
+/***/ "flarum/common/extenders":
+/*!*********************************************************!*\
+  !*** external "flarum.core.compat['common/extenders']" ***!
+  \*********************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/extenders'];
+
+/***/ }),
+
+/***/ "flarum/forum/app":
+/*!**************************************************!*\
+  !*** external "flarum.core.compat['forum/app']" ***!
+  \**************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['forum/app'];
+
+/***/ }),
+
+/***/ "flarum/forum/components/IndexPage":
+/*!*******************************************************************!*\
+  !*** external "flarum.core.compat['forum/components/IndexPage']" ***!
+  \*******************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['forum/components/IndexPage'];
+
+/***/ }),
+
+/***/ "flarum/forum/components/Notification":
+/*!**********************************************************************!*\
+  !*** external "flarum.core.compat['forum/components/Notification']" ***!
+  \**********************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['forum/components/Notification'];
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
+(() => {
+"use strict";
+/*!******************!*\
+  !*** ./forum.js ***!
+  \******************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _src_forum__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/forum */ "./src/forum/index.tsx");
+
+})();
+
+module.exports = __webpack_exports__;
+/******/ })()
+;
 //# sourceMappingURL=forum.js.map

@@ -39,7 +39,7 @@ class EventValidator extends AbstractValidator
 
     protected function getMessages()
     {
-        $prefix = 'huseyinfiliz-pickem.validation.errors.';
+        $prefix = 'huseyinfiliz-pickem.lib.validation.errors.';
 
         return [
             'homeTeamId.different' => $prefix . 'same_team',

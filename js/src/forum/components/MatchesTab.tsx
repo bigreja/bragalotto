@@ -2,7 +2,6 @@ import Component from 'flarum/common/Component';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Button from 'flarum/common/components/Button';
 import Placeholder from 'flarum/common/components/Placeholder';
-import Pagination from 'flarum/common/components/Pagination';
 import EventCard from './EventCard';
 import Pick from '../../common/models/Pick';
 import PickemEvent from '../../common/models/Event';
@@ -15,21 +14,17 @@ interface IMatchesTabAttrs {
 }
 
 export default class MatchesTab extends Component<IMatchesTabAttrs> {
-  // Filtre state'leri
   private selectedSeason: string = 'all';
   private selectedTeam: string = 'all';
   private selectedStatus: string = 'all'; 
 
-  // Veri ve yükleme state'leri
   private loading: boolean = true;
   private events: PickemEvent[] = [];
   
-  // Sayfalama (Pagination) state'leri
   private totalEvents: number = 0;
   private page: number = 1; 
   private limit: number = 10; 
 
-  // Tahmin yapma state'i
   private pickLoading: Set<number> = new Set();
   
   private picks: Record<string, any>;
@@ -98,25 +93,25 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
 
     try {
       if (existingPick && existingPick.selectedOutcome() === outcome) {
-        // 1. Eylem: İPTAL ETME (DELETE)
+        // İPTAL ETME (DELETE)
         await existingPick.delete();
         
         delete this.picks[idStr];
         this.attrs.onPickChange(this.picks); 
-        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.validation.success.pick_deleted'));
+        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.success.pick_deleted'));
       
       } else if (existingPick) {
-        // 2. Eylem: GÜNCELLEME (PATCH)
+        // GÜNCELLEME (PATCH)
         const pick = await existingPick.save({
           selectedOutcome: outcome,
         });
 
         this.picks[idStr] = pick as any;
         this.attrs.onPickChange(this.picks); 
-        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.validation.success.pick_updated'));
+        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.success.pick_updated'));
 
       } else {
-        // 3. Eylem: YENİ OLUŞTURMA (POST)
+        // YENİ OLUŞTURMA (POST)
         const pick = await app.store.createRecord('pickem-picks').save({
           eventId: eventId,
           selectedOutcome: outcome,
@@ -124,7 +119,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
         
         this.picks[idStr] = pick as any;
         this.attrs.onPickChange(this.picks); 
-        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.validation.success.pick_created'));
+        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.success.pick_created'));
       }
 
     } catch (error: any) {
@@ -132,7 +127,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
       if (error && error.alert) {
           app.alerts.show(error.alert);
       } else {
-          app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.validation.errors.unauthorized'));
+          app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.errors.unauthorized'));
       }
     } finally {
       this.pickLoading.delete(eventId);
@@ -152,7 +147,10 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
         {/* Filtreler */}
         <div className="EventsTab-filters PickemPage-filters">
           <div className="FilterGroup">
-            <label>{app.translator.trans('huseyinfiliz-pickem.admin.filters.season')}</label>
+            <label>
+              <i className="fas fa-calendar-alt" />
+              <span>{app.translator.trans('huseyinfiliz-pickem.forum.filters.season')}</span>
+            </label>
             <select
               className="FormControl"
               value={this.selectedSeason}
@@ -161,15 +159,18 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
                 this.loadEvents(1); 
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.admin.filters.all_seasons')}</option>
-              {allSeasons.map((season) => (
-                <option value={season.id()} key={season.id()}>{season.name()}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.forum.filters.all_seasons')}</option>
+              {allSeasons.map((season: Season) => (
+                <option value={season.id()}>{season.name()}</option>
               ))}
             </select>
           </div>
 
           <div className="FilterGroup">
-            <label>{app.translator.trans('huseyinfiliz-pickem.admin.filters.team')}</label>
+            <label>
+              <i className="fas fa-users" />
+              <span>{app.translator.trans('huseyinfiliz-pickem.forum.filters.team')}</span>
+            </label>
             <select
               className="FormControl"
               value={this.selectedTeam}
@@ -178,15 +179,18 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
                 this.loadEvents(1); 
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.admin.filters.all_teams')}</option>
-              {allTeams.map((team) => (
-                <option value={team.id()} key={team.id()}>{team.name()}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.forum.filters.all_teams')}</option>
+              {allTeams.map((team: Team) => (
+                <option value={team.id()}>{team.name()}</option>
               ))}
             </select>
           </div>
 
           <div className="FilterGroup">
-            <label>{app.translator.trans('huseyinfiliz-pickem.admin.filters.status')}</label>
+            <label>
+              <i className="fas fa-filter" />
+              <span>{app.translator.trans('huseyinfiliz-pickem.forum.filters.status')}</span>
+            </label>
             <select
               className="FormControl"
               value={this.selectedStatus}
@@ -195,15 +199,15 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
                 this.loadEvents(1); 
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.admin.filters.all_statuses')}</option>
-              <option value="scheduled">{app.translator.trans('huseyinfiliz-pickem.admin.status.scheduled')}</option>
-              <option value="closed">{app.translator.trans('huseyinfiliz-pickem.admin.status.closed')}</option>
-              <option value="finished">{app.translator.trans('huseyinfiliz-pickem.admin.status.finished')}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.forum.filters.all')}</option>
+              <option value="scheduled">{app.translator.trans('huseyinfiliz-pickem.admin.events.status_scheduled')}</option>
+              <option value="closed">{app.translator.trans('huseyinfiliz-pickem.admin.events.status_closed')}</option>
+              <option value="finished">{app.translator.trans('huseyinfiliz-pickem.admin.events.status_finished')}</option>
             </select>
           </div>
         </div>
 
-        {/* Maç Listesi */}
+        {/* Maçlar Listesi */}
         {this.loading ? (
           <LoadingIndicator />
         ) : !hasEvents ? (
@@ -222,12 +226,36 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
 
         {/* Sayfalama */}
         {canShowPagination && !this.loading && (
-          <Pagination
-            total={this.totalEvents}
-            limit={this.limit}
-            page={this.page}
-            onchange={this.loadEvents.bind(this)} 
-          />
+          <nav className="Pagination">
+            <Button
+              className="Button Pagination-button Pagination-previous"
+              icon="fas fa-chevron-left"
+              disabled={this.page === 1}
+              onclick={() => {
+                if (this.page > 1) {
+                  this.loadEvents(this.page - 1);
+                }
+              }}
+            />
+            
+            <span className="Pagination-info">
+              {app.translator.trans('huseyinfiliz-pickem.forum.pagination.page_info', {
+                current: this.page,
+                total: Math.ceil(this.totalEvents / this.limit)
+              })}
+            </span>
+
+            <Button
+              className="Button Pagination-button Pagination-next"
+              icon="fas fa-chevron-right"
+              disabled={this.page >= Math.ceil(this.totalEvents / this.limit)}
+              onclick={() => {
+                if (this.page < Math.ceil(this.totalEvents / this.limit)) {
+                  this.loadEvents(this.page + 1);
+                }
+              }}
+            />
+          </nav>
         )}
       </div>
     );
