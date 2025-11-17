@@ -133,7 +133,8 @@ export default class EventCard extends Component<EventCardAttrs> {
         {app.session.user && canPick && (
           <div className="EventCard-picks">
             <Button
-              className={pick && typeof pick.selectedOutcome === 'function' && pick.selectedOutcome() === 'home' ? 'Button--primary' : ''}
+              // *** DÜZELTME BURADA: Temel .Button sınıfı hep var ***
+              className={`Button ${pick && typeof pick.selectedOutcome === 'function' && pick.selectedOutcome() === 'home' ? 'Button--pickem-selected' : ''}`}
               onclick={() => onMakePick(Number(event.id()), 'home')}
               loading={isLoading}
               disabled={isLoading}
@@ -143,7 +144,8 @@ export default class EventCard extends Component<EventCardAttrs> {
 
             {event.allowDraw && event.allowDraw() && (
               <Button
-                className={pick && typeof pick.selectedOutcome === 'function' && pick.selectedOutcome() === 'draw' ? 'Button--primary' : ''}
+                // *** DÜZELTME BURADA: Temel .Button sınıfı hep var ***
+                className={`Button ${pick && typeof pick.selectedOutcome === 'function' && pick.selectedOutcome() === 'draw' ? 'Button--pickem-selected' : ''}`}
                 onclick={() => onMakePick(Number(event.id()), 'draw')}
                 loading={isLoading}
                 disabled={isLoading}
@@ -153,7 +155,8 @@ export default class EventCard extends Component<EventCardAttrs> {
             )}
 
             <Button
-              className={pick && typeof pick.selectedOutcome === 'function' && pick.selectedOutcome() === 'away' ? 'Button--primary' : ''}
+              // *** DÜZELTME BURADA: Temel .Button sınıfı hep var ***
+              className={`Button ${pick && typeof pick.selectedOutcome === 'function' && pick.selectedOutcome() === 'away' ? 'Button--pickem-selected' : ''}`}
               onclick={() => onMakePick(Number(event.id()), 'away')}
               loading={isLoading}
               disabled={isLoading}

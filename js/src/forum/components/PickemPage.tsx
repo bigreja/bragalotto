@@ -8,22 +8,17 @@ import Team from '../../common/models/Team';
 import Season from '../../common/models/Season';
 import Week from '../../common/models/Week';
 
+// --- YENİ EKLENENLER ---
+// Flarum'un ana sayfa bileşenini ve link listeleme yardımcısını import et
+import IndexPage from 'flarum/forum/components/IndexPage';
+import listItems from 'flarum/common/helpers/listItems';
+// --- YENİ EKLENENLER SONU ---
+
 export default class PickemPage extends Page {
   private activeTab: string = 'matches';
   private loading: boolean = true;
-  // Events state'i MatchesTab'e taşınacak
-  // private events: any[] = []; 
   private picks: Record<string, any> = {};
   private userScores: any[] = [];
-  // PickLoading state'i MatchesTab'e taşınacak
-  // private pickLoading: Set<number> = new Set();
-  
-  // Events paginasyon state'i MatchesTab'e taşınacak
-  // private eventsPage: number = 0;
-  // private eventsHasMore: boolean = true;
-  // private eventsLoading: boolean = false;
-
-  // Filtre verilerini tutmak için
   private filterDataLoaded: boolean = false;
 
   oninit(vnode: any) {
@@ -38,7 +33,7 @@ export default class PickemPage extends Page {
     this.loading = true;
     this.picks = {};
     this.userScores = [];
-    this.filterDataLoaded = false; // Başlangıçta filtre verisi yüklenmedi
+    this.filterDataLoaded = false; 
 
     this.loadInitialData();
   }
@@ -47,18 +42,13 @@ export default class PickemPage extends Page {
     try {
       const promises = [];
 
-      // Artık maçları (events) burada yüklemiyoruz, MatchesTab yüklenecek.
-      // promises.push(this.loadEvents(true)); 
-
       if (app.session.user && app.forum.attribute('pickem.makePicks')) {
         promises.push(this.loadPicks());
       }
       
       promises.push(this.loadLeaderboard());
       
-      // --- YENİ EKLENDİ: Filtre Verilerini Yükle ---
       promises.push(this.loadFilterData());
-      // --- YENİ EKLENDİ SONU ---
 
       await Promise.all(promises);
 
@@ -66,12 +56,10 @@ export default class PickemPage extends Page {
       console.error('Error loading initial data:', error);
     } finally {
       this.loading = false;
-      this.filterDataLoaded = true; // Filtre verisi yüklendi (veya hata verdi)
+      this.filterDataLoaded = true; 
       m.redraw();
     }
   }
-
-  // loadEvents metodu artık MatchesTab içinde olacağı için buradan kaldırıldı.
 
   async loadPicks() {
     if (!app.session.user || !app.forum.attribute('pickem.makePicks')) return;
@@ -109,7 +97,6 @@ export default class PickemPage extends Page {
     }
   }
 
-  // --- YENİ EKLENDİ: Filtre Veri Yükleme Fonksiyonu ---
   async loadFilterData() {
     try {
       await Promise.all([
@@ -119,32 +106,46 @@ export default class PickemPage extends Page {
       ]);
     } catch (error) {
       console.error('Error loading filter data:', error);
-      // Hata olsa bile sayfanın geri kalanının yüklenmesine izin ver
     }
   }
-  // --- YENİ EKLENDİ SONU ---
-
-  // makePick metodu artık MatchesTab içinde olacağı için buradan kaldırıldı.
 
   view() {
     return (
-      <div className="PickemPage">
-        <div className="container">
-          <h2>
-            <i className="fas fa-trophy" />
-            {app.translator.trans('huseyinfiliz-pickem.forum.nav.pickem')}
-          </h2>
-
-          <div className="PickemPage-tabs">
-            {this.renderTab('matches', app.translator.trans('huseyinfiliz-pickem.forum.nav.matches'))}
-            
-            {app.session.user && app.forum.attribute('pickem.makePicks') &&
-              this.renderTab('my_picks', app.translator.trans('huseyinfiliz-pickem.forum.nav.my_picks'))}
-
-            {this.renderTab('leaderboard', app.translator.trans('huseyinfiliz-pickem.forum.nav.leaderboard'))}
+      <div className="IndexPage PickemPage"> 
+        
+        {/* --- YENİ HERO ALANI --- */}
+        <header className="Hero PickemHero">
+          <div className="container">
+            <div className="containerNarrow">
+              <h1 className="Hero-title">
+                {/* *** DÜZELTME BURADA: "icon" sınıfı eklendi *** */}
+                <i className="icon fas fa-trophy" />{' '}
+                {app.translator.trans('huseyinfiliz-pickem.forum.nav.pickem')}
+              </h1>
+            </div>
           </div>
+        </header>
+        {/* --- HERO ALANI SONU --- */}
+        
+        <div className="container">
+          <div className="sideNavContainer">
+            <nav className="IndexPage-nav sideNav">
+              <ul>{listItems(IndexPage.prototype.sidebarItems().toArray())}</ul>
+            </nav>
+            <div className="IndexPage-results sideNavOffset">
+              
+              <div className="PickemPage-tabs">
+                {this.renderTab('matches', app.translator.trans('huseyinfiliz-pickem.forum.nav.matches'))}
+                
+                {app.session.user && app.forum.attribute('pickem.makePicks') &&
+                  this.renderTab('my_picks', app.translator.trans('huseyinfiliz-pickem.forum.nav.my_picks'))}
 
-          {this.loading ? <LoadingIndicator /> : <div className="PickemPage-tab-content">{this.renderTabContent()}</div>}
+                {this.renderTab('leaderboard', app.translator.trans('huseyinfiliz-pickem.forum.nav.leaderboard'))}
+              </div>
+
+              {this.loading ? <LoadingIndicator /> : <div className="PickemPage-tab-content">{this.renderTabContent()}</div>}
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -168,11 +169,10 @@ export default class PickemPage extends Page {
   renderTabContent() {
     switch (this.activeTab) {
       case 'matches':
-        // MatchesTab artık filtre verilerinin yüklenmesini bekleyecek
         return this.filterDataLoaded ? (
           <MatchesTab
             picks={this.picks}
-            onPickChange={(picks: Record<string, any>) => { this.picks = picks; }} // Pick state'ini güncellemek için callback
+            onPickChange={(picks: Record<string, any>) => { this.picks = picks; }} 
           />
         ) : <LoadingIndicator />;
       

@@ -1,39 +1,31 @@
-// Forum styles for Pick'em extension - Final Clean Version
+// Forum styles for Pick'em extension - NİHAİ SÜRÜM + HERO (Düzeltilmiş)
 
 // ============================================
 // VARIABLES
 // ============================================
 
-@success-color: #27ae60;
-@danger-color: #e74c3c;
-@warning-color: #f39c12;
-@info-color: #3498db;
+@pickem-success-color: #27ae60;
+@pickem-danger-color: #e74c3c;
+@pickem-warning-color: #f39c12;
+@pickem-info-color: #3498db;
+@pickem-finished-color: @muted-color; 
 
 // ============================================
 // TÜM STILLER .PickemPage SCOPE'UNDA
 // ============================================
 
 .PickemPage {
-  .container {
-    padding: 20px;
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-
-  h2 {
-    margin-bottom: 25px;
-    font-size: 24px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--heading-color);
-
-    i {
-      color: @primary-color;
-    }
-  }
-
+  // Gerekli media query değişkenlerini scope içine tanımla
+  @desktop-up: ~"screen and (min-width: 992px)";
+  @tablet-down: ~"screen and (max-width: 991.98px)";
+  @phone-down: ~"screen and (max-width: 767.98px)";
+	
+	@media (min-width: 768px) {
+    	.Hero.PickemHero .container {
+        	padding-bottom:40px
+    	}
+	}
+  
   // ============================================
   // TABS - Flarum Native Style
   // ============================================
@@ -42,6 +34,7 @@
     display: flex;
     gap: 0;
     margin-bottom: 20px;
+    border-bottom: 1px solid var(--control-bg-shaded); 
 
     .Button.PickemPage-tab {
       background: transparent;
@@ -53,6 +46,7 @@
       color: var(--muted-color);
       transition: color 0.2s;
       position: relative;
+      margin-bottom: -1px; 
 
       &:hover {
         color: var(--link-color);
@@ -80,13 +74,84 @@
   }
 
   // ============================================
+  // FİLTRELER (MatchesTab.tsx için)
+  // ============================================
+  .PickemPage-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 16px;
+    background: var(--control-bg); 
+    border-radius: var(--border-radius); 
+    margin-bottom: 16px;
+    align-items: flex-end;
+    
+    @media @phone-down {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .FilterGroup {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 180px;
+
+      @media @phone-down {
+        min-width: 100%;
+      }
+
+      label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-color);
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+
+        i {
+          font-size: 11px;
+          color: @primary-color; 
+          width: 14px;
+        }
+      }
+
+      .FormControl {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid var(--control-bg-shaded); 
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        background: var(--body-bg-light); 
+        color: var(--text-color);
+        transition: all 0.2s ease;
+        cursor: pointer;
+        
+        &:focus {
+          border-color: @primary-color; 
+          outline: none;
+          box-shadow: 0 0 0 3px fade(@primary-color, 10%); 
+        }
+
+        &:hover {
+          border-color: fade(@primary-color, 50%); 
+        }
+      }
+    }
+  }
+
+  // ============================================
   // MATCHES LIST
   // ============================================
 
   .MatchesList {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px; 
   }
 
   // ============================================
@@ -94,47 +159,44 @@
   // ============================================
 
   .EventCard {
-    background: var(--control-bg);
-    border: 1px solid var(--control-border-color);
-    border-radius: 6px;
+    background: var(--control-bg); 
+    border-radius: var(--border-radius); 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04); 
+    border: none; 
     padding: 16px;
-    transition: all 0.2s;
     position: relative;
+    overflow: hidden; 
 
-    &:hover {
-      border-color: fade(@primary-color, 40%);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    }
-
-    // STATUS BADGE - Minimal ve net
+    // STATUS BADGE
     .EventCard-status {
       position: absolute;
-      top: 10px;
-      right: 10px;
-      padding: 3px 8px;
-      border-radius: 3px;
-      font-size: 9px;
+      top: -1px; 
+      right: 12px;
+      padding: 3px 10px;
+      border-radius: 0 0 6px 6px; 
+      font-size: 10px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      box-shadow: 0 2px 4px var(--shadow-color, rgba(0,0,0,0.1)); 
+      border: 1px solid var(--control-bg-shaded); 
+      border-top: none;
 
       &.scheduled {
-        background: @success-color;
+        background: @pickem-success-color;
         color: white;
       }
-
       &.closed {
-        background: @danger-color;
+        background: @pickem-danger-color;
         color: white;
       }
-
       &.finished {
-        background: #666;
+        background: @pickem-finished-color;
         color: white;
       }
     }
 
-    // TEAMS - Grid ile yan yana, ortala
+    // TEAMS - Grid (Logo büyütüldü)
     .EventCard-teams {
       display: grid;
       grid-template-columns: 1fr auto 1fr;
@@ -142,13 +204,12 @@
       justify-items: center;
       gap: 12px;
       margin-bottom: 14px;
-      padding-right: 70px; // Badge için boşluk
     }
 
     .team-container {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px; 
       min-width: 0;
       max-width: 100%;
       
@@ -163,17 +224,19 @@
     }
 
     .team-logo {
-      width: 36px;
-      height: 36px;
+      width: 98px; 
+      height: 98px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 40px; 
       font-weight: 600;
       color: white;
-      background: @primary-color;
+      background: @primary-color; 
       flex-shrink: 0;
+      border: 2px solid var(--body-bg-light); 
+      box-shadow: 0 1px 3px var(--shadow-color, rgba(0,0,0,0.1)); 
 
       img {
         width: 100%;
@@ -184,8 +247,8 @@
     }
 
     .team-name {
-      font-size: 15px;
-      font-weight: 600;
+      font-size: 1.15rem; 
+      font-weight: 700; 
       color: var(--heading-color);
       white-space: nowrap;
       overflow: hidden;
@@ -194,13 +257,20 @@
     }
 
     .vs {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
-      color: var(--body-color);
-      opacity: 0.4;
+      color: var(--muted-color);
       text-transform: uppercase;
       letter-spacing: 1px;
       flex-shrink: 0;
+      background: var(--body-bg-shaded); 
+      border: 1px solid var(--control-bg-shaded); 
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     // SCORE - Finished için
@@ -209,15 +279,15 @@
       align-items: center;
       justify-content: center;
       gap: 12px;
-      margin: 12px 0;
+      margin: 16px 0; 
       padding: 12px;
-      background: fade(@primary-color, 8%);
-      border-radius: 4px;
+      background: fade(@primary-color, 8%); 
+      border-radius: var(--border-radius); 
 
       .score-number {
         font-size: 28px;
         font-weight: 800;
-        color: @primary-color;
+        color: @primary-color; 
       }
 
       .score-separator {
@@ -228,14 +298,14 @@
       }
     }
 
-    // INFO - Grid layout ile düzenli
+    // INFO - Grid layout
     .EventCard-info {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); 
       gap: 10px;
       padding: 12px;
       background: var(--body-bg);
-      border-radius: 4px;
+      border-radius: var(--border-radius); 
       margin: 12px 0;
       font-size: 12px;
       justify-items: center;
@@ -247,7 +317,7 @@
         color: var(--body-color);
 
         i {
-          color: @primary-color;
+          color: @primary-color; 
           font-size: 11px;
           width: 14px;
           text-align: center;
@@ -261,13 +331,13 @@
       }
     }
 
-    // COUNTDOWN
+    // COUNTDOWN (İmza renkleri kalıyor)
     .EventCard-countdown {
       display: inline-flex;
       align-items: center;
       gap: 4px;
       padding: 3px 8px;
-      background: @warning-color;
+      background: @pickem-warning-color; // İmza rengi
       color: white;
       border-radius: 3px;
       font-weight: 700;
@@ -278,7 +348,7 @@
       }
 
       &.urgent {
-        background: @danger-color;
+        background: @pickem-danger-color; // İmza rengi
         animation: pulse 1.5s ease-in-out infinite;
       }
     }
@@ -288,7 +358,7 @@
       50% { opacity: 0.8; }
     }
 
-    // PICK BUTTONS
+    // "SAĞLAM" SEÇİM DÜĞMELERİ
     .EventCard-picks {
       display: flex;
       gap: 8px;
@@ -296,43 +366,49 @@
 
       .Button {
         flex: 1;
-        padding: 10px 12px;
-        font-weight: 600;
+        padding: 12px 10px; 
+        font-weight: 700; 
         font-size: 13px;
-        border-radius: 4px;
-        border: 2px solid var(--control-border-color);
-        background: var(--body-bg);
-        color: var(--body-color);
-        transition: all 0.2s;
-
-        &:hover:not(:disabled) {
-          border-color: @primary-color;
-          color: @primary-color;
-          background: fade(@primary-color, 5%);
+        border-radius: var(--border-radius); 
+        
+        border: 1px solid var(--control-bg-shaded); 
+        background: var(--body-bg-light); 
+        color: var(--muted-color); 
+        transition: all 0.2s ease-in-out;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.02); 
+        
+        &:not(.Button--pickem-selected):hover:not(:disabled) {
+          border-color: @primary-color; 
+          color: @primary-color; 
+          background: fade(@primary-color, 10%); 
+          transform: translateY(-1px);
+          box-shadow: 0 3px 6px rgba(0,0,0,0.05);
         }
-
-        &.Button--primary {
-          background: @primary-color;
-          color: white;
-          border-color: @primary-color;
-          font-weight: 700;
-          box-shadow: 0 2px 4px fade(@primary-color, 30%);
+        
+        &.Button--pickem-selected {
+          background-color: var(--button-primary-bg); 
+          border-color: var(--button-primary-bg);
+          color: var(--button-primary-color); 
+          box-shadow: 0 4px 10px fade(@primary-color, 30%); 
+          transform: translateY(-1px); 
         }
 
         &:disabled {
           opacity: 0.4;
           cursor: not-allowed;
+          transform: none;
+          box-shadow: none;
         }
       }
     }
 
-    // PICK RESULT
+    // PICK RESULT (İmza renkleri kalıyor)
     .EventCard-pick-result {
       padding: 10px 12px;
       text-align: center;
       font-size: 13px;
       background: var(--body-bg);
-      border-radius: 4px;
+      border-radius: var(--border-radius); 
       margin-top: 12px;
       color: var(--body-color);
 
@@ -342,12 +418,12 @@
       }
 
       .correct {
-        color: @success-color;
+        color: @pickem-success-color; // İmza rengi
         font-weight: 700;
       }
 
       .incorrect {
-        color: @danger-color;
+        color: @pickem-danger-color; // İmza rengi
         font-weight: 700;
       }
     }
@@ -369,20 +445,20 @@
   }
 
   // ============================================
-  // MY PICKS TABLE
+  // MY PICKS TABLE (Modernize Edildi)
   // ============================================
 
   .MyPicksList {
-    background: var(--control-bg);
-    border: 1px solid var(--control-border-color);
-    border-radius: 6px;
+    background: var(--control-bg); 
+    border: 1px solid var(--control-bg-shaded); 
+    border-radius: var(--border-radius); 
     overflow: hidden;
 
     .Table {
       width: 100%;
 
       thead {
-        background: var(--body-bg);
+        background: var(--body-bg-light); 
         
         th {
           padding: 12px 15px;
@@ -392,33 +468,32 @@
           letter-spacing: 0.5px;
           color: var(--heading-color);
           opacity: 0.6;
-          border-bottom: 2px solid var(--control-border-color);
+          border-bottom: 2px solid var(--control-bg-shaded); 
         }
       }
 
       tbody {
         tr {
-          border-bottom: 1px solid var(--control-border-color);
+          border-bottom: 1px solid var(--control-bg-shaded); 
           transition: background 0.15s;
 
           &:hover {
-            background: var(--body-bg);
+            background: var(--body-bg-light); 
           }
 
           &:last-child {
             border-bottom: none;
           }
 
+          // DURUM: İmza renkleri
           &.correct {
-            border-left: 3px solid @success-color;
+            border-left: 3px solid @pickem-success-color;
           }
-
           &.incorrect {
-            border-left: 3px solid @danger-color;
+            border-left: 3px solid @pickem-danger-color;
           }
-
           &.pending {
-            border-left: 3px solid @warning-color;
+            border-left: 3px solid @pickem-warning-color;
           }
 
           td {
@@ -437,78 +512,54 @@
           }
         }
 
+        // DURUM: İmza renkleri
         tr.correct td:last-child {
-          color: @success-color;
+          color: @pickem-success-color;
         }
-
         tr.incorrect td:last-child {
-          color: @danger-color;
+          color: @pickem-danger-color;
         }
-
         tr.pending td:last-child {
-          color: @warning-color;
+          color: @pickem-warning-color;
         }
       }
     }
   }
 
   // ============================================
-  // LEADERBOARD
+  // LEADERBOARD (Modernize Edildi)
   // ============================================
 
   .Podium {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    gap: 16px; 
     margin-bottom: 25px;
 
     .Podium-card {
-      background: var(--control-bg);
-      border: 2px solid var(--control-border-color);
-      border-radius: 6px;
+      background: var(--control-bg); 
+      border: 1px solid var(--control-bg-shaded); 
+      border-radius: var(--border-radius); 
       padding: 20px;
       text-align: center;
       transition: all 0.2s;
-
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-      }
-
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04); 
+      border-top-width: 3px; 
+      
       &.first {
-        border-top: 3px solid #FFD700;
-        
-        .medal {
-          font-size: 42px;
-        }
-        
-        .rank {
-          color: #B8860B;
-        }
+        border-top-color: #FFD700;
+        .medal { font-size: 42px; }
+        .rank { color: #B8860B; }
       }
-
       &.second {
-        border-top: 3px solid #C0C0C0;
-        
-        .medal {
-          font-size: 36px;
-        }
-        
-        .rank {
-          color: #C0C0C0;
-        }
+        border-top-color: #C0C0C0;
+        .medal { font-size: 36px; }
+        .rank { color: #C0C0C0; }
       }
-
       &.third {
-        border-top: 3px solid #CD7F32;
-        
-        .medal {
-          font-size: 32px;
-        }
-        
-        .rank {
-          color: #CD7F32;
-        }
+        border-top-color: #CD7F32;
+        .medal { font-size: 32px; }
+        .rank { color: #CD7F32; }
       }
 
       .medal {
@@ -534,7 +585,7 @@
         font-size: 24px;
         font-weight: 800;
         margin-bottom: 10px;
-        color: @primary-color;
+        color: @primary-color; 
         
         small {
           font-size: 11px;
@@ -549,8 +600,7 @@
         gap: 12px;
         font-size: 11px;
         padding-top: 10px;
-        border-top: 1px solid var(--control-border-color);
-
+        border-top: 1px solid var(--control-bg-shaded); 
         .stat {
           .label {
             font-size: 9px;
@@ -572,13 +622,13 @@
 
   .LeaderboardTable {
     width: 100%;
-    background: var(--control-bg);
-    border: 1px solid var(--control-border-color);
-    border-radius: 6px;
+    background: var(--control-bg); 
+    border: 1px solid var(--control-bg-shaded); 
+    border-radius: var(--border-radius); 
     overflow: hidden;
 
     thead {
-      background: var(--body-bg);
+      background: var(--body-bg-light); 
 
       th {
         padding: 12px 15px;
@@ -588,7 +638,7 @@
         letter-spacing: 0.5px;
         color: var(--heading-color);
         opacity: 0.6;
-        border-bottom: 2px solid var(--control-border-color);
+        border-bottom: 2px solid var(--control-bg-shaded); 
 
         &:first-child {
           text-align: center;
@@ -599,11 +649,11 @@
 
     tbody {
       tr {
-        border-bottom: 1px solid var(--control-border-color);
+        border-bottom: 1px solid var(--control-bg-shaded); 
         transition: background 0.15s;
 
         &:hover {
-          background: var(--body-bg);
+          background: var(--body-bg-light); 
         }
 
         &:last-child {
@@ -619,7 +669,7 @@
             text-align: center;
             font-weight: 700;
             font-size: 15px;
-            color: @primary-color;
+            color: @primary-color; 
           }
 
           strong {
@@ -630,6 +680,27 @@
       }
     }
   }
+  
+  // ============================================
+  // SAYFALAMA (Pagination) HİZALAMA DÜZELTMESİ
+  // ============================================
+  .Pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    
+    .Pagination-info {
+      margin: 0 10px;
+      font-size: 13px;
+      color: var(--muted-color);
+    }
+    
+    .Button {
+      flex-shrink: 0;
+    }
+  }
+
 
   // ============================================
   // EMPTY STATES
@@ -653,18 +724,41 @@
       font-size: 14px;
     }
   }
+  
+  // ============================================
+  // SCOPE'LU SIDEBAR STİLLERİ
+  // ============================================
+  
+  .sideNav {
+    
+    @media @tablet-down {
+      display: none;
+    }
+  }
+  
+
 
   // ============================================
   // RESPONSIVE
   // ============================================
 
-  @media (max-width: 768px) {
+  @media @tablet-down { 
     .container {
       padding: 12px;
+      
+      .sideNavContainer {
+        display: block;
+        margin-top: 0;
+      }
+      
+      .sideNavOffset {
+        width: 100%;
+        margin-left: 0;
+      }
     }
-
-    h2 {
-      font-size: 20px;
+    
+    .PickemPage-filters {
+      padding: 12px;
     }
 
     .PickemPage-tabs {
@@ -682,25 +776,27 @@
       padding: 14px;
 
       .EventCard-teams {
-        padding-right: 65px;
+        padding-right: 0; 
       }
 
       .team-logo {
-        width: 32px;
-        height: 32px;
-        font-size: 14px;
+        width: 48px; 
+        height: 48px; 
+        font-size: 20px; 
       }
 
       .team-name {
-        font-size: 13px;
+        font-size: 14px; 
       }
 
       .vs {
         font-size: 10px;
+        width: 28px; 
+        height: 28px;
       }
 
       .EventCard-status {
-        top: 10px;
+        top: -1px;
         right: 10px;
         font-size: 9px;
         padding: 3px 6px;
@@ -754,14 +850,14 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media @phone-down { 
     .EventCard {
       .EventCard-teams {
         gap: 8px;
       }
 
       .team-name {
-        font-size: 12px;
+        font-size: 13px; 
       }
     }
 
