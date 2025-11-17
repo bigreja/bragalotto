@@ -5,7 +5,7 @@ import Team from '../../../common/models/Team';
 
 interface IResultModalAttrs {
   event: PickemEvent;
-  onsave: () => void; // Listeyi yenilemek için
+  onsave: () => void;
 }
 
 export default class ResultModal extends Modal<IResultModalAttrs> {
@@ -27,7 +27,7 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
   }
 
   title(): string {
-    return app.translator.trans('huseyinfiliz-pickem.admin.events.enter_result_title');
+    return app.translator.trans('huseyinfiliz-pickem.lib.actions.enter_result');
   }
 
   content() {
@@ -48,7 +48,7 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
       <div className="Modal-body">
         <div className="Form">
           <div className="Form-group">
-            <label>{homeTeam ? homeTeam.name() : 'Home Team'} Score</label>
+            <label>{homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.form.home_team')}</label>
             <input
               className="FormControl"
               type="number"
@@ -61,7 +61,7 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
           </div>
 
           <div className="Form-group">
-            <label>{awayTeam ? awayTeam.name() : 'Away Team'} Score</label>
+            <label>{awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.form.away_team')}</label>
             <input
               className="FormControl"
               type="number"
@@ -76,7 +76,7 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
           {resultText && (
             <div className="Form-group">
               <p>
-                <strong>Result: </strong>
+                <strong>{app.translator.trans('huseyinfiliz-pickem.lib.headers.result')}: </strong>
                 {resultText}
               </p>
             </div>
@@ -84,7 +84,7 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
 
           <div className="Form-group">
             <Button className="Button Button--primary" type="submit" loading={this.loading}>
-              {app.translator.trans('huseyinfiliz-pickem.admin.events.save_result')}
+              {app.translator.trans('huseyinfiliz-pickem.lib.buttons.save')}
             </Button>
           </div>
         </div>
@@ -98,7 +98,6 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
     m.redraw();
 
     try {
-      // Bu, özel bir API rotası olduğu için app.request kullanıyoruz
       const response = await app.request({
         method: 'POST',
         url: `${app.forum.attribute('apiUrl')}/pickem-events/${this.event.id()}/result`,
@@ -113,16 +112,15 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
         },
       });
 
-      // API yanıtını Flarum store'una push et
       app.store.pushPayload(response);
 
-      app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.admin.alerts.result_saved_success'));
-      this.attrs.onsave(); // Listeyi yenile
+      app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.result_saved'));
+      this.attrs.onsave();
       this.hide();
 
     } catch (error: any) {
       this.loading = false;
-      this.alertAttrs = error.alert; // Hata yönetimi
+      this.alertAttrs = error.alert;
       m.redraw();
     }
   }

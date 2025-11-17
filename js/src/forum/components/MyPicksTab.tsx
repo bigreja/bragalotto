@@ -15,7 +15,8 @@ export default class MyPicksTab extends Component {
     if (!app.session.user) {
       return (
         <div className="MyPicksPage-empty">
-          <p>{app.translator.trans('huseyinfiliz-pickem.forum.picks.login_to_view')}</p>
+          {/* GÜNCELLENDİ */}
+          <p>{app.translator.trans('huseyinfiliz-pickem.lib.messages.login_required')}</p>
         </div>
       );
     }
@@ -27,7 +28,8 @@ export default class MyPicksTab extends Component {
       return (
         <div className="MyPicksPage-empty">
           <i className="fas fa-clipboard-list" style="font-size: 48px; opacity: 0.3; margin-bottom: 16px;" />
-          <p>{app.translator.trans('huseyinfiliz-pickem.forum.picks.no_picks')}</p>
+          {/* GÜNCELLENDİ */}
+          <p>{app.translator.trans('huseyinfiliz-pickem.lib.messages.no_data')}</p>
         </div>
       );
     }
@@ -62,12 +64,13 @@ export default class MyPicksTab extends Component {
         <div className="MyPicksList">
           <table className="Table">
             <thead>
+              {/* GÜNCELLENDİ */}
               <tr>
-                <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.match')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.date')}</th>
+                <th>{app.translator.trans('huseyinfiliz-pickem.lib.models.match')}</th>
+                <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.date')}</th>
                 <th>{app.translator.trans('huseyinfiliz-pickem.forum.picks.your_pick')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.result')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</th>
+                <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.result')}</th>
+                <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.status')}</th>
               </tr>
             </thead>
             <tbody>
@@ -93,7 +96,8 @@ export default class MyPicksTab extends Component {
                   <tr key={String(pickId || Math.random())} className={rowClass}>
                     <td>
                       <strong>
-                        {homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home_team')} {app.translator.trans('huseyinfiliz-pickem.forum.event.vs')} {awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away_team')}
+                        {/* GÜNCELLENDİ */}
+                        {homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.forum.picks.home')} {app.translator.trans('huseyinfiliz-pickem.lib.common.vs')} {awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.forum.picks.away')}
                       </strong>
                     </td>
                     <td>{matchDate}</td>
@@ -101,13 +105,14 @@ export default class MyPicksTab extends Component {
                       <strong>{this.formatResult(pick.selectedOutcome(), homeTeam, awayTeam)}</strong>
                     </td>
                     <td>{event.result && event.result() ? this.formatResult(event.result(), homeTeam, awayTeam) : '-'}</td>
+                    {/* GÜNCELLENDİ */}
                     <td>
                       {isCorrect === null ? (
-                        <span style="color: #f39c12;">⏳ {app.translator.trans('huseyinfiliz-pickem.forum.picks.pending')}</span>
+                        <span style="color: #f39c12;">⏳ {app.translator.trans('huseyinfiliz-pickem.lib.status.pending')}</span>
                       ) : isCorrect ? (
-                        <span style="color: #27ae60; font-weight: bold;">✓ {app.translator.trans('huseyinfiliz-pickem.forum.picks.correct')}</span>
+                        <span style="color: #27ae60; font-weight: bold;">✓ {app.translator.trans('huseyinfiliz-pickem.lib.status.correct')}</span>
                       ) : (
-                        <span style="color: #e74c3c; font-weight: bold;">✗ {app.translator.trans('huseyinfiliz-pickem.forum.picks.incorrect')}</span>
+                        <span style="color: #e74c3c; font-weight: bold;">✗ {app.translator.trans('huseyinfiliz-pickem.lib.status.incorrect')}</span>
                       )}
                     </td>
                   </tr>
@@ -126,7 +131,8 @@ export default class MyPicksTab extends Component {
                 m.redraw();
               }}
             >
-              {app.translator.trans('huseyinfiliz-pickem.lib.common.load_more')}
+              {/* GÜNCELLENDİ: Core anahtarı */}
+              {app.translator.trans('core.ref.load_more')}
             </Button>
           </div>
         )}
@@ -135,8 +141,9 @@ export default class MyPicksTab extends Component {
   }
 
   formatResult(result: string, homeTeam: any, awayTeam: any) {
-    if (result === 'home') return homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home_team');
-    if (result === 'away') return awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away_team');
+    // GÜNCELLENDİ
+    if (result === 'home') return homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.forum.picks.home');
+    if (result === 'away') return awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.forum.picks.away');
     if (result === 'draw') return app.translator.trans('huseyinfiliz-pickem.forum.picks.draw');
     return result;
   }

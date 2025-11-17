@@ -21,7 +21,7 @@ app.initializers.add('huseyinfiliz/pickem', () => {
             href: app.route('pickem'),
             icon: 'fas fa-trophy',
           },
-          app.translator.trans('huseyinfiliz-pickem.forum.nav.pickem')
+          app.translator.trans('huseyinfiliz-pickem.lib.nav.pickem')
         ),
         85
       );

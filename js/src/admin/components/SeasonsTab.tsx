@@ -1,38 +1,41 @@
 import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
-import SeasonModal from './modals/SeasonModal'; // İÇE AKTARMA YOLU GÜNCELLENDİ
-import Season from '../../common/models/Season'; // Model import edildi
+import SeasonModal from './modals/SeasonModal'; 
+import Season from '../../common/models/Season'; 
+// GÜNCELLENDİ: extractText import edildi
+import extractText from 'flarum/common/utils/extractText';
 
 export default class SeasonsTab extends Component {
   view() {
     const seasons = app.store.all('pickem-seasons') as Season[];
+    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.models.season');
 
     return (
       <div className="SeasonsTab">
         <div className="SeasonsTab-header">
           <h3>
             <i className="fas fa-calendar-alt" />
-            {app.translator.trans('huseyinfiliz-pickem.admin.seasons.title')}
+            {app.translator.trans('huseyinfiliz-pickem.lib.nav.seasons')}
           </h3>
           <Button
             className="Button Button--primary"
             icon="fas fa-plus"
             onclick={() => app.modal.show(SeasonModal, {
               season: null,
-              onsave: () => m.redraw() // Kaydettikten sonra listeyi yenile
+              onsave: () => m.redraw() 
             })}
           >
-            {app.translator.trans('huseyinfiliz-pickem.admin.seasons.create')}
+            {app.translator.trans('huseyinfiliz-pickem.lib.actions.create', { resource: resourceName })}
           </Button>
         </div>
 
         <table className="Table">
           <thead>
             <tr>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.seasons.name')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.seasons.slug')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.seasons.dates')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.buttons.actions')}</th>
+              <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}</th>
+              <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.slug')}</th>
+              <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.date')}</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -51,7 +54,7 @@ export default class SeasonsTab extends Component {
                     icon="fas fa-edit"
                     onclick={() => app.modal.show(SeasonModal, {
                       season: season,
-                      onsave: () => m.redraw() // Düzenledikten sonra listeyi yenile
+                      onsave: () => m.redraw() 
                     })}
                   >
                     {app.translator.trans('huseyinfiliz-pickem.lib.buttons.edit')}
@@ -73,10 +76,13 @@ export default class SeasonsTab extends Component {
   }
 
   deleteSeason(season: Season) {
-    if (!confirm(app.translator.trans('huseyinfiliz-pickem.admin.seasons.delete_confirmation'))) {
+    // GÜNCELLENDİ: `extractText` kullanıldı
+    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.models.season');
+    const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm', { resource: resourceName }));
+
+    if (!confirm(confirmMessage)) {
       return;
     }
-
     season.delete().then(() => {
       m.redraw();
     });

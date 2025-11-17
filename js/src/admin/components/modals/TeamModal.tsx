@@ -1,10 +1,10 @@
 import Modal from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
 import { slug } from 'flarum/common/utils/string';
-import Team from '../../../common/models/Team'; // İçe aktarma yolu güncellendi (bir dizin yukarı çıktı)
+import Team from '../../../common/models/Team'; 
 
 interface ITeamModalAttrs {
-  team?: Team | null; // Null olabilme eklendi
+  team?: Team | null;
   onsave: () => void;
 }
 
@@ -17,7 +17,6 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
 
   oninit(vnode: any) {
     super.oninit(vnode);
-
     this.team = this.attrs.team;
     if (this.team) {
       this.name = this.team.name() || '';
@@ -31,11 +30,10 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
   }
 
   title(): string {
-    return app.translator.trans(
-      this.team
-        ? 'huseyinfiliz-pickem.admin.teams.edit_title'
-        : 'huseyinfiliz-pickem.admin.teams.create_title'
-    );
+    const resource = app.translator.trans('huseyinfiliz-pickem.lib.models.team');
+    return this.team
+      ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit', { resource })
+      : app.translator.trans('huseyinfiliz-pickem.lib.actions.create', { resource });
   }
 
   content() {
@@ -43,7 +41,7 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
       <div className="Modal-body">
         <div className="Form">
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.admin.teams.name')}</label>
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.name')}</label>
             <input
               className="FormControl"
               type="text"
@@ -58,7 +56,7 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.admin.teams.slug')}</label>
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.slug')}</label>
             <input
               className="FormControl"
               type="text"
@@ -68,7 +66,7 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.admin.teams.logo_url')}</label>
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.logo_url')}</label>
             <input
               className="FormControl"
               type="text"
@@ -106,20 +104,17 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
     e.preventDefault();
     this.loading = true;
     m.redraw();
-
     const data = {
       name: this.name,
       slug: this.slug,
       logoPath: this.logoPath,
     };
-
     try {
       const promise = this.team
         ? this.team.save(data)
         : app.store.createRecord('pickem-teams').save(data);
 
       await promise;
-
       this.attrs.onsave(); 
       this.hide();
     } catch (error: any) {

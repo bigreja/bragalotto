@@ -7,14 +7,6 @@ import LeaderboardTab from './LeaderboardTab';
 import IndexPage from 'flarum/forum/components/IndexPage';
 import listItems from 'flarum/common/helpers/listItems';
 
-/**
- * ✅ FLARUM STANDARD PATTERN:
- * - Tüm tab'ler başta oluşturulur (tek seferde render)
- * - URL routing YOK (pure state management)
- * - CSS display: none/block ile toggle
- * - Component lifecycle KORUNUR
- * - NO gereksiz API çağrısı
- */
 export default class PickemPage extends Page {
   private activeTab: string = 'matches';
   private loading: boolean = true;
@@ -30,9 +22,7 @@ export default class PickemPage extends Page {
       return;
     }
 
-    // ✅ URL routing YOK - Her zaman 'matches' ile başla
     this.activeTab = 'matches';
-    
     this.loading = true;
     this.picks = {};
     this.userScores = [];
@@ -43,7 +33,8 @@ export default class PickemPage extends Page {
 
   oncreate(vnode: any) {
     super.oncreate(vnode);
-    app.setTitle(extractText(app.translator.trans('huseyinfiliz-pickem.forum.nav.pickem')));
+    // GÜNCELLENDİ
+    app.setTitle(extractText(app.translator.trans('huseyinfiliz-pickem.lib.nav.pickem')));
   }
 
   async loadInitialData() {
@@ -125,7 +116,8 @@ export default class PickemPage extends Page {
             <div className="containerNarrow">
               <h1 className="Hero-title">
                 <i className="icon fas fa-trophy" />{' '}
-                {app.translator.trans('huseyinfiliz-pickem.forum.nav.pickem')}
+                {/* GÜNCELLENDİ */}
+                {app.translator.trans('huseyinfiliz-pickem.lib.nav.pickem')}
               </h1>
             </div>
           </div>
@@ -138,17 +130,16 @@ export default class PickemPage extends Page {
             </nav>
             <div className="IndexPage-results sideNavOffset">
               
-              {/* ✅ Tab Navigation - Basit button'lar, URL routing yok */}
               <div className="PickemPage-tabs">
-                {this.renderTab('matches', app.translator.trans('huseyinfiliz-pickem.forum.nav.matches'))}
+                {/* GÜNCELLENDİ */}
+                {this.renderTab('matches', app.translator.trans('huseyinfiliz-pickem.lib.nav.matches'))}
                 
                 {app.session.user && app.forum.attribute('pickem.makePicks') &&
-                  this.renderTab('my_picks', app.translator.trans('huseyinfiliz-pickem.forum.nav.my_picks'))}
+                  this.renderTab('my_picks', app.translator.trans('huseyinfiliz-pickem.lib.nav.my_picks'))}
 
-                {this.renderTab('leaderboard', app.translator.trans('huseyinfiliz-pickem.forum.nav.leaderboard'))}
+                {this.renderTab('leaderboard', app.translator.trans('huseyinfiliz-pickem.lib.nav.leaderboard'))}
               </div>
 
-              {/* ✅ Tab Content - TÜM TAB'LER TEK SEFERDE RENDER EDİLİR */}
               {this.loading ? (
                 <LoadingIndicator />
               ) : (
@@ -163,12 +154,6 @@ export default class PickemPage extends Page {
     );
   }
 
-  /**
-   * ✅ FLARUM PATTERN: Basit onclick handler
-   * - Sadece state değişimi
-   * - NO URL routing
-   * - NO m.redraw() (Mithril otomatik handle eder)
-   */
   renderTab(tabId: string, label: string) {
     const active = this.activeTab === tabId;
     
@@ -177,7 +162,6 @@ export default class PickemPage extends Page {
         className={`Button Button--flat PickemPage-tab ${active ? 'active' : ''}`}
         onclick={() => {
           this.activeTab = tabId;
-          // ✅ Sadece state değişimi - başka hiçbir şey
         }}
       >
         {label}
@@ -185,17 +169,9 @@ export default class PickemPage extends Page {
     );
   }
 
-  /**
-   * ✅ CORE PATTERN: Tüm tab'leri tek seferde render et
-   * - Her tab bir .PickemPage-tabPane içinde
-   * - CSS ile display: none/block toggle
-   * - Component'ler DOM'da kalır, unmount olmazlar
-   * - State, filters, pagination HER ŞEY KORUNUR
-   */
   renderAllTabs() {
     return (
       <>
-        {/* ==================== MATCHES TAB ==================== */}
         <div 
           className={`PickemPage-tabPane ${this.activeTab === 'matches' ? 'active' : ''}`}
           data-tab="matches"
@@ -210,7 +186,6 @@ export default class PickemPage extends Page {
           )}
         </div>
         
-        {/* ==================== MY PICKS TAB ==================== */}
         {app.session.user && app.forum.attribute('pickem.makePicks') && (
           <div 
             className={`PickemPage-tabPane ${this.activeTab === 'my_picks' ? 'active' : ''}`}
@@ -220,7 +195,6 @@ export default class PickemPage extends Page {
           </div>
         )}
         
-        {/* ==================== LEADERBOARD TAB ==================== */}
         <div 
           className={`PickemPage-tabPane ${this.activeTab === 'leaderboard' ? 'active' : ''}`}
           data-tab="leaderboard"

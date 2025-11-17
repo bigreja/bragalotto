@@ -14,26 +14,21 @@ interface IMatchesTabAttrs {
 }
 
 export default class MatchesTab extends Component<IMatchesTabAttrs> {
+  // ... (değişkenler ve fonksiyonlar aynı)
   private selectedSeason: string = 'all';
   private selectedTeam: string = 'all';
   private selectedStatus: string = 'all';
-
   private loading: boolean = false;
   private events: PickemEvent[] = [];
-  
   private totalEvents: number = 0;
   private page: number = 1;
   private limit: number = 10;
-
   private pickLoading: Set<number> = new Set();
-  
   private picks: Record<string, any>;
 
   oninit(vnode: any) {
     super.oninit(vnode);
     this.picks = this.attrs.picks;
-    
-    // İlk yükleme
     this.loadEvents(1);
   }
 
@@ -95,31 +90,32 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
         await existingPick.delete();
         delete this.picks[eventIdStr];
         this.attrs.onPickChange(this.picks);
-        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.success.pick_deleted'));
+        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.deleted'));
       } else if (existingPick) {
         const updated = await existingPick.save({ selectedOutcome: outcome });
         this.picks[eventIdStr] = updated;
         this.attrs.onPickChange(this.picks);
-        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.success.pick_updated'));
+        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.saved'));
       } else {
         const newPick = app.store.createRecord('pickem-picks', { eventId: eventId });
         const saved = await newPick.save({ selectedOutcome: outcome });
         this.picks[eventIdStr] = saved;
         this.attrs.onPickChange(this.picks);
-        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.success.pick_created'));
+        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.saved'));
       }
     } catch (error: any) {
       console.error('Pick error:', error);
       if (error.response && error.response.errors && error.response.errors[0]) {
         app.alerts.show({ type: 'error' }, error.response.errors[0].detail);
       } else {
-        app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.errors.pick_failed'));
+        app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.invalid_outcome'));
       }
     } finally {
       this.pickLoading.delete(eventId);
       m.redraw();
     }
   }
+
 
   view() {
     const allSeasons = app.store.all('pickem-seasons');
@@ -130,12 +126,12 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
 
     return (
       <div>
-        {/* Filtreler */}
+        {/* Filtreler (GÜNCELLENDİ) */}
         <div className="EventsTab-filters PickemPage-filters">
           <div className="FilterGroup">
             <label>
               <i className="fas fa-calendar-alt" />
-              <span>{app.translator.trans('huseyinfiliz-pickem.forum.filters.season')}</span>
+              <span>{app.translator.trans('huseyinfiliz-pickem.lib.models.season')}</span>
             </label>
             <select
               className="FormControl"
@@ -145,7 +141,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
                 this.loadEvents(1);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.forum.filters.all_seasons')}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.models.season') })}</option>
               {allSeasons.map((season: Season) => (
                 <option value={season.id()}>{season.name()}</option>
               ))}
@@ -155,7 +151,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
           <div className="FilterGroup">
             <label>
               <i className="fas fa-users" />
-              <span>{app.translator.trans('huseyinfiliz-pickem.forum.filters.team')}</span>
+              <span>{app.translator.trans('huseyinfiliz-pickem.lib.models.team')}</span>
             </label>
             <select
               className="FormControl"
@@ -165,7 +161,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
                 this.loadEvents(1);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.forum.filters.all_teams')}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.models.team') })}</option>
               {allTeams.map((team: Team) => (
                 <option value={team.id()}>{team.name()}</option>
               ))}
@@ -175,7 +171,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
           <div className="FilterGroup">
             <label>
               <i className="fas fa-filter" />
-              <span>{app.translator.trans('huseyinfiliz-pickem.forum.filters.status')}</span>
+              <span>{app.translator.trans('huseyinfiliz-pickem.lib.headers.status')}</span>
             </label>
             <select
               className="FormControl"
@@ -185,7 +181,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
                 this.loadEvents(1);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.forum.filters.all')}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.headers.status') })}</option>
               <option value="scheduled">{app.translator.trans('huseyinfiliz-pickem.lib.status.scheduled')}</option>
               <option value="closed">{app.translator.trans('huseyinfiliz-pickem.lib.status.closed')}</option>
               <option value="finished">{app.translator.trans('huseyinfiliz-pickem.lib.status.finished')}</option>
@@ -193,11 +189,11 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
           </div>
         </div>
 
-        {/* Content */}
+        {/* Content (GÜNCELLENDİ) */}
         {this.loading ? (
           <LoadingIndicator />
         ) : !hasEvents ? (
-          <Placeholder text={app.translator.trans('huseyinfiliz-pickem.forum.matches.no_matches')} />
+          <Placeholder text={app.translator.trans('huseyinfiliz-pickem.lib.messages.no_matches')} />
         ) : (
           <div className="MatchesList">
             {this.events.map((event: PickemEvent) => {
@@ -217,7 +213,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
           </div>
         )}
 
-        {/* Pagination */}
+        {/* Pagination (GÜNCELLENDİ) */}
         {canShowPagination && !this.loading && (
           <nav className="Pagination">
             <Button
@@ -229,7 +225,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
               }}
             />
             <span className="Pagination-info">
-              {app.translator.trans('huseyinfiliz-pickem.forum.pagination.page_info', {
+              {app.translator.trans('huseyinfiliz-pickem.lib.pagination.page_info', {
                 current: this.page,
                 total: Math.ceil(this.totalEvents / this.limit),
               })}

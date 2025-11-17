@@ -6,19 +6,18 @@ import Season from '../../../common/models/Season';
 
 interface IWeekModalAttrs {
   week?: Week | null;
-  onsave: () => void; // Listeyi yenilemek için callback
+  onsave: () => void;
 }
 
 export default class WeekModal extends Modal<IWeekModalAttrs> {
   private week: Week | null | undefined;
   private name: string = '';
   private weekNumber: string | number = '';
-  private seasonId: string = '0'; // '0' string olarak başla
+  private seasonId: string = '0'; 
   private loading: boolean = false;
 
   oninit(vnode: any) {
     super.oninit(vnode);
-
     this.week = this.attrs.week;
     if (this.week) {
       this.name = this.week.name() || '';
@@ -32,16 +31,14 @@ export default class WeekModal extends Modal<IWeekModalAttrs> {
   }
 
   title(): string {
-    return app.translator.trans(
-      this.week
-        ? 'huseyinfiliz-pickem.admin.weeks.edit_title'
-        : 'huseyinfiliz-pickem.admin.weeks.create_title'
-    );
+    const resource = app.translator.trans('huseyinfiliz-pickem.lib.models.week');
+    return this.week
+      ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit', { resource })
+      : app.translator.trans('huseyinfiliz-pickem.lib.actions.create', { resource });
   }
 
   content() {
     const seasons = app.store.all('pickem-seasons') as Season[];
-    // Tip güvenliği için 'any' yerine 'Record<string, string>' kullan
     const seasonOptions: Record<string, string> = seasons.reduce((options: Record<string, string>, season) => {
       options[season.id()] = season.name();
       return options;
@@ -51,7 +48,7 @@ export default class WeekModal extends Modal<IWeekModalAttrs> {
       <div className="Modal-body">
         <div className="Form">
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.admin.weeks.name')}</label>
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.name')}</label>
             <input
               className="FormControl"
               type="text"
@@ -61,7 +58,7 @@ export default class WeekModal extends Modal<IWeekModalAttrs> {
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.admin.weeks.season')}</label>
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.season')}</label>
             <Select
               className="FormControl"
               value={this.seasonId}
@@ -69,12 +66,12 @@ export default class WeekModal extends Modal<IWeekModalAttrs> {
               options={seasonOptions}
               default="0"
             >
-              <option value="0">{app.translator.trans('huseyinfiliz-pickem.admin.weeks.select_season')}</option>
+              <option value="0">{app.translator.trans('huseyinfiliz-pickem.lib.form.select_season')}</option>
             </Select>
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.admin.weeks.week_number')}</label>
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.week_number')}</label>
             <input
               className="FormControl"
               type="number"
@@ -101,21 +98,18 @@ export default class WeekModal extends Modal<IWeekModalAttrs> {
     e.preventDefault();
     this.loading = true;
     m.redraw();
-
     const data = {
       name: this.name,
       weekNumber: this.weekNumber || null,
       seasonId: this.seasonId === '0' ? null : this.seasonId,
     };
-
     try {
       const promise = this.week
         ? this.week.save(data)
         : app.store.createRecord('pickem-weeks').save(data);
 
       await promise;
-
-      this.attrs.onsave(); // Listeyi yenilemek için callback'i çağır
+      this.attrs.onsave();
       this.hide();
     } catch (error: any) {
       this.loading = false;

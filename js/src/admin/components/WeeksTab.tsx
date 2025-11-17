@@ -1,38 +1,42 @@
 import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
-import WeekModal from './modals/WeekModal'; // İÇE AKTARMA YOLU GÜNCELLENDİ
-import Week from '../../common/models/Week'; // Model import edildi
+import WeekModal from './modals/WeekModal'; 
+import Week from '../../common/models/Week'; 
+// GÜNCELLENDİ: extractText import edildi
+import extractText from 'flarum/common/utils/extractText';
 
 export default class WeeksTab extends Component {
   view() {
     const weeks = app.store.all('pickem-weeks') as Week[];
+    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.models.week');
 
     return (
       <div className="WeeksTab">
         <div className="WeeksTab-header">
           <h3>
             <i className="fas fa-calendar-week" />
-            {app.translator.trans('huseyinfiliz-pickem.admin.weeks.title')}
+            {app.translator.trans('huseyinfiliz-pickem.lib.nav.weeks')}
           </h3>
           <Button
             className="Button Button--primary"
             icon="fas fa-plus"
             onclick={() => app.modal.show(WeekModal, {
               week: null,
-              onsave: () => m.redraw() // Kaydettikten sonra listeyi yenile
+              onsave: () => m.redraw() 
             })}
           >
-            {app.translator.trans('huseyinfiliz-pickem.admin.weeks.create')}
+            {app.translator.trans('huseyinfiliz-pickem.lib.actions.create', { resource: resourceName })}
           </Button>
         </div>
 
         <table className="Table">
           <thead>
             <tr>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.weeks.name')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.weeks.season')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.weeks.week_number')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.buttons.actions')}</th>
+              <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}</th>
+              <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.season')}</th>
+              {/* GÜNCELLENDİ: week_number anahtarı */}
+              <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.week_number')}</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -49,7 +53,7 @@ export default class WeeksTab extends Component {
                       icon="fas fa-edit"
                       onclick={() => app.modal.show(WeekModal, {
                         week: week,
-                        onsave: () => m.redraw() // Düzenledikten sonra listeyi yenile
+                        onsave: () => m.redraw() 
                       })}
                     >
                       {app.translator.trans('huseyinfiliz-pickem.lib.buttons.edit')}
@@ -72,10 +76,13 @@ export default class WeeksTab extends Component {
   }
 
   deleteWeek(week: Week) {
-    if (!confirm(app.translator.trans('huseyinfiliz-pickem.admin.weeks.delete_confirmation'))) {
+    // GÜNCELLENDİ: `extractText` kullanıldı
+    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.models.week');
+    const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm', { resource: resourceName }));
+    
+    if (!confirm(confirmMessage)) {
       return;
     }
-
     week.delete().then(() => {
       m.redraw();
     });

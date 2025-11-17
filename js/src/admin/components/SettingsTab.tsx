@@ -10,10 +10,10 @@ export default class SettingsTab extends Component {
         <div className="Form-group">
           <h3>
             <i className="fas fa-cogs" />
-            {app.translator.trans('huseyinfiliz-pickem.admin.settings.title')}
+            {app.translator.trans('huseyinfiliz-pickem.lib.nav.settings')}
           </h3>
           <p>
-            {app.translator.trans('huseyinfiliz-pickem.admin.settings.recalculate_scores_help')}
+            {app.translator.trans('huseyinfiliz-pickem.admin.settings.recalc_help')}
           </p>
           <Button
             className="Button Button--primary"
@@ -21,7 +21,7 @@ export default class SettingsTab extends Component {
             loading={this.loading}
             onclick={this.recalculateScores.bind(this)}
           >
-            {app.translator.trans('huseyinfiliz-pickem.admin.settings.recalculate_scores_button')}
+            {app.translator.trans('huseyinfiliz-pickem.admin.settings.recalc_btn')}
           </Button>
         </div>
       </div>
@@ -31,24 +31,22 @@ export default class SettingsTab extends Component {
   recalculateScores() {
     if (this.loading) return;
 
-    if (!confirm(app.translator.trans('huseyinfiliz-pickem.admin.settings.recalculate_scores_confirm'))) {
+    if (!confirm(app.translator.trans('huseyinfiliz-pickem.admin.settings.recalc_confirm'))) {
       return;
     }
 
     this.loading = true;
     m.redraw();
-
     app.request({
       method: 'POST',
       url: app.forum.attribute('apiUrl') + '/pickem/recalculate-all-scores',
     }).then(response => {
       this.loading = false;
       m.redraw();
-      app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.admin.settings.recalculate_scores_success'));
+      app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.admin.settings.recalc_queued'));
     }).catch(error => {
       this.loading = false;
       m.redraw();
-      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.admin.settings.recalculate_scores_fail'));
       console.error(error);
     });
   }

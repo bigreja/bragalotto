@@ -1,11 +1,11 @@
 import Modal from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
 import { slug } from 'flarum/common/utils/string';
-import Season from '../../../common/models/Season'; // İçe aktarma yolu güncellendi
+import Season from '../../../common/models/Season'; 
 
 interface ISeasonModalAttrs {
   season?: Season | null;
-  onsave: () => void; // Listeyi yenilemek için callback
+  onsave: () => void;
 }
 
 export default class SeasonModal extends Modal<ISeasonModalAttrs> {
@@ -18,7 +18,6 @@ export default class SeasonModal extends Modal<ISeasonModalAttrs> {
 
   oninit(vnode: any) {
     super.oninit(vnode);
-
     this.season = this.attrs.season;
     if (this.season) {
       this.name = this.season.name() || '';
@@ -31,7 +30,6 @@ export default class SeasonModal extends Modal<ISeasonModalAttrs> {
   formatDateForInput(dateString: string | Date | undefined): string {
     if (!dateString) return '';
     const date = new Date(dateString);
-    // Returns YYYY-MM-DD format for input[type=date]
     return date.toISOString().slice(0, 10);
   }
 
@@ -40,11 +38,10 @@ export default class SeasonModal extends Modal<ISeasonModalAttrs> {
   }
 
   title(): string {
-    return app.translator.trans(
-      this.season
-        ? 'huseyinfiliz-pickem.admin.seasons.edit_title'
-        : 'huseyinfiliz-pickem.admin.seasons.create_title'
-    );
+    const resource = app.translator.trans('huseyinfiliz-pickem.lib.models.season');
+    return this.season
+      ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit', { resource })
+      : app.translator.trans('huseyinfiliz-pickem.lib.actions.create', { resource });
   }
 
   content() {
@@ -52,7 +49,7 @@ export default class SeasonModal extends Modal<ISeasonModalAttrs> {
       <div className="Modal-body">
         <div className="Form">
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.admin.seasons.name')}</label>
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.name')}</label>
             <input
               className="FormControl"
               type="text"
@@ -67,7 +64,7 @@ export default class SeasonModal extends Modal<ISeasonModalAttrs> {
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.admin.seasons.slug')}</label>
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.slug')}</label>
             <input
               className="FormControl"
               type="text"
@@ -77,7 +74,7 @@ export default class SeasonModal extends Modal<ISeasonModalAttrs> {
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.admin.seasons.start_date')}</label>
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.start_date')}</label>
             <input
               className="FormControl"
               type="date"
@@ -87,7 +84,7 @@ export default class SeasonModal extends Modal<ISeasonModalAttrs> {
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.admin.seasons.end_date')}</label>
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.end_date')}</label>
             <input
               className="FormControl"
               type="date"
@@ -109,7 +106,6 @@ export default class SeasonModal extends Modal<ISeasonModalAttrs> {
       </div>
     );
   }
-
   async onsubmit(e: SubmitEvent) {
     e.preventDefault();
     this.loading = true;
@@ -118,8 +114,8 @@ export default class SeasonModal extends Modal<ISeasonModalAttrs> {
     const data = {
       name: this.name,
       slug: this.slug,
-      startDate: this.startDate || null, // Boşsa null gönder
-      endDate: this.endDate || null,     // Boşsa null gönder
+      startDate: this.startDate || null, 
+      endDate: this.endDate || null,     
     };
 
     try {
@@ -128,8 +124,7 @@ export default class SeasonModal extends Modal<ISeasonModalAttrs> {
         : app.store.createRecord('pickem-seasons').save(data);
 
       await promise;
-
-      this.attrs.onsave(); // Listeyi yenilemek için callback'i çağır
+      this.attrs.onsave();
       this.hide();
     } catch (error: any) {
       this.loading = false;

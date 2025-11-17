@@ -1,21 +1,22 @@
 import Component from 'flarum/common/Component';
-import Button from 'flarum/common/components/Button';
+// GÜNCELLENDİ: extractText import edildi
+import extractText from 'flarum/common/utils/extractText';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Placeholder from 'flarum/common/components/Placeholder';
 import EventModal from './modals/EventModal';
 import ResultModal from './modals/ResultModal';
 import PickemEvent from '../../common/models/Event';
 import Team from '../../common/models/Team';
+import Button from 'flarum/common/components/Button';
 
 export default class EventsTab extends Component {
+  // ... (Kodun üst kısmı aynı)
   private selectedSeason: string = 'all';
   private selectedTeam: string = 'all';
   private selectedStatus: string = 'all';
   private sortOrder: string = 'desc';
-
   private loading: boolean = true;
   private events: PickemEvent[] = [];
-
   private totalEvents: number = 0;
   private page: number = 1;
   private limit: number = 20;
@@ -76,25 +77,25 @@ export default class EventsTab extends Component {
   view() {
     const allSeasons = app.store.all('pickem-seasons');
     const allTeams = app.store.all('pickem-teams');
-
     const total = this.totalEvents;
     const hasEvents = this.events.length > 0;
     const canShowPagination = total > this.limit;
     const totalPages = Math.ceil(total / this.limit);
+    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.models.match');
 
     return (
       <div className="EventsTab">
         <div className="EventsTab-header">
           <h3>
             <i className="fas fa-futbol" />
-            {app.translator.trans('huseyinfiliz-pickem.admin.events.title')}
+            {app.translator.trans('huseyinfiliz-pickem.lib.nav.matches')}
           </h3>
           <Button
             className="Button Button--primary"
             icon="fas fa-plus"
             onclick={() => app.modal.show(EventModal, { event: null, onsave: () => this.loadEvents(this.page) })}
           >
-            {app.translator.trans('huseyinfiliz-pickem.admin.events.create')}
+            {app.translator.trans('huseyinfiliz-pickem.lib.actions.create', { resource: resourceName })}
           </Button>
         </div>
 
@@ -103,7 +104,7 @@ export default class EventsTab extends Component {
           <div className="FilterGroup">
             <label>
               <i className="fas fa-calendar-alt" />
-              <span>{app.translator.trans('huseyinfiliz-pickem.admin.filters.season')}</span>
+              <span>{app.translator.trans('huseyinfiliz-pickem.lib.models.season')}</span>
             </label>
             <select
               className="FormControl"
@@ -113,7 +114,7 @@ export default class EventsTab extends Component {
                 this.loadEvents(1);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.admin.filters.all_seasons')}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.models.season') })}</option>
               {allSeasons.map((season: any) => (
                 <option value={season.id()} key={season.id()}>{season.name()}</option>
               ))}
@@ -123,7 +124,7 @@ export default class EventsTab extends Component {
           <div className="FilterGroup">
             <label>
               <i className="fas fa-users" />
-              <span>{app.translator.trans('huseyinfiliz-pickem.admin.filters.team')}</span>
+              <span>{app.translator.trans('huseyinfiliz-pickem.lib.models.team')}</span>
             </label>
             <select
               className="FormControl"
@@ -133,7 +134,7 @@ export default class EventsTab extends Component {
                 this.loadEvents(1);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.admin.filters.all_teams')}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.models.team') })}</option>
               {allTeams.map((team: any) => (
                 <option value={team.id()} key={team.id()}>{team.name()}</option>
               ))}
@@ -143,7 +144,7 @@ export default class EventsTab extends Component {
           <div className="FilterGroup">
             <label>
               <i className="fas fa-info-circle" />
-              <span>{app.translator.trans('huseyinfiliz-pickem.admin.filters.status')}</span>
+              <span>{app.translator.trans('huseyinfiliz-pickem.lib.headers.status')}</span>
             </label>
             <select
               className="FormControl"
@@ -153,7 +154,7 @@ export default class EventsTab extends Component {
                 this.loadEvents(1);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.admin.filters.all_statuses')}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.headers.status') })}</option>
               <option value="scheduled">{app.translator.trans('huseyinfiliz-pickem.lib.status.scheduled')}</option>
               <option value="closed">{app.translator.trans('huseyinfiliz-pickem.lib.status.closed')}</option>
               <option value="finished">{app.translator.trans('huseyinfiliz-pickem.lib.status.finished')}</option>
@@ -163,7 +164,7 @@ export default class EventsTab extends Component {
           <div className="FilterGroup">
             <label>
               <i className="fas fa-sort" />
-              <span>{app.translator.trans('huseyinfiliz-pickem.admin.filters.sort')}</span>
+              <span>{app.translator.trans('huseyinfiliz-pickem.lib.filters.sort')}</span>
             </label>
             <select
               className="FormControl"
@@ -173,8 +174,8 @@ export default class EventsTab extends Component {
                 this.loadEvents(1);
               }}
             >
-              <option value="desc">{app.translator.trans('huseyinfiliz-pickem.admin.filters.newest_first')}</option>
-              <option value="asc">{app.translator.trans('huseyinfiliz-pickem.admin.filters.oldest_first')}</option>
+              <option value="desc">{app.translator.trans('huseyinfiliz-pickem.lib.filters.newest')}</option>
+              <option value="asc">{app.translator.trans('huseyinfiliz-pickem.lib.filters.oldest')}</option>
             </select>
           </div>
 
@@ -193,7 +194,7 @@ export default class EventsTab extends Component {
                 this.loadEvents(1);
               }}
             >
-              {app.translator.trans('huseyinfiliz-pickem.admin.filters.reset')}
+              {app.translator.trans('huseyinfiliz-pickem.lib.filters.reset')}
             </Button>
           )}
         </div>
@@ -201,17 +202,17 @@ export default class EventsTab extends Component {
         {this.loading ? (
           <LoadingIndicator />
         ) : !hasEvents ? (
-            <Placeholder text={app.translator.trans('huseyinfiliz-pickem.admin.filters.no_matches_found')} />
+            <Placeholder text={app.translator.trans('huseyinfiliz-pickem.lib.messages.no_matches')} />
         ) : (
           <table className="Table">
             <thead>
               <tr>
-                <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.home_team')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.away_team')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.match_date')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.score')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.lib.buttons.actions')}</th>
+                <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.home')}</th>
+                <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.away')}</th>
+                <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.match_date')}</th>
+                <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.status')}</th>
+                <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.score')}</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -236,7 +237,7 @@ export default class EventsTab extends Component {
                       <td>{event.matchDate() ? new Date(event.matchDate()!).toLocaleString() : '-'}</td>
                       <td>
                         <span className={`StatusBadge StatusBadge--${event.status()}`}>
-                          {event.status()}
+                          {app.translator.trans(`huseyinfiliz-pickem.lib.status.${event.status()}`)}
                         </span>
                       </td>
                       <td>
@@ -257,7 +258,7 @@ export default class EventsTab extends Component {
                           icon="fas fa-check"
                           onclick={() => app.modal.show(ResultModal, { event: event, onsave: () => this.loadEvents(this.page) })} 
                         >
-                          {app.translator.trans('huseyinfiliz-pickem.admin.events.enter_result')}
+                          {app.translator.trans('huseyinfiliz-pickem.lib.actions.enter_result')}
                         </Button>
                         <Button
                           className="Button Button--danger"
@@ -286,16 +287,12 @@ export default class EventsTab extends Component {
                   this.loadEvents(this.page - 1);
                 }
               }}
-            >
-              {app.translator.trans('huseyinfiliz-pickem.admin.pagination.previous')}
-            </Button>
+            />
             
             <span className="Pagination-info">
-              {app.translator.trans('huseyinfiliz-pickem.admin.pagination.page_info', {
+              {app.translator.trans('huseyinfiliz-pickem.lib.pagination.page_info', {
                 current: this.page,
-                total: totalPages,
-                showing: this.events.length,
-                totalEvents: total
+                total: totalPages
               })}
             </span>
 
@@ -308,9 +305,7 @@ export default class EventsTab extends Component {
                   this.loadEvents(this.page + 1);
                 }
               }}
-            >
-              {app.translator.trans('huseyinfiliz-pickem.admin.pagination.next')}
-            </Button>
+            />
           </nav>
         )}
       </div>
@@ -318,11 +313,10 @@ export default class EventsTab extends Component {
   }
 
   renderTeamLogo(team: Team | null) {
+    // ... (renderTeamLogo fonksiyonu aynı)
     if (!team) {
       return (
-        <div className="TeamLogo TeamLogo--letter" style="background-color: #999">
-          ?
-        </div>
+        <div className="TeamLogo TeamLogo--letter" style="background-color: #999">?</div>
       );
     }
 
@@ -345,15 +339,17 @@ export default class EventsTab extends Component {
       );
     } else {
       return (
-        <div className="TeamLogo TeamLogo--letter">
-          {firstLetter}
-        </div>
+        <div className="TeamLogo TeamLogo--letter">{firstLetter}</div>
       );
     }
   }
 
   deleteEvent(event: PickemEvent) {
-    if (confirm(app.translator.trans('huseyinfiliz-pickem.admin.events.delete_confirmation'))) {
+    // GÜNCELLENDİ: `extractText` kullanıldı
+    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.models.match');
+    const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm', { resource: resourceName }));
+    
+    if (confirm(confirmMessage)) {
       event.delete().then(() => {
         this.loadEvents(this.page);
       });

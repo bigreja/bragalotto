@@ -1,191 +1,38 @@
 huseyinfiliz-pickem:
-  forum:
+  lib:
+    # Ortak Varlık İsimleri
+    models:
+      season: "Season"
+      team: "Team"
+      week: "Week"
+      match: "Match"
+      pick: "Pick"
+      
+    # Navigasyon
     nav:
       pickem: "Pick'em"
       matches: "Matches"
       my_picks: "My Picks"
       leaderboard: "Leaderboard"
-    
-    matches:
-      title: "Upcoming Matches"
-      no_matches: "No matches available"
-      make_pick: "Make Your Pick"
-      change_pick: "Change Pick"
-      pick_saved: "Pick saved successfully"
-      cutoff_passed: "Picks closed"
-      
-    picks:
-      home: "Home Win"
-      away: "Away Win"
-      draw: "Draw"
-      your_pick: "Your pick"
-      no_pick: "No pick yet"
-      correct: "Correct"
-      incorrect: "Incorrect"
-      pending: "Pending"
-      login_to_view: "Please login to view your picks"
-      no_picks: "You haven't made any picks yet"
-      
-    my_picks:
-      title: "My Picks"
-      stats:
-        total: "Total Picks"
-        correct: "Correct"
-        incorrect: "Incorrect"
-        pending: "Pending"
-        accuracy: "Accuracy"
-        points: "Points"
-        
-    leaderboard:
-      title: "Leaderboard"
-      rank: "Rank"
-      player: "Player"
-      filter_season: "Filter by season"
-      all_seasons: "All Seasons"
-      no_scores: "No scores available yet"
-      
-    event:
-      vs: "vs"
-      match_date: "Match Date"
-      cutoff_date: "Picks close"
-      status:
-        scheduled: "Scheduled"
-        closed: "Closed"
-        finished: "Finished"
-      
-    notifications:
-      event_result_text: "Match result: {homeTeam} {homeScore} - {awayScore} {awayTeam}"
-    
-    pagination:
-      page_info: "Page {current} of {total}"
-    
-    filters:
-      season: "Season"
-      all_seasons: "All Seasons"
-      team: "Team"
-      all_teams: "All Teams"
-      status: "Status"
-      all: "All"
-      
-  admin:
-    title: "Pick'em Management"
-    
-    nav:
+      settings: "Settings"
       teams: "Teams"
       seasons: "Seasons"
       weeks: "Weeks"
-      events: "Matches"
-      settings: "Settings"
-      
-    permissions:
-      manage: "Manage pick'em system"
-      make_picks: "Make picks"
-      view_page: "View Pick'em page"
-      
-    settings:
-      title: "Pick'em Settings"
-      recalculate_scores_help: "This will delete all current scores and recalculate them from scratch for every user. This is a heavy operation and should be run in the background. It will use your Flarum queue."
-      recalculate_scores_button: "Recalculate All Scores"
-      recalculate_scores_confirm: "Are you sure you want to recalculate all scores? This cannot be undone and may take a long time."
-      recalculate_scores_success: "Score recalculation has been queued. It will be processed in the background."
-      recalculate_scores_fail: "An error occurred while queueing the score recalculation."
-      
-    teams:
-      title: "Teams"
-      create: "Create Team"
-      create_title: "Create Team"
-      edit_title: "Edit Team"
-      name: "Team Name"
-      slug: "Slug"
-      logo_url: "Logo URL"
-      no_teams: "No teams created yet"
-      delete_confirmation: "Are you sure you want to delete this team?"
-      
-    seasons:
-      title: "Seasons"
-      create: "Create Season"
-      create_title: "Create Season"
-      edit_title: "Edit Season"
-      name: "Season Name"
-      slug: "Slug"
-      start_date: "Start Date"
-      end_date: "End Date"
-      dates: "Dates"
-      no_seasons: "No seasons created yet"
-      delete_confirmation: "Are you sure you want to delete this season?"
-      
-    weeks:
-      title: "Weeks"
-      create: "Create Week"
-      create_title: "Create Week"
-      edit_title: "Edit Week"
-      name: "Week Name"
-      season: "Season"
-      week_number: "Week Number"
-      start_date: "Start Date"
-      end_date: "End Date"
-      no_weeks: "No weeks created yet"
-      select_season: "Select Season"
-      delete_confirmation: "Are you sure you want to delete this week?"
-      
-    events:
-      title: "Matches"
-      create: "Create Match"
-      create_title: "Create Match"
-      edit_title: "Edit Match"
-      home_team: "Home Team"
-      away_team: "Away Team"
-      week: "Week"
-      no_week: "No Week"
-      select_team: "Select Team"
-      match_date: "Match Date"
-      cutoff_date: "Cutoff Date"
-      allow_draw: "Allow Draw"
-      home_score: "Home Score"
-      away_score: "Away Score"
-      enter_result: "Enter Result"
-      enter_result_title: "Enter Match Result"
-      save_result: "Save Result"
-      no_events: "No matches created yet"
-      select_week: "Select Week"
-      select_home_team: "Select Home Team"
-      select_away_team: "Select Away Team"
-      status_scheduled: "Scheduled"
-      status_closed: "Closed"
-      status_finished: "Finished"
-      delete_confirmation: "Are you sure you want to delete this match?"
-      
-    filters:
-      all_seasons: "All Seasons"
-      all_teams: "All Teams"
-      all_statuses: "All Statuses"
-      season: "Season"
-      team: "Team"
-      status: "Status"
-      no_matches_found: "No matches found with the selected filters."
-      
-    pagination:
-      previous: "Previous"
-      next: "Next"
-      page_info: "Page {current} of {total} (Showing {showing} of {totalEvents} events)"
-      
-    alerts:
-      result_saved_success: "Result saved and picks updated successfully!"
-      
-  lib:
-    buttons:
-      save: "Save"
-      cancel: "Cancel"
-      edit: "Edit"
-      delete: "Delete"
-      create: "Create"
-      
+      events: "Matches" 
+
+    # Durumlar
     status:
       scheduled: "Scheduled"
       closed: "Closed"
       finished: "Finished"
+      pending: "Pending" # EKLENDİ
+      correct: "Correct"   # EKLENDİ
+      incorrect: "Incorrect" # EKLENDİ
       
-    common:
+    # Tablo Başlıkları
+    headers:
+      rank: "Rank"
+      player: "Player"
       points: "Points"
       correct: "Correct"
       total: "Total"
@@ -193,61 +40,106 @@ huseyinfiliz-pickem:
       result: "Result"
       score: "Score"
       status: "Status"
-      time_remaining_minutes: "{minutes}m remaining"
-      time_remaining_hours: "{hours}h {minutes}m remaining"
-      time_remaining_days: "{days}d remaining"
-      rank: "Rank"
-      pts: "pts"
-      unknown_user: "Unknown"
-      load_more: "Load More"
-      match: "Match"
       date: "Date"
-    
-    validation:
-      errors:
-        pick_after_cutoff: "Cannot make or change picks after the cutoff date."
-        pick_already_exists: "You have already made a pick for this event."
-        pick_failed: "Failed to save your pick. Please try again."
-        event_not_pickable: "This event is not currently accepting picks."
-        invalid_outcome: "Invalid outcome selected. Must be home, away, or draw."
-        event_cancelled: "This event has been cancelled and no longer accepts picks."
-        scores_must_be_together: "Both home and away scores must be provided together."
-        cannot_uncancel: "Cannot change status of a cancelled event."
-        cannot_unfinish: "Cannot change a finished event back to scheduled."
-        event_not_found: "Event not found."
-        pick_not_found: "Pick not found."
-        unauthorized: "You don't have permission to perform this action."
-        same_team: "Home team and away team cannot be the same."
-        team_in_use: "This team cannot be deleted because it is used in matches. Please update or delete the relevant matches first."
-        season_in_use: "This season cannot be deleted because it has weeks associated with it. Please delete the relevant weeks first."
-        week_in_use: "This week cannot be deleted because it has matches associated with it. Please update or delete the relevant matches first."
-        slug_format: "The slug must be in a valid format (e.g., 'my-new-slug')."
-        slug_unique: "This slug is already in use by another team/season."
-        team_exists: "The selected team does not exist."
-        week_exists: "The selected week does not exist."
-        cutoff_before_match: "The pick cutoff date must be before the match date."
-        
-      success:
-        pick_created: "Pick created successfully"
-        pick_updated: "Pick updated successfully"
-        pick_deleted: "Pick cancelled successfully"
-        event_created: "Match created successfully"
-        event_updated: "Match updated successfully"
-        event_deleted: "Match deleted successfully"
-        team_created: "Team created successfully"
-        team_updated: "Team updated successfully"
-        team_deleted: "Team deleted successfully"
-        season_created: "Season created successfully"
-        season_updated: "Season updated successfully"
-        season_deleted: "Season deleted successfully"
-        week_created: "Week created successfully"
-        week_updated: "Week updated successfully"
-        week_deleted: "Week deleted successfully"
-        result_saved: "Result saved and picks updated successfully!"
+      logo: "Logo"
+      match_date: "Match Date"
+      cutoff_date: "Cutoff Date"
+      home: "Home"
+      away: "Away"
+      slug: "Slug"
+      name: "Name"
+      season: "Season"
+      week_number: "Week Number"
+
+    # Form Etiketleri
+    form:
+      name: "Name"
+      slug: "Slug"
+      logo_url: "Logo URL"
+      start_date: "Start Date"
+      end_date: "End Date"
+      week_number: "Week Number"
+      season: "Season"
+      week: "Week"
+      home_team: "Home Team"
+      away_team: "Away Team"
+      select_team: "Select Team"
+      select_season: "Select Season"
+      no_week: "No Week (Independent)"
+      allow_draw: "Allow Draw"
+      home_score: "Home Score"
+      away_score: "Away Score"
+
+    # Filtreler
+    filters:
+      sort: "Sort"
+      newest: "Newest First"
+      oldest: "Oldest First"
+      reset: "Reset Filters"
+      all: "All {resource}"
+
+    # Butonlar
+    buttons:
+      save: "Save"
+      edit: "Edit"
+      delete: "Delete"
+      create: "Create"
+      cancel: "Cancel"
+
+    # Aksiyon Başlıkları
+    actions:
+      create: "Create {resource}"
+      edit: "Edit {resource}"
+      enter_result: "Enter Result"
       
-  notifications:
-    event_result:
-      title: "Match Result: {homeTeam} vs {awayTeam}"
-      correct: "Congratulations! Your pick was correct. You earned {points} point|You earned {points} points."
-      incorrect: "Unfortunately, your pick was incorrect this time."
-      draw: "The match ended in a draw."
+    # Mesajlar
+    messages:
+      delete_confirm: "Are you sure you want to delete this {resource}?"
+      saved: "Saved successfully."
+      deleted: "Item deleted."
+      result_saved: "Result saved successfully."
+      in_use: "Cannot delete because this item is in use."
+      cutoff_passed: "Picks are closed."
+      login_required: "Please login to play."
+      invalid_outcome: "Invalid selection."
+      scores_required: "Enter both scores."
+      slug_unique: "Slug is already taken."
+      same_team: "Teams must be different."
+      no_matches: "No matches found."
+      no_data: "It looks like there is nothing here."
+
+    # Sayfalama
+    pagination:
+      page_info: "Page {current} of {total}"
+
+    # Geri Sayım (YENİDEN EKLENDİ)
+    time:
+      minutes_remaining: "{minutes}m remaining"
+      hours_remaining: "{hours}h {minutes}m remaining"
+      days_remaining: "{days}d remaining"
+
+    # Diğer
+    common:
+      vs: "vs" # EKLENDİ
+
+  # Foruma Özel
+  forum:
+    picks:
+      your_pick: "Your Pick"
+      draw: "Draw"
+      home: "Home"
+      away: "Away"
+    notification: "Result: {home} {hScore} - {aScore} {away}"
+
+  # Admine Özel
+  admin:
+    permissions:
+      manage: "Manage pick'em system"
+      make_picks: "Make picks"
+      view_page: "View Pick'em page"
+      
+    settings:
+      recalc_help: "Recalculates all scores based on match results. Runs in background."
+      recalc_btn: "Recalculate Scores"
+      recalc_confirm: "Are you sure? This process runs in the background."
+      recalc_queued: "Recalculation queued."

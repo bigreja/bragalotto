@@ -11,7 +11,8 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
     if (!userScores || userScores.length === 0) {
       return (
         <div className="LeaderboardTab">
-          <p>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.no_scores')}</p>
+          {/* GÜNCELLENDİ */}
+          <p>{app.translator.trans('huseyinfiliz-pickem.lib.messages.no_data')}</p>
         </div>
       );
     }
@@ -40,21 +41,22 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
           return (
             <div className={`Podium-card ${positions[index]}`} key={index}>
               <div className="medal">{medals[index]}</div>
+              {/* GÜNCELLENDİ */}
               <div className="rank">#{index + 1}</div>
               <div className="username">
-                {user ? (typeof user.displayName === 'function' ? user.displayName() : user.displayName) : app.translator.trans('huseyinfiliz-pickem.lib.common.unknown_user')}
+                {user ? (typeof user.displayName === 'function' ? user.displayName() : user.displayName) : app.translator.trans('core.lib.username.deleted_text')}
               </div>
               <div className="points">
                 {totalPoints}
-                <small>{app.translator.trans('huseyinfiliz-pickem.lib.common.pts')}</small>
+                <small>{app.translator.trans('huseyinfiliz-pickem.lib.headers.points')}</small>
               </div>
               <div className="stats">
                 <div className="stat">
-                  <div className="label">{app.translator.trans('huseyinfiliz-pickem.lib.common.correct')}</div>
+                  <div className="label">{app.translator.trans('huseyinfiliz-pickem.lib.headers.correct')}</div>
                   <div className="value">{correctPicks}</div>
                 </div>
                 <div className="stat">
-                  <div className="label">{app.translator.trans('huseyinfiliz-pickem.lib.common.accuracy')}</div>
+                  <div className="label">{app.translator.trans('huseyinfiliz-pickem.lib.headers.accuracy')}</div>
                   <div className="value">{score.accuracy()}%</div>
                 </div>
               </div>
@@ -69,13 +71,14 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
     return (
       <table className="LeaderboardTable">
         <thead>
+          {/* GÜNCELLENDİ */}
           <tr>
-            <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.rank')}</th>
-            <th>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.player')}</th>
-            <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.points')}</th>
-            <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.correct')}</th>
-            <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.total')}</th>
-            <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.accuracy')}</th>
+            <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.rank')}</th>
+            <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.player')}</th>
+            <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.points')}</th>
+            <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.correct')}</th>
+            <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.total')}</th>
+            <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.accuracy')}</th>
           </tr>
         </thead>
         <tbody>
@@ -92,7 +95,8 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
                 <td>{index + 1}</td>
                 <td>
                   <strong>
-                    {user ? (typeof user.displayName === 'function' ? user.displayName() : user.displayName) : app.translator.trans('huseyinfiliz-pickem.lib.common.unknown_user')}
+                    {/* GÜNCELLENDİ */}
+                    {user ? (typeof user.displayName === 'function' ? user.displayName() : user.displayName) : app.translator.trans('core.lib.username.deleted_text')}
                   </strong>
                 </td>
                 <td><strong>{totalPoints}</strong></td>

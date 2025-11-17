@@ -1,18 +1,21 @@
 import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
-import TeamModal from './modals/TeamModal'; // İÇE AKTARMA YOLU GÜNCELLENDİ
+import TeamModal from './modals/TeamModal';
 import Team from '../../common/models/Team';
+// GÜNCELLENDİ: extractText import edildi
+import extractText from 'flarum/common/utils/extractText';
 
 export default class TeamsTab extends Component {
   view() {
     const teams = app.store.all('pickem-teams') as Team[];
+    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.models.team');
 
     return (
       <div className="TeamsTab">
         <div className="TeamsTab-header">
           <h3>
             <i className="fas fa-users" />
-            {app.translator.trans('huseyinfiliz-pickem.admin.teams.title')}
+            {app.translator.trans('huseyinfiliz-pickem.lib.nav.teams')}
           </h3>
           <Button
             className="Button Button--primary"
@@ -22,17 +25,17 @@ export default class TeamsTab extends Component {
               onsave: () => m.redraw() 
             })}
           >
-            {app.translator.trans('huseyinfiliz-pickem.admin.teams.create')}
+            {app.translator.trans('huseyinfiliz-pickem.lib.actions.create', { resource: resourceName })}
           </Button>
         </div>
 
         <table className="Table">
           <thead>
             <tr>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.teams.logo')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.teams.name')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.teams.slug')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.admin.buttons.actions')}</th>
+              <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.logo')}</th>
+              <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}</th>
+              <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.slug')}</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -71,10 +74,10 @@ export default class TeamsTab extends Component {
   }
 
   renderTeamLogo(team: Team) {
+    // ... (renderTeamLogo fonksiyonu aynı)
     const logoUrl = team.logoUrl();
     const teamName = team.name();
     const firstLetter = teamName ? teamName.charAt(0).toUpperCase() : 'T';
-
     const stringToColor = (str: string) => {
       let hash = 0;
       for (let i = 0; i < str.length; i++) {
@@ -83,7 +86,6 @@ export default class TeamsTab extends Component {
       const hue = hash % 360;
       return `hsl(${hue}, 65%, 50%)`;
     };
-
     const backgroundColor = stringToColor(teamName || 'Team');
 
     if (logoUrl) {
@@ -98,10 +100,13 @@ export default class TeamsTab extends Component {
   }
 
   deleteTeam(team: Team) {
-    if (!confirm(app.translator.trans('huseyinfiliz-pickem.admin.teams.delete_confirmation'))) {
+    // GÜNCELLENDİ: `extractText` kullanıldı
+    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.models.team');
+    const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm', { resource: resourceName }));
+    
+    if (!confirm(confirmMessage)) {
       return;
     }
-
     team.delete().then(() => {
       m.redraw();
     });

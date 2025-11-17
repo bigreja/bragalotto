@@ -53,11 +53,10 @@ export default class EventModal extends Modal<IEventModalAttrs> {
   }
 
   title(): string {
-    return app.translator.trans(
-      this.event
-        ? 'huseyinfiliz-pickem.admin.events.edit_title'
-        : 'huseyinfiliz-pickem.admin.events.create_title'
-    );
+    const resource = app.translator.trans('huseyinfiliz-pickem.lib.models.match');
+    return this.event
+      ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit', { resource })
+      : app.translator.trans('huseyinfiliz-pickem.lib.actions.create', { resource });
   }
 
   content() {
@@ -78,7 +77,7 @@ export default class EventModal extends Modal<IEventModalAttrs> {
       <div className="Modal-body">
         <div className="Form">
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.admin.events.week')}</label>
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.week')}</label>
             <Select
               className="FormControl"
               value={this.weekId}
@@ -86,12 +85,12 @@ export default class EventModal extends Modal<IEventModalAttrs> {
               options={weekOptions}
               default="0"
             >
-              <option value="0">{app.translator.trans('huseyinfiliz-pickem.admin.events.no_week')}</option>
+              <option value="0">{app.translator.trans('huseyinfiliz-pickem.lib.form.no_week')}</option>
             </Select>
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.admin.events.home_team')}</label>
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.home_team')}</label>
             <Select
               className="FormControl"
               value={this.homeTeamId}
@@ -99,12 +98,12 @@ export default class EventModal extends Modal<IEventModalAttrs> {
               options={teamOptions}
               default="0"
             >
-              <option value="0">{app.translator.trans('huseyinfiliz-pickem.admin.events.select_team')}</option>
+              <option value="0">{app.translator.trans('huseyinfiliz-pickem.lib.form.select_team')}</option>
             </Select>
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.admin.events.away_team')}</label>
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.away_team')}</label>
             <Select
               className="FormControl"
               value={this.awayTeamId}
@@ -112,12 +111,12 @@ export default class EventModal extends Modal<IEventModalAttrs> {
               options={teamOptions}
               default="0"
             >
-              <option value="0">{app.translator.trans('huseyinfiliz-pickem.admin.events.select_team')}</option>
+              <option value="0">{app.translator.trans('huseyinfiliz-pickem.lib.form.select_team')}</option>
             </Select>
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.admin.events.match_date')}</label>
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.headers.match_date')}</label>
             <input
               className="FormControl"
               type="datetime-local"
@@ -128,7 +127,7 @@ export default class EventModal extends Modal<IEventModalAttrs> {
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.admin.events.cutoff_date')}</label>
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.headers.cutoff_date')}</label>
             <input
               className="FormControl"
               type="datetime-local"
@@ -145,12 +144,12 @@ export default class EventModal extends Modal<IEventModalAttrs> {
                 checked={this.allowDraw}
                 onchange={(e: InputEvent) => { this.allowDraw = (e.target as HTMLInputElement).checked; }}
               />
-              {app.translator.trans('huseyinfiliz-pickem.admin.events.allow_draw')}
+              {app.translator.trans('huseyinfiliz-pickem.lib.form.allow_draw')}
             </label>
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.admin.events.status')}</label>
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.headers.status')}</label>
             <Select
               className="FormControl"
               value={this.status}
@@ -180,29 +179,29 @@ export default class EventModal extends Modal<IEventModalAttrs> {
   async onsubmit(e: SubmitEvent) {
     e.preventDefault();
 
-    // VALIDASYON
+    // VALIDASYON (Generic 'invalid_outcome' mesajını kullanıyoruz)
     if (!this.matchDate || this.matchDate.trim() === '') {
-      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.admin.validation.match_date_required'));
+      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.invalid_outcome'));
       return;
     }
 
     if (!this.cutoffDate || this.cutoffDate.trim() === '') {
-      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.admin.validation.cutoff_date_required'));
+      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.invalid_outcome'));
       return;
     }
 
     if (this.homeTeamId === '0' || this.homeTeamId === '' || !this.homeTeamId) {
-      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.admin.validation.home_team_required'));
+      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.invalid_outcome'));
       return;
     }
 
     if (this.awayTeamId === '0' || this.awayTeamId === '' || !this.awayTeamId) {
-      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.admin.validation.away_team_required'));
+      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.invalid_outcome'));
       return;
     }
 
     if (this.homeTeamId === this.awayTeamId) {
-      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.admin.validation.teams_must_differ'));
+      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.same_team'));
       return;
     }
 

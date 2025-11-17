@@ -29,8 +29,6 @@ export default class PickemPage extends ExtensionPage {
         app.store.find('pickem-teams'),
         app.store.find('pickem-seasons'),
         app.store.find('pickem-weeks', { include: 'season' }),
-        // pickem-events yüklemesi buradan kaldırıldı.
-        // Artık EventsTab tarafından yüklenecek.
       ]);
       this.error = null;
     } catch (error: any) {
@@ -49,7 +47,6 @@ export default class PickemPage extends ExtensionPage {
       tabContent = (
         <div className="LoadingState">
           <LoadingIndicator />
-          <p>Loading data...</p>
         </div>
       );
     } else if (this.error) {
@@ -62,11 +59,11 @@ export default class PickemPage extends ExtensionPage {
       <div className="PickemPage">
         <div className="container">
           <div className="PickemPage-tabs">
-            {this.renderTab('events', 'fas fa-futbol', app.translator.trans('huseyinfiliz-pickem.admin.nav.events'))}
-            {this.renderTab('teams', 'fas fa-users', app.translator.trans('huseyinfiliz-pickem.admin.nav.teams'))}
-            {this.renderTab('seasons', 'fas fa-calendar-alt', app.translator.trans('huseyinfiliz-pickem.admin.nav.seasons'))}
-            {this.renderTab('weeks', 'fas fa-calendar-week', app.translator.trans('huseyinfiliz-pickem.admin.nav.weeks'))}
-            {this.renderTab('settings', 'fas fa-cogs', app.translator.trans('huseyinfiliz-pickem.admin.nav.settings'))}
+            {this.renderTab('events', 'fas fa-futbol', app.translator.trans('huseyinfiliz-pickem.lib.nav.events'))}
+            {this.renderTab('teams', 'fas fa-users', app.translator.trans('huseyinfiliz-pickem.lib.nav.teams'))}
+            {this.renderTab('seasons', 'fas fa-calendar-alt', app.translator.trans('huseyinfiliz-pickem.lib.nav.seasons'))}
+            {this.renderTab('weeks', 'fas fa-calendar-week', app.translator.trans('huseyinfiliz-pickem.lib.nav.weeks'))}
+            {this.renderTab('settings', 'fas fa-cogs', app.translator.trans('huseyinfiliz-pickem.lib.nav.settings'))}
           </div>
 
           <div className="PickemPage-content">
