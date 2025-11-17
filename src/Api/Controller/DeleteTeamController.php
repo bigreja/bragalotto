@@ -35,7 +35,8 @@ class DeleteTeamController extends AbstractDeleteController
 
         if ($team->homeEvents()->exists() || $team->awayEvents()->exists()) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.validation.errors.team_in_use')
+                // GÜNCELLENDİ: lib.validation.errors.team_in_use -> lib.messages.in_use
+                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.in_use')
             ]);
         }
 

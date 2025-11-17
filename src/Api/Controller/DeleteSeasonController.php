@@ -19,7 +19,6 @@ class DeleteSeasonController extends AbstractDeleteControllerWithRelationCheck
      */
     protected function getRelationName(): string
     {
-        // Season modelindeki 'weeks' ilişkisinin adı
         return 'weeks';
     }
 
@@ -28,6 +27,7 @@ class DeleteSeasonController extends AbstractDeleteControllerWithRelationCheck
      */
     protected function getErrorMessageKey(): string
     {
-        return 'huseyinfiliz-pickem.lib.validation.errors.season_in_use';
+        // GÜNCELLENDİ: lib.validation.errors.season_in_use -> lib.messages.in_use
+        return 'huseyinfiliz-pickem.lib.messages.in_use';
     }
 }

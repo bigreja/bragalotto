@@ -2,13 +2,13 @@ import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
 import WeekModal from './modals/WeekModal'; 
 import Week from '../../common/models/Week'; 
-// GÜNCELLENDİ: extractText import edildi
 import extractText from 'flarum/common/utils/extractText';
 
 export default class WeeksTab extends Component {
   view() {
     const weeks = app.store.all('pickem-weeks') as Week[];
-    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.models.week');
+    // GÜNCELLENDİ: lib.models -> lib.common
+    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.week');
 
     return (
       <div className="WeeksTab">
@@ -33,8 +33,8 @@ export default class WeeksTab extends Component {
           <thead>
             <tr>
               <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.season')}</th>
-              {/* GÜNCELLENDİ: week_number anahtarı */}
+              {/* GÜNCELLENDİ: lib.headers.season -> lib.common.season */}
+              <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.season')}</th>
               <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.week_number')}</th>
               <th></th>
             </tr>
@@ -76,8 +76,8 @@ export default class WeeksTab extends Component {
   }
 
   deleteWeek(week: Week) {
-    // GÜNCELLENDİ: `extractText` kullanıldı
-    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.models.week');
+    // GÜNCELLENDİ: lib.models -> lib.common
+    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.week');
     const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm', { resource: resourceName }));
     
     if (!confirm(confirmMessage)) {

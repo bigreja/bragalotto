@@ -30,7 +30,8 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
   }
 
   title(): string {
-    const resource = app.translator.trans('huseyinfiliz-pickem.lib.models.team');
+    // GÜNCELLENDİ: lib.models -> lib.common
+    const resource = app.translator.trans('huseyinfiliz-pickem.lib.common.team');
     return this.team
       ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit', { resource })
       : app.translator.trans('huseyinfiliz-pickem.lib.actions.create', { resource });

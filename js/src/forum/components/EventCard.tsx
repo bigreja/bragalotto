@@ -83,15 +83,16 @@ export default class EventCard extends Component<EventCardAttrs> {
         <div className="EventCard-teams">
           <div className="team-container">
             {this.renderTeamLogo(homeTeam)}
-            <div className="team-name">{homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.forum.picks.home')}</div>
+            {/* GÜNCELLENDİ: forum.picks.home -> lib.common.home */}
+            <div className="team-name">{homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home')}</div>
           </div>
 
-          {/* DÜZELTİLDİ: lib.common.vs */}
           <div className="vs">{app.translator.trans('huseyinfiliz-pickem.lib.common.vs')}</div>
 
           <div className="team-container">
             {this.renderTeamLogo(awayTeam)}
-            <div className="team-name">{awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.forum.picks.away')}</div>
+            {/* GÜNCELLENDİ: forum.picks.away -> lib.common.away */}
+            <div className="team-name">{awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away')}</div>
           </div>
         </div>
 
@@ -125,7 +126,8 @@ export default class EventCard extends Component<EventCardAttrs> {
           {result && (
             <div>
               <i className="fas fa-flag-checkered" />
-              <strong>{app.translator.trans('huseyinfiliz-pickem.lib.headers.result')}:</strong> {this.formatResult(result, homeTeam, awayTeam)}
+              {/* GÜNCELLENDİ: headers.result -> common.result */}
+              <strong>{app.translator.trans('huseyinfiliz-pickem.lib.common.result')}:</strong> {this.formatResult(result, homeTeam, awayTeam)}
             </div>
           )}
         </div>
@@ -139,7 +141,8 @@ export default class EventCard extends Component<EventCardAttrs> {
               loading={isLoading}
               disabled={isLoading}
             >
-              {homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.forum.picks.home')}
+              {/* GÜNCELLENDİ: forum.picks.home -> lib.common.home */}
+              {homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home')}
             </Button>
 
             {event.allowDraw && event.allowDraw() && (
@@ -149,7 +152,8 @@ export default class EventCard extends Component<EventCardAttrs> {
                 loading={isLoading}
                 disabled={isLoading}
               >
-                {app.translator.trans('huseyinfiliz-pickem.forum.picks.draw')}
+                {/* GÜNCELLENDİ: forum.picks.draw -> lib.common.draw */}
+                {app.translator.trans('huseyinfiliz-pickem.lib.common.draw')}
               </Button>
             )}
 
@@ -159,12 +163,13 @@ export default class EventCard extends Component<EventCardAttrs> {
               loading={isLoading}
               disabled={isLoading}
             >
-              {awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.forum.picks.away')}
+              {/* GÜNCELLENDİ: forum.picks.away -> lib.common.away */}
+              {awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away')}
             </Button>
           </div>
         )}
 
-        {/* Pick Result (DÜZELTİLDİ) */}
+        {/* Pick Result */}
         {pick && !canPick && (
           <div className="EventCard-pick-result">
             {app.translator.trans('huseyinfiliz-pickem.forum.picks.your_pick')}: <strong>{this.formatResult(pick.selectedOutcome(), homeTeam, awayTeam)}</strong>
@@ -213,7 +218,6 @@ export default class EventCard extends Component<EventCardAttrs> {
     );
   }
 
-  // GÜNCELLENDİ: Saat/Dakika formatına geri dönüldü
   getCountdown(cutoffDate: string) {
     try {
       const now = dayjs();
@@ -250,9 +254,10 @@ export default class EventCard extends Component<EventCardAttrs> {
   }
 
   formatResult(result: string, homeTeam: Team | null, awayTeam: Team | null) {
-    if (result === 'home') return homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.forum.picks.home');
-    if (result === 'away') return awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.forum.picks.away');
-    if (result === 'draw') return app.translator.trans('huseyinfiliz-pickem.forum.picks.draw');
+    // GÜNCELLENDİ: forum.picks.* -> lib.common.*
+    if (result === 'home') return homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home');
+    if (result === 'away') return awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away');
+    if (result === 'draw') return app.translator.trans('huseyinfiliz-pickem.lib.common.draw');
     return result;
   }
 }

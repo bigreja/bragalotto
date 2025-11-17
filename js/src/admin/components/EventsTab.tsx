@@ -1,5 +1,4 @@
 import Component from 'flarum/common/Component';
-// GÜNCELLENDİ: extractText import edildi
 import extractText from 'flarum/common/utils/extractText';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Placeholder from 'flarum/common/components/Placeholder';
@@ -81,7 +80,8 @@ export default class EventsTab extends Component {
     const hasEvents = this.events.length > 0;
     const canShowPagination = total > this.limit;
     const totalPages = Math.ceil(total / this.limit);
-    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.models.match');
+    // GÜNCELLENDİ: lib.models -> lib.common
+    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.match');
 
     return (
       <div className="EventsTab">
@@ -104,7 +104,8 @@ export default class EventsTab extends Component {
           <div className="FilterGroup">
             <label>
               <i className="fas fa-calendar-alt" />
-              <span>{app.translator.trans('huseyinfiliz-pickem.lib.models.season')}</span>
+              {/* GÜNCELLENDİ: lib.models.season -> lib.common.season */}
+              <span>{app.translator.trans('huseyinfiliz-pickem.lib.common.season')}</span>
             </label>
             <select
               className="FormControl"
@@ -114,7 +115,7 @@ export default class EventsTab extends Component {
                 this.loadEvents(1);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.models.season') })}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.common.season') })}</option>
               {allSeasons.map((season: any) => (
                 <option value={season.id()} key={season.id()}>{season.name()}</option>
               ))}
@@ -124,7 +125,8 @@ export default class EventsTab extends Component {
           <div className="FilterGroup">
             <label>
               <i className="fas fa-users" />
-              <span>{app.translator.trans('huseyinfiliz-pickem.lib.models.team')}</span>
+              {/* GÜNCELLENDİ: lib.models.team -> lib.common.team */}
+              <span>{app.translator.trans('huseyinfiliz-pickem.lib.common.team')}</span>
             </label>
             <select
               className="FormControl"
@@ -134,7 +136,7 @@ export default class EventsTab extends Component {
                 this.loadEvents(1);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.models.team') })}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.common.team') })}</option>
               {allTeams.map((team: any) => (
                 <option value={team.id()} key={team.id()}>{team.name()}</option>
               ))}
@@ -144,7 +146,8 @@ export default class EventsTab extends Component {
           <div className="FilterGroup">
             <label>
               <i className="fas fa-info-circle" />
-              <span>{app.translator.trans('huseyinfiliz-pickem.lib.headers.status')}</span>
+              {/* GÜNCELLENDİ: lib.headers.status -> lib.common.status */}
+              <span>{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</span>
             </label>
             <select
               className="FormControl"
@@ -154,7 +157,7 @@ export default class EventsTab extends Component {
                 this.loadEvents(1);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.headers.status') })}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.common.status') })}</option>
               <option value="scheduled">{app.translator.trans('huseyinfiliz-pickem.lib.status.scheduled')}</option>
               <option value="closed">{app.translator.trans('huseyinfiliz-pickem.lib.status.closed')}</option>
               <option value="finished">{app.translator.trans('huseyinfiliz-pickem.lib.status.finished')}</option>
@@ -207,11 +210,13 @@ export default class EventsTab extends Component {
           <table className="Table">
             <thead>
               <tr>
-                <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.home')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.away')}</th>
+                {/* GÜNCELLENDİ: headers.home/away -> common.home/away */}
+                <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.home')}</th>
+                <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.away')}</th>
                 <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.match_date')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.status')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.score')}</th>
+                <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</th>
+                {/* GÜNCELLENDİ: headers.score -> common.score */}
+                <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.score')}</th>
                 <th></th>
               </tr>
             </thead>
@@ -313,7 +318,6 @@ export default class EventsTab extends Component {
   }
 
   renderTeamLogo(team: Team | null) {
-    // ... (renderTeamLogo fonksiyonu aynı)
     if (!team) {
       return (
         <div className="TeamLogo TeamLogo--letter" style="background-color: #999">?</div>
@@ -345,8 +349,8 @@ export default class EventsTab extends Component {
   }
 
   deleteEvent(event: PickemEvent) {
-    // GÜNCELLENDİ: `extractText` kullanıldı
-    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.models.match');
+    // GÜNCELLENDİ: lib.models -> lib.common
+    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.match');
     const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm', { resource: resourceName }));
     
     if (confirm(confirmMessage)) {

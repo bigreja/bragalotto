@@ -29,7 +29,6 @@ class EventValidator extends AbstractValidator
             'matchDate' => ['required', 'date'],
             'cutoffDate' => ['required', 'date', 'before:matchDate'],
             'allowDraw' => ['boolean'],
-            // 'cancelled' status removed from validation rule
             'status' => ['string', Rule::in(['scheduled', 'closed', 'finished'])],
             
             'homeScore' => ['nullable', 'integer', 'min:0', 'required_with:awayScore'],
@@ -39,16 +38,17 @@ class EventValidator extends AbstractValidator
 
     protected function getMessages()
     {
-        $prefix = 'huseyinfiliz-pickem.lib.validation.errors.';
+        // GÜNCELLENDİ: Yeni sadeleştirilmiş mesaj yapısı
+        $prefix = 'huseyinfiliz-pickem.lib.messages.';
 
         return [
             'homeTeamId.different' => $prefix . 'same_team',
-            'cutoffDate.before' => $prefix . 'cutoff_before_match',
-            'homeScore.required_with' => $prefix . 'scores_must_be_together',
-            'awayScore.required_with' => $prefix . 'scores_must_be_together',
-            'homeTeamId.exists' => $prefix . 'team_exists',
-            'awayTeamId.exists' => $prefix . 'team_exists',
-            'weekId.exists' => $prefix . 'week_exists',
+            'cutoffDate.before' => $prefix . 'invalid_outcome', 
+            'homeScore.required_with' => $prefix . 'scores_required',
+            'awayScore.required_with' => $prefix . 'scores_required',
+            'homeTeamId.exists' => $prefix . 'invalid_outcome',
+            'awayTeamId.exists' => $prefix . 'invalid_outcome',
+            'weekId.exists' => $prefix . 'invalid_outcome',
         ];
     }
 }

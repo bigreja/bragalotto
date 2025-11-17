@@ -5,9 +5,6 @@ namespace HuseyinFiliz\Pickem\Notification;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use HuseyinFiliz\Pickem\Event;
 
-/**
- * Event result açıklandığında bildirim
- */
 class EventResultBlueprint implements BlueprintInterface
 {
     public $event;
@@ -24,7 +21,7 @@ class EventResultBlueprint implements BlueprintInterface
 
     public function getSender()
     {
-        return null; // Sistem bildirimi
+        return null;
     }
 
     public function getFromUser()
@@ -34,10 +31,14 @@ class EventResultBlueprint implements BlueprintInterface
 
     public function getData()
     {
+        // GÜNCELLENDİ: Sabit 'Home'/'Away' yerine translator kullanımı.
+        // Not: Bu metot email template'lerinde de kullanıldığı için burada çevirmek mantıklıdır.
+        $translator = resolve('translator');
+
         return [
             'eventId' => $this->event->id,
-            'homeTeam' => $this->event->homeTeam ? $this->event->homeTeam->name : 'Home',
-            'awayTeam' => $this->event->awayTeam ? $this->event->awayTeam->name : 'Away',
+            'homeTeam' => $this->event->homeTeam ? $this->event->homeTeam->name : $translator->trans('huseyinfiliz-pickem.lib.common.home'),
+            'awayTeam' => $this->event->awayTeam ? $this->event->awayTeam->name : $translator->trans('huseyinfiliz-pickem.lib.common.away'),
             'result' => $this->event->result,
             'homeScore' => $this->event->home_score,
             'awayScore' => $this->event->away_score,

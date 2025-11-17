@@ -10,9 +10,6 @@ class SeasonValidator extends AbstractValidator
     protected function getRules()
     {
         $id = $this->model ? $this->model->id : null;
-        
-        // 'sometimes' kuralı, bu alanın sadece PATCH isteğinde gönderilirse
-        // doğrulanacağı, POST (create) isteğinde ise zorunlu olduğu anlamına gelir.
         $required = $this->model ? 'sometimes' : 'required';
 
         return [
@@ -26,6 +23,14 @@ class SeasonValidator extends AbstractValidator
             ],
             'startDate' => ['nullable', 'date'],
             'endDate' => ['nullable', 'date', 'after_or_equal:startDate'],
+        ];
+    }
+
+    protected function getMessages()
+    {
+        return [
+            // GÜNCELLENDİ: lib.messages.slug_unique
+            'slug.unique' => 'huseyinfiliz-pickem.lib.messages.slug_unique',
         ];
     }
 }

@@ -59,7 +59,8 @@ export default class PickemPage extends ExtensionPage {
       <div className="PickemPage">
         <div className="container">
           <div className="PickemPage-tabs">
-            {this.renderTab('events', 'fas fa-futbol', app.translator.trans('huseyinfiliz-pickem.lib.nav.events'))}
+            {/* GÜNCELLENDİ: .events -> .matches */}
+            {this.renderTab('events', 'fas fa-futbol', app.translator.trans('huseyinfiliz-pickem.lib.nav.matches'))}
             {this.renderTab('teams', 'fas fa-users', app.translator.trans('huseyinfiliz-pickem.lib.nav.teams'))}
             {this.renderTab('seasons', 'fas fa-calendar-alt', app.translator.trans('huseyinfiliz-pickem.lib.nav.seasons'))}
             {this.renderTab('weeks', 'fas fa-calendar-week', app.translator.trans('huseyinfiliz-pickem.lib.nav.weeks'))}

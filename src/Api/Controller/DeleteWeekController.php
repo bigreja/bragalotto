@@ -19,7 +19,6 @@ class DeleteWeekController extends AbstractDeleteControllerWithRelationCheck
      */
     protected function getRelationName(): string
     {
-        // Week modelindeki 'events' ilişkisinin adı
         return 'events';
     }
 
@@ -28,6 +27,7 @@ class DeleteWeekController extends AbstractDeleteControllerWithRelationCheck
      */
     protected function getErrorMessageKey(): string
     {
-        return 'huseyinfiliz-pickem.lib.validation.errors.week_in_use';
+        // GÜNCELLENDİ: lib.validation.errors.week_in_use -> lib.messages.in_use
+        return 'huseyinfiliz-pickem.lib.messages.in_use';
     }
 }

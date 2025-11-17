@@ -17,12 +17,12 @@ export default class EventResultNotification extends Notification {
       return app.translator.trans('huseyinfiliz-pickem.forum.notification');
     }
 
-    const homeTeam = data.homeTeam ? data.homeTeam().name() : 'Home';
-    const awayTeam = data.awayTeam ? data.awayTeam().name() : 'Away';
+    // GÜNCELLENDİ: Hardcoded stringler yerine çeviri anahtarları
+    const homeTeam = data.homeTeam ? data.homeTeam().name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home');
+    const awayTeam = data.awayTeam ? data.awayTeam().name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away');
     const homeScore = data.homeScore ? data.homeScore() : 0;
     const awayScore = data.awayScore ? data.awayScore() : 0;
 
-    // GÜNCELLENDİ
     return app.translator.trans('huseyinfiliz-pickem.forum.notification', {
       home: homeTeam,
       hScore: homeScore,

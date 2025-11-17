@@ -9,7 +9,6 @@ class TeamValidator extends AbstractValidator
 {
     protected function getRules()
     {
-        // 'id' varsa (güncelleme ise), 'slug' kontrolünde bu ID'yi hariç tut
         $id = $this->model ? $this->model->id : null;
 
         return [
@@ -18,10 +17,18 @@ class TeamValidator extends AbstractValidator
                 'required',
                 'string',
                 'max:100',
-                'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', // Slug formatı (örn: my-new-team)
-                Rule::unique('pickem_teams', 'slug')->ignore($id), // Slug'ın benzersiz olmasını sağla
+                'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
+                Rule::unique('pickem_teams', 'slug')->ignore($id),
             ],
-            'logoPath' => ['nullable', 'string', 'url', 'max:255'], // Geçerli bir URL olmalı
+            'logoPath' => ['nullable', 'string', 'url', 'max:255'],
+        ];
+    }
+
+    protected function getMessages()
+    {
+        return [
+            // GÜNCELLENDİ: lib.messages.slug_unique
+            'slug.unique' => 'huseyinfiliz-pickem.lib.messages.slug_unique',
         ];
     }
 }

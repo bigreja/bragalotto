@@ -131,7 +131,8 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
           <div className="FilterGroup">
             <label>
               <i className="fas fa-calendar-alt" />
-              <span>{app.translator.trans('huseyinfiliz-pickem.lib.models.season')}</span>
+              {/* GÜNCELLENDİ: models.season -> common.season */}
+              <span>{app.translator.trans('huseyinfiliz-pickem.lib.common.season')}</span>
             </label>
             <select
               className="FormControl"
@@ -141,7 +142,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
                 this.loadEvents(1);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.models.season') })}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.common.season') })}</option>
               {allSeasons.map((season: Season) => (
                 <option value={season.id()}>{season.name()}</option>
               ))}
@@ -151,7 +152,8 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
           <div className="FilterGroup">
             <label>
               <i className="fas fa-users" />
-              <span>{app.translator.trans('huseyinfiliz-pickem.lib.models.team')}</span>
+              {/* GÜNCELLENDİ: models.team -> common.team */}
+              <span>{app.translator.trans('huseyinfiliz-pickem.lib.common.team')}</span>
             </label>
             <select
               className="FormControl"
@@ -161,7 +163,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
                 this.loadEvents(1);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.models.team') })}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.common.team') })}</option>
               {allTeams.map((team: Team) => (
                 <option value={team.id()}>{team.name()}</option>
               ))}
@@ -171,7 +173,8 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
           <div className="FilterGroup">
             <label>
               <i className="fas fa-filter" />
-              <span>{app.translator.trans('huseyinfiliz-pickem.lib.headers.status')}</span>
+              {/* GÜNCELLENDİ: headers.status -> common.status */}
+              <span>{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</span>
             </label>
             <select
               className="FormControl"
@@ -181,7 +184,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
                 this.loadEvents(1);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.headers.status') })}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.common.status') })}</option>
               <option value="scheduled">{app.translator.trans('huseyinfiliz-pickem.lib.status.scheduled')}</option>
               <option value="closed">{app.translator.trans('huseyinfiliz-pickem.lib.status.closed')}</option>
               <option value="finished">{app.translator.trans('huseyinfiliz-pickem.lib.status.finished')}</option>
@@ -189,7 +192,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
           </div>
         </div>
 
-        {/* Content (GÜNCELLENDİ) */}
+        {/* Content */}
         {this.loading ? (
           <LoadingIndicator />
         ) : !hasEvents ? (
@@ -213,7 +216,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
           </div>
         )}
 
-        {/* Pagination (GÜNCELLENDİ) */}
+        {/* Pagination */}
         {canShowPagination && !this.loading && (
           <nav className="Pagination">
             <Button

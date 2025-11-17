@@ -40,7 +40,8 @@ class CreatePickController extends AbstractCreateController
 
         if (!$eventId || !$selectedOutcome) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.validation.errors.unauthorized')
+                // GÜNCELLENDİ: unauthorized -> invalid_outcome (veya login_required kullanılabilir ama burası veri eksikliği)
+                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
             ]);
         }
 
@@ -48,20 +49,23 @@ class CreatePickController extends AbstractCreateController
 
         if (!$event->canPick()) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.validation.errors.pick_after_cutoff')
+                // GÜNCELLENDİ: pick_after_cutoff -> cutoff_passed
+                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.cutoff_passed')
             ]);
         }
 
         if ($selectedOutcome === Event::RESULT_DRAW && !$event->allow_draw) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.validation.errors.invalid_outcome')
+                // GÜNCELLENDİ: invalid_outcome (aynı kaldı ama key değişti)
+                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
             ]);
         }
 
         $validOutcomes = [Event::RESULT_HOME, Event::RESULT_AWAY, Event::RESULT_DRAW];
         if (!in_array($selectedOutcome, $validOutcomes)) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.validation.errors.invalid_outcome')
+                // GÜNCELLENDİ: invalid_outcome
+                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
             ]);
         }
 

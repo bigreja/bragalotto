@@ -53,7 +53,8 @@ export default class EventModal extends Modal<IEventModalAttrs> {
   }
 
   title(): string {
-    const resource = app.translator.trans('huseyinfiliz-pickem.lib.models.match');
+    // GÜNCELLENDİ: lib.models -> lib.common
+    const resource = app.translator.trans('huseyinfiliz-pickem.lib.common.match');
     return this.event
       ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit', { resource })
       : app.translator.trans('huseyinfiliz-pickem.lib.actions.create', { resource });
@@ -77,7 +78,8 @@ export default class EventModal extends Modal<IEventModalAttrs> {
       <div className="Modal-body">
         <div className="Form">
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.week')}</label>
+            {/* GÜNCELLENDİ: lib.form.week -> lib.common.week */}
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.common.week')}</label>
             <Select
               className="FormControl"
               value={this.weekId}
@@ -149,7 +151,7 @@ export default class EventModal extends Modal<IEventModalAttrs> {
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.lib.headers.status')}</label>
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</label>
             <Select
               className="FormControl"
               value={this.status}

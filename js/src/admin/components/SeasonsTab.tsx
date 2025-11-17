@@ -2,13 +2,13 @@ import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
 import SeasonModal from './modals/SeasonModal'; 
 import Season from '../../common/models/Season'; 
-// GÜNCELLENDİ: extractText import edildi
 import extractText from 'flarum/common/utils/extractText';
 
 export default class SeasonsTab extends Component {
   view() {
     const seasons = app.store.all('pickem-seasons') as Season[];
-    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.models.season');
+    // GÜNCELLENDİ: lib.models -> lib.common
+    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.season');
 
     return (
       <div className="SeasonsTab">
@@ -32,9 +32,10 @@ export default class SeasonsTab extends Component {
         <table className="Table">
           <thead>
             <tr>
+              {/* GÜNCELLENDİ: lib.headers.name -> lib.headers.name (Zaten lib.headers'da tutuyoruz) */}
               <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}</th>
               <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.slug')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.date')}</th>
+              <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.date')}</th>
               <th></th>
             </tr>
           </thead>
@@ -76,8 +77,8 @@ export default class SeasonsTab extends Component {
   }
 
   deleteSeason(season: Season) {
-    // GÜNCELLENDİ: `extractText` kullanıldı
-    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.models.season');
+    // GÜNCELLENDİ: lib.models -> lib.common
+    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.season');
     const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm', { resource: resourceName }));
 
     if (!confirm(confirmMessage)) {

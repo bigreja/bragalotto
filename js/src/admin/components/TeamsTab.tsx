@@ -2,13 +2,13 @@ import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
 import TeamModal from './modals/TeamModal';
 import Team from '../../common/models/Team';
-// GÜNCELLENDİ: extractText import edildi
 import extractText from 'flarum/common/utils/extractText';
 
 export default class TeamsTab extends Component {
   view() {
     const teams = app.store.all('pickem-teams') as Team[];
-    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.models.team');
+    // GÜNCELLENDİ: lib.models -> lib.common
+    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.team');
 
     return (
       <div className="TeamsTab">
@@ -74,7 +74,6 @@ export default class TeamsTab extends Component {
   }
 
   renderTeamLogo(team: Team) {
-    // ... (renderTeamLogo fonksiyonu aynı)
     const logoUrl = team.logoUrl();
     const teamName = team.name();
     const firstLetter = teamName ? teamName.charAt(0).toUpperCase() : 'T';
@@ -100,8 +99,8 @@ export default class TeamsTab extends Component {
   }
 
   deleteTeam(team: Team) {
-    // GÜNCELLENDİ: `extractText` kullanıldı
-    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.models.team');
+    // GÜNCELLENDİ: lib.models -> lib.common
+    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.team');
     const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm', { resource: resourceName }));
     
     if (!confirm(confirmMessage)) {

@@ -31,7 +31,8 @@ export default class WeekModal extends Modal<IWeekModalAttrs> {
   }
 
   title(): string {
-    const resource = app.translator.trans('huseyinfiliz-pickem.lib.models.week');
+    // GÜNCELLENDİ: lib.models -> lib.common
+    const resource = app.translator.trans('huseyinfiliz-pickem.lib.common.week');
     return this.week
       ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit', { resource })
       : app.translator.trans('huseyinfiliz-pickem.lib.actions.create', { resource });
@@ -58,7 +59,8 @@ export default class WeekModal extends Modal<IWeekModalAttrs> {
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.season')}</label>
+            {/* GÜNCELLENDİ: lib.form.season -> lib.common.season */}
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.common.season')}</label>
             <Select
               className="FormControl"
               value={this.seasonId}

@@ -39,9 +39,10 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
     const away = Number(this.awayScore);
 
     if (this.homeScore !== '' && this.awayScore !== '') {
-      if (home > away) resultText = homeTeam ? homeTeam.name() : 'Home Win';
-      else if (away > home) resultText = awayTeam ? awayTeam.name() : 'Away Win';
-      else resultText = app.translator.trans('huseyinfiliz-pickem.forum.picks.draw');
+      if (home > away) resultText = homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home');
+      else if (away > home) resultText = awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away');
+      // GÜNCELLENDİ: forum.picks.draw -> lib.common.draw
+      else resultText = app.translator.trans('huseyinfiliz-pickem.lib.common.draw');
     }
 
     return (
@@ -76,7 +77,8 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
           {resultText && (
             <div className="Form-group">
               <p>
-                <strong>{app.translator.trans('huseyinfiliz-pickem.lib.headers.result')}: </strong>
+                {/* GÜNCELLENDİ: headers.result -> common.result */}
+                <strong>{app.translator.trans('huseyinfiliz-pickem.lib.common.result')}: </strong>
                 {resultText}
               </p>
             </div>

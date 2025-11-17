@@ -43,7 +43,8 @@ class EnterEventResultController extends AbstractShowController
 
         if ($homeScore === null || $awayScore === null) {
             throw new ValidationException([
-                'scores' => $this->translator->trans('huseyinfiliz-pickem.lib.validation.errors.scores_must_be_together')
+                // GÜNCELLENDİ: scores_must_be_together -> scores_required
+                'scores' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.scores_required')
             ]);
         }
 
