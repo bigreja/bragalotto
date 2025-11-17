@@ -13,32 +13,49 @@ interface IMatchesTabAttrs {
   onPickChange: (picks: Record<string, any>) => void;
 }
 
-export default class MatchesTab extends Component<IMatchesTabAttrs> {
-  private selectedSeason: string = 'all';
-  private selectedTeam: string = 'all';
-  private selectedStatus: string = 'all'; 
+// ✅ GERÇEK ÇÖZÜM: Static cache flag - Component instance'ından bağımsız
+// Bu sayede component unmount/mount olsa bile cache korunur
+const CACHE = {
+  hasLoadedOnce: false,
+  events: [] as PickemEvent[],
+  totalEvents: 0,
+  page: 1,
+  selectedSeason: 'all',
+  selectedTeam: 'all',
+  selectedStatus: 'all',
+};
 
-  private loading: boolean = false; // ✅ Default false
-  private events: PickemEvent[] = [];
+export default class MatchesTab extends Component<IMatchesTabAttrs> {
+  private selectedSeason: string = CACHE.selectedSeason;
+  private selectedTeam: string = CACHE.selectedTeam;
+  private selectedStatus: string = CACHE.selectedStatus;
+
+  private loading: boolean = false;
+  private events: PickemEvent[] = CACHE.events;
   
-  private totalEvents: number = 0;
-  private page: number = 1; 
-  private limit: number = 10; 
+  private totalEvents: number = CACHE.totalEvents;
+  private page: number = CACHE.page;
+  private limit: number = 10;
 
   private pickLoading: Set<number> = new Set();
   
   private picks: Record<string, any>;
-  
-  // ✅ YENİ: İlk yükleme yapıldı mı?
-  private hasLoadedOnce: boolean = false;
 
   oninit(vnode: any) {
     super.oninit(vnode);
     this.picks = this.attrs.picks;
     
-    // ✅ YENİ: Sadece ilk seferinde yükle
-    if (!this.hasLoadedOnce) {
-      this.hasLoadedOnce = true;
+    // ✅ Static cache'den state'i geri yükle
+    this.events = CACHE.events;
+    this.totalEvents = CACHE.totalEvents;
+    this.page = CACHE.page;
+    this.selectedSeason = CACHE.selectedSeason;
+    this.selectedTeam = CACHE.selectedTeam;
+    this.selectedStatus = CACHE.selectedStatus;
+    
+    // ✅ Sadece ilk seferinde yükle
+    if (!CACHE.hasLoadedOnce) {
+      CACHE.hasLoadedOnce = true;
       this.loading = true;
       this.loadEvents(1);
     }
@@ -69,6 +86,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
   loadEvents(page: number = 1) {
     this.loading = true;
     this.page = page;
+    CACHE.page = page; // ✅ Cache'i güncelle
     m.redraw();
 
     const filters = this.buildFilters();
@@ -82,6 +100,10 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
     }).then((results: any) => {
       this.events = results as PickemEvent[];
       this.totalEvents = results.payload.meta.total;
+      
+      // ✅ Cache'i güncelle
+      CACHE.events = this.events;
+      CACHE.totalEvents = this.totalEvents;
     }).catch(error => {
       console.error(error);
     }).finally(() => {
@@ -90,36 +112,37 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
     });
   }
 
-  async makePick(eventId: number, selectedOutcome: string) {
-    const idStr = String(eventId);
-    const existingPick = this.picks[idStr];
+  async makePick(eventId: number, outcome: string) {
+    const eventIdStr = String(eventId);
+    const existingPick = this.picks[eventIdStr];
 
     this.pickLoading.add(eventId);
     m.redraw();
 
     try {
-      if (existingPick && existingPick.selectedOutcome() === selectedOutcome) {
+      if (existingPick && existingPick.selectedOutcome() === outcome) {
         await existingPick.delete();
-        delete this.picks[idStr];
+        delete this.picks[eventIdStr];
         this.attrs.onPickChange(this.picks);
         app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.success.pick_deleted'));
       } else if (existingPick) {
-        const updated = await existingPick.save({ selectedOutcome });
-        this.picks[idStr] = updated;
+        const updated = await existingPick.save({ selectedOutcome: outcome });
+        this.picks[eventIdStr] = updated;
         this.attrs.onPickChange(this.picks);
         app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.success.pick_updated'));
       } else {
-        const newPick = await app.store.createRecord('pickem-picks').save({ eventId, selectedOutcome });
-        this.picks[idStr] = newPick;
+        const newPick = app.store.createRecord('pickem-picks', { eventId: eventId });
+        const saved = await newPick.save({ selectedOutcome: outcome });
+        this.picks[eventIdStr] = saved;
         this.attrs.onPickChange(this.picks);
-        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.success.pick_created'));
+        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.success.pick_saved'));
       }
     } catch (error: any) {
-      console.error('Error making/deleting pick:', error);
-      if (error && error.alert) {
-        app.alerts.show(error.alert);
+      console.error('Pick error:', error);
+      if (error.response && error.response.errors && error.response.errors[0]) {
+        app.alerts.show({ type: 'error' }, error.response.errors[0].detail);
       } else {
-        app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.errors.unauthorized'));
+        app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.error.pick_failed'));
       }
     } finally {
       this.pickLoading.delete(eventId);
@@ -148,6 +171,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
               value={this.selectedSeason}
               onchange={(e: any) => {
                 this.selectedSeason = e.target.value;
+                CACHE.selectedSeason = e.target.value; // ✅ Cache güncelle
                 this.loadEvents(1);
               }}
             >
@@ -168,6 +192,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
               value={this.selectedTeam}
               onchange={(e: any) => {
                 this.selectedTeam = e.target.value;
+                CACHE.selectedTeam = e.target.value; // ✅ Cache güncelle
                 this.loadEvents(1);
               }}
             >
@@ -188,6 +213,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
               value={this.selectedStatus}
               onchange={(e: any) => {
                 this.selectedStatus = e.target.value;
+                CACHE.selectedStatus = e.target.value; // ✅ Cache güncelle
                 this.loadEvents(1);
               }}
             >
@@ -206,17 +232,24 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
           <Placeholder text={app.translator.trans('huseyinfiliz-pickem.forum.matches.no_matches')} />
         ) : (
           <div className="MatchesList">
-            {this.events.map((event) => {
-              const idStr = String(event.id());
-              const pick = this.picks[idStr];
+            {this.events.map((event: PickemEvent) => {
+              const eventIdStr = String(event.id());
+              const pick = this.picks[eventIdStr];
               const isLoading = this.pickLoading.has(Number(event.id()));
 
-              return <EventCard event={event} pick={pick} onMakePick={(id, out) => this.makePick(id, out)} isLoading={isLoading} />;
+              return (
+                <EventCard
+                  event={event}
+                  pick={pick}
+                  onMakePick={(eventId, outcome) => this.makePick(eventId, outcome)}
+                  isLoading={isLoading}
+                />
+              );
             })}
           </div>
         )}
 
-        {/* Sayfalama */}
+        {/* Pagination */}
         {canShowPagination && !this.loading && (
           <nav className="Pagination">
             <Button
@@ -224,19 +257,15 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
               icon="fas fa-chevron-left"
               disabled={this.page === 1}
               onclick={() => {
-                if (this.page > 1) {
-                  this.loadEvents(this.page - 1);
-                }
+                if (this.page > 1) this.loadEvents(this.page - 1);
               }}
             />
-            
             <span className="Pagination-info">
               {app.translator.trans('huseyinfiliz-pickem.forum.pagination.page_info', {
                 current: this.page,
-                total: Math.ceil(this.totalEvents / this.limit)
+                total: Math.ceil(this.totalEvents / this.limit),
               })}
             </span>
-
             <Button
               className="Button Pagination-button Pagination-next"
               icon="fas fa-chevron-right"

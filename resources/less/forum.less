@@ -1,4 +1,4 @@
-// Forum styles for Pick'em extension - NİHAİ SÜRÜM + HERO (Düzeltilmiş)
+// Forum styles for Pick'em extension - NİHAİ SÜRÜM + YENİ TAB SİSTEMİ
 
 // ============================================
 // VARIABLES
@@ -27,14 +27,27 @@
 	}
   
   // ============================================
-  // TABS - Flarum Native Style
+  // TABS - Flarum Native Style + YENİ SİSTEM
   // ============================================
   
   .PickemPage-tabs {
     display: flex;
     gap: 0;
     margin-bottom: 20px;
-    border-bottom: 1px solid var(--control-bg-shaded); 
+    border-bottom: 1px solid var(--control-bg-shaded);
+    
+    // ✅ YENİ: Mobile horizontal scroll
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+    
+    // ✅ YENİ: Scrollbar gizle (işlevsellik korunur)
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     .Button.PickemPage-tab {
       background: transparent;
@@ -46,7 +59,11 @@
       color: var(--muted-color);
       transition: color 0.2s;
       position: relative;
-      margin-bottom: -1px; 
+      margin-bottom: -1px;
+      
+      // ✅ YENİ: Mobile optimization
+      white-space: nowrap;
+      flex-shrink: 0;
 
       &:hover {
         color: var(--link-color);
@@ -66,9 +83,81 @@
           background: var(--link-color);
         }
       }
+      
+      // ✅ YENİ: Mobile styling
+      @media @phone-down {
+        padding: 10px 12px;
+        font-size: 13px;
+      }
+      
+      // ✅ YENİ: Accessibility
+      &:focus-visible {
+        outline: 2px solid var(--link-color);
+        outline-offset: -2px;
+        z-index: 1;
+      }
+      
+      &:active {
+        transform: translateY(1px);
+      }
+    }
+    
+    // ✅ YENİ: Mobile scroll indicator
+    @media @phone-down {
+      &::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 30px;
+        background: linear-gradient(
+          to right, 
+          transparent, 
+          var(--body-bg) 90%
+        );
+        pointer-events: none;
+      }
     }
   }
 
+  // ============================================
+  // ✅ YENİ: TAB CONTENT CONTAINER
+  // ============================================
+  .PickemPage-tabContent {
+    position: relative;
+    margin-top: 20px;
+  }
+
+  /**
+   * ✅ YENİ: TAB PANE SYSTEM - CORE PATTERN
+   * Tüm tab'ler DOM'da kalır, CSS ile toggle edilir
+   * Component lifecycle KORUNUR, state kaybolmaz
+   */
+  .PickemPage-tabPane {
+    display: none; // Default: gizli
+    
+    &.active {
+      display: block; // Sadece active gösterilir
+    }
+    
+    // ✅ YENİ: Smooth transition
+    animation: fadeInTab 0.2s ease-in;
+  }
+  
+  // ✅ YENİ: Fade animation
+  @keyframes fadeInTab {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  // ESKİ .PickemPage-tab-content class'ı da uyumluluk için bırakılabilir
   .PickemPage-tab-content {
     margin-top: 20px;
   }
@@ -737,9 +826,6 @@
     }
 
     .PickemPage-tabs {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-
       .Button {
         flex-shrink: 0;
         padding: 10px 14px;

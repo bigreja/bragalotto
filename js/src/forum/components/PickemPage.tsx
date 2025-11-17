@@ -4,11 +4,17 @@ import extractText from 'flarum/common/utils/extractText';
 import MatchesTab from './MatchesTab';
 import MyPicksTab from './MyPicksTab';
 import LeaderboardTab from './LeaderboardTab';
-
-// Flarum'un ana sayfa bileşenini ve link listeleme yardımcısını import et
 import IndexPage from 'flarum/forum/components/IndexPage';
 import listItems from 'flarum/common/helpers/listItems';
 
+/**
+ * ✅ FLARUM STANDARD PATTERN:
+ * - Tüm tab'ler başta oluşturulur (tek seferde render)
+ * - URL routing YOK (pure state management)
+ * - CSS display: none/block ile toggle
+ * - Component lifecycle KORUNUR
+ * - NO gereksiz API çağrısı
+ */
 export default class PickemPage extends Page {
   private activeTab: string = 'matches';
   private loading: boolean = true;
@@ -24,8 +30,8 @@ export default class PickemPage extends Page {
       return;
     }
 
-    // URL'den tab parametresini al
-    this.activeTab = (m.route && m.route.param && m.route.param('tab')) || 'matches';
+    // ✅ URL routing YOK - Her zaman 'matches' ile başla
+    this.activeTab = 'matches';
     
     this.loading = true;
     this.picks = {};
@@ -132,6 +138,7 @@ export default class PickemPage extends Page {
             </nav>
             <div className="IndexPage-results sideNavOffset">
               
+              {/* ✅ Tab Navigation - Basit button'lar, URL routing yok */}
               <div className="PickemPage-tabs">
                 {this.renderTab('matches', app.translator.trans('huseyinfiliz-pickem.forum.nav.matches'))}
                 
@@ -141,7 +148,14 @@ export default class PickemPage extends Page {
                 {this.renderTab('leaderboard', app.translator.trans('huseyinfiliz-pickem.forum.nav.leaderboard'))}
               </div>
 
-              {this.loading ? <LoadingIndicator /> : <div className="PickemPage-tab-content">{this.renderTabContent()}</div>}
+              {/* ✅ Tab Content - TÜM TAB'LER TEK SEFERDE RENDER EDİLİR */}
+              {this.loading ? (
+                <LoadingIndicator />
+              ) : (
+                <div className="PickemPage-tabContent">
+                  {this.renderAllTabs()}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -149,17 +163,21 @@ export default class PickemPage extends Page {
     );
   }
 
-  renderTab(tab: string, label: string) {
-    const active = this.activeTab === tab;
+  /**
+   * ✅ FLARUM PATTERN: Basit onclick handler
+   * - Sadece state değişimi
+   * - NO URL routing
+   * - NO m.redraw() (Mithril otomatik handle eder)
+   */
+  renderTab(tabId: string, label: string) {
+    const active = this.activeTab === tabId;
+    
     return (
       <button
         className={`Button Button--flat PickemPage-tab ${active ? 'active' : ''}`}
         onclick={() => {
-          this.activeTab = tab;
-          // URL'i güncelle (browser back/forward desteği için)
-          const currentRoute = m.route.get().split('?')[0];
-          m.route.set(currentRoute, { tab: tab }, { replace: true });
-          m.redraw();
+          this.activeTab = tabId;
+          // ✅ Sadece state değişimi - başka hiçbir şey
         }}
       >
         {label}
@@ -167,26 +185,49 @@ export default class PickemPage extends Page {
     );
   }
 
-  renderTabContent() {
-    // ✅ Switch/case ile render - AMA tab component'leri kendi cache'lerini yönetiyor
-    switch (this.activeTab) {
-      case 'matches':
-        return this.filterDataLoaded ? (
-          <MatchesTab
-            picks={this.picks}
-            onPickChange={(picks: Record<string, any>) => { this.picks = picks; }} 
-          />
-        ) : <LoadingIndicator />;
-      
-      case 'my_picks':
-        if (!app.session.user || !app.forum.attribute('pickem.makePicks')) return null;
-        return <MyPicksTab picks={this.picks} />;
-      
-      case 'leaderboard':
-        return <LeaderboardTab userScores={this.userScores} />;
-      
-      default:
-        return null;
-    }
+  /**
+   * ✅ CORE PATTERN: Tüm tab'leri tek seferde render et
+   * - Her tab bir .PickemPage-tabPane içinde
+   * - CSS ile display: none/block toggle
+   * - Component'ler DOM'da kalır, unmount olmazlar
+   * - State, filters, pagination HER ŞEY KORUNUR
+   */
+  renderAllTabs() {
+    return (
+      <>
+        {/* ==================== MATCHES TAB ==================== */}
+        <div 
+          className={`PickemPage-tabPane ${this.activeTab === 'matches' ? 'active' : ''}`}
+          data-tab="matches"
+        >
+          {this.filterDataLoaded && (
+            <MatchesTab
+              picks={this.picks}
+              onPickChange={(picks: Record<string, any>) => { 
+                this.picks = picks; 
+              }}
+            />
+          )}
+        </div>
+        
+        {/* ==================== MY PICKS TAB ==================== */}
+        {app.session.user && app.forum.attribute('pickem.makePicks') && (
+          <div 
+            className={`PickemPage-tabPane ${this.activeTab === 'my_picks' ? 'active' : ''}`}
+            data-tab="my_picks"
+          >
+            <MyPicksTab picks={this.picks} />
+          </div>
+        )}
+        
+        {/* ==================== LEADERBOARD TAB ==================== */}
+        <div 
+          className={`PickemPage-tabPane ${this.activeTab === 'leaderboard' ? 'active' : ''}`}
+          data-tab="leaderboard"
+        >
+          <LeaderboardTab userScores={this.userScores} />
+        </div>
+      </>
+    );
   }
 }
