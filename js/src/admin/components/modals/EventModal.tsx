@@ -156,9 +156,9 @@ export default class EventModal extends Modal<IEventModalAttrs> {
               value={this.status}
               onchange={(value: string) => { this.status = value; }}
               options={{
-                scheduled: app.translator.trans('huseyinfiliz-pickem.admin.status.scheduled'),
-                closed: app.translator.trans('huseyinfiliz-pickem.admin.status.closed'),
-                finished: app.translator.trans('huseyinfiliz-pickem.admin.status.finished'),
+                scheduled: app.translator.trans('huseyinfiliz-pickem.lib.status.scheduled'),
+                closed: app.translator.trans('huseyinfiliz-pickem.lib.status.closed'),
+                finished: app.translator.trans('huseyinfiliz-pickem.lib.status.finished'),
               }}
             />
           </div>
@@ -169,7 +169,7 @@ export default class EventModal extends Modal<IEventModalAttrs> {
               type="submit"
               loading={this.loading}
             >
-              {app.translator.trans('huseyinfiliz-pickem.admin.buttons.save')}
+              {app.translator.trans('huseyinfiliz-pickem.lib.buttons.save')}
             </Button>
           </div>
         </div>

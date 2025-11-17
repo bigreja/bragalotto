@@ -102,7 +102,7 @@ export default class SeasonModal extends Modal<ISeasonModalAttrs> {
               type="submit"
               loading={this.loading}
             >
-              {app.translator.trans('huseyinfiliz-pickem.admin.buttons.save')}
+              {app.translator.trans('huseyinfiliz-pickem.lib.buttons.save')}
             </Button>
           </div>
         </div>

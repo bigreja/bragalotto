@@ -52,14 +52,14 @@ export default class WeeksTab extends Component {
                         onsave: () => m.redraw() // Düzenledikten sonra listeyi yenile
                       })}
                     >
-                      {app.translator.trans('huseyinfiliz-pickem.admin.buttons.edit')}
+                      {app.translator.trans('huseyinfiliz-pickem.lib.buttons.edit')}
                     </Button>
                     <Button
                       className="Button Button--danger"
                       icon="fas fa-trash"
                       onclick={() => this.deleteWeek(week)}
                     >
-                      {app.translator.trans('huseyinfiliz-pickem.admin.buttons.delete')}
+                      {app.translator.trans('huseyinfiliz-pickem.lib.buttons.delete')}
                     </Button>
                   </td>
                 </tr>

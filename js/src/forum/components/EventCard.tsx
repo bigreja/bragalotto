@@ -74,23 +74,23 @@ export default class EventCard extends Component<EventCardAttrs> {
       <div className="EventCard">
         {/* Status Badge */}
         <div className={`EventCard-status ${status}`}>
-          {status === 'scheduled' && '🟢 Live'}
-          {status === 'closed' && '🔴 Closed'}
-          {status === 'finished' && '⚫ Finished'}
+          {status === 'scheduled' && `🟢 ${app.translator.trans('huseyinfiliz-pickem.lib.status.scheduled')}`}
+          {status === 'closed' && `🔴 ${app.translator.trans('huseyinfiliz-pickem.lib.status.closed')}`}
+          {status === 'finished' && `⚫ ${app.translator.trans('huseyinfiliz-pickem.lib.status.finished')}`}
         </div>
 
         {/* Teams */}
         <div className="EventCard-teams">
           <div className="team-container">
             {this.renderTeamLogo(homeTeam)}
-            <div className="team-name">{homeTeam ? homeTeam.name() : 'Home Team'}</div>
+            <div className="team-name">{homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home_team')}</div>
           </div>
 
-          <div className="vs">VS</div>
+          <div className="vs">{app.translator.trans('huseyinfiliz-pickem.forum.event.vs')}</div>
 
           <div className="team-container">
             {this.renderTeamLogo(awayTeam)}
-            <div className="team-name">{awayTeam ? awayTeam.name() : 'Away Team'}</div>
+            <div className="team-name">{awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away_team')}</div>
           </div>
         </div>
 
@@ -107,11 +107,11 @@ export default class EventCard extends Component<EventCardAttrs> {
         <div className="EventCard-info">
           <div>
             <i className="fas fa-calendar" />
-            <strong>Match:</strong> {matchDate}
+            <strong>{app.translator.trans('huseyinfiliz-pickem.forum.event.match_date')}:</strong> {matchDate}
           </div>
           <div>
             <i className="fas fa-clock" />
-            <strong>Cutoff:</strong> {cutoffDate}
+            <strong>{app.translator.trans('huseyinfiliz-pickem.forum.event.cutoff_date')}:</strong> {cutoffDate}
           </div>
           {countdown && canPick && (
             <div>
@@ -124,7 +124,7 @@ export default class EventCard extends Component<EventCardAttrs> {
           {result && (
             <div>
               <i className="fas fa-flag-checkered" />
-              <strong>Result:</strong> {this.formatResult(result, homeTeam, awayTeam)}
+              <strong>{app.translator.trans('huseyinfiliz-pickem.lib.common.result')}:</strong> {this.formatResult(result, homeTeam, awayTeam)}
             </div>
           )}
         </div>
@@ -133,35 +133,32 @@ export default class EventCard extends Component<EventCardAttrs> {
         {app.session.user && canPick && (
           <div className="EventCard-picks">
             <Button
-              // *** DÜZELTME BURADA: Temel .Button sınıfı hep var ***
               className={`Button ${pick && typeof pick.selectedOutcome === 'function' && pick.selectedOutcome() === 'home' ? 'Button--pickem-selected' : ''}`}
               onclick={() => onMakePick(Number(event.id()), 'home')}
               loading={isLoading}
               disabled={isLoading}
             >
-              {homeTeam ? homeTeam.name() : 'Home'}
+              {homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home_team')}
             </Button>
 
             {event.allowDraw && event.allowDraw() && (
               <Button
-                // *** DÜZELTME BURADA: Temel .Button sınıfı hep var ***
                 className={`Button ${pick && typeof pick.selectedOutcome === 'function' && pick.selectedOutcome() === 'draw' ? 'Button--pickem-selected' : ''}`}
                 onclick={() => onMakePick(Number(event.id()), 'draw')}
                 loading={isLoading}
                 disabled={isLoading}
               >
-                Draw
+                {app.translator.trans('huseyinfiliz-pickem.forum.picks.draw')}
               </Button>
             )}
 
             <Button
-              // *** DÜZELTME BURADA: Temel .Button sınıfı hep var ***
               className={`Button ${pick && typeof pick.selectedOutcome === 'function' && pick.selectedOutcome() === 'away' ? 'Button--pickem-selected' : ''}`}
               onclick={() => onMakePick(Number(event.id()), 'away')}
               loading={isLoading}
               disabled={isLoading}
             >
-              {awayTeam ? awayTeam.name() : 'Away'}
+              {awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away_team')}
             </Button>
           </div>
         )}
@@ -169,9 +166,13 @@ export default class EventCard extends Component<EventCardAttrs> {
         {/* Pick Result */}
         {pick && !canPick && (
           <div className="EventCard-pick-result">
-            Your pick: <strong>{this.formatResult(pick.selectedOutcome(), homeTeam, awayTeam)}</strong>
+            {app.translator.trans('huseyinfiliz-pickem.forum.picks.your_pick')}: <strong>{this.formatResult(pick.selectedOutcome(), homeTeam, awayTeam)}</strong>
             {pick.isCorrect && typeof pick.isCorrect === 'function' && pick.isCorrect() !== null && (
-              <span className={pick.isCorrect() ? 'correct' : 'incorrect'}>{pick.isCorrect() ? ' ✓ Correct' : ' ✗ Incorrect'}</span>
+              <span className={pick.isCorrect() ? 'correct' : 'incorrect'}>
+                {pick.isCorrect() 
+                  ? ` ✓ ${app.translator.trans('huseyinfiliz-pickem.forum.picks.correct')}` 
+                  : ` ✗ ${app.translator.trans('huseyinfiliz-pickem.forum.picks.incorrect')}`}
+              </span>
             )}
           </div>
         )}
@@ -189,7 +190,7 @@ export default class EventCard extends Component<EventCardAttrs> {
     }
 
     const logoUrl = typeof team.logoUrl === 'function' ? team.logoUrl() : null;
-    const teamName = typeof team.name === 'function' ? team.name() : 'Team';
+    const teamName = typeof team.name === 'function' ? team.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.unknown_user');
 
     if (logoUrl) {
       return (
@@ -225,21 +226,21 @@ export default class EventCard extends Component<EventCardAttrs> {
 
       if (hours < 1) {
         return {
-          text: `${minutes}m remaining`,
+          text: app.translator.trans('huseyinfiliz-pickem.lib.common.time_remaining_minutes', { minutes }),
           urgent: minutes < 30,
         };
       }
 
       if (hours < 24) {
         return {
-          text: `${hours}h ${minutes}m remaining`,
+          text: app.translator.trans('huseyinfiliz-pickem.lib.common.time_remaining_hours', { hours, minutes }),
           urgent: hours < 2,
         };
       }
 
       const days = Math.floor(hours / 24);
       return {
-        text: `${days}d remaining`,
+        text: app.translator.trans('huseyinfiliz-pickem.lib.common.time_remaining_days', { days }),
         urgent: false,
       };
     } catch {
@@ -248,9 +249,9 @@ export default class EventCard extends Component<EventCardAttrs> {
   }
 
   formatResult(result: string, homeTeam: Team | null, awayTeam: Team | null) {
-    if (result === 'home') return homeTeam ? homeTeam.name() : 'Home';
-    if (result === 'away') return awayTeam ? awayTeam.name() : 'Away';
-    if (result === 'draw') return 'Draw';
+    if (result === 'home') return homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home_team');
+    if (result === 'away') return awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away_team');
+    if (result === 'draw') return app.translator.trans('huseyinfiliz-pickem.forum.picks.draw');
     return result;
   }
 }

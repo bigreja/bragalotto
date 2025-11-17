@@ -13,28 +13,16 @@ interface IMatchesTabAttrs {
   onPickChange: (picks: Record<string, any>) => void;
 }
 
-// ✅ GERÇEK ÇÖZÜM: Static cache flag - Component instance'ından bağımsız
-// Bu sayede component unmount/mount olsa bile cache korunur
-const CACHE = {
-  hasLoadedOnce: false,
-  events: [] as PickemEvent[],
-  totalEvents: 0,
-  page: 1,
-  selectedSeason: 'all',
-  selectedTeam: 'all',
-  selectedStatus: 'all',
-};
-
 export default class MatchesTab extends Component<IMatchesTabAttrs> {
-  private selectedSeason: string = CACHE.selectedSeason;
-  private selectedTeam: string = CACHE.selectedTeam;
-  private selectedStatus: string = CACHE.selectedStatus;
+  private selectedSeason: string = 'all';
+  private selectedTeam: string = 'all';
+  private selectedStatus: string = 'all';
 
   private loading: boolean = false;
-  private events: PickemEvent[] = CACHE.events;
+  private events: PickemEvent[] = [];
   
-  private totalEvents: number = CACHE.totalEvents;
-  private page: number = CACHE.page;
+  private totalEvents: number = 0;
+  private page: number = 1;
   private limit: number = 10;
 
   private pickLoading: Set<number> = new Set();
@@ -45,20 +33,8 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
     super.oninit(vnode);
     this.picks = this.attrs.picks;
     
-    // ✅ Static cache'den state'i geri yükle
-    this.events = CACHE.events;
-    this.totalEvents = CACHE.totalEvents;
-    this.page = CACHE.page;
-    this.selectedSeason = CACHE.selectedSeason;
-    this.selectedTeam = CACHE.selectedTeam;
-    this.selectedStatus = CACHE.selectedStatus;
-    
-    // ✅ Sadece ilk seferinde yükle
-    if (!CACHE.hasLoadedOnce) {
-      CACHE.hasLoadedOnce = true;
-      this.loading = true;
-      this.loadEvents(1);
-    }
+    // İlk yükleme
+    this.loadEvents(1);
   }
 
   buildFilters() {
@@ -86,7 +62,6 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
   loadEvents(page: number = 1) {
     this.loading = true;
     this.page = page;
-    CACHE.page = page; // ✅ Cache'i güncelle
     m.redraw();
 
     const filters = this.buildFilters();
@@ -100,10 +75,6 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
     }).then((results: any) => {
       this.events = results as PickemEvent[];
       this.totalEvents = results.payload.meta.total;
-      
-      // ✅ Cache'i güncelle
-      CACHE.events = this.events;
-      CACHE.totalEvents = this.totalEvents;
     }).catch(error => {
       console.error(error);
     }).finally(() => {
@@ -135,14 +106,14 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
         const saved = await newPick.save({ selectedOutcome: outcome });
         this.picks[eventIdStr] = saved;
         this.attrs.onPickChange(this.picks);
-        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.success.pick_saved'));
+        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.success.pick_created'));
       }
     } catch (error: any) {
       console.error('Pick error:', error);
       if (error.response && error.response.errors && error.response.errors[0]) {
         app.alerts.show({ type: 'error' }, error.response.errors[0].detail);
       } else {
-        app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.error.pick_failed'));
+        app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.errors.pick_failed'));
       }
     } finally {
       this.pickLoading.delete(eventId);
@@ -171,7 +142,6 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
               value={this.selectedSeason}
               onchange={(e: any) => {
                 this.selectedSeason = e.target.value;
-                CACHE.selectedSeason = e.target.value; // ✅ Cache güncelle
                 this.loadEvents(1);
               }}
             >
@@ -192,7 +162,6 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
               value={this.selectedTeam}
               onchange={(e: any) => {
                 this.selectedTeam = e.target.value;
-                CACHE.selectedTeam = e.target.value; // ✅ Cache güncelle
                 this.loadEvents(1);
               }}
             >
@@ -213,14 +182,13 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
               value={this.selectedStatus}
               onchange={(e: any) => {
                 this.selectedStatus = e.target.value;
-                CACHE.selectedStatus = e.target.value; // ✅ Cache güncelle
                 this.loadEvents(1);
               }}
             >
               <option value="all">{app.translator.trans('huseyinfiliz-pickem.forum.filters.all')}</option>
-              <option value="scheduled">{app.translator.trans('huseyinfiliz-pickem.admin.events.status_scheduled')}</option>
-              <option value="closed">{app.translator.trans('huseyinfiliz-pickem.admin.events.status_closed')}</option>
-              <option value="finished">{app.translator.trans('huseyinfiliz-pickem.admin.events.status_finished')}</option>
+              <option value="scheduled">{app.translator.trans('huseyinfiliz-pickem.lib.status.scheduled')}</option>
+              <option value="closed">{app.translator.trans('huseyinfiliz-pickem.lib.status.closed')}</option>
+              <option value="finished">{app.translator.trans('huseyinfiliz-pickem.lib.status.finished')}</option>
             </select>
           </div>
         </div>

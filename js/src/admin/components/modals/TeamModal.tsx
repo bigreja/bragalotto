@@ -94,7 +94,7 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
               type="submit"
               loading={this.loading}
             >
-              {app.translator.trans('huseyinfiliz-pickem.admin.buttons.save')}
+              {app.translator.trans('huseyinfiliz-pickem.lib.buttons.save')}
             </Button>
           </div>
         </div>

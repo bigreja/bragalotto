@@ -89,7 +89,7 @@ export default class WeekModal extends Modal<IWeekModalAttrs> {
               type="submit"
               loading={this.loading}
             >
-              {app.translator.trans('huseyinfiliz-pickem.admin.buttons.save')}
+              {app.translator.trans('huseyinfiliz-pickem.lib.buttons.save')}
             </Button>
           </div>
         </div>

@@ -36,29 +36,25 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
           const user = score && (typeof score.user === 'function' ? score.user() : score.user);
           const totalPoints = typeof score.totalPoints === 'function' ? score.totalPoints() : score.totalPoints;
           const correctPicks = typeof score.correctPicks === 'function' ? score.correctPicks() : score.correctPicks;
-          // DÜZELTME: Manuel 'accuracy' hesaplaması kaldırıldı.
-          // const totalPicks = typeof score.totalPicks === 'function' ? score.totalPicks() : score.totalPicks;
-          // const accuracy = totalPicks > 0 ? ((correctPicks / totalPicks) * 100).toFixed(1) : '0.0';
 
           return (
             <div className={`Podium-card ${positions[index]}`} key={index}>
               <div className="medal">{medals[index]}</div>
               <div className="rank">#{index + 1}</div>
               <div className="username">
-                {user ? (typeof user.displayName === 'function' ? user.displayName() : user.displayName) : 'Unknown'}
+                {user ? (typeof user.displayName === 'function' ? user.displayName() : user.displayName) : app.translator.trans('huseyinfiliz-pickem.lib.common.unknown_user')}
               </div>
               <div className="points">
                 {totalPoints}
-                <small>pts</small>
+                <small>{app.translator.trans('huseyinfiliz-pickem.lib.common.pts')}</small>
               </div>
               <div className="stats">
                 <div className="stat">
-                  <div className="label">Correct</div>
+                  <div className="label">{app.translator.trans('huseyinfiliz-pickem.lib.common.correct')}</div>
                   <div className="value">{correctPicks}</div>
                 </div>
                 <div className="stat">
-                  <div className="label">Accuracy</div>
-                  {/* DÜZELTME: API'den gelen 'accuracy' verisi kullanıldı */}
+                  <div className="label">{app.translator.trans('huseyinfiliz-pickem.lib.common.accuracy')}</div>
                   <div className="value">{score.accuracy()}%</div>
                 </div>
               </div>
@@ -74,12 +70,12 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
       <table className="LeaderboardTable">
         <thead>
           <tr>
-            <th>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.rank')}</th>
+            <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.rank')}</th>
             <th>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.player')}</th>
-            <th>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.points')}</th>
-            <th>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.correct')}</th>
-            <th>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.total')}</th>
-            <th>{app.translator.trans('huseyinfiliz-pickem.forum.leaderboard.accuracy')}</th>
+            <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.points')}</th>
+            <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.correct')}</th>
+            <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.total')}</th>
+            <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.accuracy')}</th>
           </tr>
         </thead>
         <tbody>
@@ -90,21 +86,18 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
             const totalPoints = typeof score.totalPoints === 'function' ? score.totalPoints() : score.totalPoints;
             const correctPicks = typeof score.correctPicks === 'function' ? score.correctPicks() : score.correctPicks;
             const totalPicks = typeof score.totalPicks === 'function' ? score.totalPicks() : score.totalPicks;
-            // DÜZELTME: Manuel 'accuracy' hesaplaması kaldırıldı.
-            // const accuracy = totalPicks > 0 ? ((correctPicks / totalPicks) * 100).toFixed(1) : '0.0';
 
             return (
               <tr key={String(scoreId)} className={index < 3 ? `top-${index + 1}` : ''}>
                 <td>{index + 1}</td>
                 <td>
                   <strong>
-                    {user ? (typeof user.displayName === 'function' ? user.displayName() : user.displayName) : 'Unknown'}
+                    {user ? (typeof user.displayName === 'function' ? user.displayName() : user.displayName) : app.translator.trans('huseyinfiliz-pickem.lib.common.unknown_user')}
                   </strong>
                 </td>
                 <td><strong>{totalPoints}</strong></td>
                 <td>{correctPicks}</td>
                 <td>{totalPicks}</td>
-                {/* DÜZELTME: API'den gelen 'accuracy' verisi kullanıldı */}
                 <td>{score.accuracy()}%</td>
               </tr>
             );

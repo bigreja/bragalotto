@@ -154,9 +154,9 @@ export default class EventsTab extends Component {
               }}
             >
               <option value="all">{app.translator.trans('huseyinfiliz-pickem.admin.filters.all_statuses')}</option>
-              <option value="scheduled">{app.translator.trans('huseyinfiliz-pickem.admin.status.scheduled')}</option>
-              <option value="closed">{app.translator.trans('huseyinfiliz-pickem.admin.status.closed')}</option>
-              <option value="finished">{app.translator.trans('huseyinfiliz-pickem.admin.status.finished')}</option>
+              <option value="scheduled">{app.translator.trans('huseyinfiliz-pickem.lib.status.scheduled')}</option>
+              <option value="closed">{app.translator.trans('huseyinfiliz-pickem.lib.status.closed')}</option>
+              <option value="finished">{app.translator.trans('huseyinfiliz-pickem.lib.status.finished')}</option>
             </select>
           </div>
 
@@ -209,9 +209,9 @@ export default class EventsTab extends Component {
                 <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.home_team')}</th>
                 <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.away_team')}</th>
                 <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.match_date')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.status')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.admin.events.score')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.admin.buttons.actions')}</th>
+                <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</th>
+                <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.score')}</th>
+                <th>{app.translator.trans('huseyinfiliz-pickem.lib.buttons.actions')}</th>
               </tr>
             </thead>
             <tbody>
@@ -250,7 +250,7 @@ export default class EventsTab extends Component {
                           icon="fas fa-edit"
                           onclick={() => app.modal.show(EventModal, { event: event, onsave: () => this.loadEvents(this.page) })} 
                         >
-                          {app.translator.trans('huseyinfiliz-pickem.admin.buttons.edit')}
+                          {app.translator.trans('huseyinfiliz-pickem.lib.buttons.edit')}
                         </Button>
                         <Button
                           className="Button Button--success"
@@ -264,7 +264,7 @@ export default class EventsTab extends Component {
                           icon="fas fa-trash"
                           onclick={() => this.deleteEvent(event)}
                         >
-                          {app.translator.trans('huseyinfiliz-pickem.admin.buttons.delete')}
+                          {app.translator.trans('huseyinfiliz-pickem.lib.buttons.delete')}
                         </Button>
                       </td>
                     </tr>

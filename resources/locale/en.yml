@@ -1,7 +1,4 @@
 huseyinfiliz-pickem:
-  ##
-  ## FORUM UI
-  ##
   forum:
     nav:
       pickem: "Pick'em"
@@ -12,12 +9,10 @@ huseyinfiliz-pickem:
     matches:
       title: "Upcoming Matches"
       no_matches: "No matches available"
-      load_more: "Load More Matches"
       make_pick: "Make Your Pick"
       change_pick: "Change Pick"
       pick_saved: "Pick saved successfully"
       cutoff_passed: "Picks closed"
-      time_remaining: "Time remaining"
       
     picks:
       home: "Home Win"
@@ -33,7 +28,6 @@ huseyinfiliz-pickem:
       
     my_picks:
       title: "My Picks"
-      no_picks: "You haven't made any picks yet"
       stats:
         total: "Total Picks"
         correct: "Correct"
@@ -46,10 +40,6 @@ huseyinfiliz-pickem:
       title: "Leaderboard"
       rank: "Rank"
       player: "Player"
-      points: "Points"
-      correct: "Correct"
-      total: "Total"
-      accuracy: "Accuracy"
       filter_season: "Filter by season"
       all_seasons: "All Seasons"
       no_scores: "No scores available yet"
@@ -62,8 +52,6 @@ huseyinfiliz-pickem:
         scheduled: "Scheduled"
         closed: "Closed"
         finished: "Finished"
-      result: "Result"
-      score: "Score"
       
     notifications:
       event_result_text: "Match result: {homeTeam} {homeScore} - {awayScore} {awayTeam}"
@@ -79,9 +67,6 @@ huseyinfiliz-pickem:
       status: "Status"
       all: "All"
       
-  ##
-  ## ADMIN PANEL
-  ##
   admin:
     title: "Pick'em Management"
     
@@ -99,65 +84,41 @@ huseyinfiliz-pickem:
       
     settings:
       title: "Pick'em Settings"
-      points_per_correct: "Points per correct pick"
-      points_per_correct_help: "How many points should users get for each correct prediction?"
-      enable_notifications: "Enable result notifications"
-      enable_notifications_help: "Send notifications to users when match results are available"
-      show_other_picks_after_cutoff: "Show other users' picks after cutoff"
-      show_other_picks_after_cutoff_help: "Allow users to see what others picked after the cutoff time"
-      recalculate_scores_button: "Recalculate All Scores"
       recalculate_scores_help: "This will delete all current scores and recalculate them from scratch for every user. This is a heavy operation and should be run in the background. It will use your Flarum queue."
+      recalculate_scores_button: "Recalculate All Scores"
       recalculate_scores_confirm: "Are you sure you want to recalculate all scores? This cannot be undone and may take a long time."
       recalculate_scores_success: "Score recalculation has been queued. It will be processed in the background."
       recalculate_scores_fail: "An error occurred while queueing the score recalculation."
-      
-    buttons:
-      save: "Save"
-      cancel: "Cancel"
-      edit: "Edit"
-      delete: "Delete"
-      create: "Create"
-      actions: "Actions"
       
     teams:
       title: "Teams"
       create: "Create Team"
       create_title: "Create Team"
       edit_title: "Edit Team"
-      edit: "Edit Team"
-      delete: "Delete Team"
-      delete_confirmation: "Are you sure you want to delete this team?"
       name: "Team Name"
       slug: "Slug"
-      logo: "Team Logo"
       logo_url: "Logo URL"
-      upload_logo: "Upload Logo"
       no_teams: "No teams created yet"
-      actions: "Actions"
+      delete_confirmation: "Are you sure you want to delete this team?"
       
     seasons:
       title: "Seasons"
       create: "Create Season"
       create_title: "Create Season"
       edit_title: "Edit Season"
-      edit: "Edit Season"
-      delete: "Delete Season"
-      delete_confirmation: "Are you sure you want to delete this season?"
       name: "Season Name"
       slug: "Slug"
       start_date: "Start Date"
       end_date: "End Date"
       dates: "Dates"
       no_seasons: "No seasons created yet"
+      delete_confirmation: "Are you sure you want to delete this season?"
       
     weeks:
       title: "Weeks"
       create: "Create Week"
       create_title: "Create Week"
       edit_title: "Edit Week"
-      edit: "Edit Week"
-      delete: "Delete Week"
-      delete_confirmation: "Are you sure you want to delete this week?"
       name: "Week Name"
       season: "Season"
       week_number: "Week Number"
@@ -165,17 +126,13 @@ huseyinfiliz-pickem:
       end_date: "End Date"
       no_weeks: "No weeks created yet"
       select_season: "Select Season"
-      none: "None"
+      delete_confirmation: "Are you sure you want to delete this week?"
       
     events:
       title: "Matches"
       create: "Create Match"
       create_title: "Create Match"
-      create_match: "Create Match"
-      edit: "Edit Match"
       edit_title: "Edit Match"
-      delete: "Delete Match"
-      delete_confirmation: "Are you sure you want to delete this match?"
       home_team: "Home Team"
       away_team: "Away Team"
       week: "Week"
@@ -184,11 +141,8 @@ huseyinfiliz-pickem:
       match_date: "Match Date"
       cutoff_date: "Cutoff Date"
       allow_draw: "Allow Draw"
-      status: "Status"
-      score: "Score"
       home_score: "Home Score"
       away_score: "Away Score"
-      result: "Result"
       enter_result: "Enter Result"
       enter_result_title: "Enter Match Result"
       save_result: "Save Result"
@@ -199,6 +153,7 @@ huseyinfiliz-pickem:
       status_scheduled: "Scheduled"
       status_closed: "Closed"
       status_finished: "Finished"
+      delete_confirmation: "Are you sure you want to delete this match?"
       
     filters:
       all_seasons: "All Seasons"
@@ -207,49 +162,52 @@ huseyinfiliz-pickem:
       season: "Season"
       team: "Team"
       status: "Status"
-      sort: "Sort"
-      newest_first: "Newest First"
-      oldest_first: "Oldest First"
-      reset: "Reset"
-      showing: "Showing"
-      of: "of"
-      matches: "matches"
       no_matches_found: "No matches found with the selected filters."
-      all: "All"
+      
+    pagination:
+      previous: "Previous"
+      next: "Next"
+      page_info: "Page {current} of {total} (Showing {showing} of {totalEvents} events)"
+      
+    alerts:
+      result_saved_success: "Result saved and picks updated successfully!"
+      
+  lib:
+    buttons:
+      save: "Save"
+      cancel: "Cancel"
+      edit: "Edit"
+      delete: "Delete"
+      create: "Create"
       
     status:
       scheduled: "Scheduled"
       closed: "Closed"
       finished: "Finished"
       
-    loading:
-      title: "Loading..."
-      data: "Loading data..."
-
-    alerts:
-      result_saved_success: "Result saved and picks updated successfully!"
-      result_saved_fail: "Failed to save result"
+    common:
+      points: "Points"
+      correct: "Correct"
+      total: "Total"
+      accuracy: "Accuracy"
+      result: "Result"
+      score: "Score"
+      status: "Status"
+      time_remaining_minutes: "{minutes}m remaining"
+      time_remaining_hours: "{hours}h {minutes}m remaining"
+      time_remaining_days: "{days}d remaining"
+      rank: "Rank"
+      pts: "pts"
+      unknown_user: "Unknown"
+      load_more: "Load More"
+      match: "Match"
+      date: "Date"
     
-    pagination:
-      previous: "Previous"
-      next: "Next"
-      page_info: "Page {current} of {total} (Showing {showing} of {totalEvents} events)"
-    
-    validation:
-      match_date_required: "Match date is required"
-      cutoff_date_required: "Cutoff date is required"
-      home_team_required: "Home team is required"
-      away_team_required: "Away team is required"
-      teams_must_differ: "Home and away teams must be different"
-  
-  ##
-  ## SHARED (Used by both admin and forum)
-  ##
-  lib:
     validation:
       errors:
         pick_after_cutoff: "Cannot make or change picks after the cutoff date."
         pick_already_exists: "You have already made a pick for this event."
+        pick_failed: "Failed to save your pick. Please try again."
         event_not_pickable: "This event is not currently accepting picks."
         invalid_outcome: "Invalid outcome selected. Must be home, away, or draw."
         event_cancelled: "This event has been cancelled and no longer accepts picks."
@@ -287,9 +245,6 @@ huseyinfiliz-pickem:
         week_deleted: "Week deleted successfully"
         result_saved: "Result saved and picks updated successfully!"
       
-  ##
-  ## NOTIFICATIONS
-  ##
   notifications:
     event_result:
       title: "Match Result: {homeTeam} vs {awayTeam}"

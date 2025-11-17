@@ -52,14 +52,14 @@ export default class TeamsTab extends Component {
                       onsave: () => m.redraw()
                     })}
                   >
-                    {app.translator.trans('huseyinfiliz-pickem.admin.buttons.edit')}
+                    {app.translator.trans('huseyinfiliz-pickem.lib.buttons.edit')}
                   </Button>
                   <Button
                     className="Button Button--danger"
                     icon="fas fa-trash"
                     onclick={() => this.deleteTeam(team)}
                   >
-                    {app.translator.trans('huseyinfiliz-pickem.admin.buttons.delete')}
+                    {app.translator.trans('huseyinfiliz-pickem.lib.buttons.delete')}
                   </Button>
                 </td>
               </tr>
