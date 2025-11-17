@@ -1,18 +1,13 @@
 import Page from 'flarum/common/components/Page';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
+import extractText from 'flarum/common/utils/extractText';
 import MatchesTab from './MatchesTab';
 import MyPicksTab from './MyPicksTab';
 import LeaderboardTab from './LeaderboardTab';
-// Gerekli modelleri import et
-import Team from '../../common/models/Team';
-import Season from '../../common/models/Season';
-import Week from '../../common/models/Week';
 
-// --- YENİ EKLENENLER ---
 // Flarum'un ana sayfa bileşenini ve link listeleme yardımcısını import et
 import IndexPage from 'flarum/forum/components/IndexPage';
 import listItems from 'flarum/common/helpers/listItems';
-// --- YENİ EKLENENLER SONU ---
 
 export default class PickemPage extends Page {
   private activeTab: string = 'matches';
@@ -29,13 +24,20 @@ export default class PickemPage extends Page {
       return;
     }
 
+    // URL'den tab parametresini al
     this.activeTab = (m.route && m.route.param && m.route.param('tab')) || 'matches';
+    
     this.loading = true;
     this.picks = {};
     this.userScores = [];
     this.filterDataLoaded = false; 
 
     this.loadInitialData();
+  }
+
+  oncreate(vnode: any) {
+    super.oncreate(vnode);
+    app.setTitle(extractText(app.translator.trans('huseyinfiliz-pickem.forum.nav.pickem')));
   }
 
   async loadInitialData() {
@@ -47,7 +49,6 @@ export default class PickemPage extends Page {
       }
       
       promises.push(this.loadLeaderboard());
-      
       promises.push(this.loadFilterData());
 
       await Promise.all(promises);
@@ -113,19 +114,16 @@ export default class PickemPage extends Page {
     return (
       <div className="IndexPage PickemPage"> 
         
-        {/* --- YENİ HERO ALANI --- */}
         <header className="Hero PickemHero">
           <div className="container">
             <div className="containerNarrow">
               <h1 className="Hero-title">
-                {/* *** DÜZELTME BURADA: "icon" sınıfı eklendi *** */}
                 <i className="icon fas fa-trophy" />{' '}
                 {app.translator.trans('huseyinfiliz-pickem.forum.nav.pickem')}
               </h1>
             </div>
           </div>
         </header>
-        {/* --- HERO ALANI SONU --- */}
         
         <div className="container">
           <div className="sideNavContainer">
@@ -158,6 +156,9 @@ export default class PickemPage extends Page {
         className={`Button Button--flat PickemPage-tab ${active ? 'active' : ''}`}
         onclick={() => {
           this.activeTab = tab;
+          // URL'i güncelle (browser back/forward desteği için)
+          const currentRoute = m.route.get().split('?')[0];
+          m.route.set(currentRoute, { tab: tab }, { replace: true });
           m.redraw();
         }}
       >
@@ -167,6 +168,7 @@ export default class PickemPage extends Page {
   }
 
   renderTabContent() {
+    // ✅ Switch/case ile render - AMA tab component'leri kendi cache'lerini yönetiyor
     switch (this.activeTab) {
       case 'matches':
         return this.filterDataLoaded ? (

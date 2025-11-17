@@ -22,16 +22,16 @@ class CreatePickController extends AbstractCreateController
     protected $scoringService;
     protected $translator;
 
-    public function __construct(PickemScoringService $scoringService, Translator $translator) // Translator eklendi
+    public function __construct(PickemScoringService $scoringService, Translator $translator)
     {
         $this->scoringService = $scoringService;
-        $this->translator = $translator; // EKLENDİ
+        $this->translator = $translator;
     }
 
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.makePicks'); // assertCan olarak güncellendi
+        $actor->assertCan('pickem.makePicks');
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
         
@@ -48,20 +48,20 @@ class CreatePickController extends AbstractCreateController
 
         if (!$event->canPick()) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.validation.errors.pick_after_cutoff') // Çeviri anahtarı kullanıldı
+                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.validation.errors.pick_after_cutoff')
             ]);
         }
 
         if ($selectedOutcome === Event::RESULT_DRAW && !$event->allow_draw) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.validation.errors.invalid_outcome') // Çeviri anahtarı kullanıldı
+                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.validation.errors.invalid_outcome')
             ]);
         }
 
         $validOutcomes = [Event::RESULT_HOME, Event::RESULT_AWAY, Event::RESULT_DRAW];
         if (!in_array($selectedOutcome, $validOutcomes)) {
             throw new ValidationException([
-                'message' => $this.translator->trans('huseyinfiliz-pickem.lib.validation.errors.invalid_outcome') // Çeviri anahtarı kullanıldı
+                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.validation.errors.invalid_outcome')
             ]);
         }
 

@@ -18,7 +18,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
   private selectedTeam: string = 'all';
   private selectedStatus: string = 'all'; 
 
-  private loading: boolean = true;
+  private loading: boolean = false; // ✅ Default false
   private events: PickemEvent[] = [];
   
   private totalEvents: number = 0;
@@ -28,11 +28,20 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
   private pickLoading: Set<number> = new Set();
   
   private picks: Record<string, any>;
+  
+  // ✅ YENİ: İlk yükleme yapıldı mı?
+  private hasLoadedOnce: boolean = false;
 
   oninit(vnode: any) {
     super.oninit(vnode);
     this.picks = this.attrs.picks;
-    this.loadEvents(1); 
+    
+    // ✅ YENİ: Sadece ilk seferinde yükle
+    if (!this.hasLoadedOnce) {
+      this.hasLoadedOnce = true;
+      this.loading = true;
+      this.loadEvents(1);
+    }
   }
 
   buildFilters() {
@@ -59,22 +68,19 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
 
   loadEvents(page: number = 1) {
     this.loading = true;
-    this.page = page; 
+    this.page = page;
     m.redraw();
 
     const filters = this.buildFilters();
-    const sort = '-matchDate'; 
-    
     const offset = (this.page - 1) * this.limit;
 
     app.store.find('pickem-events', {
       include: 'homeTeam,awayTeam,week',
       filter: filters,
-      sort: sort,
+      sort: '-matchDate',
       page: { limit: this.limit, offset: offset }
-    }).then(results => {
-      this.events = results as PickemEvent[]; 
-      
+    }).then((results: any) => {
+      this.events = results as PickemEvent[];
       this.totalEvents = results.payload.meta.total;
     }).catch(error => {
       console.error(error);
@@ -84,50 +90,36 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
     });
   }
 
-  async makePick(eventId: number, outcome: string) {
+  async makePick(eventId: number, selectedOutcome: string) {
     const idStr = String(eventId);
-    const existingPick = this.picks[idStr] as Pick | undefined;
+    const existingPick = this.picks[idStr];
 
     this.pickLoading.add(eventId);
     m.redraw();
 
     try {
-      if (existingPick && existingPick.selectedOutcome() === outcome) {
-        // İPTAL ETME (DELETE)
+      if (existingPick && existingPick.selectedOutcome() === selectedOutcome) {
         await existingPick.delete();
-        
         delete this.picks[idStr];
-        this.attrs.onPickChange(this.picks); 
+        this.attrs.onPickChange(this.picks);
         app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.success.pick_deleted'));
-      
       } else if (existingPick) {
-        // GÜNCELLEME (PATCH)
-        const pick = await existingPick.save({
-          selectedOutcome: outcome,
-        });
-
-        this.picks[idStr] = pick as any;
-        this.attrs.onPickChange(this.picks); 
+        const updated = await existingPick.save({ selectedOutcome });
+        this.picks[idStr] = updated;
+        this.attrs.onPickChange(this.picks);
         app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.success.pick_updated'));
-
       } else {
-        // YENİ OLUŞTURMA (POST)
-        const pick = await app.store.createRecord('pickem-picks').save({
-          eventId: eventId,
-          selectedOutcome: outcome,
-        });
-        
-        this.picks[idStr] = pick as any;
-        this.attrs.onPickChange(this.picks); 
+        const newPick = await app.store.createRecord('pickem-picks').save({ eventId, selectedOutcome });
+        this.picks[idStr] = newPick;
+        this.attrs.onPickChange(this.picks);
         app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.success.pick_created'));
       }
-
     } catch (error: any) {
       console.error('Error making/deleting pick:', error);
       if (error && error.alert) {
-          app.alerts.show(error.alert);
+        app.alerts.show(error.alert);
       } else {
-          app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.errors.unauthorized'));
+        app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.validation.errors.unauthorized'));
       }
     } finally {
       this.pickLoading.delete(eventId);
@@ -136,8 +128,8 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
   }
 
   view() {
-    const allSeasons = app.store.all('pickem-seasons') as Season[];
-    const allTeams = app.store.all('pickem-teams') as Team[];
+    const allSeasons = app.store.all('pickem-seasons');
+    const allTeams = app.store.all('pickem-teams');
 
     const hasEvents = this.events.length > 0;
     const canShowPagination = this.totalEvents > this.limit;
@@ -156,7 +148,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
               value={this.selectedSeason}
               onchange={(e: any) => {
                 this.selectedSeason = e.target.value;
-                this.loadEvents(1); 
+                this.loadEvents(1);
               }}
             >
               <option value="all">{app.translator.trans('huseyinfiliz-pickem.forum.filters.all_seasons')}</option>
@@ -176,7 +168,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
               value={this.selectedTeam}
               onchange={(e: any) => {
                 this.selectedTeam = e.target.value;
-                this.loadEvents(1); 
+                this.loadEvents(1);
               }}
             >
               <option value="all">{app.translator.trans('huseyinfiliz-pickem.forum.filters.all_teams')}</option>
@@ -196,7 +188,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
               value={this.selectedStatus}
               onchange={(e: any) => {
                 this.selectedStatus = e.target.value;
-                this.loadEvents(1); 
+                this.loadEvents(1);
               }}
             >
               <option value="all">{app.translator.trans('huseyinfiliz-pickem.forum.filters.all')}</option>
@@ -207,7 +199,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
           </div>
         </div>
 
-        {/* Maçlar Listesi */}
+        {/* Content */}
         {this.loading ? (
           <LoadingIndicator />
         ) : !hasEvents ? (

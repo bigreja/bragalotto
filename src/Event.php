@@ -20,7 +20,7 @@ use Flarum\Database\ScopeVisibilityTrait;
  * @property string|null $result
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * * @property-read Week|null $week
+ * @property-read Week|null $week
  * @property-read Team $homeTeam
  * @property-read Team $awayTeam
  * @property-read \Illuminate\Database\Eloquent\Collection|Pick[] $picks
@@ -68,11 +68,10 @@ class Event extends AbstractModel
 
     /**
      * Boot the model - register event listeners
+     * Modern Flarum 1.8 way using booted() instead of boot()
      */
-    public static function boot()
+    protected static function booted()
     {
-        parent::boot();
-
         // Auto-calculate result when scores are set
         static::saving(function (Event $event) {
             // Skorlar set edildiyse result'ı hesapla
