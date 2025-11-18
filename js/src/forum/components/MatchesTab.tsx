@@ -14,7 +14,6 @@ interface IMatchesTabAttrs {
 }
 
 export default class MatchesTab extends Component<IMatchesTabAttrs> {
-  // ... (değişkenler ve fonksiyonlar aynı)
   private selectedSeason: string = 'all';
   private selectedTeam: string = 'all';
   private selectedStatus: string = 'all';
@@ -87,18 +86,26 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
 
     try {
       if (existingPick && existingPick.selectedOutcome() === outcome) {
+        // Silme işlemi
         await existingPick.delete();
         delete this.picks[eventIdStr];
         this.attrs.onPickChange(this.picks);
         app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.deleted'));
       } else if (existingPick) {
+        // Güncelleme işlemi
         const updated = await existingPick.save({ selectedOutcome: outcome });
         this.picks[eventIdStr] = updated;
         this.attrs.onPickChange(this.picks);
         app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.saved'));
       } else {
-        const newPick = app.store.createRecord('pickem-picks', { eventId: eventId });
-        const saved = await newPick.save({ selectedOutcome: outcome });
+        // Oluşturma işlemi - DÜZELTME BURADA:
+        // eventId'yi save() metoduna attribute olarak ekliyoruz.
+        // createRecord içine eklemek, JSON:API payload'una girmesini garanti etmez.
+        const newPick = app.store.createRecord('pickem-picks');
+        const saved = await newPick.save({ 
+          eventId: eventId, // API bu alanı attribute olarak bekliyor
+          selectedOutcome: outcome 
+        });
         this.picks[eventIdStr] = saved;
         this.attrs.onPickChange(this.picks);
         app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.saved'));
@@ -116,7 +123,6 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
     }
   }
 
-
   view() {
     const allSeasons = app.store.all('pickem-seasons');
     const allTeams = app.store.all('pickem-teams');
@@ -126,12 +132,11 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
 
     return (
       <div>
-        {/* Filtreler (GÜNCELLENDİ) */}
+        {/* Filtreler */}
         <div className="EventsTab-filters PickemPage-filters">
           <div className="FilterGroup">
             <label>
               <i className="fas fa-calendar-alt" />
-              {/* GÜNCELLENDİ: models.season -> common.season */}
               <span>{app.translator.trans('huseyinfiliz-pickem.lib.common.season')}</span>
             </label>
             <select
@@ -152,7 +157,6 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
           <div className="FilterGroup">
             <label>
               <i className="fas fa-users" />
-              {/* GÜNCELLENDİ: models.team -> common.team */}
               <span>{app.translator.trans('huseyinfiliz-pickem.lib.common.team')}</span>
             </label>
             <select
@@ -173,7 +177,6 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
           <div className="FilterGroup">
             <label>
               <i className="fas fa-filter" />
-              {/* GÜNCELLENDİ: headers.status -> common.status */}
               <span>{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</span>
             </label>
             <select

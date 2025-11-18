@@ -38,37 +38,40 @@ class CreatePickController extends AbstractCreateController
         $eventId = Arr::get($data, 'eventId');
         $selectedOutcome = Arr::get($data, 'selectedOutcome');
 
+        // GÜNCELLENDİ: Eksik veri kontrolü
         if (!$eventId || !$selectedOutcome) {
             throw new ValidationException([
-                // GÜNCELLENDİ: unauthorized -> invalid_outcome (veya login_required kullanılabilir ama burası veri eksikliği)
+                // Burada "invalid_outcome" (Geçersiz seçim) kullanıyoruz çünkü kullanıcı
+                // teknik olarak eksik veya geçersiz bir seçim göndermiş oluyor.
                 'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
             ]);
         }
 
         $event = Event::with(['homeTeam', 'awayTeam', 'week'])->findOrFail($eventId);
 
+        // GÜNCELLENDİ: Cutoff (Zaman aşımı) kontrolü
         if (!$event->canPick()) {
             throw new ValidationException([
-                // GÜNCELLENDİ: pick_after_cutoff -> cutoff_passed
                 'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.cutoff_passed')
             ]);
         }
 
+        // Beraberlik kontrolü
         if ($selectedOutcome === Event::RESULT_DRAW && !$event->allow_draw) {
             throw new ValidationException([
-                // GÜNCELLENDİ: invalid_outcome (aynı kaldı ama key değişti)
                 'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
             ]);
         }
 
+        // Geçerli sonuç kontrolü
         $validOutcomes = [Event::RESULT_HOME, Event::RESULT_AWAY, Event::RESULT_DRAW];
         if (!in_array($selectedOutcome, $validOutcomes)) {
             throw new ValidationException([
-                // GÜNCELLENDİ: invalid_outcome
                 'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
             ]);
         }
 
+        // Kaydı bul veya oluştur
         $pick = Pick::firstOrNew([
             'user_id' => $actor->id,
             'event_id' => $eventId,
@@ -80,8 +83,12 @@ class CreatePickController extends AbstractCreateController
         $pick->selected_outcome = $selectedOutcome;
 
         if ($isUpdate && $pick->isDirty('selected_outcome')) {
+            // Eğer kullanıcı daha önce tahmin yapmış ve şimdi değiştiriyorsa,
+            // ve bu maç çoktan sonuçlanmışsa (admin müdahalesi vb.),
+            // doğruluk durumunu sıfırla.
             $pick->is_correct = null;
             
+            // Eğer maç bitmişse, kullanıcının skorunu tekrar hesaplamak gerekebilir
             if ($event->isFinished() || $event->isClosed()) {
                  $recalculateScore = true;
             }

@@ -80,6 +80,7 @@ export default class MyPicksTab extends Component {
                 const pickId = pick && (typeof pick.id === 'function' ? pick.id() : pick.id);
                 const isCorrect = pick.isCorrect && typeof pick.isCorrect === 'function' ? pick.isCorrect() : null;
 
+                // Satır için sınıf belirleme (CSS'de zaten tanımlı)
                 let rowClass = 'pending';
                 if (isCorrect === true) rowClass = 'correct';
                 if (isCorrect === false) rowClass = 'incorrect';
@@ -102,12 +103,19 @@ export default class MyPicksTab extends Component {
                     </td>
                     <td>{event.result && event.result() ? this.formatResult(event.result(), homeTeam, awayTeam) : '-'}</td>
                     <td>
+                      {/* GÜNCELLENDİ: Inline style yerine CSS sınıfları ve class kullanımı */}
                       {isCorrect === null ? (
-                        <span style="color: #f39c12;">⏳ {app.translator.trans('huseyinfiliz-pickem.lib.status.pending')}</span>
+                        <span className="PickStatus PickStatus--pending">
+                          <i className="fas fa-hourglass-half" /> {app.translator.trans('huseyinfiliz-pickem.lib.status.pending')}
+                        </span>
                       ) : isCorrect ? (
-                        <span style="color: #27ae60; font-weight: bold;">✓ {app.translator.trans('huseyinfiliz-pickem.lib.status.correct')}</span>
+                        <span className="PickStatus PickStatus--correct">
+                          <i className="fas fa-check" /> {app.translator.trans('huseyinfiliz-pickem.lib.status.correct')}
+                        </span>
                       ) : (
-                        <span style="color: #e74c3c; font-weight: bold;">✗ {app.translator.trans('huseyinfiliz-pickem.lib.status.incorrect')}</span>
+                        <span className="PickStatus PickStatus--incorrect">
+                          <i className="fas fa-times" /> {app.translator.trans('huseyinfiliz-pickem.lib.status.incorrect')}
+                        </span>
                       )}
                     </td>
                   </tr>
@@ -126,7 +134,6 @@ export default class MyPicksTab extends Component {
                 m.redraw();
               }}
             >
-              {/* GÜNCELLENDİ: Kendi çeviri anahtarımız */}
               {app.translator.trans('huseyinfiliz-pickem.lib.buttons.load_more')}
             </Button>
           </div>
