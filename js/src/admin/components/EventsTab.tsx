@@ -9,7 +9,6 @@ import Team from '../../common/models/Team';
 import Button from 'flarum/common/components/Button';
 
 export default class EventsTab extends Component {
-  // ... (Kodun üst kısmı aynı)
   private selectedSeason: string = 'all';
   private selectedTeam: string = 'all';
   private selectedStatus: string = 'all';
@@ -61,33 +60,30 @@ export default class EventsTab extends Component {
       filter: filters,
       sort: sort,
       page: { limit: this.limit, offset: offset }
-    }).then(results => {
+    }).then((results: any) => {
+      this.loading = false;
       this.events = results as PickemEvent[];
-      this.totalEvents = results.payload.meta.total; 
-      this.loading = false;
+      this.totalEvents = results.payload.meta.total;
       m.redraw();
-    }).catch(error => {
+    }).catch(err => {
       this.loading = false;
-      console.error(error);
+      console.error(err);
       m.redraw();
     });
   }
 
   view() {
-    const allSeasons = app.store.all('pickem-seasons');
-    const allTeams = app.store.all('pickem-teams');
-    const total = this.totalEvents;
-    const hasEvents = this.events.length > 0;
-    const canShowPagination = total > this.limit;
-    const totalPages = Math.ceil(total / this.limit);
-    // GÜNCELLENDİ: lib.models -> lib.common
+    const seasons = app.store.all('pickem-seasons');
+    const teams = app.store.all('pickem-teams');
+    const totalPages = Math.ceil(this.totalEvents / this.limit);
+    const canShowPagination = totalPages > 1;
     const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.match');
 
     return (
       <div className="EventsTab">
         <div className="EventsTab-header">
           <h3>
-            <i className="fas fa-futbol" />
+            <i className="fas fa-calendar-alt" />
             {app.translator.trans('huseyinfiliz-pickem.lib.nav.matches')}
           </h3>
           <Button
@@ -99,188 +95,165 @@ export default class EventsTab extends Component {
           </Button>
         </div>
 
-        {/* FİLTRELER */}
         <div className="EventsTab-filters">
-          <div className="FilterGroup">
-            <label>
-              <i className="fas fa-calendar-alt" />
-              {/* GÜNCELLENDİ: lib.models.season -> lib.common.season */}
-              <span>{app.translator.trans('huseyinfiliz-pickem.lib.common.season')}</span>
-            </label>
+          <div className="FormGroup">
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.common.season')}</label>
             <select
-              className="FormControl"
               value={this.selectedSeason}
               onchange={(e: any) => {
                 this.selectedSeason = e.target.value;
                 this.loadEvents(1);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.common.season') })}</option>
-              {allSeasons.map((season: any) => (
-                <option value={season.id()} key={season.id()}>{season.name()}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all')}</option>
+              {seasons.map((season: any) => (
+                <option key={season.id()} value={season.id()}>
+                  {season.name()}
+                </option>
               ))}
             </select>
           </div>
 
-          <div className="FilterGroup">
-            <label>
-              <i className="fas fa-users" />
-              {/* GÜNCELLENDİ: lib.models.team -> lib.common.team */}
-              <span>{app.translator.trans('huseyinfiliz-pickem.lib.common.team')}</span>
-            </label>
+          <div className="FormGroup">
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.common.team')}</label>
             <select
-              className="FormControl"
               value={this.selectedTeam}
               onchange={(e: any) => {
                 this.selectedTeam = e.target.value;
                 this.loadEvents(1);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.common.team') })}</option>
-              {allTeams.map((team: any) => (
-                <option value={team.id()} key={team.id()}>{team.name()}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all')}</option>
+              {teams.map((team: any) => (
+                <option key={team.id()} value={team.id()}>
+                  {team.name()}
+                </option>
               ))}
             </select>
           </div>
 
-          <div className="FilterGroup">
-            <label>
-              <i className="fas fa-info-circle" />
-              {/* GÜNCELLENDİ: lib.headers.status -> lib.common.status */}
-              <span>{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</span>
-            </label>
+          <div className="FormGroup">
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</label>
             <select
-              className="FormControl"
               value={this.selectedStatus}
               onchange={(e: any) => {
                 this.selectedStatus = e.target.value;
                 this.loadEvents(1);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.common.status') })}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all')}</option>
               <option value="scheduled">{app.translator.trans('huseyinfiliz-pickem.lib.status.scheduled')}</option>
               <option value="closed">{app.translator.trans('huseyinfiliz-pickem.lib.status.closed')}</option>
               <option value="finished">{app.translator.trans('huseyinfiliz-pickem.lib.status.finished')}</option>
             </select>
           </div>
 
-          <div className="FilterGroup">
-            <label>
-              <i className="fas fa-sort" />
-              <span>{app.translator.trans('huseyinfiliz-pickem.lib.filters.sort')}</span>
-            </label>
+          <div className="FormGroup">
+            <label>{app.translator.trans('huseyinfiliz-pickem.lib.filters.sort')}</label>
             <select
-              className="FormControl"
               value={this.sortOrder}
               onchange={(e: any) => {
                 this.sortOrder = e.target.value;
-                this.loadEvents(1);
+                this.loadEvents(this.page);
               }}
             >
               <option value="desc">{app.translator.trans('huseyinfiliz-pickem.lib.filters.newest')}</option>
               <option value="asc">{app.translator.trans('huseyinfiliz-pickem.lib.filters.oldest')}</option>
             </select>
           </div>
-
-          {(this.selectedSeason !== 'all' || 
-            this.selectedTeam !== 'all' || 
-            this.selectedStatus !== 'all' || 
-            this.sortOrder !== 'desc') && (
-            <Button
-              className="Button FilterGroup-reset"
-              icon="fas fa-redo"
-              onclick={() => {
-                this.selectedSeason = 'all';
-                this.selectedTeam = 'all';
-                this.selectedStatus = 'all';
-                this.sortOrder = 'desc';
-                this.loadEvents(1);
-              }}
-            >
-              {app.translator.trans('huseyinfiliz-pickem.lib.filters.reset')}
-            </Button>
-          )}
         </div>
 
         {this.loading ? (
           <LoadingIndicator />
-        ) : !hasEvents ? (
-            <Placeholder text={app.translator.trans('huseyinfiliz-pickem.lib.messages.no_matches')} />
-        ) : (
-          <table className="Table">
-            <thead>
-              <tr>
-                {/* GÜNCELLENDİ: headers.home/away -> common.home/away */}
-                <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.home')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.away')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.match_date')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</th>
-                {/* GÜNCELLENDİ: headers.score -> common.score */}
-                <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.score')}</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.events.map((event) => {
-                  const homeTeam = event.homeTeam() as Team | null;
-                  const awayTeam = event.awayTeam() as Team | null;
+        ) : this.events.length > 0 ? (
+          <div className="CardList">
+            {/* HEADER - Desktop only */}
+            <div className="CardList-header">
+              <div>{app.translator.trans('huseyinfiliz-pickem.lib.common.home')}</div>
+              <div>{app.translator.trans('huseyinfiliz-pickem.lib.common.away')}</div>
+              <div>{app.translator.trans('huseyinfiliz-pickem.lib.headers.match_date')}</div>
+              <div>{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</div>
+              <div>{app.translator.trans('huseyinfiliz-pickem.lib.common.score')}</div>
+              <div></div>
+            </div>
 
-                  return (
-                    <tr key={event.id()}>
-                      <td>
-                        <div className="TeamCell">
-                          {this.renderTeamLogo(homeTeam)}
-                          <span>{homeTeam ? homeTeam.name() : 'N/A'}</span>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="TeamCell">
-                          {this.renderTeamLogo(awayTeam)}
-                          <span>{awayTeam ? awayTeam.name() : 'N/A'}</span>
-                        </div>
-                      </td>
-                      <td>{event.matchDate() ? new Date(event.matchDate()!).toLocaleString() : '-'}</td>
-                      <td>
-                        <span className={`StatusBadge StatusBadge--${event.status()}`}>
-                          {app.translator.trans(`huseyinfiliz-pickem.lib.status.${event.status()}`)}
-                        </span>
-                      </td>
-                      <td>
-                        {event.homeScore() !== null && event.awayScore() !== null
-                          ? `${event.homeScore()} - ${event.awayScore()}`
-                          : '-'}
-                      </td>
-                      <td>
-                        <Button
-                          className="Button Button--primary"
-                          icon="fas fa-edit"
-                          onclick={() => app.modal.show(EventModal, { event: event, onsave: () => this.loadEvents(this.page) })} 
-                        >
-                          {app.translator.trans('huseyinfiliz-pickem.lib.buttons.edit')}
-                        </Button>
-                        <Button
-                          className="Button Button--success"
-                          icon="fas fa-check"
-                          onclick={() => app.modal.show(ResultModal, { event: event, onsave: () => this.loadEvents(this.page) })} 
-                        >
-                          {app.translator.trans('huseyinfiliz-pickem.lib.actions.enter_result')}
-                        </Button>
-                        <Button
-                          className="Button Button--danger"
-                          icon="fas fa-trash"
-                          onclick={() => this.deleteEvent(event)}
-                        >
-                          {app.translator.trans('huseyinfiliz-pickem.lib.buttons.delete')}
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
+            {/* ITEMS */}
+            {this.events.map((event: PickemEvent) => {
+              const homeTeam = event.homeTeam();
+              const awayTeam = event.awayTeam();
+
+              return (
+                <div key={event.id()} className="CardList-item">
+                  {/* Home Team */}
+                  <div className="CardList-item-cell CardList-item-cell--primary" data-label={app.translator.trans('huseyinfiliz-pickem.lib.common.home')}>
+                    <div className="TeamCell">
+                      {this.renderTeamLogo(homeTeam)}
+                      <span>{homeTeam ? homeTeam.name() : 'N/A'}</span>
+                    </div>
+                  </div>
+
+                  {/* Away Team */}
+                  <div className="CardList-item-cell" data-label={app.translator.trans('huseyinfiliz-pickem.lib.common.away')}>
+                    <div className="TeamCell">
+                      {this.renderTeamLogo(awayTeam)}
+                      <span>{awayTeam ? awayTeam.name() : 'N/A'}</span>
+                    </div>
+                  </div>
+
+                  {/* Match Date */}
+                  <div className="CardList-item-cell CardList-item-cell--muted" data-label={app.translator.trans('huseyinfiliz-pickem.lib.headers.match_date')}>
+                    {event.matchDate() ? new Date(event.matchDate()!).toLocaleString() : '-'}
+                  </div>
+
+                  {/* Status */}
+                  <div className="CardList-item-cell" data-label={app.translator.trans('huseyinfiliz-pickem.lib.common.status')}>
+                    <span className={`StatusBadge StatusBadge--${event.status()}`}>
+                      {app.translator.trans(`huseyinfiliz-pickem.lib.status.${event.status()}`)}
+                    </span>
+                  </div>
+
+                  {/* Score */}
+                  <div className="CardList-item-cell" data-label={app.translator.trans('huseyinfiliz-pickem.lib.common.score')}>
+                    {event.homeScore() !== null && event.awayScore() !== null
+                      ? `${event.homeScore()} - ${event.awayScore()}`
+                      : '-'}
+                  </div>
+
+                  {/* Actions */}
+                  <div className="CardList-item-actions">
+                    <Button
+                      className="Button Button--primary"
+                      icon="fas fa-edit"
+                      onclick={() => app.modal.show(EventModal, { event: event, onsave: () => this.loadEvents(this.page) })}
+                    >
+                      {app.translator.trans('huseyinfiliz-pickem.lib.buttons.edit')}
+                    </Button>
+                    <Button
+                      className="Button Button--success"
+                      icon="fas fa-check"
+                      onclick={() => app.modal.show(ResultModal, { event: event, onsave: () => this.loadEvents(this.page) })}
+                    >
+                      {app.translator.trans('huseyinfiliz-pickem.lib.actions.enter_result')}
+                    </Button>
+                    <Button
+                      className="Button Button--danger"
+                      icon="fas fa-trash"
+                      onclick={() => this.deleteEvent(event)}
+                    >
+                      {app.translator.trans('huseyinfiliz-pickem.lib.buttons.delete')}
+                    </Button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="EmptyState">
+            <i className="fas fa-calendar-times" />
+            <p>{app.translator.trans('huseyinfiliz-pickem.lib.messages.no_matches')}</p>
+          </div>
         )}
 
-        {/* SAYFALAMA */}
         {canShowPagination && !this.loading && (
           <nav className="Pagination">
             <Button
@@ -320,7 +293,7 @@ export default class EventsTab extends Component {
   renderTeamLogo(team: Team | null) {
     if (!team) {
       return (
-        <div className="TeamLogo TeamLogo--letter" style="background-color: #999">?</div>
+        <div className="TeamLogo TeamLogo--letter" style={{ backgroundColor: '#999' }}>?</div>
       );
     }
 
@@ -328,28 +301,34 @@ export default class EventsTab extends Component {
     const teamName = team.name();
     const firstLetter = teamName ? teamName.charAt(0).toUpperCase() : '?';
 
+    const stringToColor = (str: string) => {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      const hue = hash % 360;
+      return `hsl(${hue}, 65%, 50%)`;
+    };
+
     if (logoUrl) {
       return (
-        <div className="TeamLogo TeamLogo--image">
-          <img
-            src={logoUrl}
-            alt={teamName || 'Team'}
-            onerror={(e: any) => {
-              e.target.style.display = 'none';
-              e.target.parentElement.innerHTML = `<div class="TeamLogo TeamLogo--letter">${firstLetter}</div>`;
-            }}
-          />
-        </div>
+        <img
+          src={logoUrl}
+          alt={teamName || 'Team'}
+          className="TeamLogo TeamLogo--image"
+        />
       );
     } else {
+      const backgroundColor = stringToColor(teamName || 'Team');
       return (
-        <div className="TeamLogo TeamLogo--letter">{firstLetter}</div>
+        <div className="TeamLogo TeamLogo--letter" style={{ backgroundColor }}>
+          {firstLetter}
+        </div>
       );
     }
   }
 
   deleteEvent(event: PickemEvent) {
-    // GÜNCELLENDİ: lib.models -> lib.common
     const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.match');
     const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm', { resource: resourceName }));
     

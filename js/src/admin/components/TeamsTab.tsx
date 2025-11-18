@@ -7,7 +7,6 @@ import extractText from 'flarum/common/utils/extractText';
 export default class TeamsTab extends Component {
   view() {
     const teams = app.store.all('pickem-teams') as Team[];
-    // GÜNCELLENDİ: lib.models -> lib.common
     const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.team');
 
     return (
@@ -29,46 +28,56 @@ export default class TeamsTab extends Component {
           </Button>
         </div>
 
-        <table className="Table">
-          <thead>
-            <tr>
-              <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.logo')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.slug')}</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {teams.map(team => (
-              <tr key={team.id()}>
-                <td>
-                  {this.renderTeamLogo(team)}
-                </td>
-                <td>{team.name()}</td>
-                <td>{team.slug()}</td>
-                <td>
-                  <Button
-                    className="Button Button--primary"
-                    icon="fas fa-edit"
-                    onclick={() => app.modal.show(TeamModal, {
-                      team: team,
-                      onsave: () => m.redraw()
-                    })}
-                  >
-                    {app.translator.trans('huseyinfiliz-pickem.lib.buttons.edit')}
-                  </Button>
-                  <Button
-                    className="Button Button--danger"
-                    icon="fas fa-trash"
-                    onclick={() => this.deleteTeam(team)}
-                  >
-                    {app.translator.trans('huseyinfiliz-pickem.lib.buttons.delete')}
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="CardList">
+          {/* Header */}
+          <div className="CardList-header">
+            <div>{app.translator.trans('huseyinfiliz-pickem.lib.headers.logo')}</div>
+            <div>{app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}</div>
+            <div>{app.translator.trans('huseyinfiliz-pickem.lib.headers.slug')}</div>
+            <div></div>
+          </div>
+
+          {/* Items */}
+          {teams.map(team => (
+            <div key={team.id()} className="CardList-item">
+              {/* Logo */}
+              <div className="CardList-item-cell">
+                {this.renderTeamLogo(team)}
+              </div>
+
+              {/* Name */}
+              <div className="CardList-item-cell CardList-item-cell--primary" data-label={app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}>
+                {team.name()}
+              </div>
+
+              {/* Slug */}
+              <div className="CardList-item-cell CardList-item-cell--muted" data-label={app.translator.trans('huseyinfiliz-pickem.lib.headers.slug')}>
+                {team.slug()}
+              </div>
+
+              {/* Actions */}
+              <div className="CardList-item-actions">
+                <Button
+                  className="Button Button--primary"
+                  icon="fas fa-edit"
+                  onclick={() => app.modal.show(TeamModal, {
+                    team: team,
+                    onsave: () => m.redraw()
+                  })}
+                >
+                  {app.translator.trans('huseyinfiliz-pickem.lib.buttons.edit')}
+                </Button>
+                <Button
+                  className="Button Button--danger"
+                  icon="fas fa-trash"
+                  onclick={() => this.deleteTeam(team)}
+                >
+                  {app.translator.trans('huseyinfiliz-pickem.lib.buttons.delete')}
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
@@ -77,6 +86,7 @@ export default class TeamsTab extends Component {
     const logoUrl = team.logoUrl();
     const teamName = team.name();
     const firstLetter = teamName ? teamName.charAt(0).toUpperCase() : 'T';
+    
     const stringToColor = (str: string) => {
       let hash = 0;
       for (let i = 0; i < str.length; i++) {
@@ -85,6 +95,7 @@ export default class TeamsTab extends Component {
       const hue = hash % 360;
       return `hsl(${hue}, 65%, 50%)`;
     };
+    
     const backgroundColor = stringToColor(teamName || 'Team');
 
     if (logoUrl) {
@@ -92,14 +103,13 @@ export default class TeamsTab extends Component {
     }
 
     return (
-      <div className="TeamLogo TeamLogo--letter" style={`background-color: ${backgroundColor}`}>
+      <div className="TeamLogo TeamLogo--letter" style={{ backgroundColor }}>
         {firstLetter}
       </div>
     );
   }
 
   deleteTeam(team: Team) {
-    // GÜNCELLENDİ: lib.models -> lib.common
     const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.team');
     const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm', { resource: resourceName }));
     

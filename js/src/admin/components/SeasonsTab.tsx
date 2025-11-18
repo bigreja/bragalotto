@@ -1,13 +1,12 @@
 import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
-import SeasonModal from './modals/SeasonModal'; 
-import Season from '../../common/models/Season'; 
+import SeasonModal from './modals/SeasonModal';
+import Season from '../../common/models/Season';
 import extractText from 'flarum/common/utils/extractText';
 
 export default class SeasonsTab extends Component {
   view() {
     const seasons = app.store.all('pickem-seasons') as Season[];
-    // GÜNCELLENDİ: lib.models -> lib.common
     const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.season');
 
     return (
@@ -29,27 +28,49 @@ export default class SeasonsTab extends Component {
           </Button>
         </div>
 
-        <table className="Table">
-          <thead>
-            <tr>
-              {/* GÜNCELLENDİ: lib.headers.name -> lib.headers.name (Zaten lib.headers'da tutuyoruz) */}
-              <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.slug')}</th>
-              <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.date')}</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {seasons.map(season => (
-              <tr key={season.id()}>
-                <td>{season.name()}</td>
-                <td>{season.slug()}</td>
-                <td>
-                  {season.startDate() && season.endDate()
-                    ? `${new Date(season.startDate()).toLocaleDateString()} - ${new Date(season.endDate()).toLocaleDateString()}`
+        <div className="CardList">
+          {/* Header - Desktop only */}
+          <div className="CardList-header">
+            <div>{app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}</div>
+            <div>{app.translator.trans('huseyinfiliz-pickem.lib.headers.slug')}</div>
+            <div>{app.translator.trans('huseyinfiliz-pickem.lib.common.date')}</div>
+            <div></div>
+          </div>
+
+          {/* Items */}
+          {seasons.length === 0 ? (
+            <div className="EmptyState">
+              <i className="fas fa-calendar-times" />
+              <p>{app.translator.trans('huseyinfiliz-pickem.lib.messages.no_data')}</p>
+            </div>
+          ) : (
+            seasons.map(season => (
+              <div key={season.id()} className="CardList-item">
+                {/* Name */}
+                <div className="CardList-item-cell CardList-item-cell--primary" data-label={app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}>
+                  {season.name()}
+                </div>
+
+                {/* Slug */}
+                <div className="CardList-item-cell CardList-item-cell--muted" data-label={app.translator.trans('huseyinfiliz-pickem.lib.headers.slug')}>
+                  {season.slug()}
+                </div>
+
+                {/* Dates */}
+                <div className="CardList-item-cell" data-label={app.translator.trans('huseyinfiliz-pickem.lib.common.date')}>
+                  {season.startDate() && season.endDate() 
+                    ? (
+                      <span>
+                        {new Date(season.startDate()).toLocaleDateString()}
+                        {' - '}
+                        {new Date(season.endDate()).toLocaleDateString()}
+                      </span>
+                    )
                     : '-'}
-                </td>
-                <td>
+                </div>
+
+                {/* Actions */}
+                <div className="CardList-item-actions">
                   <Button
                     className="Button Button--primary"
                     icon="fas fa-edit"
@@ -67,17 +88,16 @@ export default class SeasonsTab extends Component {
                   >
                     {app.translator.trans('huseyinfiliz-pickem.lib.buttons.delete')}
                   </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     );
   }
 
   deleteSeason(season: Season) {
-    // GÜNCELLENDİ: lib.models -> lib.common
     const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.season');
     const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm', { resource: resourceName }));
 
