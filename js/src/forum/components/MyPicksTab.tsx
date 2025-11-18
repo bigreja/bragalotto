@@ -6,6 +6,8 @@ declare global {
 }
 
 export default class MyPicksTab extends Component {
+  picksPage: number = 0;
+
   oninit(vnode: any) {
     super.oninit(vnode);
     this.picksPage = 0;
@@ -59,51 +61,73 @@ export default class MyPicksTab extends Component {
 
     return (
       <div>
-        <div className="MyPicksList">
-          <table className="Table">
-            <thead>
-              <tr>
-                <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.match')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.date')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.forum.picks.your_pick')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.result')}</th>
-                <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {displayPicks.map((pick: any) => {
-                const event = typeof pick.event === 'function' ? pick.event() : pick.event;
-                if (!event) return null;
+        {/* YENİ: Div tabanlı liste yapısı */}
+        <div className="PickemList PickemList--my-picks">
+          {/* Header (Desktop) */}
+          <div className="PickemList-header">
+            <div className="PickemList-cell type-match">{app.translator.trans('huseyinfiliz-pickem.lib.common.match')}</div>
+            <div className="PickemList-cell type-date">{app.translator.trans('huseyinfiliz-pickem.lib.common.date')}</div>
+            <div className="PickemList-cell type-pick">{app.translator.trans('huseyinfiliz-pickem.forum.picks.your_pick')}</div>
+            <div className="PickemList-cell type-result">{app.translator.trans('huseyinfiliz-pickem.lib.common.result')}</div>
+            <div className="PickemList-cell type-status">{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</div>
+          </div>
 
-                const homeTeam = event.homeTeam ? event.homeTeam() : null;
-                const awayTeam = event.awayTeam ? event.awayTeam() : null;
-                const pickId = pick && (typeof pick.id === 'function' ? pick.id() : pick.id);
-                const isCorrect = pick.isCorrect && typeof pick.isCorrect === 'function' ? pick.isCorrect() : null;
+          {/* Body (Items) */}
+          <div className="PickemList-body">
+            {displayPicks.map((pick: any) => {
+              const event = typeof pick.event === 'function' ? pick.event() : pick.event;
+              if (!event) return null;
 
-                // Satır için sınıf belirleme (CSS'de zaten tanımlı)
-                let rowClass = 'pending';
-                if (isCorrect === true) rowClass = 'correct';
-                if (isCorrect === false) rowClass = 'incorrect';
+              const homeTeam = event.homeTeam ? event.homeTeam() : null;
+              const awayTeam = event.awayTeam ? event.awayTeam() : null;
+              const pickId = pick && (typeof pick.id === 'function' ? pick.id() : pick.id);
+              const isCorrect = pick.isCorrect && typeof pick.isCorrect === 'function' ? pick.isCorrect() : null;
 
-                let matchDate = '-';
-                try {
-                  matchDate = dayjs(event.matchDate()).format('DD MMM YYYY');
-                } catch {}
+              // Satır için sınıf belirleme
+              let itemClass = 'pending';
+              if (isCorrect === true) itemClass = 'correct';
+              if (isCorrect === false) itemClass = 'incorrect';
 
-                return (
-                  <tr key={String(pickId || Math.random())} className={rowClass}>
-                    <td>
-                      <strong>
-                        {homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home')} {app.translator.trans('huseyinfiliz-pickem.lib.common.vs')} {awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away')}
-                      </strong>
-                    </td>
-                    <td>{matchDate}</td>
-                    <td>
-                      <strong>{this.formatResult(pick.selectedOutcome(), homeTeam, awayTeam)}</strong>
-                    </td>
-                    <td>{event.result && event.result() ? this.formatResult(event.result(), homeTeam, awayTeam) : '-'}</td>
-                    <td>
-                      {/* GÜNCELLENDİ: Inline style yerine CSS sınıfları ve class kullanımı */}
+              let matchDate = '-';
+              try {
+                matchDate = dayjs(event.matchDate()).format('DD MMM YYYY');
+              } catch {}
+
+              return (
+                <div key={String(pickId || Math.random())} className={`PickemList-item ${itemClass}`}>
+                  
+                  {/* Maç (Mobilde başlık olacak) */}
+                  <div className="PickemList-cell type-match">
+                    <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.common.match')}</span>
+                    <span className="value">
+                        {homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home')}{' '}
+                        {app.translator.trans('huseyinfiliz-pickem.lib.common.vs')}{' '}
+                        {awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away')}
+                    </span>
+                  </div>
+
+                  {/* Tarih */}
+                  <div className="PickemList-cell type-date">
+                    <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.common.date')}</span>
+                    <span className="value">{matchDate}</span>
+                  </div>
+
+                  {/* Tahmin */}
+                  <div className="PickemList-cell type-pick">
+                    <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.forum.picks.your_pick')}</span>
+                    <span className="value">{this.formatResult(pick.selectedOutcome(), homeTeam, awayTeam)}</span>
+                  </div>
+
+                  {/* Sonuç */}
+                  <div className="PickemList-cell type-result">
+                    <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.common.result')}</span>
+                    <span className="value">{event.result && event.result() ? this.formatResult(event.result(), homeTeam, awayTeam) : '-'}</span>
+                  </div>
+
+                  {/* Durum (Mobilde footer olacak) */}
+                  <div className="PickemList-cell type-status">
+                    <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</span>
+                    <span className="value">
                       {isCorrect === null ? (
                         <span className="PickStatus PickStatus--pending">
                           <i className="fas fa-hourglass-half" /> {app.translator.trans('huseyinfiliz-pickem.lib.status.pending')}
@@ -117,13 +141,15 @@ export default class MyPicksTab extends Component {
                           <i className="fas fa-times" /> {app.translator.trans('huseyinfiliz-pickem.lib.status.incorrect')}
                         </span>
                       )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                    </span>
+                  </div>
+
+                </div>
+              );
+            })}
+          </div>
         </div>
+        {/* ESKİ YAPI BİTTİ */}
 
         {hasMore && (
           <div className="LoadMore">

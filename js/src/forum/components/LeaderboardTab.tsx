@@ -19,8 +19,11 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
     return (
       <div className="LeaderboardTab">
         <div className="Leaderboard">
+          {/* Podyum yapısı mobil için zaten uygundu, aynen kalıyor */}
           {userScores.length >= 3 && this.renderPodium(userScores.slice(0, 3))}
-          {this.renderTable(userScores)}
+          
+          {/* renderTable yerine renderList çağırıyoruz */}
+          {this.renderList(userScores)}
         </div>
       </div>
     );
@@ -46,7 +49,6 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
               </div>
               <div className="points">
                 {totalPoints}
-                {/* GÜNCELLENDİ: headers.points -> common.points */}
                 <small>{app.translator.trans('huseyinfiliz-pickem.lib.common.points')}</small>
               </div>
               <div className="stats">
@@ -66,21 +68,24 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
     );
   }
 
-  renderTable(userScores: any[]) {
+  /**
+   * YENİ: renderTable yerine Flarum standartlarına uygun responsive liste metodu
+   */
+  renderList(userScores: any[]) {
     return (
-      <table className="LeaderboardTable">
-        <thead>
-          <tr>
-            <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.rank')}</th>
-            <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.player')}</th>
-            {/* GÜNCELLENDİ: headers.points -> common.points */}
-            <th>{app.translator.trans('huseyinfiliz-pickem.lib.common.points')}</th>
-            <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.correct')}</th>
-            <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.total')}</th>
-            <th>{app.translator.trans('huseyinfiliz-pickem.lib.headers.accuracy')}</th>
-          </tr>
-        </thead>
-        <tbody>
+      <div className="PickemList">
+        {/* Başlıklar (Sadece Masaüstünde görünür) */}
+        <div className="PickemList-header">
+          <div className="PickemList-cell type-rank">{app.translator.trans('huseyinfiliz-pickem.lib.headers.rank')}</div>
+          <div className="PickemList-cell type-player">{app.translator.trans('huseyinfiliz-pickem.lib.headers.player')}</div>
+          <div className="PickemList-cell type-stat">{app.translator.trans('huseyinfiliz-pickem.lib.common.points')}</div>
+          <div className="PickemList-cell type-stat">{app.translator.trans('huseyinfiliz-pickem.lib.headers.correct')}</div>
+          <div className="PickemList-cell type-stat">{app.translator.trans('huseyinfiliz-pickem.lib.headers.total')}</div>
+          <div className="PickemList-cell type-stat">{app.translator.trans('huseyinfiliz-pickem.lib.headers.accuracy')}</div>
+        </div>
+
+        {/* Liste Öğeleri */}
+        <div className="PickemList-body">
           {userScores.map((score: any, index: number) => {
             const user = score && (typeof score.user === 'function' ? score.user() : score.user);
             const scoreId = (score && (typeof score.id === 'function' ? score.id() : score.id)) || index;
@@ -88,24 +93,49 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
             const totalPoints = typeof score.totalPoints === 'function' ? score.totalPoints() : score.totalPoints;
             const correctPicks = typeof score.correctPicks === 'function' ? score.correctPicks() : score.correctPicks;
             const totalPicks = typeof score.totalPicks === 'function' ? score.totalPicks() : score.totalPicks;
+            const accuracy = typeof score.accuracy === 'function' ? score.accuracy() : 0;
 
             return (
-              <tr key={String(scoreId)} className={index < 3 ? `top-${index + 1}` : ''}>
-                <td>{index + 1}</td>
-                <td>
-                  <strong>
+              <div key={String(scoreId)} className={`PickemList-item ${index < 3 ? `top-${index + 1}` : ''}`}>
+                
+                <div className="PickemList-cell type-rank">
+                  {/* Mobilde görünecek etiket */}
+                  <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.headers.rank')}</span>
+                  <span className="value">#{index + 1}</span>
+                </div>
+
+                <div className="PickemList-cell type-player">
+                  {/* Oyuncu adı için mobilde etikete gerek yok */}
+                  <span className="value">
                     {user ? (typeof user.displayName === 'function' ? user.displayName() : user.displayName) : app.translator.trans('core.lib.username.deleted_text')}
-                  </strong>
-                </td>
-                <td><strong>{totalPoints}</strong></td>
-                <td>{correctPicks}</td>
-                <td>{totalPicks}</td>
-                <td>{score.accuracy()}%</td>
-              </tr>
+                  </span>
+                </div>
+
+                <div className="PickemList-cell type-stat">
+                  <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.common.points')}</span>
+                  <span className="value"><strong>{totalPoints}</strong></span>
+                </div>
+
+                <div className="PickemList-cell type-stat">
+                  <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.headers.correct')}</span>
+                  <span className="value">{correctPicks}</span>
+                </div>
+
+                <div className="PickemList-cell type-stat">
+                  <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.headers.total')}</span>
+                  <span className="value">{totalPicks}</span>
+                </div>
+
+                <div className="PickemList-cell type-stat">
+                  <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.headers.accuracy')}</span>
+                  <span className="value">{accuracy}%</span>
+                </div>
+
+              </div>
             );
           })}
-        </tbody>
-      </table>
+        </div>
+      </div>
     );
   }
 }

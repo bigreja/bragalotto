@@ -1,3 +1,2859 @@
-/*! For license information please see admin.js.LICENSE.txt */
-(()=>{var t={24:(t,e,a)=>{var n=a(163),r=a(110),s=a(996),i=a(312),o=a(166),l=a(766),u=a(760);function c(){"use strict";var e=r(),a=e.m(c),m=(Object.getPrototypeOf?Object.getPrototypeOf(a):a.__proto__).constructor;function p(t){var e="function"==typeof t&&t.constructor;return!!e&&(e===m||"GeneratorFunction"===(e.displayName||e.name))}var h={throw:1,return:2,break:3,continue:3};function f(t){var e,a;return function(n){e||(e={stop:function(){return a(n.a,2)},catch:function(){return n.v},abrupt:function(t,e){return a(n.a,h[t],e)},delegateYield:function(t,r,s){return e.resultName=r,a(n.d,u(t),s)},finish:function(t){return a(n.f,t)}},a=function(t,a,r){n.p=e.prev,n.n=e.next;try{return t(a,r)}finally{e.next=n.n}}),e.resultName&&(e[e.resultName]=n.v,e.resultName=void 0),e.sent=n.v,e.next=n.n;try{return t.call(this,e)}finally{n.p=e.prev,n.n=e.next}}}return(t.exports=c=function(){return{wrap:function(t,a,n,r){return e.w(f(t),a,n,r&&r.reverse())},isGeneratorFunction:p,mark:e.m,awrap:function(t,e){return new n(t,e)},AsyncIterator:o,async:function(t,e,a,n,r){return(p(e)?i:s)(f(t),e,a,n,r)},keys:l,values:u}},t.exports.__esModule=!0,t.exports.default=t.exports)()}t.exports=c,t.exports.__esModule=!0,t.exports.default=t.exports},110:(t,e,a)=>{var n=a(397);function r(){var e,a,s="function"==typeof Symbol?Symbol:{},i=s.iterator||"@@iterator",o=s.toStringTag||"@@toStringTag";function l(t,r,s,i){var o=r&&r.prototype instanceof c?r:c,l=Object.create(o.prototype);return n(l,"_invoke",function(t,n,r){var s,i,o,l=0,c=r||[],m=!1,p={p:0,n:0,v:e,a:h,f:h.bind(e,4),d:function(t,a){return s=t,i=0,o=e,p.n=a,u}};function h(t,n){for(i=t,o=n,a=0;!m&&l&&!r&&a<c.length;a++){var r,s=c[a],h=p.p,f=s[2];t>3?(r=f===n)&&(o=s[(i=s[4])?5:(i=3,3)],s[4]=s[5]=e):s[0]<=h&&((r=t<2&&h<s[1])?(i=0,p.v=n,p.n=s[1]):h<f&&(r=t<3||s[0]>n||n>f)&&(s[4]=t,s[5]=n,p.n=f,i=0))}if(r||t>1)return u;throw m=!0,n}return function(r,c,f){if(l>1)throw TypeError("Generator is already running");for(m&&1===c&&h(c,f),i=c,o=f;(a=i<2?e:o)||!m;){s||(i?i<3?(i>1&&(p.n=-1),h(i,o)):p.n=o:p.v=o);try{if(l=2,s){if(i||(r="next"),a=s[r]){if(!(a=a.call(s,o)))throw TypeError("iterator result is not an object");if(!a.done)return a;o=a.value,i<2&&(i=0)}else 1===i&&(a=s.return)&&a.call(s),i<2&&(o=TypeError("The iterator does not provide a '"+r+"' method"),i=1);s=e}else if((a=(m=p.n<0)?o:t.call(n,p))!==u)break}catch(t){s=e,i=1,o=t}finally{l=1}}return{value:a,done:m}}}(t,s,i),!0),l}var u={};function c(){}function m(){}function p(){}a=Object.getPrototypeOf;var h=[][i]?a(a([][i]())):(n(a={},i,function(){return this}),a),f=p.prototype=c.prototype=Object.create(h);function d(t){return Object.setPrototypeOf?Object.setPrototypeOf(t,p):(t.__proto__=p,n(t,o,"GeneratorFunction")),t.prototype=Object.create(f),t}return m.prototype=p,n(f,"constructor",p),n(p,"constructor",m),m.displayName="GeneratorFunction",n(p,o,"GeneratorFunction"),n(f),n(f,o,"Generator"),n(f,i,function(){return this}),n(f,"toString",function(){return"[object Generator]"}),(t.exports=r=function(){return{w:l,m:d}},t.exports.__esModule=!0,t.exports.default=t.exports)()}t.exports=r,t.exports.__esModule=!0,t.exports.default=t.exports},163:t=>{t.exports=function(t,e){this.v=t,this.k=e},t.exports.__esModule=!0,t.exports.default=t.exports},166:(t,e,a)=>{var n=a(163),r=a(397);t.exports=function t(e,a){function s(t,r,i,o){try{var l=e[t](r),u=l.value;return u instanceof n?a.resolve(u.v).then(function(t){s("next",t,i,o)},function(t){s("throw",t,i,o)}):a.resolve(u).then(function(t){l.value=t,i(l)},function(t){return s("throw",t,i,o)})}catch(t){o(t)}}var i;this.next||(r(t.prototype),r(t.prototype,"function"==typeof Symbol&&Symbol.asyncIterator||"@asyncIterator",function(){return this})),r(this,"_invoke",function(t,e,n){function r(){return new a(function(e,a){s(t,n,e,a)})}return i=i?i.then(r,r):r()},!0)},t.exports.__esModule=!0,t.exports.default=t.exports},183:(t,e,a)=>{var n=a(24)();t.exports=n;try{regeneratorRuntime=n}catch(t){"object"==typeof globalThis?globalThis.regeneratorRuntime=n:Function("r","regeneratorRuntime = r")(n)}},312:(t,e,a)=>{var n=a(110),r=a(166);t.exports=function(t,e,a,s,i){return new r(n().w(t,e,a,s),i||Promise)},t.exports.__esModule=!0,t.exports.default=t.exports},397:t=>{function e(a,n,r,s){var i=Object.defineProperty;try{i({},"",{})}catch(a){i=0}t.exports=e=function(t,a,n,r){function s(a,n){e(t,a,function(t){return this._invoke(a,n,t)})}a?i?i(t,a,{value:n,enumerable:!r,configurable:!r,writable:!r}):t[a]=n:(s("next",0),s("throw",1),s("return",2))},t.exports.__esModule=!0,t.exports.default=t.exports,e(a,n,r,s)}t.exports=e,t.exports.__esModule=!0,t.exports.default=t.exports},735:t=>{function e(a){return t.exports=e="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t},t.exports.__esModule=!0,t.exports.default=t.exports,e(a)}t.exports=e,t.exports.__esModule=!0,t.exports.default=t.exports},760:(t,e,a)=>{var n=a(735).default;t.exports=function(t){if(null!=t){var e=t["function"==typeof Symbol&&Symbol.iterator||"@@iterator"],a=0;if(e)return e.call(t);if("function"==typeof t.next)return t;if(!isNaN(t.length))return{next:function(){return t&&a>=t.length&&(t=void 0),{value:t&&t[a++],done:!t}}}}throw new TypeError(n(t)+" is not iterable")},t.exports.__esModule=!0,t.exports.default=t.exports},766:t=>{t.exports=function(t){var e=Object(t),a=[];for(var n in e)a.unshift(n);return function t(){for(;a.length;)if((n=a.pop())in e)return t.value=n,t.done=!1,t;return t.done=!0,t}},t.exports.__esModule=!0,t.exports.default=t.exports},996:(t,e,a)=>{var n=a(312);t.exports=function(t,e,a,r,s){var i=n(t,e,a,r,s);return i.next().then(function(t){return t.done?t.value:i.next()})},t.exports.__esModule=!0,t.exports.default=t.exports}},e={};function a(n){var r=e[n];if(void 0!==r)return r.exports;var s=e[n]={exports:{}};return t[n](s,s.exports,a),s.exports}a.n=t=>{var e=t&&t.__esModule?()=>t.default:()=>t;return a.d(e,{a:e}),e},a.d=(t,e)=>{for(var n in e)a.o(e,n)&&!a.o(t,n)&&Object.defineProperty(t,n,{enumerable:!0,get:e[n]})},a.o=(t,e)=>Object.prototype.hasOwnProperty.call(t,e),(()=>{"use strict";const t=flarum.core.compat["admin/app"];var e=a.n(t);const n=flarum.core.compat["common/extenders"];var r=a.n(n);const s=flarum.core.compat["common/Model"];var i=a.n(s);function o(t,e){return o=Object.setPrototypeOf?Object.setPrototypeOf.bind():function(t,e){return t.__proto__=e,t},o(t,e)}function l(t,e){t.prototype=Object.create(e.prototype),t.prototype.constructor=t,o(t,e)}var u=function(t){function e(){for(var e,a=arguments.length,n=new Array(a),r=0;r<a;r++)n[r]=arguments[r];return(e=t.call.apply(t,[this].concat(n))||this).name=i().attribute("name"),e.slug=i().attribute("slug"),e.logoPath=i().attribute("logoPath"),e.logoUrl=i().attribute("logoUrl"),e}return l(e,t),e}(i()),c=function(t){function e(){for(var e,a=arguments.length,n=new Array(a),r=0;r<a;r++)n[r]=arguments[r];return(e=t.call.apply(t,[this].concat(n))||this).name=i().attribute("name"),e.slug=i().attribute("slug"),e.startDate=i().attribute("startDate",i().transformDate),e.endDate=i().attribute("endDate",i().transformDate),e}return l(e,t),e}(i()),p=function(t){function e(){for(var e,a=arguments.length,n=new Array(a),r=0;r<a;r++)n[r]=arguments[r];return(e=t.call.apply(t,[this].concat(n))||this).name=i().attribute("name"),e.seasonId=i().attribute("seasonId"),e.weekNumber=i().attribute("weekNumber"),e.season=i().hasOne("season"),e}return l(e,t),e}(i()),h=function(t){function e(){for(var e,a=arguments.length,n=new Array(a),r=0;r<a;r++)n[r]=arguments[r];return(e=t.call.apply(t,[this].concat(n))||this).weekId=i().attribute("weekId"),e.homeTeamId=i().attribute("homeTeamId"),e.awayTeamId=i().attribute("awayTeamId"),e.matchDate=i().attribute("matchDate",i().transformDate),e.cutoffDate=i().attribute("cutoffDate",i().transformDate),e.allowDraw=i().attribute("allowDraw"),e.status=i().attribute("status"),e.homeScore=i().attribute("homeScore"),e.awayScore=i().attribute("awayScore"),e.result=i().attribute("result"),e.canPick=i().attribute("canPick"),e.week=i().hasOne("week"),e.homeTeam=i().hasOne("homeTeam"),e.awayTeam=i().hasOne("awayTeam"),e}return l(e,t),e}(i()),f=function(t){function e(){for(var e,a=arguments.length,n=new Array(a),r=0;r<a;r++)n[r]=arguments[r];return(e=t.call.apply(t,[this].concat(n))||this).userId=i().attribute("userId"),e.eventId=i().attribute("eventId"),e.selectedOutcome=i().attribute("selectedOutcome"),e.isCorrect=i().attribute("isCorrect"),e.event=i().hasOne("event"),e.user=i().hasOne("user"),e}return l(e,t),e}(i()),d=function(t){function e(){for(var e,a=arguments.length,n=new Array(a),r=0;r<a;r++)n[r]=arguments[r];return(e=t.call.apply(t,[this].concat(n))||this).userId=i().attribute("userId"),e.seasonId=i().attribute("seasonId"),e.totalPoints=i().attribute("totalPoints"),e.totalPicks=i().attribute("totalPicks"),e.correctPicks=i().attribute("correctPicks"),e.accuracy=i().attribute("accuracy"),e.user=i().hasOne("user"),e.season=i().hasOne("season"),e}return l(e,t),e}(i());const v=[(new(r().Store)).add("pickem-teams",u),new(r().Model)(u).attribute("name").attribute("slug").attribute("logoPath").attribute("logoUrl"),(new(r().Store)).add("pickem-seasons",c),new(r().Model)(c).attribute("name").attribute("slug").attribute("startDate",i().transformDate).attribute("endDate",i().transformDate),(new(r().Store)).add("pickem-weeks",p),new(r().Model)(p).attribute("name").attribute("seasonId").attribute("weekNumber").hasOne("season"),(new(r().Store)).add("pickem-events",h),new(r().Model)(h).attribute("weekId").attribute("homeTeamId").attribute("awayTeamId").attribute("matchDate",i().transformDate).attribute("cutoffDate",i().transformDate).attribute("allowDraw").attribute("status").attribute("homeScore").attribute("awayScore").attribute("result").attribute("canPick").hasOne("week").hasOne("homeTeam").hasOne("awayTeam"),(new(r().Store)).add("pickem-picks",f),new(r().Model)(f).attribute("userId").attribute("eventId").attribute("selectedOutcome").attribute("isCorrect").hasOne("event").hasOne("user"),(new(r().Store)).add("pickem-user-scores",d),new(r().Model)(d).attribute("userId").attribute("seasonId").attribute("totalPoints").attribute("totalPicks").attribute("correctPicks").attribute("accuracy").hasOne("user").hasOne("season")];function b(t,e,a,n,r,s,i){try{var o=t[s](i),l=o.value}catch(t){return void a(t)}o.done?e(l):Promise.resolve(l).then(n,r)}function y(t){return function(){var e=this,a=arguments;return new Promise(function(n,r){var s=t.apply(e,a);function i(t){b(s,n,r,i,o,"next",t)}function o(t){b(s,n,r,i,o,"throw",t)}i(void 0)})}}var g=a(183),k=a.n(g);const w=flarum.core.compat["admin/components/ExtensionPage"];var N=a.n(w);const z=flarum.core.compat["common/components/LoadingIndicator"];var x=a.n(z);const T=flarum.core.compat["common/components/Alert"];var D=a.n(T);const S=flarum.core.compat["common/Component"];var _=a.n(S);const I=flarum.core.compat["common/components/Button"];var F=a.n(I);const P=flarum.core.compat["common/components/Modal"];var O=a.n(P);const B=flarum.core.compat["common/utils/string"];var M=function(t){function e(){for(var e,a=arguments.length,n=new Array(a),r=0;r<a;r++)n[r]=arguments[r];return(e=t.call.apply(t,[this].concat(n))||this).team=void 0,e.name="",e.slug="",e.logoPath="",e.loading=!1,e}l(e,t);var a=e.prototype;return a.oninit=function(e){t.prototype.oninit.call(this,e),this.team=this.attrs.team,this.team&&(this.name=this.team.name()||"",this.slug=this.team.slug()||"",this.logoPath=this.team.logoPath()||"")},a.className=function(){return"TeamModal Modal--small"},a.title=function(){var t=app.translator.trans("huseyinfiliz-pickem.lib.common.team");return this.team?app.translator.trans("huseyinfiliz-pickem.lib.actions.edit",{resource:t}):app.translator.trans("huseyinfiliz-pickem.lib.actions.create",{resource:t})},a.content=function(){var t=this;return m("div",{className:"Modal-body"},m("div",{className:"Form"},m("div",{className:"Form-group"},m("label",null,app.translator.trans("huseyinfiliz-pickem.lib.form.name")),m("input",{className:"FormControl",type:"text",value:this.name,oninput:function(e){t.name=e.target.value,t.team||(t.slug=(0,B.slug)(t.name))}})),m("div",{className:"Form-group"},m("label",null,app.translator.trans("huseyinfiliz-pickem.lib.form.slug")),m("input",{className:"FormControl",type:"text",value:this.slug,oninput:function(e){t.slug=e.target.value}})),m("div",{className:"Form-group"},m("label",null,app.translator.trans("huseyinfiliz-pickem.lib.form.logo_url")),m("input",{className:"FormControl",type:"text",value:this.logoPath,oninput:function(e){t.logoPath=e.target.value},placeholder:"https://example.com/logo.png"}),this.logoPath&&m("div",{style:{marginTop:"10px"}},m("img",{src:this.logoPath,alt:"Logo preview",style:{maxWidth:"100px",maxHeight:"100px",border:"1px solid #ddd",padding:"5px",borderRadius:"4px"},onerror:function(t){t.target.style.display="none"}}))),m("div",{className:"Form-group"},m(F(),{className:"Button Button--primary",type:"submit",loading:this.loading},app.translator.trans("huseyinfiliz-pickem.lib.buttons.save")))))},a.onsubmit=function(){var t=y(k().mark(function t(e){var a,n,r;return k().wrap(function(t){for(;;)switch(t.prev=t.next){case 0:return e.preventDefault(),this.loading=!0,m.redraw(),a={name:this.name,slug:this.slug,logoPath:this.logoPath},t.prev=1,n=this.team?this.team.save(a):app.store.createRecord("pickem-teams").save(a),t.next=2,n;case 2:this.attrs.onsave(),this.hide(),t.next=4;break;case 3:t.prev=3,r=t.catch(1),this.loading=!1,this.alertAttrs=r.alert,m.redraw();case 4:case"end":return t.stop()}},t,this,[[1,3]])}));return function(e){return t.apply(this,arguments)}}(),e}(O());const C=flarum.core.compat["common/utils/extractText"];var E=a.n(C),A=function(t){function e(){return t.apply(this,arguments)||this}l(e,t);var a=e.prototype;return a.view=function(){var t=this,e=app.store.all("pickem-teams"),a=app.translator.trans("huseyinfiliz-pickem.lib.common.team");return m("div",{className:"TeamsTab"},m("div",{className:"TeamsTab-header"},m("h3",null,m("i",{className:"fas fa-users"}),app.translator.trans("huseyinfiliz-pickem.lib.nav.teams")),m(F(),{className:"Button Button--primary",icon:"fas fa-plus",onclick:function(){return app.modal.show(M,{team:null,onsave:function(){return m.redraw()}})}},app.translator.trans("huseyinfiliz-pickem.lib.actions.create",{resource:a}))),m("table",{className:"Table"},m("thead",null,m("tr",null,m("th",null,app.translator.trans("huseyinfiliz-pickem.lib.headers.logo")),m("th",null,app.translator.trans("huseyinfiliz-pickem.lib.headers.name")),m("th",null,app.translator.trans("huseyinfiliz-pickem.lib.headers.slug")),m("th",null))),m("tbody",null,e.map(function(e){return m("tr",{key:e.id()},m("td",null,t.renderTeamLogo(e)),m("td",null,e.name()),m("td",null,e.slug()),m("td",null,m(F(),{className:"Button Button--primary",icon:"fas fa-edit",onclick:function(){return app.modal.show(M,{team:e,onsave:function(){return m.redraw()}})}},app.translator.trans("huseyinfiliz-pickem.lib.buttons.edit")),m(F(),{className:"Button Button--danger",icon:"fas fa-trash",onclick:function(){return t.deleteTeam(e)}},app.translator.trans("huseyinfiliz-pickem.lib.buttons.delete"))))}))))},a.renderTeamLogo=function(t){var e=t.logoUrl(),a=t.name(),n=a?a.charAt(0).toUpperCase():"T",r=function(t){for(var e=0,a=0;a<t.length;a++)e=t.charCodeAt(a)+((e<<5)-e);return"hsl("+e%360+", 65%, 50%)"}(a||"Team");return e?m("img",{src:e,alt:a,className:"TeamLogo TeamLogo--image"}):m("div",{className:"TeamLogo TeamLogo--letter",style:"background-color: "+r},n)},a.deleteTeam=function(t){var e=app.translator.trans("huseyinfiliz-pickem.lib.common.team"),a=E()(app.translator.trans("huseyinfiliz-pickem.lib.messages.delete_confirm",{resource:e}));confirm(a)&&t.delete().then(function(){m.redraw()})},e}(_()),L=function(t){function e(){for(var e,a=arguments.length,n=new Array(a),r=0;r<a;r++)n[r]=arguments[r];return(e=t.call.apply(t,[this].concat(n))||this).season=void 0,e.name="",e.slug="",e.startDate="",e.endDate="",e.loading=!1,e}l(e,t);var a=e.prototype;return a.oninit=function(e){t.prototype.oninit.call(this,e),this.season=this.attrs.season,this.season&&(this.name=this.season.name()||"",this.slug=this.season.slug()||"",this.startDate=this.formatDateForInput(this.season.startDate()),this.endDate=this.formatDateForInput(this.season.endDate()))},a.formatDateForInput=function(t){return t?new Date(t).toISOString().slice(0,10):""},a.className=function(){return"SeasonModal Modal--small"},a.title=function(){var t=app.translator.trans("huseyinfiliz-pickem.lib.common.season");return this.season?app.translator.trans("huseyinfiliz-pickem.lib.actions.edit",{resource:t}):app.translator.trans("huseyinfiliz-pickem.lib.actions.create",{resource:t})},a.content=function(){var t=this;return m("div",{className:"Modal-body"},m("div",{className:"Form"},m("div",{className:"Form-group"},m("label",null,app.translator.trans("huseyinfiliz-pickem.lib.form.name")),m("input",{className:"FormControl",type:"text",value:this.name,oninput:function(e){t.name=e.target.value,t.season||(t.slug=(0,B.slug)(t.name))}})),m("div",{className:"Form-group"},m("label",null,app.translator.trans("huseyinfiliz-pickem.lib.form.slug")),m("input",{className:"FormControl",type:"text",value:this.slug,oninput:function(e){t.slug=e.target.value}})),m("div",{className:"Form-group"},m("label",null,app.translator.trans("huseyinfiliz-pickem.lib.form.start_date")),m("input",{className:"FormControl",type:"date",value:this.startDate,oninput:function(e){t.startDate=e.target.value}})),m("div",{className:"Form-group"},m("label",null,app.translator.trans("huseyinfiliz-pickem.lib.form.end_date")),m("input",{className:"FormControl",type:"date",value:this.endDate,oninput:function(e){t.endDate=e.target.value}})),m("div",{className:"Form-group"},m(F(),{className:"Button Button--primary",type:"submit",loading:this.loading},app.translator.trans("huseyinfiliz-pickem.lib.buttons.save")))))},a.onsubmit=function(){var t=y(k().mark(function t(e){var a,n,r;return k().wrap(function(t){for(;;)switch(t.prev=t.next){case 0:return e.preventDefault(),this.loading=!0,m.redraw(),a={name:this.name,slug:this.slug,startDate:this.startDate||null,endDate:this.endDate||null},t.prev=1,n=this.season?this.season.save(a):app.store.createRecord("pickem-seasons").save(a),t.next=2,n;case 2:this.attrs.onsave(),this.hide(),t.next=4;break;case 3:t.prev=3,r=t.catch(1),this.loading=!1,this.alertAttrs=r.alert,m.redraw();case 4:case"end":return t.stop()}},t,this,[[1,3]])}));return function(e){return t.apply(this,arguments)}}(),e}(O()),j=function(t){function e(){return t.apply(this,arguments)||this}l(e,t);var a=e.prototype;return a.view=function(){var t=this,e=app.store.all("pickem-seasons"),a=app.translator.trans("huseyinfiliz-pickem.lib.common.season");return m("div",{className:"SeasonsTab"},m("div",{className:"SeasonsTab-header"},m("h3",null,m("i",{className:"fas fa-calendar-alt"}),app.translator.trans("huseyinfiliz-pickem.lib.nav.seasons")),m(F(),{className:"Button Button--primary",icon:"fas fa-plus",onclick:function(){return app.modal.show(L,{season:null,onsave:function(){return m.redraw()}})}},app.translator.trans("huseyinfiliz-pickem.lib.actions.create",{resource:a}))),m("table",{className:"Table"},m("thead",null,m("tr",null,m("th",null,app.translator.trans("huseyinfiliz-pickem.lib.headers.name")),m("th",null,app.translator.trans("huseyinfiliz-pickem.lib.headers.slug")),m("th",null,app.translator.trans("huseyinfiliz-pickem.lib.common.date")),m("th",null))),m("tbody",null,e.map(function(e){return m("tr",{key:e.id()},m("td",null,e.name()),m("td",null,e.slug()),m("td",null,e.startDate()&&e.endDate()?new Date(e.startDate()).toLocaleDateString()+" - "+new Date(e.endDate()).toLocaleDateString():"-"),m("td",null,m(F(),{className:"Button Button--primary",icon:"fas fa-edit",onclick:function(){return app.modal.show(L,{season:e,onsave:function(){return m.redraw()}})}},app.translator.trans("huseyinfiliz-pickem.lib.buttons.edit")),m(F(),{className:"Button Button--danger",icon:"fas fa-trash",onclick:function(){return t.deleteSeason(e)}},app.translator.trans("huseyinfiliz-pickem.lib.buttons.delete"))))}))))},a.deleteSeason=function(t){var e=app.translator.trans("huseyinfiliz-pickem.lib.common.season"),a=E()(app.translator.trans("huseyinfiliz-pickem.lib.messages.delete_confirm",{resource:e}));confirm(a)&&t.delete().then(function(){m.redraw()})},e}(_());const G=flarum.core.compat["common/components/Select"];var R=a.n(G),U=function(t){function e(){for(var e,a=arguments.length,n=new Array(a),r=0;r<a;r++)n[r]=arguments[r];return(e=t.call.apply(t,[this].concat(n))||this).week=void 0,e.name="",e.weekNumber="",e.seasonId="0",e.loading=!1,e}l(e,t);var a=e.prototype;return a.oninit=function(e){t.prototype.oninit.call(this,e),this.week=this.attrs.week,this.week&&(this.name=this.week.name()||"",this.weekNumber=this.week.weekNumber()||"",this.seasonId=this.week.seasonId()||"0")},a.className=function(){return"WeekModal Modal--small"},a.title=function(){var t=app.translator.trans("huseyinfiliz-pickem.lib.common.week");return this.week?app.translator.trans("huseyinfiliz-pickem.lib.actions.edit",{resource:t}):app.translator.trans("huseyinfiliz-pickem.lib.actions.create",{resource:t})},a.content=function(){var t=this,e=app.store.all("pickem-seasons").reduce(function(t,e){return t[e.id()]=e.name(),t},{});return m("div",{className:"Modal-body"},m("div",{className:"Form"},m("div",{className:"Form-group"},m("label",null,app.translator.trans("huseyinfiliz-pickem.lib.form.name")),m("input",{className:"FormControl",type:"text",value:this.name,oninput:function(e){t.name=e.target.value}})),m("div",{className:"Form-group"},m("label",null,app.translator.trans("huseyinfiliz-pickem.lib.common.season")),m(R(),{className:"FormControl",value:this.seasonId,onchange:function(e){t.seasonId=e},options:e,default:"0"},m("option",{value:"0"},app.translator.trans("huseyinfiliz-pickem.lib.form.select_season")))),m("div",{className:"Form-group"},m("label",null,app.translator.trans("huseyinfiliz-pickem.lib.form.week_number")),m("input",{className:"FormControl",type:"number",value:this.weekNumber,oninput:function(e){t.weekNumber=e.target.value}})),m("div",{className:"Form-group"},m(F(),{className:"Button Button--primary",type:"submit",loading:this.loading},app.translator.trans("huseyinfiliz-pickem.lib.buttons.save")))))},a.onsubmit=function(){var t=y(k().mark(function t(e){var a,n,r;return k().wrap(function(t){for(;;)switch(t.prev=t.next){case 0:return e.preventDefault(),this.loading=!0,m.redraw(),a={name:this.name,weekNumber:this.weekNumber||null,seasonId:"0"===this.seasonId?null:this.seasonId},t.prev=1,n=this.week?this.week.save(a):app.store.createRecord("pickem-weeks").save(a),t.next=2,n;case 2:this.attrs.onsave(),this.hide(),t.next=4;break;case 3:t.prev=3,r=t.catch(1),this.loading=!1,this.alertAttrs=r.alert,m.redraw();case 4:case"end":return t.stop()}},t,this,[[1,3]])}));return function(e){return t.apply(this,arguments)}}(),e}(O()),W=function(t){function e(){return t.apply(this,arguments)||this}l(e,t);var a=e.prototype;return a.view=function(){var t=this,e=app.store.all("pickem-weeks"),a=app.translator.trans("huseyinfiliz-pickem.lib.common.week");return m("div",{className:"WeeksTab"},m("div",{className:"WeeksTab-header"},m("h3",null,m("i",{className:"fas fa-calendar-week"}),app.translator.trans("huseyinfiliz-pickem.lib.nav.weeks")),m(F(),{className:"Button Button--primary",icon:"fas fa-plus",onclick:function(){return app.modal.show(U,{week:null,onsave:function(){return m.redraw()}})}},app.translator.trans("huseyinfiliz-pickem.lib.actions.create",{resource:a}))),m("table",{className:"Table"},m("thead",null,m("tr",null,m("th",null,app.translator.trans("huseyinfiliz-pickem.lib.headers.name")),m("th",null,app.translator.trans("huseyinfiliz-pickem.lib.common.season")),m("th",null,app.translator.trans("huseyinfiliz-pickem.lib.headers.week_number")),m("th",null))),m("tbody",null,e.map(function(e){var a=e.season();return m("tr",{key:e.id()},m("td",null,e.name()),m("td",null,a?a.name():"None"),m("td",null,e.weekNumber()||"-"),m("td",null,m(F(),{className:"Button Button--primary",icon:"fas fa-edit",onclick:function(){return app.modal.show(U,{week:e,onsave:function(){return m.redraw()}})}},app.translator.trans("huseyinfiliz-pickem.lib.buttons.edit")),m(F(),{className:"Button Button--danger",icon:"fas fa-trash",onclick:function(){return t.deleteWeek(e)}},app.translator.trans("huseyinfiliz-pickem.lib.buttons.delete"))))}))))},a.deleteWeek=function(t){var e=app.translator.trans("huseyinfiliz-pickem.lib.common.week"),a=E()(app.translator.trans("huseyinfiliz-pickem.lib.messages.delete_confirm",{resource:e}));confirm(a)&&t.delete().then(function(){m.redraw()})},e}(_());const q=flarum.core.compat["common/components/Placeholder"];var H=a.n(q),Y=function(t){function e(){for(var e,a=arguments.length,n=new Array(a),r=0;r<a;r++)n[r]=arguments[r];return(e=t.call.apply(t,[this].concat(n))||this).event=void 0,e.homeTeamId="0",e.awayTeamId="0",e.weekId="0",e.matchDate="",e.cutoffDate="",e.allowDraw=!1,e.status="scheduled",e.loading=!1,e}l(e,t);var a=e.prototype;return a.oninit=function(e){t.prototype.oninit.call(this,e),this.event=this.attrs.event,this.event&&(this.homeTeamId=this.event.homeTeamId()||"0",this.awayTeamId=this.event.awayTeamId()||"0",this.weekId=this.event.weekId()||"0",this.matchDate=this.formatDateForInput(this.event.matchDate()),this.cutoffDate=this.formatDateForInput(this.event.cutoffDate()),this.allowDraw=this.event.allowDraw()||!1,this.status=this.event.status()||"scheduled")},a.formatDateForInput=function(t){return t?t.getFullYear()+"-"+(t.getMonth()+1).toString().padStart(2,"0")+"-"+t.getDate().toString().padStart(2,"0")+"T"+t.getHours().toString().padStart(2,"0")+":"+t.getMinutes().toString().padStart(2,"0"):""},a.className=function(){return"EventModal Modal--medium"},a.title=function(){var t=app.translator.trans("huseyinfiliz-pickem.lib.common.match");return this.event?app.translator.trans("huseyinfiliz-pickem.lib.actions.edit",{resource:t}):app.translator.trans("huseyinfiliz-pickem.lib.actions.create",{resource:t})},a.content=function(){var t=this,e=app.store.all("pickem-teams"),a=app.store.all("pickem-weeks"),n=e.reduce(function(t,e){return t[e.id()]=e.name(),t},{}),r=a.reduce(function(t,e){return t[e.id()]=e.name(),t},{});return m("div",{className:"Modal-body"},m("div",{className:"Form"},m("div",{className:"Form-group"},m("label",null,app.translator.trans("huseyinfiliz-pickem.lib.common.week")),m(R(),{className:"FormControl",value:this.weekId,onchange:function(e){t.weekId=e},options:r,default:"0"},m("option",{value:"0"},app.translator.trans("huseyinfiliz-pickem.lib.form.no_week")))),m("div",{className:"Form-group"},m("label",null,app.translator.trans("huseyinfiliz-pickem.lib.form.home_team")),m(R(),{className:"FormControl",value:this.homeTeamId,onchange:function(e){t.homeTeamId=e},options:n,default:"0"},m("option",{value:"0"},app.translator.trans("huseyinfiliz-pickem.lib.form.select_team")))),m("div",{className:"Form-group"},m("label",null,app.translator.trans("huseyinfiliz-pickem.lib.form.away_team")),m(R(),{className:"FormControl",value:this.awayTeamId,onchange:function(e){t.awayTeamId=e},options:n,default:"0"},m("option",{value:"0"},app.translator.trans("huseyinfiliz-pickem.lib.form.select_team")))),m("div",{className:"Form-group"},m("label",null,app.translator.trans("huseyinfiliz-pickem.lib.headers.match_date")),m("input",{className:"FormControl",type:"datetime-local",value:this.matchDate,oninput:function(e){t.matchDate=e.target.value},required:!0})),m("div",{className:"Form-group"},m("label",null,app.translator.trans("huseyinfiliz-pickem.lib.headers.cutoff_date")),m("input",{className:"FormControl",type:"datetime-local",value:this.cutoffDate,oninput:function(e){t.cutoffDate=e.target.value},required:!0})),m("div",{className:"Form-group"},m("label",{className:"checkbox"},m("input",{type:"checkbox",checked:this.allowDraw,onchange:function(e){t.allowDraw=e.target.checked}}),app.translator.trans("huseyinfiliz-pickem.lib.form.allow_draw"))),m("div",{className:"Form-group"},m("label",null,app.translator.trans("huseyinfiliz-pickem.lib.common.status")),m(R(),{className:"FormControl",value:this.status,onchange:function(e){t.status=e},options:{scheduled:app.translator.trans("huseyinfiliz-pickem.lib.status.scheduled"),closed:app.translator.trans("huseyinfiliz-pickem.lib.status.closed"),finished:app.translator.trans("huseyinfiliz-pickem.lib.status.finished")}})),m("div",{className:"Form-group"},m(F(),{className:"Button Button--primary",type:"submit",loading:this.loading},app.translator.trans("huseyinfiliz-pickem.lib.buttons.save")))))},a.onsubmit=function(){var t=y(k().mark(function t(e){var a,n,r;return k().wrap(function(t){for(;;)switch(t.prev=t.next){case 0:if(e.preventDefault(),this.matchDate&&""!==this.matchDate.trim()){t.next=1;break}return app.alerts.show({type:"error"},app.translator.trans("huseyinfiliz-pickem.lib.messages.invalid_outcome")),t.abrupt("return");case 1:if(this.cutoffDate&&""!==this.cutoffDate.trim()){t.next=2;break}return app.alerts.show({type:"error"},app.translator.trans("huseyinfiliz-pickem.lib.messages.invalid_outcome")),t.abrupt("return");case 2:if("0"!==this.homeTeamId&&""!==this.homeTeamId&&this.homeTeamId){t.next=3;break}return app.alerts.show({type:"error"},app.translator.trans("huseyinfiliz-pickem.lib.messages.invalid_outcome")),t.abrupt("return");case 3:if("0"!==this.awayTeamId&&""!==this.awayTeamId&&this.awayTeamId){t.next=4;break}return app.alerts.show({type:"error"},app.translator.trans("huseyinfiliz-pickem.lib.messages.invalid_outcome")),t.abrupt("return");case 4:if(this.homeTeamId!==this.awayTeamId){t.next=5;break}return app.alerts.show({type:"error"},app.translator.trans("huseyinfiliz-pickem.lib.messages.same_team")),t.abrupt("return");case 5:return this.loading=!0,m.redraw(),a={weekId:"0"===this.weekId?null:parseInt(this.weekId),homeTeamId:parseInt(this.homeTeamId),awayTeamId:parseInt(this.awayTeamId),matchDate:this.matchDate,cutoffDate:this.cutoffDate,allowDraw:this.allowDraw,status:this.status},t.prev=6,n=this.event?this.event.save(a):app.store.createRecord("pickem-events").save(a),t.next=7,n;case 7:this.attrs.onsave(),this.hide(),t.next=9;break;case 8:t.prev=8,r=t.catch(6),this.loading=!1,this.alertAttrs=r.alert,m.redraw();case 9:case"end":return t.stop()}},t,this,[[6,8]])}));return function(e){return t.apply(this,arguments)}}(),e}(O()),J=function(t){function e(){for(var e,a=arguments.length,n=new Array(a),r=0;r<a;r++)n[r]=arguments[r];return(e=t.call.apply(t,[this].concat(n))||this).event=void 0,e.homeScore="",e.awayScore="",e.loading=!1,e}l(e,t);var a=e.prototype;return a.oninit=function(e){t.prototype.oninit.call(this,e),this.event=this.attrs.event,this.homeScore=null!==this.event.homeScore()?this.event.homeScore():"",this.awayScore=null!==this.event.awayScore()?this.event.awayScore():""},a.className=function(){return"ResultModal Modal--small"},a.title=function(){return app.translator.trans("huseyinfiliz-pickem.lib.actions.enter_result")},a.content=function(){var t=this,e=this.event.homeTeam(),a=this.event.awayTeam(),n="",r=Number(this.homeScore),s=Number(this.awayScore);return""!==this.homeScore&&""!==this.awayScore&&(n=r>s?e?e.name():app.translator.trans("huseyinfiliz-pickem.lib.common.home"):s>r?a?a.name():app.translator.trans("huseyinfiliz-pickem.lib.common.away"):app.translator.trans("huseyinfiliz-pickem.lib.common.draw")),m("div",{className:"Modal-body"},m("div",{className:"Form"},m("div",{className:"Form-group"},m("label",null,e?e.name():app.translator.trans("huseyinfiliz-pickem.lib.form.home_team")),m("input",{className:"FormControl",type:"number",min:"0",value:this.homeScore,oninput:function(e){t.homeScore=e.target.value}})),m("div",{className:"Form-group"},m("label",null,a?a.name():app.translator.trans("huseyinfiliz-pickem.lib.form.away_team")),m("input",{className:"FormControl",type:"number",min:"0",value:this.awayScore,oninput:function(e){t.awayScore=e.target.value}})),n&&m("div",{className:"Form-group"},m("p",null,m("strong",null,app.translator.trans("huseyinfiliz-pickem.lib.common.result"),": "),n)),m("div",{className:"Form-group"},m(F(),{className:"Button Button--primary",type:"submit",loading:this.loading},app.translator.trans("huseyinfiliz-pickem.lib.buttons.save")))))},a.onsubmit=function(){var t=y(k().mark(function t(e){var a,n;return k().wrap(function(t){for(;;)switch(t.prev=t.next){case 0:return e.preventDefault(),this.loading=!0,m.redraw(),t.prev=1,t.next=2,app.request({method:"POST",url:app.forum.attribute("apiUrl")+"/pickem-events/"+this.event.id()+"/result",body:{data:{type:"pickem-events",attributes:{homeScore:parseInt(this.homeScore)||0,awayScore:parseInt(this.awayScore)||0}}}});case 2:a=t.sent,app.store.pushPayload(a),app.alerts.show({type:"success"},app.translator.trans("huseyinfiliz-pickem.lib.messages.result_saved")),this.attrs.onsave(),this.hide(),t.next=4;break;case 3:t.prev=3,n=t.catch(1),this.loading=!1,this.alertAttrs=n.alert,m.redraw();case 4:case"end":return t.stop()}},t,this,[[1,3]])}));return function(e){return t.apply(this,arguments)}}(),e}(O()),K=function(t){function e(){for(var e,a=arguments.length,n=new Array(a),r=0;r<a;r++)n[r]=arguments[r];return(e=t.call.apply(t,[this].concat(n))||this).selectedSeason="all",e.selectedTeam="all",e.selectedStatus="all",e.sortOrder="desc",e.loading=!0,e.events=[],e.totalEvents=0,e.page=1,e.limit=20,e}l(e,t);var a=e.prototype;return a.oninit=function(e){t.prototype.oninit.call(this,e),this.loadEvents()},a.buildFilters=function(){var t=this,e={},a=[];if("all"!==this.selectedSeason){var n=app.store.all("pickem-weeks").filter(function(e){return e.seasonId()==t.selectedSeason});a.push.apply(a,n.map(function(t){return t.id()})),0===a.length&&a.push("0"),e.week=a.join(",")}return"all"!==this.selectedTeam&&(e.team=this.selectedTeam),"all"!==this.selectedStatus&&(e.status=this.selectedStatus),e},a.loadEvents=function(t){var e=this;void 0===t&&(t=1),this.loading=!0,this.page=t,m.redraw();var a=this.buildFilters(),n="desc"===this.sortOrder?"-matchDate":"matchDate",r=(this.page-1)*this.limit;app.store.find("pickem-events",{include:"homeTeam,awayTeam,week",filter:a,sort:n,page:{limit:this.limit,offset:r}}).then(function(t){e.events=t,e.totalEvents=t.payload.meta.total,e.loading=!1,m.redraw()}).catch(function(t){e.loading=!1,console.error(t),m.redraw()})},a.view=function(){var t=this,e=app.store.all("pickem-seasons"),a=app.store.all("pickem-teams"),n=this.totalEvents,r=this.events.length>0,s=n>this.limit,i=Math.ceil(n/this.limit),o=app.translator.trans("huseyinfiliz-pickem.lib.common.match");return m("div",{className:"EventsTab"},m("div",{className:"EventsTab-header"},m("h3",null,m("i",{className:"fas fa-futbol"}),app.translator.trans("huseyinfiliz-pickem.lib.nav.matches")),m(F(),{className:"Button Button--primary",icon:"fas fa-plus",onclick:function(){return app.modal.show(Y,{event:null,onsave:function(){return t.loadEvents(t.page)}})}},app.translator.trans("huseyinfiliz-pickem.lib.actions.create",{resource:o}))),m("div",{className:"EventsTab-filters"},m("div",{className:"FilterGroup"},m("label",null,m("i",{className:"fas fa-calendar-alt"}),m("span",null,app.translator.trans("huseyinfiliz-pickem.lib.common.season"))),m("select",{className:"FormControl",value:this.selectedSeason,onchange:function(e){t.selectedSeason=e.target.value,t.loadEvents(1)}},m("option",{value:"all"},app.translator.trans("huseyinfiliz-pickem.lib.filters.all",{resource:app.translator.trans("huseyinfiliz-pickem.lib.common.season")})),e.map(function(t){return m("option",{value:t.id(),key:t.id()},t.name())}))),m("div",{className:"FilterGroup"},m("label",null,m("i",{className:"fas fa-users"}),m("span",null,app.translator.trans("huseyinfiliz-pickem.lib.common.team"))),m("select",{className:"FormControl",value:this.selectedTeam,onchange:function(e){t.selectedTeam=e.target.value,t.loadEvents(1)}},m("option",{value:"all"},app.translator.trans("huseyinfiliz-pickem.lib.filters.all",{resource:app.translator.trans("huseyinfiliz-pickem.lib.common.team")})),a.map(function(t){return m("option",{value:t.id(),key:t.id()},t.name())}))),m("div",{className:"FilterGroup"},m("label",null,m("i",{className:"fas fa-info-circle"}),m("span",null,app.translator.trans("huseyinfiliz-pickem.lib.common.status"))),m("select",{className:"FormControl",value:this.selectedStatus,onchange:function(e){t.selectedStatus=e.target.value,t.loadEvents(1)}},m("option",{value:"all"},app.translator.trans("huseyinfiliz-pickem.lib.filters.all",{resource:app.translator.trans("huseyinfiliz-pickem.lib.common.status")})),m("option",{value:"scheduled"},app.translator.trans("huseyinfiliz-pickem.lib.status.scheduled")),m("option",{value:"closed"},app.translator.trans("huseyinfiliz-pickem.lib.status.closed")),m("option",{value:"finished"},app.translator.trans("huseyinfiliz-pickem.lib.status.finished")))),m("div",{className:"FilterGroup"},m("label",null,m("i",{className:"fas fa-sort"}),m("span",null,app.translator.trans("huseyinfiliz-pickem.lib.filters.sort"))),m("select",{className:"FormControl",value:this.sortOrder,onchange:function(e){t.sortOrder=e.target.value,t.loadEvents(1)}},m("option",{value:"desc"},app.translator.trans("huseyinfiliz-pickem.lib.filters.newest")),m("option",{value:"asc"},app.translator.trans("huseyinfiliz-pickem.lib.filters.oldest")))),("all"!==this.selectedSeason||"all"!==this.selectedTeam||"all"!==this.selectedStatus||"desc"!==this.sortOrder)&&m(F(),{className:"Button FilterGroup-reset",icon:"fas fa-redo",onclick:function(){t.selectedSeason="all",t.selectedTeam="all",t.selectedStatus="all",t.sortOrder="desc",t.loadEvents(1)}},app.translator.trans("huseyinfiliz-pickem.lib.filters.reset"))),this.loading?m(x(),null):r?m("table",{className:"Table"},m("thead",null,m("tr",null,m("th",null,app.translator.trans("huseyinfiliz-pickem.lib.common.home")),m("th",null,app.translator.trans("huseyinfiliz-pickem.lib.common.away")),m("th",null,app.translator.trans("huseyinfiliz-pickem.lib.headers.match_date")),m("th",null,app.translator.trans("huseyinfiliz-pickem.lib.common.status")),m("th",null,app.translator.trans("huseyinfiliz-pickem.lib.common.score")),m("th",null))),m("tbody",null,this.events.map(function(e){var a=e.homeTeam(),n=e.awayTeam();return m("tr",{key:e.id()},m("td",null,m("div",{className:"TeamCell"},t.renderTeamLogo(a),m("span",null,a?a.name():"N/A"))),m("td",null,m("div",{className:"TeamCell"},t.renderTeamLogo(n),m("span",null,n?n.name():"N/A"))),m("td",null,e.matchDate()?new Date(e.matchDate()).toLocaleString():"-"),m("td",null,m("span",{className:"StatusBadge StatusBadge--"+e.status()},app.translator.trans("huseyinfiliz-pickem.lib.status."+e.status()))),m("td",null,null!==e.homeScore()&&null!==e.awayScore()?e.homeScore()+" - "+e.awayScore():"-"),m("td",null,m(F(),{className:"Button Button--primary",icon:"fas fa-edit",onclick:function(){return app.modal.show(Y,{event:e,onsave:function(){return t.loadEvents(t.page)}})}},app.translator.trans("huseyinfiliz-pickem.lib.buttons.edit")),m(F(),{className:"Button Button--success",icon:"fas fa-check",onclick:function(){return app.modal.show(J,{event:e,onsave:function(){return t.loadEvents(t.page)}})}},app.translator.trans("huseyinfiliz-pickem.lib.actions.enter_result")),m(F(),{className:"Button Button--danger",icon:"fas fa-trash",onclick:function(){return t.deleteEvent(e)}},app.translator.trans("huseyinfiliz-pickem.lib.buttons.delete"))))}))):m(H(),{text:app.translator.trans("huseyinfiliz-pickem.lib.messages.no_matches")}),s&&!this.loading&&m("nav",{className:"Pagination"},m(F(),{className:"Button Pagination-button Pagination-previous",icon:"fas fa-chevron-left",disabled:1===this.page,onclick:function(){t.page>1&&t.loadEvents(t.page-1)}}),m("span",{className:"Pagination-info"},app.translator.trans("huseyinfiliz-pickem.lib.pagination.page_info",{current:this.page,total:i})),m(F(),{className:"Button Pagination-button Pagination-next",icon:"fas fa-chevron-right",disabled:this.page>=i,onclick:function(){t.page<i&&t.loadEvents(t.page+1)}})))},a.renderTeamLogo=function(t){if(!t)return m("div",{className:"TeamLogo TeamLogo--letter",style:"background-color: #999"},"?");var e=t.logoUrl(),a=t.name(),n=a?a.charAt(0).toUpperCase():"?";return e?m("div",{className:"TeamLogo TeamLogo--image"},m("img",{src:e,alt:a||"Team",onerror:function(t){t.target.style.display="none",t.target.parentElement.innerHTML='<div class="TeamLogo TeamLogo--letter">'+n+"</div>"}})):m("div",{className:"TeamLogo TeamLogo--letter"},n)},a.deleteEvent=function(t){var e=this,a=app.translator.trans("huseyinfiliz-pickem.lib.common.match"),n=E()(app.translator.trans("huseyinfiliz-pickem.lib.messages.delete_confirm",{resource:a}));confirm(n)&&t.delete().then(function(){e.loadEvents(e.page)})},e}(_()),Q=function(t){function e(){for(var e,a=arguments.length,n=new Array(a),r=0;r<a;r++)n[r]=arguments[r];return(e=t.call.apply(t,[this].concat(n))||this).loading=!1,e}l(e,t);var a=e.prototype;return a.view=function(){return m("div",{className:"SettingsTab"},m("div",{className:"Form-group"},m("h3",null,m("i",{className:"fas fa-cogs"}),app.translator.trans("huseyinfiliz-pickem.lib.nav.settings")),m("p",null,app.translator.trans("huseyinfiliz-pickem.admin.settings.recalc_help")),m(F(),{className:"Button Button--primary",icon:"fas fa-sync",loading:this.loading,onclick:this.recalculateScores.bind(this)},app.translator.trans("huseyinfiliz-pickem.admin.settings.recalc_btn"))))},a.recalculateScores=function(){var t=this;this.loading||confirm(app.translator.trans("huseyinfiliz-pickem.admin.settings.recalc_confirm"))&&(this.loading=!0,m.redraw(),app.request({method:"POST",url:app.forum.attribute("apiUrl")+"/pickem/recalculate-all-scores"}).then(function(e){t.loading=!1,m.redraw(),app.alerts.show({type:"success"},app.translator.trans("huseyinfiliz-pickem.admin.settings.recalc_queued"))}).catch(function(e){t.loading=!1,m.redraw(),console.error(e)}))},e}(_()),V=function(t){function e(){for(var e,a=arguments.length,n=new Array(a),r=0;r<a;r++)n[r]=arguments[r];return(e=t.call.apply(t,[this].concat(n))||this).activeTab="events",e.loading=!0,e.error=null,e}l(e,t);var a=e.prototype;return a.oninit=function(e){t.prototype.oninit.call(this,e);var a=m.route.param("tab");a&&["events","teams","seasons","weeks","settings"].includes(a)&&(this.activeTab=a),this.loadData()},a.loadData=function(){var t=y(k().mark(function t(){var e;return k().wrap(function(t){for(;;)switch(t.prev=t.next){case 0:return t.prev=0,t.next=1,Promise.all([app.store.find("pickem-teams"),app.store.find("pickem-seasons"),app.store.find("pickem-weeks",{include:"season"})]);case 1:this.error=null,t.next=3;break;case 2:t.prev=2,e=t.catch(0),console.error("Pickem admin data load error:",e),this.error=e.message||"An unknown error occurred while loading data.";case 3:return t.prev=3,this.loading=!1,m.redraw(),t.finish(3);case 4:case"end":return t.stop()}},t,this,[[0,2,3,4]])}));return function(){return t.apply(this,arguments)}}(),a.content=function(){var t;return t=this.loading?m("div",{className:"LoadingState"},m(x(),null)):this.error?m(D(),{type:"error"},this.error):this.renderTabContent(),m("div",{className:"PickemPage"},m("div",{className:"container"},m("div",{className:"PickemPage-tabs"},this.renderTab("events","fas fa-futbol",app.translator.trans("huseyinfiliz-pickem.lib.nav.matches")),this.renderTab("teams","fas fa-users",app.translator.trans("huseyinfiliz-pickem.lib.nav.teams")),this.renderTab("seasons","fas fa-calendar-alt",app.translator.trans("huseyinfiliz-pickem.lib.nav.seasons")),this.renderTab("weeks","fas fa-calendar-week",app.translator.trans("huseyinfiliz-pickem.lib.nav.weeks")),this.renderTab("settings","fas fa-cogs",app.translator.trans("huseyinfiliz-pickem.lib.nav.settings"))),m("div",{className:"PickemPage-content"},t)))},a.renderTab=function(t,e,a){var n=this,r=this.activeTab===t;return m("button",{className:"Button "+(r?"Button--primary":""),onclick:function(){n.activeTab=t;var e=m.route.get().split("?")[0];m.route.set(e,{tab:t},{replace:!0})}},m("i",{className:e})," ",m("span",null,a))},a.renderTabContent=function(){switch(this.activeTab){case"events":default:return m(K,null);case"teams":return m(A,null);case"seasons":return m(j,null);case"weeks":return m(W,null);case"settings":return m(Q,null)}},e}(N());e().initializers.add("huseyinfiliz/pickem",function(){v.forEach(function(t){return t.extend(e())}),e().extensionData.for("huseyinfiliz-pickem").registerPage(V).registerPermission({icon:"fas fa-trophy",label:e().translator.trans("huseyinfiliz-pickem.admin.permissions.manage"),permission:"pickem.manage"},"moderate").registerPermission({icon:"fas fa-check-circle",label:e().translator.trans("huseyinfiliz-pickem.admin.permissions.make_picks"),permission:"pickem.makePicks"},"start").registerPermission({icon:"fas fa-eye",label:e().translator.trans("huseyinfiliz-pickem.admin.permissions.view_page"),permission:"pickem.view",allowGuest:!0},"view")})})(),module.exports={}})();
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./node_modules/@babel/runtime/helpers/OverloadYield.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/OverloadYield.js ***!
+  \**************************************************************/
+/***/ ((module) => {
+
+function _OverloadYield(e, d) {
+  this.v = e, this.k = d;
+}
+module.exports = _OverloadYield, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _asyncToGenerator)
+/* harmony export */ });
+function asyncGeneratorStep(n, t, e, r, o, a, c) {
+  try {
+    var i = n[a](c),
+      u = i.value;
+  } catch (n) {
+    return void e(n);
+  }
+  i.done ? t(u) : Promise.resolve(u).then(r, o);
+}
+function _asyncToGenerator(n) {
+  return function () {
+    var t = this,
+      e = arguments;
+    return new Promise(function (r, o) {
+      var a = n.apply(t, e);
+      function _next(n) {
+        asyncGeneratorStep(a, r, o, _next, _throw, "next", n);
+      }
+      function _throw(n) {
+        asyncGeneratorStep(a, r, o, _next, _throw, "throw", n);
+      }
+      _next(void 0);
+    });
+  };
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _inheritsLoose)
+/* harmony export */ });
+/* harmony import */ var _setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setPrototypeOf.js */ "./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js");
+
+function _inheritsLoose(t, o) {
+  t.prototype = Object.create(o.prototype), t.prototype.constructor = t, (0,_setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__["default"])(t, o);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _setPrototypeOf)
+/* harmony export */ });
+function _setPrototypeOf(t, e) {
+  return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) {
+    return t.__proto__ = e, t;
+  }, _setPrototypeOf(t, e);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/regenerator.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/regenerator.js ***!
+  \************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var regeneratorDefine = __webpack_require__(/*! ./regeneratorDefine.js */ "./node_modules/@babel/runtime/helpers/regeneratorDefine.js");
+function _regenerator() {
+  /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */
+  var e,
+    t,
+    r = "function" == typeof Symbol ? Symbol : {},
+    n = r.iterator || "@@iterator",
+    o = r.toStringTag || "@@toStringTag";
+  function i(r, n, o, i) {
+    var c = n && n.prototype instanceof Generator ? n : Generator,
+      u = Object.create(c.prototype);
+    return regeneratorDefine(u, "_invoke", function (r, n, o) {
+      var i,
+        c,
+        u,
+        f = 0,
+        p = o || [],
+        y = !1,
+        G = {
+          p: 0,
+          n: 0,
+          v: e,
+          a: d,
+          f: d.bind(e, 4),
+          d: function d(t, r) {
+            return i = t, c = 0, u = e, G.n = r, a;
+          }
+        };
+      function d(r, n) {
+        for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) {
+          var o,
+            i = p[t],
+            d = G.p,
+            l = i[2];
+          r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0));
+        }
+        if (o || r > 1) return a;
+        throw y = !0, n;
+      }
+      return function (o, p, l) {
+        if (f > 1) throw TypeError("Generator is already running");
+        for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) {
+          i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u);
+          try {
+            if (f = 2, i) {
+              if (c || (o = "next"), t = i[o]) {
+                if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object");
+                if (!t.done) return t;
+                u = t.value, c < 2 && (c = 0);
+              } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1);
+              i = e;
+            } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break;
+          } catch (t) {
+            i = e, c = 1, u = t;
+          } finally {
+            f = 1;
+          }
+        }
+        return {
+          value: t,
+          done: y
+        };
+      };
+    }(r, o, i), !0), u;
+  }
+  var a = {};
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+  t = Object.getPrototypeOf;
+  var c = [][n] ? t(t([][n]())) : (regeneratorDefine(t = {}, n, function () {
+      return this;
+    }), t),
+    u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c);
+  function f(e) {
+    return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, regeneratorDefine(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e;
+  }
+  return GeneratorFunction.prototype = GeneratorFunctionPrototype, regeneratorDefine(u, "constructor", GeneratorFunctionPrototype), regeneratorDefine(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", regeneratorDefine(GeneratorFunctionPrototype, o, "GeneratorFunction"), regeneratorDefine(u), regeneratorDefine(u, o, "Generator"), regeneratorDefine(u, n, function () {
+    return this;
+  }), regeneratorDefine(u, "toString", function () {
+    return "[object Generator]";
+  }), (module.exports = _regenerator = function _regenerator() {
+    return {
+      w: i,
+      m: f
+    };
+  }, module.exports.__esModule = true, module.exports["default"] = module.exports)();
+}
+module.exports = _regenerator, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/regeneratorAsync.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/regeneratorAsync.js ***!
+  \*****************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var regeneratorAsyncGen = __webpack_require__(/*! ./regeneratorAsyncGen.js */ "./node_modules/@babel/runtime/helpers/regeneratorAsyncGen.js");
+function _regeneratorAsync(n, e, r, t, o) {
+  var a = regeneratorAsyncGen(n, e, r, t, o);
+  return a.next().then(function (n) {
+    return n.done ? n.value : a.next();
+  });
+}
+module.exports = _regeneratorAsync, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/regeneratorAsyncGen.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/regeneratorAsyncGen.js ***!
+  \********************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var regenerator = __webpack_require__(/*! ./regenerator.js */ "./node_modules/@babel/runtime/helpers/regenerator.js");
+var regeneratorAsyncIterator = __webpack_require__(/*! ./regeneratorAsyncIterator.js */ "./node_modules/@babel/runtime/helpers/regeneratorAsyncIterator.js");
+function _regeneratorAsyncGen(r, e, t, o, n) {
+  return new regeneratorAsyncIterator(regenerator().w(r, e, t, o), n || Promise);
+}
+module.exports = _regeneratorAsyncGen, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/regeneratorAsyncIterator.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/regeneratorAsyncIterator.js ***!
+  \*************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var OverloadYield = __webpack_require__(/*! ./OverloadYield.js */ "./node_modules/@babel/runtime/helpers/OverloadYield.js");
+var regeneratorDefine = __webpack_require__(/*! ./regeneratorDefine.js */ "./node_modules/@babel/runtime/helpers/regeneratorDefine.js");
+function AsyncIterator(t, e) {
+  function n(r, o, i, f) {
+    try {
+      var c = t[r](o),
+        u = c.value;
+      return u instanceof OverloadYield ? e.resolve(u.v).then(function (t) {
+        n("next", t, i, f);
+      }, function (t) {
+        n("throw", t, i, f);
+      }) : e.resolve(u).then(function (t) {
+        c.value = t, i(c);
+      }, function (t) {
+        return n("throw", t, i, f);
+      });
+    } catch (t) {
+      f(t);
+    }
+  }
+  var r;
+  this.next || (regeneratorDefine(AsyncIterator.prototype), regeneratorDefine(AsyncIterator.prototype, "function" == typeof Symbol && Symbol.asyncIterator || "@asyncIterator", function () {
+    return this;
+  })), regeneratorDefine(this, "_invoke", function (t, o, i) {
+    function f() {
+      return new e(function (e, r) {
+        n(t, i, e, r);
+      });
+    }
+    return r = r ? r.then(f, f) : f();
+  }, !0);
+}
+module.exports = AsyncIterator, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/regeneratorDefine.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/regeneratorDefine.js ***!
+  \******************************************************************/
+/***/ ((module) => {
+
+function _regeneratorDefine(e, r, n, t) {
+  var i = Object.defineProperty;
+  try {
+    i({}, "", {});
+  } catch (e) {
+    i = 0;
+  }
+  module.exports = _regeneratorDefine = function regeneratorDefine(e, r, n, t) {
+    function o(r, n) {
+      _regeneratorDefine(e, r, function (e) {
+        return this._invoke(r, n, e);
+      });
+    }
+    r ? i ? i(e, r, {
+      value: n,
+      enumerable: !t,
+      configurable: !t,
+      writable: !t
+    }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2));
+  }, module.exports.__esModule = true, module.exports["default"] = module.exports, _regeneratorDefine(e, r, n, t);
+}
+module.exports = _regeneratorDefine, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/regeneratorKeys.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/regeneratorKeys.js ***!
+  \****************************************************************/
+/***/ ((module) => {
+
+function _regeneratorKeys(e) {
+  var n = Object(e),
+    r = [];
+  for (var t in n) r.unshift(t);
+  return function e() {
+    for (; r.length;) if ((t = r.pop()) in n) return e.value = t, e.done = !1, e;
+    return e.done = !0, e;
+  };
+}
+module.exports = _regeneratorKeys, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/regeneratorRuntime.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/regeneratorRuntime.js ***!
+  \*******************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var OverloadYield = __webpack_require__(/*! ./OverloadYield.js */ "./node_modules/@babel/runtime/helpers/OverloadYield.js");
+var regenerator = __webpack_require__(/*! ./regenerator.js */ "./node_modules/@babel/runtime/helpers/regenerator.js");
+var regeneratorAsync = __webpack_require__(/*! ./regeneratorAsync.js */ "./node_modules/@babel/runtime/helpers/regeneratorAsync.js");
+var regeneratorAsyncGen = __webpack_require__(/*! ./regeneratorAsyncGen.js */ "./node_modules/@babel/runtime/helpers/regeneratorAsyncGen.js");
+var regeneratorAsyncIterator = __webpack_require__(/*! ./regeneratorAsyncIterator.js */ "./node_modules/@babel/runtime/helpers/regeneratorAsyncIterator.js");
+var regeneratorKeys = __webpack_require__(/*! ./regeneratorKeys.js */ "./node_modules/@babel/runtime/helpers/regeneratorKeys.js");
+var regeneratorValues = __webpack_require__(/*! ./regeneratorValues.js */ "./node_modules/@babel/runtime/helpers/regeneratorValues.js");
+function _regeneratorRuntime() {
+  "use strict";
+
+  var r = regenerator(),
+    e = r.m(_regeneratorRuntime),
+    t = (Object.getPrototypeOf ? Object.getPrototypeOf(e) : e.__proto__).constructor;
+  function n(r) {
+    var e = "function" == typeof r && r.constructor;
+    return !!e && (e === t || "GeneratorFunction" === (e.displayName || e.name));
+  }
+  var o = {
+    "throw": 1,
+    "return": 2,
+    "break": 3,
+    "continue": 3
+  };
+  function a(r) {
+    var e, t;
+    return function (n) {
+      e || (e = {
+        stop: function stop() {
+          return t(n.a, 2);
+        },
+        "catch": function _catch() {
+          return n.v;
+        },
+        abrupt: function abrupt(r, e) {
+          return t(n.a, o[r], e);
+        },
+        delegateYield: function delegateYield(r, o, a) {
+          return e.resultName = o, t(n.d, regeneratorValues(r), a);
+        },
+        finish: function finish(r) {
+          return t(n.f, r);
+        }
+      }, t = function t(r, _t, o) {
+        n.p = e.prev, n.n = e.next;
+        try {
+          return r(_t, o);
+        } finally {
+          e.next = n.n;
+        }
+      }), e.resultName && (e[e.resultName] = n.v, e.resultName = void 0), e.sent = n.v, e.next = n.n;
+      try {
+        return r.call(this, e);
+      } finally {
+        n.p = e.prev, n.n = e.next;
+      }
+    };
+  }
+  return (module.exports = _regeneratorRuntime = function _regeneratorRuntime() {
+    return {
+      wrap: function wrap(e, t, n, o) {
+        return r.w(a(e), t, n, o && o.reverse());
+      },
+      isGeneratorFunction: n,
+      mark: r.m,
+      awrap: function awrap(r, e) {
+        return new OverloadYield(r, e);
+      },
+      AsyncIterator: regeneratorAsyncIterator,
+      async: function async(r, e, t, o, u) {
+        return (n(e) ? regeneratorAsyncGen : regeneratorAsync)(a(r), e, t, o, u);
+      },
+      keys: regeneratorKeys,
+      values: regeneratorValues
+    };
+  }, module.exports.__esModule = true, module.exports["default"] = module.exports)();
+}
+module.exports = _regeneratorRuntime, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/regeneratorValues.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/regeneratorValues.js ***!
+  \******************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _typeof = (__webpack_require__(/*! ./typeof.js */ "./node_modules/@babel/runtime/helpers/typeof.js")["default"]);
+function _regeneratorValues(e) {
+  if (null != e) {
+    var t = e["function" == typeof Symbol && Symbol.iterator || "@@iterator"],
+      r = 0;
+    if (t) return t.call(e);
+    if ("function" == typeof e.next) return e;
+    if (!isNaN(e.length)) return {
+      next: function next() {
+        return e && r >= e.length && (e = void 0), {
+          value: e && e[r++],
+          done: !e
+        };
+      }
+    };
+  }
+  throw new TypeError(_typeof(e) + " is not iterable");
+}
+module.exports = _regeneratorValues, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/typeof.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/typeof.js ***!
+  \*******************************************************/
+/***/ ((module) => {
+
+function _typeof(o) {
+  "@babel/helpers - typeof";
+
+  return module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
+    return typeof o;
+  } : function (o) {
+    return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+  }, module.exports.__esModule = true, module.exports["default"] = module.exports, _typeof(o);
+}
+module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/regenerator/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+// TODO(Babel 8): Remove this file.
+
+var runtime = __webpack_require__(/*! ../helpers/regeneratorRuntime */ "./node_modules/@babel/runtime/helpers/regeneratorRuntime.js")();
+module.exports = runtime;
+
+// Copied from https://github.com/facebook/regenerator/blob/main/packages/runtime/runtime.js#L736=
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  if (typeof globalThis === "object") {
+    globalThis.regeneratorRuntime = runtime;
+  } else {
+    Function("r", "regeneratorRuntime = r")(runtime);
+  }
+}
+
+/***/ }),
+
+/***/ "./src/admin/components/EventsTab.tsx":
+/*!********************************************!*\
+  !*** ./src/admin/components/EventsTab.tsx ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ EventsTab)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Component */ "flarum/common/Component");
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Component__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var flarum_common_utils_extractText__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flarum/common/utils/extractText */ "flarum/common/utils/extractText");
+/* harmony import */ var flarum_common_utils_extractText__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(flarum_common_utils_extractText__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/common/components/LoadingIndicator */ "flarum/common/components/LoadingIndicator");
+/* harmony import */ var flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var flarum_common_components_Placeholder__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/common/components/Placeholder */ "flarum/common/components/Placeholder");
+/* harmony import */ var flarum_common_components_Placeholder__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Placeholder__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _modals_EventModal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modals/EventModal */ "./src/admin/components/modals/EventModal.tsx");
+/* harmony import */ var _modals_ResultModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modals/ResultModal */ "./src/admin/components/modals/ResultModal.tsx");
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! flarum/common/components/Button */ "flarum/common/components/Button");
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_7__);
+
+
+
+
+
+
+
+
+var EventsTab = /*#__PURE__*/function (_Component) {
+  function EventsTab() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Component.call.apply(_Component, [this].concat(args)) || this;
+    // ... (Kodun üst kısmı aynı)
+    _this.selectedSeason = 'all';
+    _this.selectedTeam = 'all';
+    _this.selectedStatus = 'all';
+    _this.sortOrder = 'desc';
+    _this.loading = true;
+    _this.events = [];
+    _this.totalEvents = 0;
+    _this.page = 1;
+    _this.limit = 20;
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(EventsTab, _Component);
+  var _proto = EventsTab.prototype;
+  _proto.oninit = function oninit(vnode) {
+    _Component.prototype.oninit.call(this, vnode);
+    this.loadEvents();
+  };
+  _proto.buildFilters = function buildFilters() {
+    var _this2 = this;
+    var filters = {};
+    var weekIds = [];
+    if (this.selectedSeason !== 'all') {
+      var weeks = app.store.all('pickem-weeks').filter(function (week) {
+        return week.seasonId() == _this2.selectedSeason;
+      });
+      weekIds.push.apply(weekIds, weeks.map(function (week) {
+        return week.id();
+      }));
+      if (weekIds.length === 0) weekIds.push('0');
+      filters.week = weekIds.join(',');
+    }
+    if (this.selectedTeam !== 'all') {
+      filters.team = this.selectedTeam;
+    }
+    if (this.selectedStatus !== 'all') {
+      filters.status = this.selectedStatus;
+    }
+    return filters;
+  };
+  _proto.loadEvents = function loadEvents(page) {
+    var _this3 = this;
+    if (page === void 0) {
+      page = 1;
+    }
+    this.loading = true;
+    this.page = page;
+    m.redraw();
+    var filters = this.buildFilters();
+    var sort = this.sortOrder === 'desc' ? '-matchDate' : 'matchDate';
+    var offset = (this.page - 1) * this.limit;
+    app.store.find('pickem-events', {
+      include: 'homeTeam,awayTeam,week',
+      filter: filters,
+      sort: sort,
+      page: {
+        limit: this.limit,
+        offset: offset
+      }
+    }).then(function (results) {
+      _this3.events = results;
+      _this3.totalEvents = results.payload.meta.total;
+      _this3.loading = false;
+      m.redraw();
+    })["catch"](function (error) {
+      _this3.loading = false;
+      console.error(error);
+      m.redraw();
+    });
+  };
+  _proto.view = function view() {
+    var _this4 = this;
+    var allSeasons = app.store.all('pickem-seasons');
+    var allTeams = app.store.all('pickem-teams');
+    var total = this.totalEvents;
+    var hasEvents = this.events.length > 0;
+    var canShowPagination = total > this.limit;
+    var totalPages = Math.ceil(total / this.limit);
+    // GÜNCELLENDİ: lib.models -> lib.common
+    var resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.match');
+    return m("div", {
+      className: "EventsTab"
+    }, m("div", {
+      className: "EventsTab-header"
+    }, m("h3", null, m("i", {
+      className: "fas fa-futbol"
+    }), app.translator.trans('huseyinfiliz-pickem.lib.nav.matches')), m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_7___default()), {
+      className: "Button Button--primary",
+      icon: "fas fa-plus",
+      onclick: function onclick() {
+        return app.modal.show(_modals_EventModal__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          event: null,
+          onsave: function onsave() {
+            return _this4.loadEvents(_this4.page);
+          }
+        });
+      }
+    }, app.translator.trans('huseyinfiliz-pickem.lib.actions.create', {
+      resource: resourceName
+    }))), m("div", {
+      className: "EventsTab-filters"
+    }, m("div", {
+      className: "FilterGroup"
+    }, m("label", null, m("i", {
+      className: "fas fa-calendar-alt"
+    }), m("span", null, app.translator.trans('huseyinfiliz-pickem.lib.common.season'))), m("select", {
+      className: "FormControl",
+      value: this.selectedSeason,
+      onchange: function onchange(e) {
+        _this4.selectedSeason = e.target.value;
+        _this4.loadEvents(1);
+      }
+    }, m("option", {
+      value: "all"
+    }, app.translator.trans('huseyinfiliz-pickem.lib.filters.all', {
+      resource: app.translator.trans('huseyinfiliz-pickem.lib.common.season')
+    })), allSeasons.map(function (season) {
+      return m("option", {
+        value: season.id(),
+        key: season.id()
+      }, season.name());
+    }))), m("div", {
+      className: "FilterGroup"
+    }, m("label", null, m("i", {
+      className: "fas fa-users"
+    }), m("span", null, app.translator.trans('huseyinfiliz-pickem.lib.common.team'))), m("select", {
+      className: "FormControl",
+      value: this.selectedTeam,
+      onchange: function onchange(e) {
+        _this4.selectedTeam = e.target.value;
+        _this4.loadEvents(1);
+      }
+    }, m("option", {
+      value: "all"
+    }, app.translator.trans('huseyinfiliz-pickem.lib.filters.all', {
+      resource: app.translator.trans('huseyinfiliz-pickem.lib.common.team')
+    })), allTeams.map(function (team) {
+      return m("option", {
+        value: team.id(),
+        key: team.id()
+      }, team.name());
+    }))), m("div", {
+      className: "FilterGroup"
+    }, m("label", null, m("i", {
+      className: "fas fa-info-circle"
+    }), m("span", null, app.translator.trans('huseyinfiliz-pickem.lib.common.status'))), m("select", {
+      className: "FormControl",
+      value: this.selectedStatus,
+      onchange: function onchange(e) {
+        _this4.selectedStatus = e.target.value;
+        _this4.loadEvents(1);
+      }
+    }, m("option", {
+      value: "all"
+    }, app.translator.trans('huseyinfiliz-pickem.lib.filters.all', {
+      resource: app.translator.trans('huseyinfiliz-pickem.lib.common.status')
+    })), m("option", {
+      value: "scheduled"
+    }, app.translator.trans('huseyinfiliz-pickem.lib.status.scheduled')), m("option", {
+      value: "closed"
+    }, app.translator.trans('huseyinfiliz-pickem.lib.status.closed')), m("option", {
+      value: "finished"
+    }, app.translator.trans('huseyinfiliz-pickem.lib.status.finished')))), m("div", {
+      className: "FilterGroup"
+    }, m("label", null, m("i", {
+      className: "fas fa-sort"
+    }), m("span", null, app.translator.trans('huseyinfiliz-pickem.lib.filters.sort'))), m("select", {
+      className: "FormControl",
+      value: this.sortOrder,
+      onchange: function onchange(e) {
+        _this4.sortOrder = e.target.value;
+        _this4.loadEvents(1);
+      }
+    }, m("option", {
+      value: "desc"
+    }, app.translator.trans('huseyinfiliz-pickem.lib.filters.newest')), m("option", {
+      value: "asc"
+    }, app.translator.trans('huseyinfiliz-pickem.lib.filters.oldest')))), (this.selectedSeason !== 'all' || this.selectedTeam !== 'all' || this.selectedStatus !== 'all' || this.sortOrder !== 'desc') && m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_7___default()), {
+      className: "Button FilterGroup-reset",
+      icon: "fas fa-redo",
+      onclick: function onclick() {
+        _this4.selectedSeason = 'all';
+        _this4.selectedTeam = 'all';
+        _this4.selectedStatus = 'all';
+        _this4.sortOrder = 'desc';
+        _this4.loadEvents(1);
+      }
+    }, app.translator.trans('huseyinfiliz-pickem.lib.filters.reset'))), this.loading ? m((flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_3___default()), null) : !hasEvents ? m((flarum_common_components_Placeholder__WEBPACK_IMPORTED_MODULE_4___default()), {
+      text: app.translator.trans('huseyinfiliz-pickem.lib.messages.no_matches')
+    }) : m("table", {
+      className: "Table"
+    }, m("thead", null, m("tr", null, m("th", null, app.translator.trans('huseyinfiliz-pickem.lib.common.home')), m("th", null, app.translator.trans('huseyinfiliz-pickem.lib.common.away')), m("th", null, app.translator.trans('huseyinfiliz-pickem.lib.headers.match_date')), m("th", null, app.translator.trans('huseyinfiliz-pickem.lib.common.status')), m("th", null, app.translator.trans('huseyinfiliz-pickem.lib.common.score')), m("th", null))), m("tbody", null, this.events.map(function (event) {
+      var homeTeam = event.homeTeam();
+      var awayTeam = event.awayTeam();
+      return m("tr", {
+        key: event.id()
+      }, m("td", null, m("div", {
+        className: "TeamCell"
+      }, _this4.renderTeamLogo(homeTeam), m("span", null, homeTeam ? homeTeam.name() : 'N/A'))), m("td", null, m("div", {
+        className: "TeamCell"
+      }, _this4.renderTeamLogo(awayTeam), m("span", null, awayTeam ? awayTeam.name() : 'N/A'))), m("td", null, event.matchDate() ? new Date(event.matchDate()).toLocaleString() : '-'), m("td", null, m("span", {
+        className: "StatusBadge StatusBadge--" + event.status()
+      }, app.translator.trans("huseyinfiliz-pickem.lib.status." + event.status()))), m("td", null, event.homeScore() !== null && event.awayScore() !== null ? event.homeScore() + " - " + event.awayScore() : '-'), m("td", null, m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_7___default()), {
+        className: "Button Button--primary",
+        icon: "fas fa-edit",
+        onclick: function onclick() {
+          return app.modal.show(_modals_EventModal__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            event: event,
+            onsave: function onsave() {
+              return _this4.loadEvents(_this4.page);
+            }
+          });
+        }
+      }, app.translator.trans('huseyinfiliz-pickem.lib.buttons.edit')), m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_7___default()), {
+        className: "Button Button--success",
+        icon: "fas fa-check",
+        onclick: function onclick() {
+          return app.modal.show(_modals_ResultModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
+            event: event,
+            onsave: function onsave() {
+              return _this4.loadEvents(_this4.page);
+            }
+          });
+        }
+      }, app.translator.trans('huseyinfiliz-pickem.lib.actions.enter_result')), m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_7___default()), {
+        className: "Button Button--danger",
+        icon: "fas fa-trash",
+        onclick: function onclick() {
+          return _this4.deleteEvent(event);
+        }
+      }, app.translator.trans('huseyinfiliz-pickem.lib.buttons.delete'))));
+    }))), canShowPagination && !this.loading && m("nav", {
+      className: "Pagination"
+    }, m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_7___default()), {
+      className: "Button Pagination-button Pagination-previous",
+      icon: "fas fa-chevron-left",
+      disabled: this.page === 1,
+      onclick: function onclick() {
+        if (_this4.page > 1) {
+          _this4.loadEvents(_this4.page - 1);
+        }
+      }
+    }), m("span", {
+      className: "Pagination-info"
+    }, app.translator.trans('huseyinfiliz-pickem.lib.pagination.page_info', {
+      current: this.page,
+      total: totalPages
+    })), m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_7___default()), {
+      className: "Button Pagination-button Pagination-next",
+      icon: "fas fa-chevron-right",
+      disabled: this.page >= totalPages,
+      onclick: function onclick() {
+        if (_this4.page < totalPages) {
+          _this4.loadEvents(_this4.page + 1);
+        }
+      }
+    })));
+  };
+  _proto.renderTeamLogo = function renderTeamLogo(team) {
+    if (!team) {
+      return m("div", {
+        className: "TeamLogo TeamLogo--letter",
+        style: "background-color: #999"
+      }, "?");
+    }
+    var logoUrl = team.logoUrl();
+    var teamName = team.name();
+    var firstLetter = teamName ? teamName.charAt(0).toUpperCase() : '?';
+    if (logoUrl) {
+      return m("div", {
+        className: "TeamLogo TeamLogo--image"
+      }, m("img", {
+        src: logoUrl,
+        alt: teamName || 'Team',
+        onerror: function onerror(e) {
+          e.target.style.display = 'none';
+          e.target.parentElement.innerHTML = "<div class=\"TeamLogo TeamLogo--letter\">" + firstLetter + "</div>";
+        }
+      }));
+    } else {
+      return m("div", {
+        className: "TeamLogo TeamLogo--letter"
+      }, firstLetter);
+    }
+  };
+  _proto.deleteEvent = function deleteEvent(event) {
+    var _this5 = this;
+    // GÜNCELLENDİ: lib.models -> lib.common
+    var resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.match');
+    var confirmMessage = flarum_common_utils_extractText__WEBPACK_IMPORTED_MODULE_2___default()(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm', {
+      resource: resourceName
+    }));
+    if (confirm(confirmMessage)) {
+      event["delete"]().then(function () {
+        _this5.loadEvents(_this5.page);
+      });
+    }
+  };
+  return EventsTab;
+}((flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "./src/admin/components/PickemPage.tsx":
+/*!*********************************************!*\
+  !*** ./src/admin/components/PickemPage.tsx ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ PickemPage)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var flarum_admin_components_ExtensionPage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/admin/components/ExtensionPage */ "flarum/admin/components/ExtensionPage");
+/* harmony import */ var flarum_admin_components_ExtensionPage__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_admin_components_ExtensionPage__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/common/components/LoadingIndicator */ "flarum/common/components/LoadingIndicator");
+/* harmony import */ var flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var flarum_common_components_Alert__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! flarum/common/components/Alert */ "flarum/common/components/Alert");
+/* harmony import */ var flarum_common_components_Alert__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Alert__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _TeamsTab__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TeamsTab */ "./src/admin/components/TeamsTab.tsx");
+/* harmony import */ var _SeasonsTab__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SeasonsTab */ "./src/admin/components/SeasonsTab.tsx");
+/* harmony import */ var _WeeksTab__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./WeeksTab */ "./src/admin/components/WeeksTab.tsx");
+/* harmony import */ var _EventsTab__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./EventsTab */ "./src/admin/components/EventsTab.tsx");
+/* harmony import */ var _SettingsTab__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./SettingsTab */ "./src/admin/components/SettingsTab.tsx");
+
+
+
+
+
+
+
+
+
+
+
+var PickemPage = /*#__PURE__*/function (_ExtensionPage) {
+  function PickemPage() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _ExtensionPage.call.apply(_ExtensionPage, [this].concat(args)) || this;
+    _this.activeTab = 'events';
+    _this.loading = true;
+    _this.error = null;
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(PickemPage, _ExtensionPage);
+  var _proto = PickemPage.prototype;
+  _proto.oninit = function oninit(vnode) {
+    _ExtensionPage.prototype.oninit.call(this, vnode);
+    var urlTab = m.route.param('tab');
+    if (urlTab && ['events', 'teams', 'seasons', 'weeks', 'settings'].includes(urlTab)) {
+      this.activeTab = urlTab;
+    }
+    this.loadData();
+  };
+  _proto.loadData = /*#__PURE__*/function () {
+    var _loadData = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])(/*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee() {
+      var _t;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function (_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            _context.next = 1;
+            return Promise.all([app.store.find('pickem-teams'), app.store.find('pickem-seasons'), app.store.find('pickem-weeks', {
+              include: 'season'
+            })]);
+          case 1:
+            this.error = null;
+            _context.next = 3;
+            break;
+          case 2:
+            _context.prev = 2;
+            _t = _context["catch"](0);
+            console.error('Pickem admin data load error:', _t);
+            this.error = _t.message || 'An unknown error occurred while loading data.';
+          case 3:
+            _context.prev = 3;
+            this.loading = false;
+            m.redraw();
+            return _context.finish(3);
+          case 4:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee, this, [[0, 2, 3, 4]]);
+    }));
+    function loadData() {
+      return _loadData.apply(this, arguments);
+    }
+    return loadData;
+  }();
+  _proto.content = function content() {
+    var tabContent;
+    if (this.loading) {
+      tabContent = m("div", {
+        className: "LoadingState"
+      }, m((flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_4___default()), null));
+    } else if (this.error) {
+      tabContent = m((flarum_common_components_Alert__WEBPACK_IMPORTED_MODULE_5___default()), {
+        type: "error"
+      }, this.error);
+    } else {
+      tabContent = this.renderTabContent();
+    }
+    return m("div", {
+      className: "PickemPage"
+    }, m("div", {
+      className: "container"
+    }, m("div", {
+      className: "PickemPage-tabs"
+    }, this.renderTab('events', 'fas fa-futbol', app.translator.trans('huseyinfiliz-pickem.lib.nav.matches')), this.renderTab('teams', 'fas fa-users', app.translator.trans('huseyinfiliz-pickem.lib.nav.teams')), this.renderTab('seasons', 'fas fa-calendar-alt', app.translator.trans('huseyinfiliz-pickem.lib.nav.seasons')), this.renderTab('weeks', 'fas fa-calendar-week', app.translator.trans('huseyinfiliz-pickem.lib.nav.weeks')), this.renderTab('settings', 'fas fa-cogs', app.translator.trans('huseyinfiliz-pickem.lib.nav.settings'))), m("div", {
+      className: "PickemPage-content"
+    }, tabContent)));
+  };
+  _proto.renderTab = function renderTab(key, icon, label) {
+    var _this2 = this;
+    var isActive = this.activeTab === key;
+    return m("button", {
+      className: "Button " + (isActive ? 'Button--primary' : ''),
+      onclick: function onclick() {
+        _this2.activeTab = key;
+        var currentRoute = m.route.get().split('?')[0];
+        m.route.set(currentRoute, {
+          tab: key
+        }, {
+          replace: true
+        });
+      }
+    }, m("i", {
+      className: icon
+    }), " ", m("span", null, label));
+  };
+  _proto.renderTabContent = function renderTabContent() {
+    switch (this.activeTab) {
+      case 'events':
+        return m(_EventsTab__WEBPACK_IMPORTED_MODULE_9__["default"], null);
+      case 'teams':
+        return m(_TeamsTab__WEBPACK_IMPORTED_MODULE_6__["default"], null);
+      case 'seasons':
+        return m(_SeasonsTab__WEBPACK_IMPORTED_MODULE_7__["default"], null);
+      case 'weeks':
+        return m(_WeeksTab__WEBPACK_IMPORTED_MODULE_8__["default"], null);
+      case 'settings':
+        return m(_SettingsTab__WEBPACK_IMPORTED_MODULE_10__["default"], null);
+      default:
+        return m(_EventsTab__WEBPACK_IMPORTED_MODULE_9__["default"], null);
+    }
+  };
+  return PickemPage;
+}((flarum_admin_components_ExtensionPage__WEBPACK_IMPORTED_MODULE_3___default()));
+
+
+/***/ }),
+
+/***/ "./src/admin/components/SeasonsTab.tsx":
+/*!*********************************************!*\
+  !*** ./src/admin/components/SeasonsTab.tsx ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ SeasonsTab)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Component */ "flarum/common/Component");
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Component__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flarum/common/components/Button */ "flarum/common/components/Button");
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _modals_SeasonModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modals/SeasonModal */ "./src/admin/components/modals/SeasonModal.tsx");
+/* harmony import */ var flarum_common_utils_extractText__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/common/utils/extractText */ "flarum/common/utils/extractText");
+/* harmony import */ var flarum_common_utils_extractText__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_common_utils_extractText__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+var SeasonsTab = /*#__PURE__*/function (_Component) {
+  function SeasonsTab() {
+    return _Component.apply(this, arguments) || this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(SeasonsTab, _Component);
+  var _proto = SeasonsTab.prototype;
+  _proto.view = function view() {
+    var _this = this;
+    var seasons = app.store.all('pickem-seasons');
+    // GÜNCELLENDİ: lib.models -> lib.common
+    var resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.season');
+    return m("div", {
+      className: "SeasonsTab"
+    }, m("div", {
+      className: "SeasonsTab-header"
+    }, m("h3", null, m("i", {
+      className: "fas fa-calendar-alt"
+    }), app.translator.trans('huseyinfiliz-pickem.lib.nav.seasons')), m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2___default()), {
+      className: "Button Button--primary",
+      icon: "fas fa-plus",
+      onclick: function onclick() {
+        return app.modal.show(_modals_SeasonModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          season: null,
+          onsave: function onsave() {
+            return m.redraw();
+          }
+        });
+      }
+    }, app.translator.trans('huseyinfiliz-pickem.lib.actions.create', {
+      resource: resourceName
+    }))), m("table", {
+      className: "Table"
+    }, m("thead", null, m("tr", null, m("th", null, app.translator.trans('huseyinfiliz-pickem.lib.headers.name')), m("th", null, app.translator.trans('huseyinfiliz-pickem.lib.headers.slug')), m("th", null, app.translator.trans('huseyinfiliz-pickem.lib.common.date')), m("th", null))), m("tbody", null, seasons.map(function (season) {
+      return m("tr", {
+        key: season.id()
+      }, m("td", null, season.name()), m("td", null, season.slug()), m("td", null, season.startDate() && season.endDate() ? new Date(season.startDate()).toLocaleDateString() + " - " + new Date(season.endDate()).toLocaleDateString() : '-'), m("td", null, m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2___default()), {
+        className: "Button Button--primary",
+        icon: "fas fa-edit",
+        onclick: function onclick() {
+          return app.modal.show(_modals_SeasonModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            season: season,
+            onsave: function onsave() {
+              return m.redraw();
+            }
+          });
+        }
+      }, app.translator.trans('huseyinfiliz-pickem.lib.buttons.edit')), m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2___default()), {
+        className: "Button Button--danger",
+        icon: "fas fa-trash",
+        onclick: function onclick() {
+          return _this.deleteSeason(season);
+        }
+      }, app.translator.trans('huseyinfiliz-pickem.lib.buttons.delete'))));
+    }))));
+  };
+  _proto.deleteSeason = function deleteSeason(season) {
+    // GÜNCELLENDİ: lib.models -> lib.common
+    var resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.season');
+    var confirmMessage = flarum_common_utils_extractText__WEBPACK_IMPORTED_MODULE_4___default()(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm', {
+      resource: resourceName
+    }));
+    if (!confirm(confirmMessage)) {
+      return;
+    }
+    season["delete"]().then(function () {
+      m.redraw();
+    });
+  };
+  return SeasonsTab;
+}((flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "./src/admin/components/SettingsTab.tsx":
+/*!**********************************************!*\
+  !*** ./src/admin/components/SettingsTab.tsx ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ SettingsTab)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Component */ "flarum/common/Component");
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Component__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flarum/common/components/Button */ "flarum/common/components/Button");
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+var SettingsTab = /*#__PURE__*/function (_Component) {
+  function SettingsTab() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Component.call.apply(_Component, [this].concat(args)) || this;
+    _this.loading = false;
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(SettingsTab, _Component);
+  var _proto = SettingsTab.prototype;
+  _proto.view = function view() {
+    return m("div", {
+      className: "SettingsTab"
+    }, m("div", {
+      className: "Form-group"
+    }, m("h3", null, m("i", {
+      className: "fas fa-cogs"
+    }), app.translator.trans('huseyinfiliz-pickem.lib.nav.settings')), m("p", null, app.translator.trans('huseyinfiliz-pickem.admin.settings.recalc_help')), m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2___default()), {
+      className: "Button Button--primary",
+      icon: "fas fa-sync",
+      loading: this.loading,
+      onclick: this.recalculateScores.bind(this)
+    }, app.translator.trans('huseyinfiliz-pickem.admin.settings.recalc_btn'))));
+  };
+  _proto.recalculateScores = function recalculateScores() {
+    var _this2 = this;
+    if (this.loading) return;
+    if (!confirm(app.translator.trans('huseyinfiliz-pickem.admin.settings.recalc_confirm'))) {
+      return;
+    }
+    this.loading = true;
+    m.redraw();
+    app.request({
+      method: 'POST',
+      url: app.forum.attribute('apiUrl') + '/pickem/recalculate-all-scores'
+    }).then(function (response) {
+      _this2.loading = false;
+      m.redraw();
+      app.alerts.show({
+        type: 'success'
+      }, app.translator.trans('huseyinfiliz-pickem.admin.settings.recalc_queued'));
+    })["catch"](function (error) {
+      _this2.loading = false;
+      m.redraw();
+      console.error(error);
+    });
+  };
+  return SettingsTab;
+}((flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "./src/admin/components/TeamsTab.tsx":
+/*!*******************************************!*\
+  !*** ./src/admin/components/TeamsTab.tsx ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ TeamsTab)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Component */ "flarum/common/Component");
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Component__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flarum/common/components/Button */ "flarum/common/components/Button");
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _modals_TeamModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modals/TeamModal */ "./src/admin/components/modals/TeamModal.tsx");
+/* harmony import */ var flarum_common_utils_extractText__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/common/utils/extractText */ "flarum/common/utils/extractText");
+/* harmony import */ var flarum_common_utils_extractText__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_common_utils_extractText__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+var TeamsTab = /*#__PURE__*/function (_Component) {
+  function TeamsTab() {
+    return _Component.apply(this, arguments) || this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(TeamsTab, _Component);
+  var _proto = TeamsTab.prototype;
+  _proto.view = function view() {
+    var _this = this;
+    var teams = app.store.all('pickem-teams');
+    // GÜNCELLENDİ: lib.models -> lib.common
+    var resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.team');
+    return m("div", {
+      className: "TeamsTab"
+    }, m("div", {
+      className: "TeamsTab-header"
+    }, m("h3", null, m("i", {
+      className: "fas fa-users"
+    }), app.translator.trans('huseyinfiliz-pickem.lib.nav.teams')), m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2___default()), {
+      className: "Button Button--primary",
+      icon: "fas fa-plus",
+      onclick: function onclick() {
+        return app.modal.show(_modals_TeamModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          team: null,
+          onsave: function onsave() {
+            return m.redraw();
+          }
+        });
+      }
+    }, app.translator.trans('huseyinfiliz-pickem.lib.actions.create', {
+      resource: resourceName
+    }))), m("table", {
+      className: "Table"
+    }, m("thead", null, m("tr", null, m("th", null, app.translator.trans('huseyinfiliz-pickem.lib.headers.logo')), m("th", null, app.translator.trans('huseyinfiliz-pickem.lib.headers.name')), m("th", null, app.translator.trans('huseyinfiliz-pickem.lib.headers.slug')), m("th", null))), m("tbody", null, teams.map(function (team) {
+      return m("tr", {
+        key: team.id()
+      }, m("td", null, _this.renderTeamLogo(team)), m("td", null, team.name()), m("td", null, team.slug()), m("td", null, m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2___default()), {
+        className: "Button Button--primary",
+        icon: "fas fa-edit",
+        onclick: function onclick() {
+          return app.modal.show(_modals_TeamModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            team: team,
+            onsave: function onsave() {
+              return m.redraw();
+            }
+          });
+        }
+      }, app.translator.trans('huseyinfiliz-pickem.lib.buttons.edit')), m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2___default()), {
+        className: "Button Button--danger",
+        icon: "fas fa-trash",
+        onclick: function onclick() {
+          return _this.deleteTeam(team);
+        }
+      }, app.translator.trans('huseyinfiliz-pickem.lib.buttons.delete'))));
+    }))));
+  };
+  _proto.renderTeamLogo = function renderTeamLogo(team) {
+    var logoUrl = team.logoUrl();
+    var teamName = team.name();
+    var firstLetter = teamName ? teamName.charAt(0).toUpperCase() : 'T';
+    var stringToColor = function stringToColor(str) {
+      var hash = 0;
+      for (var i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      var hue = hash % 360;
+      return "hsl(" + hue + ", 65%, 50%)";
+    };
+    var backgroundColor = stringToColor(teamName || 'Team');
+    if (logoUrl) {
+      return m("img", {
+        src: logoUrl,
+        alt: teamName,
+        className: "TeamLogo TeamLogo--image"
+      });
+    }
+    return m("div", {
+      className: "TeamLogo TeamLogo--letter",
+      style: "background-color: " + backgroundColor
+    }, firstLetter);
+  };
+  _proto.deleteTeam = function deleteTeam(team) {
+    // GÜNCELLENDİ: lib.models -> lib.common
+    var resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.team');
+    var confirmMessage = flarum_common_utils_extractText__WEBPACK_IMPORTED_MODULE_4___default()(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm', {
+      resource: resourceName
+    }));
+    if (!confirm(confirmMessage)) {
+      return;
+    }
+    team["delete"]().then(function () {
+      m.redraw();
+    });
+  };
+  return TeamsTab;
+}((flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "./src/admin/components/WeeksTab.tsx":
+/*!*******************************************!*\
+  !*** ./src/admin/components/WeeksTab.tsx ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ WeeksTab)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Component */ "flarum/common/Component");
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Component__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flarum/common/components/Button */ "flarum/common/components/Button");
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _modals_WeekModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modals/WeekModal */ "./src/admin/components/modals/WeekModal.tsx");
+/* harmony import */ var flarum_common_utils_extractText__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/common/utils/extractText */ "flarum/common/utils/extractText");
+/* harmony import */ var flarum_common_utils_extractText__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_common_utils_extractText__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+var WeeksTab = /*#__PURE__*/function (_Component) {
+  function WeeksTab() {
+    return _Component.apply(this, arguments) || this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(WeeksTab, _Component);
+  var _proto = WeeksTab.prototype;
+  _proto.view = function view() {
+    var _this = this;
+    var weeks = app.store.all('pickem-weeks');
+    // GÜNCELLENDİ: lib.models -> lib.common
+    var resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.week');
+    return m("div", {
+      className: "WeeksTab"
+    }, m("div", {
+      className: "WeeksTab-header"
+    }, m("h3", null, m("i", {
+      className: "fas fa-calendar-week"
+    }), app.translator.trans('huseyinfiliz-pickem.lib.nav.weeks')), m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2___default()), {
+      className: "Button Button--primary",
+      icon: "fas fa-plus",
+      onclick: function onclick() {
+        return app.modal.show(_modals_WeekModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          week: null,
+          onsave: function onsave() {
+            return m.redraw();
+          }
+        });
+      }
+    }, app.translator.trans('huseyinfiliz-pickem.lib.actions.create', {
+      resource: resourceName
+    }))), m("table", {
+      className: "Table"
+    }, m("thead", null, m("tr", null, m("th", null, app.translator.trans('huseyinfiliz-pickem.lib.headers.name')), m("th", null, app.translator.trans('huseyinfiliz-pickem.lib.common.season')), m("th", null, app.translator.trans('huseyinfiliz-pickem.lib.headers.week_number')), m("th", null))), m("tbody", null, weeks.map(function (week) {
+      var season = week.season();
+      return m("tr", {
+        key: week.id()
+      }, m("td", null, week.name()), m("td", null, season ? season.name() : 'None'), m("td", null, week.weekNumber() || '-'), m("td", null, m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2___default()), {
+        className: "Button Button--primary",
+        icon: "fas fa-edit",
+        onclick: function onclick() {
+          return app.modal.show(_modals_WeekModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            week: week,
+            onsave: function onsave() {
+              return m.redraw();
+            }
+          });
+        }
+      }, app.translator.trans('huseyinfiliz-pickem.lib.buttons.edit')), m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_2___default()), {
+        className: "Button Button--danger",
+        icon: "fas fa-trash",
+        onclick: function onclick() {
+          return _this.deleteWeek(week);
+        }
+      }, app.translator.trans('huseyinfiliz-pickem.lib.buttons.delete'))));
+    }))));
+  };
+  _proto.deleteWeek = function deleteWeek(week) {
+    // GÜNCELLENDİ: lib.models -> lib.common
+    var resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.week');
+    var confirmMessage = flarum_common_utils_extractText__WEBPACK_IMPORTED_MODULE_4___default()(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm', {
+      resource: resourceName
+    }));
+    if (!confirm(confirmMessage)) {
+      return;
+    }
+    week["delete"]().then(function () {
+      m.redraw();
+    });
+  };
+  return WeeksTab;
+}((flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "./src/admin/components/modals/EventModal.tsx":
+/*!****************************************************!*\
+  !*** ./src/admin/components/modals/EventModal.tsx ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ EventModal)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/common/components/Modal */ "flarum/common/components/Modal");
+/* harmony import */ var flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/common/components/Button */ "flarum/common/components/Button");
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var flarum_common_components_Select__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! flarum/common/components/Select */ "flarum/common/components/Select");
+/* harmony import */ var flarum_common_components_Select__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Select__WEBPACK_IMPORTED_MODULE_5__);
+
+
+
+
+
+
+var EventModal = /*#__PURE__*/function (_Modal) {
+  function EventModal() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Modal.call.apply(_Modal, [this].concat(args)) || this;
+    _this.event = void 0;
+    _this.homeTeamId = '0';
+    _this.awayTeamId = '0';
+    _this.weekId = '0';
+    _this.matchDate = '';
+    _this.cutoffDate = '';
+    _this.allowDraw = false;
+    _this.status = 'scheduled';
+    _this.loading = false;
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(EventModal, _Modal);
+  var _proto = EventModal.prototype;
+  _proto.oninit = function oninit(vnode) {
+    _Modal.prototype.oninit.call(this, vnode);
+    this.event = this.attrs.event;
+    if (this.event) {
+      this.homeTeamId = this.event.homeTeamId() || '0';
+      this.awayTeamId = this.event.awayTeamId() || '0';
+      this.weekId = this.event.weekId() || '0';
+      this.matchDate = this.formatDateForInput(this.event.matchDate());
+      this.cutoffDate = this.formatDateForInput(this.event.cutoffDate());
+      this.allowDraw = this.event.allowDraw() || false;
+      this.status = this.event.status() || 'scheduled';
+    }
+  };
+  _proto.formatDateForInput = function formatDateForInput(date) {
+    if (!date) return '';
+    var YYYY = date.getFullYear();
+    var MM = (date.getMonth() + 1).toString().padStart(2, '0');
+    var DD = date.getDate().toString().padStart(2, '0');
+    var HH = date.getHours().toString().padStart(2, '0');
+    var mm = date.getMinutes().toString().padStart(2, '0');
+    return YYYY + "-" + MM + "-" + DD + "T" + HH + ":" + mm;
+  };
+  _proto.className = function className() {
+    return 'EventModal Modal--medium';
+  };
+  _proto.title = function title() {
+    // GÜNCELLENDİ: lib.models -> lib.common
+    var resource = app.translator.trans('huseyinfiliz-pickem.lib.common.match');
+    return this.event ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit', {
+      resource: resource
+    }) : app.translator.trans('huseyinfiliz-pickem.lib.actions.create', {
+      resource: resource
+    });
+  };
+  _proto.content = function content() {
+    var _this2 = this;
+    var teams = app.store.all('pickem-teams');
+    var weeks = app.store.all('pickem-weeks');
+    var teamOptions = teams.reduce(function (acc, team) {
+      acc[team.id()] = team.name();
+      return acc;
+    }, {});
+    var weekOptions = weeks.reduce(function (acc, week) {
+      acc[week.id()] = week.name();
+      return acc;
+    }, {});
+    return m("div", {
+      className: "Modal-body"
+    }, m("div", {
+      className: "Form"
+    }, m("div", {
+      className: "Form-group"
+    }, m("label", null, app.translator.trans('huseyinfiliz-pickem.lib.common.week')), m((flarum_common_components_Select__WEBPACK_IMPORTED_MODULE_5___default()), {
+      className: "FormControl",
+      value: this.weekId,
+      onchange: function onchange(value) {
+        _this2.weekId = value;
+      },
+      options: weekOptions,
+      "default": "0"
+    }, m("option", {
+      value: "0"
+    }, app.translator.trans('huseyinfiliz-pickem.lib.form.no_week')))), m("div", {
+      className: "Form-group"
+    }, m("label", null, app.translator.trans('huseyinfiliz-pickem.lib.form.home_team')), m((flarum_common_components_Select__WEBPACK_IMPORTED_MODULE_5___default()), {
+      className: "FormControl",
+      value: this.homeTeamId,
+      onchange: function onchange(value) {
+        _this2.homeTeamId = value;
+      },
+      options: teamOptions,
+      "default": "0"
+    }, m("option", {
+      value: "0"
+    }, app.translator.trans('huseyinfiliz-pickem.lib.form.select_team')))), m("div", {
+      className: "Form-group"
+    }, m("label", null, app.translator.trans('huseyinfiliz-pickem.lib.form.away_team')), m((flarum_common_components_Select__WEBPACK_IMPORTED_MODULE_5___default()), {
+      className: "FormControl",
+      value: this.awayTeamId,
+      onchange: function onchange(value) {
+        _this2.awayTeamId = value;
+      },
+      options: teamOptions,
+      "default": "0"
+    }, m("option", {
+      value: "0"
+    }, app.translator.trans('huseyinfiliz-pickem.lib.form.select_team')))), m("div", {
+      className: "Form-group"
+    }, m("label", null, app.translator.trans('huseyinfiliz-pickem.lib.headers.match_date')), m("input", {
+      className: "FormControl",
+      type: "datetime-local",
+      value: this.matchDate,
+      oninput: function oninput(e) {
+        _this2.matchDate = e.target.value;
+      },
+      required: true
+    })), m("div", {
+      className: "Form-group"
+    }, m("label", null, app.translator.trans('huseyinfiliz-pickem.lib.headers.cutoff_date')), m("input", {
+      className: "FormControl",
+      type: "datetime-local",
+      value: this.cutoffDate,
+      oninput: function oninput(e) {
+        _this2.cutoffDate = e.target.value;
+      },
+      required: true
+    })), m("div", {
+      className: "Form-group"
+    }, m("label", {
+      className: "checkbox"
+    }, m("input", {
+      type: "checkbox",
+      checked: this.allowDraw,
+      onchange: function onchange(e) {
+        _this2.allowDraw = e.target.checked;
+      }
+    }), app.translator.trans('huseyinfiliz-pickem.lib.form.allow_draw'))), m("div", {
+      className: "Form-group"
+    }, m("label", null, app.translator.trans('huseyinfiliz-pickem.lib.common.status')), m((flarum_common_components_Select__WEBPACK_IMPORTED_MODULE_5___default()), {
+      className: "FormControl",
+      value: this.status,
+      onchange: function onchange(value) {
+        _this2.status = value;
+      },
+      options: {
+        scheduled: app.translator.trans('huseyinfiliz-pickem.lib.status.scheduled'),
+        closed: app.translator.trans('huseyinfiliz-pickem.lib.status.closed'),
+        finished: app.translator.trans('huseyinfiliz-pickem.lib.status.finished')
+      }
+    })), m("div", {
+      className: "Form-group"
+    }, m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_4___default()), {
+      className: "Button Button--primary",
+      type: "submit",
+      loading: this.loading
+    }, app.translator.trans('huseyinfiliz-pickem.lib.buttons.save')))));
+  };
+  _proto.onsubmit = /*#__PURE__*/function () {
+    var _onsubmit = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])(/*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee(e) {
+      var data, promise, _t;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function (_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            e.preventDefault();
+
+            // VALIDASYON (Generic 'invalid_outcome' mesajını kullanıyoruz)
+            if (!(!this.matchDate || this.matchDate.trim() === '')) {
+              _context.next = 1;
+              break;
+            }
+            app.alerts.show({
+              type: 'error'
+            }, app.translator.trans('huseyinfiliz-pickem.lib.messages.invalid_outcome'));
+            return _context.abrupt("return");
+          case 1:
+            if (!(!this.cutoffDate || this.cutoffDate.trim() === '')) {
+              _context.next = 2;
+              break;
+            }
+            app.alerts.show({
+              type: 'error'
+            }, app.translator.trans('huseyinfiliz-pickem.lib.messages.invalid_outcome'));
+            return _context.abrupt("return");
+          case 2:
+            if (!(this.homeTeamId === '0' || this.homeTeamId === '' || !this.homeTeamId)) {
+              _context.next = 3;
+              break;
+            }
+            app.alerts.show({
+              type: 'error'
+            }, app.translator.trans('huseyinfiliz-pickem.lib.messages.invalid_outcome'));
+            return _context.abrupt("return");
+          case 3:
+            if (!(this.awayTeamId === '0' || this.awayTeamId === '' || !this.awayTeamId)) {
+              _context.next = 4;
+              break;
+            }
+            app.alerts.show({
+              type: 'error'
+            }, app.translator.trans('huseyinfiliz-pickem.lib.messages.invalid_outcome'));
+            return _context.abrupt("return");
+          case 4:
+            if (!(this.homeTeamId === this.awayTeamId)) {
+              _context.next = 5;
+              break;
+            }
+            app.alerts.show({
+              type: 'error'
+            }, app.translator.trans('huseyinfiliz-pickem.lib.messages.same_team'));
+            return _context.abrupt("return");
+          case 5:
+            this.loading = true;
+            m.redraw();
+            data = {
+              weekId: this.weekId === '0' ? null : parseInt(this.weekId),
+              homeTeamId: parseInt(this.homeTeamId),
+              awayTeamId: parseInt(this.awayTeamId),
+              matchDate: this.matchDate,
+              cutoffDate: this.cutoffDate,
+              allowDraw: this.allowDraw,
+              status: this.status
+            };
+            _context.prev = 6;
+            promise = this.event ? this.event.save(data) : app.store.createRecord('pickem-events').save(data);
+            _context.next = 7;
+            return promise;
+          case 7:
+            this.attrs.onsave();
+            this.hide();
+            _context.next = 9;
+            break;
+          case 8:
+            _context.prev = 8;
+            _t = _context["catch"](6);
+            this.loading = false;
+            this.alertAttrs = _t.alert;
+            m.redraw();
+          case 9:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee, this, [[6, 8]]);
+    }));
+    function onsubmit(_x) {
+      return _onsubmit.apply(this, arguments);
+    }
+    return onsubmit;
+  }();
+  return EventModal;
+}((flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3___default()));
+
+
+/***/ }),
+
+/***/ "./src/admin/components/modals/ResultModal.tsx":
+/*!*****************************************************!*\
+  !*** ./src/admin/components/modals/ResultModal.tsx ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ ResultModal)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/common/components/Modal */ "flarum/common/components/Modal");
+/* harmony import */ var flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/common/components/Button */ "flarum/common/components/Button");
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+var ResultModal = /*#__PURE__*/function (_Modal) {
+  function ResultModal() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Modal.call.apply(_Modal, [this].concat(args)) || this;
+    _this.event = void 0;
+    _this.homeScore = '';
+    _this.awayScore = '';
+    _this.loading = false;
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(ResultModal, _Modal);
+  var _proto = ResultModal.prototype;
+  _proto.oninit = function oninit(vnode) {
+    _Modal.prototype.oninit.call(this, vnode);
+    this.event = this.attrs.event;
+    this.homeScore = this.event.homeScore() !== null ? this.event.homeScore() : '';
+    this.awayScore = this.event.awayScore() !== null ? this.event.awayScore() : '';
+  };
+  _proto.className = function className() {
+    return 'ResultModal Modal--small';
+  };
+  _proto.title = function title() {
+    return app.translator.trans('huseyinfiliz-pickem.lib.actions.enter_result');
+  };
+  _proto.content = function content() {
+    var _this2 = this;
+    var homeTeam = this.event.homeTeam();
+    var awayTeam = this.event.awayTeam();
+    var resultText = '';
+    var home = Number(this.homeScore);
+    var away = Number(this.awayScore);
+    if (this.homeScore !== '' && this.awayScore !== '') {
+      if (home > away) resultText = homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home');else if (away > home) resultText = awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away');
+      // GÜNCELLENDİ: forum.picks.draw -> lib.common.draw
+      else resultText = app.translator.trans('huseyinfiliz-pickem.lib.common.draw');
+    }
+    return m("div", {
+      className: "Modal-body"
+    }, m("div", {
+      className: "Form"
+    }, m("div", {
+      className: "Form-group"
+    }, m("label", null, homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.form.home_team')), m("input", {
+      className: "FormControl",
+      type: "number",
+      min: "0",
+      value: this.homeScore,
+      oninput: function oninput(e) {
+        _this2.homeScore = e.target.value;
+      }
+    })), m("div", {
+      className: "Form-group"
+    }, m("label", null, awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.form.away_team')), m("input", {
+      className: "FormControl",
+      type: "number",
+      min: "0",
+      value: this.awayScore,
+      oninput: function oninput(e) {
+        _this2.awayScore = e.target.value;
+      }
+    })), resultText && m("div", {
+      className: "Form-group"
+    }, m("p", null, m("strong", null, app.translator.trans('huseyinfiliz-pickem.lib.common.result'), ": "), resultText)), m("div", {
+      className: "Form-group"
+    }, m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_4___default()), {
+      className: "Button Button--primary",
+      type: "submit",
+      loading: this.loading
+    }, app.translator.trans('huseyinfiliz-pickem.lib.buttons.save')))));
+  };
+  _proto.onsubmit = /*#__PURE__*/function () {
+    var _onsubmit = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])(/*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee(e) {
+      var response, _t;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function (_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            e.preventDefault();
+            this.loading = true;
+            m.redraw();
+            _context.prev = 1;
+            _context.next = 2;
+            return app.request({
+              method: 'POST',
+              url: app.forum.attribute('apiUrl') + "/pickem-events/" + this.event.id() + "/result",
+              body: {
+                data: {
+                  type: 'pickem-events',
+                  attributes: {
+                    homeScore: parseInt(this.homeScore) || 0,
+                    awayScore: parseInt(this.awayScore) || 0
+                  }
+                }
+              }
+            });
+          case 2:
+            response = _context.sent;
+            app.store.pushPayload(response);
+            app.alerts.show({
+              type: 'success'
+            }, app.translator.trans('huseyinfiliz-pickem.lib.messages.result_saved'));
+            this.attrs.onsave();
+            this.hide();
+            _context.next = 4;
+            break;
+          case 3:
+            _context.prev = 3;
+            _t = _context["catch"](1);
+            this.loading = false;
+            this.alertAttrs = _t.alert;
+            m.redraw();
+          case 4:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee, this, [[1, 3]]);
+    }));
+    function onsubmit(_x) {
+      return _onsubmit.apply(this, arguments);
+    }
+    return onsubmit;
+  }();
+  return ResultModal;
+}((flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3___default()));
+
+
+/***/ }),
+
+/***/ "./src/admin/components/modals/SeasonModal.tsx":
+/*!*****************************************************!*\
+  !*** ./src/admin/components/modals/SeasonModal.tsx ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ SeasonModal)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/common/components/Modal */ "flarum/common/components/Modal");
+/* harmony import */ var flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/common/components/Button */ "flarum/common/components/Button");
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var flarum_common_utils_string__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! flarum/common/utils/string */ "flarum/common/utils/string");
+/* harmony import */ var flarum_common_utils_string__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(flarum_common_utils_string__WEBPACK_IMPORTED_MODULE_5__);
+
+
+
+
+
+
+var SeasonModal = /*#__PURE__*/function (_Modal) {
+  function SeasonModal() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Modal.call.apply(_Modal, [this].concat(args)) || this;
+    _this.season = void 0;
+    _this.name = '';
+    _this.slug = '';
+    _this.startDate = '';
+    _this.endDate = '';
+    _this.loading = false;
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(SeasonModal, _Modal);
+  var _proto = SeasonModal.prototype;
+  _proto.oninit = function oninit(vnode) {
+    _Modal.prototype.oninit.call(this, vnode);
+    this.season = this.attrs.season;
+    if (this.season) {
+      this.name = this.season.name() || '';
+      this.slug = this.season.slug() || '';
+      this.startDate = this.formatDateForInput(this.season.startDate());
+      this.endDate = this.formatDateForInput(this.season.endDate());
+    }
+  };
+  _proto.formatDateForInput = function formatDateForInput(dateString) {
+    if (!dateString) return '';
+    var date = new Date(dateString);
+    return date.toISOString().slice(0, 10);
+  };
+  _proto.className = function className() {
+    return 'SeasonModal Modal--small';
+  };
+  _proto.title = function title() {
+    // GÜNCELLENDİ: lib.models -> lib.common
+    var resource = app.translator.trans('huseyinfiliz-pickem.lib.common.season');
+    return this.season ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit', {
+      resource: resource
+    }) : app.translator.trans('huseyinfiliz-pickem.lib.actions.create', {
+      resource: resource
+    });
+  };
+  _proto.content = function content() {
+    var _this2 = this;
+    return m("div", {
+      className: "Modal-body"
+    }, m("div", {
+      className: "Form"
+    }, m("div", {
+      className: "Form-group"
+    }, m("label", null, app.translator.trans('huseyinfiliz-pickem.lib.form.name')), m("input", {
+      className: "FormControl",
+      type: "text",
+      value: this.name,
+      oninput: function oninput(e) {
+        _this2.name = e.target.value;
+        if (!_this2.season) {
+          _this2.slug = (0,flarum_common_utils_string__WEBPACK_IMPORTED_MODULE_5__.slug)(_this2.name);
+        }
+      }
+    })), m("div", {
+      className: "Form-group"
+    }, m("label", null, app.translator.trans('huseyinfiliz-pickem.lib.form.slug')), m("input", {
+      className: "FormControl",
+      type: "text",
+      value: this.slug,
+      oninput: function oninput(e) {
+        _this2.slug = e.target.value;
+      }
+    })), m("div", {
+      className: "Form-group"
+    }, m("label", null, app.translator.trans('huseyinfiliz-pickem.lib.form.start_date')), m("input", {
+      className: "FormControl",
+      type: "date",
+      value: this.startDate,
+      oninput: function oninput(e) {
+        _this2.startDate = e.target.value;
+      }
+    })), m("div", {
+      className: "Form-group"
+    }, m("label", null, app.translator.trans('huseyinfiliz-pickem.lib.form.end_date')), m("input", {
+      className: "FormControl",
+      type: "date",
+      value: this.endDate,
+      oninput: function oninput(e) {
+        _this2.endDate = e.target.value;
+      }
+    })), m("div", {
+      className: "Form-group"
+    }, m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_4___default()), {
+      className: "Button Button--primary",
+      type: "submit",
+      loading: this.loading
+    }, app.translator.trans('huseyinfiliz-pickem.lib.buttons.save')))));
+  };
+  _proto.onsubmit = /*#__PURE__*/function () {
+    var _onsubmit = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])(/*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee(e) {
+      var data, promise, _t;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function (_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            e.preventDefault();
+            this.loading = true;
+            m.redraw();
+            data = {
+              name: this.name,
+              slug: this.slug,
+              startDate: this.startDate || null,
+              endDate: this.endDate || null
+            };
+            _context.prev = 1;
+            promise = this.season ? this.season.save(data) : app.store.createRecord('pickem-seasons').save(data);
+            _context.next = 2;
+            return promise;
+          case 2:
+            this.attrs.onsave();
+            this.hide();
+            _context.next = 4;
+            break;
+          case 3:
+            _context.prev = 3;
+            _t = _context["catch"](1);
+            this.loading = false;
+            this.alertAttrs = _t.alert;
+            m.redraw();
+          case 4:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee, this, [[1, 3]]);
+    }));
+    function onsubmit(_x) {
+      return _onsubmit.apply(this, arguments);
+    }
+    return onsubmit;
+  }();
+  return SeasonModal;
+}((flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3___default()));
+
+
+/***/ }),
+
+/***/ "./src/admin/components/modals/TeamModal.tsx":
+/*!***************************************************!*\
+  !*** ./src/admin/components/modals/TeamModal.tsx ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ TeamModal)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/common/components/Modal */ "flarum/common/components/Modal");
+/* harmony import */ var flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/common/components/Button */ "flarum/common/components/Button");
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var flarum_common_utils_string__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! flarum/common/utils/string */ "flarum/common/utils/string");
+/* harmony import */ var flarum_common_utils_string__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(flarum_common_utils_string__WEBPACK_IMPORTED_MODULE_5__);
+
+
+
+
+
+
+var TeamModal = /*#__PURE__*/function (_Modal) {
+  function TeamModal() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Modal.call.apply(_Modal, [this].concat(args)) || this;
+    _this.team = void 0;
+    _this.name = '';
+    _this.slug = '';
+    _this.logoPath = '';
+    _this.loading = false;
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(TeamModal, _Modal);
+  var _proto = TeamModal.prototype;
+  _proto.oninit = function oninit(vnode) {
+    _Modal.prototype.oninit.call(this, vnode);
+    this.team = this.attrs.team;
+    if (this.team) {
+      this.name = this.team.name() || '';
+      this.slug = this.team.slug() || '';
+      this.logoPath = this.team.logoPath() || '';
+    }
+  };
+  _proto.className = function className() {
+    return 'TeamModal Modal--small';
+  };
+  _proto.title = function title() {
+    // GÜNCELLENDİ: lib.models -> lib.common
+    var resource = app.translator.trans('huseyinfiliz-pickem.lib.common.team');
+    return this.team ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit', {
+      resource: resource
+    }) : app.translator.trans('huseyinfiliz-pickem.lib.actions.create', {
+      resource: resource
+    });
+  };
+  _proto.content = function content() {
+    var _this2 = this;
+    return m("div", {
+      className: "Modal-body"
+    }, m("div", {
+      className: "Form"
+    }, m("div", {
+      className: "Form-group"
+    }, m("label", null, app.translator.trans('huseyinfiliz-pickem.lib.form.name')), m("input", {
+      className: "FormControl",
+      type: "text",
+      value: this.name,
+      oninput: function oninput(e) {
+        _this2.name = e.target.value;
+        if (!_this2.team) {
+          _this2.slug = (0,flarum_common_utils_string__WEBPACK_IMPORTED_MODULE_5__.slug)(_this2.name);
+        }
+      }
+    })), m("div", {
+      className: "Form-group"
+    }, m("label", null, app.translator.trans('huseyinfiliz-pickem.lib.form.slug')), m("input", {
+      className: "FormControl",
+      type: "text",
+      value: this.slug,
+      oninput: function oninput(e) {
+        _this2.slug = e.target.value;
+      }
+    })), m("div", {
+      className: "Form-group"
+    }, m("label", null, app.translator.trans('huseyinfiliz-pickem.lib.form.logo_url')), m("input", {
+      className: "FormControl",
+      type: "text",
+      value: this.logoPath,
+      oninput: function oninput(e) {
+        _this2.logoPath = e.target.value;
+      },
+      placeholder: "https://example.com/logo.png"
+    }), this.logoPath && m("div", {
+      style: {
+        marginTop: '10px'
+      }
+    }, m("img", {
+      src: this.logoPath,
+      alt: "Logo preview",
+      style: {
+        maxWidth: '100px',
+        maxHeight: '100px',
+        border: '1px solid #ddd',
+        padding: '5px',
+        borderRadius: '4px'
+      },
+      onerror: function onerror(e) {
+        e.target.style.display = 'none';
+      }
+    }))), m("div", {
+      className: "Form-group"
+    }, m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_4___default()), {
+      className: "Button Button--primary",
+      type: "submit",
+      loading: this.loading
+    }, app.translator.trans('huseyinfiliz-pickem.lib.buttons.save')))));
+  };
+  _proto.onsubmit = /*#__PURE__*/function () {
+    var _onsubmit = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])(/*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee(e) {
+      var data, promise, _t;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function (_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            e.preventDefault();
+            this.loading = true;
+            m.redraw();
+            data = {
+              name: this.name,
+              slug: this.slug,
+              logoPath: this.logoPath
+            };
+            _context.prev = 1;
+            promise = this.team ? this.team.save(data) : app.store.createRecord('pickem-teams').save(data);
+            _context.next = 2;
+            return promise;
+          case 2:
+            this.attrs.onsave();
+            this.hide();
+            _context.next = 4;
+            break;
+          case 3:
+            _context.prev = 3;
+            _t = _context["catch"](1);
+            this.loading = false;
+            this.alertAttrs = _t.alert;
+            m.redraw();
+          case 4:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee, this, [[1, 3]]);
+    }));
+    function onsubmit(_x) {
+      return _onsubmit.apply(this, arguments);
+    }
+    return onsubmit;
+  }();
+  return TeamModal;
+}((flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3___default()));
+
+
+/***/ }),
+
+/***/ "./src/admin/components/modals/WeekModal.tsx":
+/*!***************************************************!*\
+  !*** ./src/admin/components/modals/WeekModal.tsx ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ WeekModal)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/common/components/Modal */ "flarum/common/components/Modal");
+/* harmony import */ var flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/common/components/Button */ "flarum/common/components/Button");
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var flarum_common_components_Select__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! flarum/common/components/Select */ "flarum/common/components/Select");
+/* harmony import */ var flarum_common_components_Select__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Select__WEBPACK_IMPORTED_MODULE_5__);
+
+
+
+
+
+
+var WeekModal = /*#__PURE__*/function (_Modal) {
+  function WeekModal() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Modal.call.apply(_Modal, [this].concat(args)) || this;
+    _this.week = void 0;
+    _this.name = '';
+    _this.weekNumber = '';
+    _this.seasonId = '0';
+    _this.loading = false;
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(WeekModal, _Modal);
+  var _proto = WeekModal.prototype;
+  _proto.oninit = function oninit(vnode) {
+    _Modal.prototype.oninit.call(this, vnode);
+    this.week = this.attrs.week;
+    if (this.week) {
+      this.name = this.week.name() || '';
+      this.weekNumber = this.week.weekNumber() || '';
+      this.seasonId = this.week.seasonId() || '0';
+    }
+  };
+  _proto.className = function className() {
+    return 'WeekModal Modal--small';
+  };
+  _proto.title = function title() {
+    // GÜNCELLENDİ: lib.models -> lib.common
+    var resource = app.translator.trans('huseyinfiliz-pickem.lib.common.week');
+    return this.week ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit', {
+      resource: resource
+    }) : app.translator.trans('huseyinfiliz-pickem.lib.actions.create', {
+      resource: resource
+    });
+  };
+  _proto.content = function content() {
+    var _this2 = this;
+    var seasons = app.store.all('pickem-seasons');
+    var seasonOptions = seasons.reduce(function (options, season) {
+      options[season.id()] = season.name();
+      return options;
+    }, {});
+    return m("div", {
+      className: "Modal-body"
+    }, m("div", {
+      className: "Form"
+    }, m("div", {
+      className: "Form-group"
+    }, m("label", null, app.translator.trans('huseyinfiliz-pickem.lib.form.name')), m("input", {
+      className: "FormControl",
+      type: "text",
+      value: this.name,
+      oninput: function oninput(e) {
+        _this2.name = e.target.value;
+      }
+    })), m("div", {
+      className: "Form-group"
+    }, m("label", null, app.translator.trans('huseyinfiliz-pickem.lib.common.season')), m((flarum_common_components_Select__WEBPACK_IMPORTED_MODULE_5___default()), {
+      className: "FormControl",
+      value: this.seasonId,
+      onchange: function onchange(value) {
+        _this2.seasonId = value;
+      },
+      options: seasonOptions,
+      "default": "0"
+    }, m("option", {
+      value: "0"
+    }, app.translator.trans('huseyinfiliz-pickem.lib.form.select_season')))), m("div", {
+      className: "Form-group"
+    }, m("label", null, app.translator.trans('huseyinfiliz-pickem.lib.form.week_number')), m("input", {
+      className: "FormControl",
+      type: "number",
+      value: this.weekNumber,
+      oninput: function oninput(e) {
+        _this2.weekNumber = e.target.value;
+      }
+    })), m("div", {
+      className: "Form-group"
+    }, m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_4___default()), {
+      className: "Button Button--primary",
+      type: "submit",
+      loading: this.loading
+    }, app.translator.trans('huseyinfiliz-pickem.lib.buttons.save')))));
+  };
+  _proto.onsubmit = /*#__PURE__*/function () {
+    var _onsubmit = (0,_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])(/*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee(e) {
+      var data, promise, _t;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function (_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            e.preventDefault();
+            this.loading = true;
+            m.redraw();
+            data = {
+              name: this.name,
+              weekNumber: this.weekNumber || null,
+              seasonId: this.seasonId === '0' ? null : this.seasonId
+            };
+            _context.prev = 1;
+            promise = this.week ? this.week.save(data) : app.store.createRecord('pickem-weeks').save(data);
+            _context.next = 2;
+            return promise;
+          case 2:
+            this.attrs.onsave();
+            this.hide();
+            _context.next = 4;
+            break;
+          case 3:
+            _context.prev = 3;
+            _t = _context["catch"](1);
+            this.loading = false;
+            this.alertAttrs = _t.alert;
+            m.redraw();
+          case 4:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee, this, [[1, 3]]);
+    }));
+    function onsubmit(_x) {
+      return _onsubmit.apply(this, arguments);
+    }
+    return onsubmit;
+  }();
+  return WeekModal;
+}((flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_3___default()));
+
+
+/***/ }),
+
+/***/ "./src/admin/extend.ts":
+/*!*****************************!*\
+  !*** ./src/admin/extend.ts ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _common_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common/extend */ "./src/common/extend.ts");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_common_extend__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+/***/ }),
+
+/***/ "./src/admin/index.ts":
+/*!****************************!*\
+  !*** ./src/admin/index.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var flarum_admin_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! flarum/admin/app */ "flarum/admin/app");
+/* harmony import */ var flarum_admin_app__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(flarum_admin_app__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _extend__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./extend */ "./src/admin/extend.ts");
+/* harmony import */ var _components_PickemPage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/PickemPage */ "./src/admin/components/PickemPage.tsx");
+
+
+
+flarum_admin_app__WEBPACK_IMPORTED_MODULE_0___default().initializers.add('huseyinfiliz/pickem', function () {
+  _extend__WEBPACK_IMPORTED_MODULE_1__["default"].forEach(function (extender) {
+    return extender.extend((flarum_admin_app__WEBPACK_IMPORTED_MODULE_0___default()));
+  });
+  flarum_admin_app__WEBPACK_IMPORTED_MODULE_0___default().extensionData["for"]('huseyinfiliz-pickem').registerPage(_components_PickemPage__WEBPACK_IMPORTED_MODULE_2__["default"]).registerPermission({
+    icon: 'fas fa-trophy',
+    label: flarum_admin_app__WEBPACK_IMPORTED_MODULE_0___default().translator.trans('huseyinfiliz-pickem.admin.permissions.manage'),
+    permission: 'pickem.manage'
+  }, 'moderate').registerPermission({
+    icon: 'fas fa-check-circle',
+    label: flarum_admin_app__WEBPACK_IMPORTED_MODULE_0___default().translator.trans('huseyinfiliz-pickem.admin.permissions.make_picks'),
+    permission: 'pickem.makePicks'
+  }, 'start').registerPermission({
+    icon: 'fas fa-eye',
+    label: flarum_admin_app__WEBPACK_IMPORTED_MODULE_0___default().translator.trans('huseyinfiliz-pickem.admin.permissions.view_page'),
+    permission: 'pickem.view',
+    allowGuest: true
+  }, 'view');
+});
+
+/***/ }),
+
+/***/ "./src/common/extend.ts":
+/*!******************************!*\
+  !*** ./src/common/extend.ts ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! flarum/common/extenders */ "flarum/common/extenders");
+/* harmony import */ var flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Model */ "flarum/common/Model");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _models_Team__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./models/Team */ "./src/common/models/Team.ts");
+/* harmony import */ var _models_Season__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./models/Season */ "./src/common/models/Season.ts");
+/* harmony import */ var _models_Week__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./models/Week */ "./src/common/models/Week.ts");
+/* harmony import */ var _models_Event__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./models/Event */ "./src/common/models/Event.ts");
+/* harmony import */ var _models_Pick__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./models/Pick */ "./src/common/models/Pick.ts");
+/* harmony import */ var _models_UserScore__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./models/UserScore */ "./src/common/models/UserScore.ts");
+
+
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Store)().add('pickem-teams', _models_Team__WEBPACK_IMPORTED_MODULE_2__["default"]), new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Model)(_models_Team__WEBPACK_IMPORTED_MODULE_2__["default"]).attribute('name').attribute('slug').attribute('logoPath').attribute('logoUrl'), new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Store)().add('pickem-seasons', _models_Season__WEBPACK_IMPORTED_MODULE_3__["default"]), new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Model)(_models_Season__WEBPACK_IMPORTED_MODULE_3__["default"]).attribute('name').attribute('slug').attribute('startDate', (flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().transformDate)) // Tip ataması
+.attribute('endDate', (flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().transformDate)),
+// Tip ataması
+
+new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Store)().add('pickem-weeks', _models_Week__WEBPACK_IMPORTED_MODULE_4__["default"]), new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Model)(_models_Week__WEBPACK_IMPORTED_MODULE_4__["default"]).attribute('name').attribute('seasonId').attribute('weekNumber').hasOne('season'), new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Store)().add('pickem-events', _models_Event__WEBPACK_IMPORTED_MODULE_5__["default"]), new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Model)(_models_Event__WEBPACK_IMPORTED_MODULE_5__["default"]).attribute('weekId').attribute('homeTeamId').attribute('awayTeamId').attribute('matchDate', (flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().transformDate)) // Tip ataması
+.attribute('cutoffDate', (flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().transformDate)) // Tip ataması
+.attribute('allowDraw').attribute('status').attribute('homeScore').attribute('awayScore').attribute('result').attribute('canPick').hasOne('week').hasOne('homeTeam').hasOne('awayTeam'), new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Store)().add('pickem-picks', _models_Pick__WEBPACK_IMPORTED_MODULE_6__["default"]), new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Model)(_models_Pick__WEBPACK_IMPORTED_MODULE_6__["default"]).attribute('userId').attribute('eventId').attribute('selectedOutcome').attribute('isCorrect').hasOne('event').hasOne('user'), new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Store)().add('pickem-user-scores', _models_UserScore__WEBPACK_IMPORTED_MODULE_7__["default"]), new (flarum_common_extenders__WEBPACK_IMPORTED_MODULE_0___default().Model)(_models_UserScore__WEBPACK_IMPORTED_MODULE_7__["default"]).attribute('userId').attribute('seasonId').attribute('totalPoints').attribute('totalPicks').attribute('correctPicks').attribute('accuracy').hasOne('user').hasOne('season')]);
+
+/***/ }),
+
+/***/ "./src/common/models/Event.ts":
+/*!************************************!*\
+  !*** ./src/common/models/Event.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ PickemEvent)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Model */ "flarum/common/Model");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var PickemEvent = /*#__PURE__*/function (_Model) {
+  function PickemEvent() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Model.call.apply(_Model, [this].concat(args)) || this;
+    _this.weekId = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('weekId');
+    _this.homeTeamId = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('homeTeamId');
+    _this.awayTeamId = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('awayTeamId');
+    _this.matchDate = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('matchDate', (flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().transformDate));
+    _this.cutoffDate = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('cutoffDate', (flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().transformDate));
+    _this.allowDraw = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('allowDraw');
+    _this.status = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('status');
+    _this.homeScore = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('homeScore');
+    _this.awayScore = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('awayScore');
+    _this.result = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('result');
+    _this.canPick = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('canPick');
+    _this.week = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().hasOne('week');
+    _this.homeTeam = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().hasOne('homeTeam');
+    _this.awayTeam = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().hasOne('awayTeam');
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(PickemEvent, _Model);
+  return PickemEvent;
+}((flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "./src/common/models/Pick.ts":
+/*!***********************************!*\
+  !*** ./src/common/models/Pick.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Pick)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Model */ "flarum/common/Model");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var Pick = /*#__PURE__*/function (_Model) {
+  function Pick() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Model.call.apply(_Model, [this].concat(args)) || this;
+    _this.userId = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('userId');
+    _this.eventId = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('eventId');
+    _this.selectedOutcome = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('selectedOutcome');
+    _this.isCorrect = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('isCorrect');
+    _this.event = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().hasOne('event');
+    _this.user = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().hasOne('user');
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(Pick, _Model);
+  return Pick;
+}((flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "./src/common/models/Season.ts":
+/*!*************************************!*\
+  !*** ./src/common/models/Season.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Season)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Model */ "flarum/common/Model");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var Season = /*#__PURE__*/function (_Model) {
+  function Season() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Model.call.apply(_Model, [this].concat(args)) || this;
+    _this.name = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('name');
+    _this.slug = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('slug');
+    _this.startDate = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('startDate', (flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().transformDate));
+    _this.endDate = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('endDate', (flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().transformDate));
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(Season, _Model);
+  return Season;
+}((flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "./src/common/models/Team.ts":
+/*!***********************************!*\
+  !*** ./src/common/models/Team.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Team)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Model */ "flarum/common/Model");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var Team = /*#__PURE__*/function (_Model) {
+  function Team() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Model.call.apply(_Model, [this].concat(args)) || this;
+    _this.name = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('name');
+    _this.slug = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('slug');
+    _this.logoPath = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('logoPath');
+    _this.logoUrl = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('logoUrl');
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(Team, _Model);
+  return Team;
+}((flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "./src/common/models/UserScore.ts":
+/*!****************************************!*\
+  !*** ./src/common/models/UserScore.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ UserScore)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Model */ "flarum/common/Model");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var UserScore = /*#__PURE__*/function (_Model) {
+  function UserScore() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Model.call.apply(_Model, [this].concat(args)) || this;
+    _this.userId = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('userId');
+    _this.seasonId = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('seasonId');
+    _this.totalPoints = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('totalPoints');
+    _this.totalPicks = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('totalPicks');
+    _this.correctPicks = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('correctPicks');
+    _this.accuracy = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('accuracy');
+    _this.user = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().hasOne('user');
+    _this.season = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().hasOne('season');
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(UserScore, _Model);
+  return UserScore;
+}((flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "./src/common/models/Week.ts":
+/*!***********************************!*\
+  !*** ./src/common/models/Week.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Week)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Model */ "flarum/common/Model");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Model__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var Week = /*#__PURE__*/function (_Model) {
+  function Week() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _Model.call.apply(_Model, [this].concat(args)) || this;
+    _this.name = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('name');
+    _this.seasonId = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('seasonId');
+    _this.weekNumber = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('weekNumber');
+    _this.season = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().hasOne('season');
+    return _this;
+  }
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(Week, _Model);
+  return Week;
+}((flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default()));
+
+
+/***/ }),
+
+/***/ "flarum/admin/app":
+/*!**************************************************!*\
+  !*** external "flarum.core.compat['admin/app']" ***!
+  \**************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['admin/app'];
+
+/***/ }),
+
+/***/ "flarum/admin/components/ExtensionPage":
+/*!***********************************************************************!*\
+  !*** external "flarum.core.compat['admin/components/ExtensionPage']" ***!
+  \***********************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['admin/components/ExtensionPage'];
+
+/***/ }),
+
+/***/ "flarum/common/Component":
+/*!*********************************************************!*\
+  !*** external "flarum.core.compat['common/Component']" ***!
+  \*********************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/Component'];
+
+/***/ }),
+
+/***/ "flarum/common/Model":
+/*!*****************************************************!*\
+  !*** external "flarum.core.compat['common/Model']" ***!
+  \*****************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/Model'];
+
+/***/ }),
+
+/***/ "flarum/common/components/Alert":
+/*!****************************************************************!*\
+  !*** external "flarum.core.compat['common/components/Alert']" ***!
+  \****************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/components/Alert'];
+
+/***/ }),
+
+/***/ "flarum/common/components/Button":
+/*!*****************************************************************!*\
+  !*** external "flarum.core.compat['common/components/Button']" ***!
+  \*****************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/components/Button'];
+
+/***/ }),
+
+/***/ "flarum/common/components/LoadingIndicator":
+/*!***************************************************************************!*\
+  !*** external "flarum.core.compat['common/components/LoadingIndicator']" ***!
+  \***************************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/components/LoadingIndicator'];
+
+/***/ }),
+
+/***/ "flarum/common/components/Modal":
+/*!****************************************************************!*\
+  !*** external "flarum.core.compat['common/components/Modal']" ***!
+  \****************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/components/Modal'];
+
+/***/ }),
+
+/***/ "flarum/common/components/Placeholder":
+/*!**********************************************************************!*\
+  !*** external "flarum.core.compat['common/components/Placeholder']" ***!
+  \**********************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/components/Placeholder'];
+
+/***/ }),
+
+/***/ "flarum/common/components/Select":
+/*!*****************************************************************!*\
+  !*** external "flarum.core.compat['common/components/Select']" ***!
+  \*****************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/components/Select'];
+
+/***/ }),
+
+/***/ "flarum/common/extenders":
+/*!*********************************************************!*\
+  !*** external "flarum.core.compat['common/extenders']" ***!
+  \*********************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/extenders'];
+
+/***/ }),
+
+/***/ "flarum/common/utils/extractText":
+/*!*****************************************************************!*\
+  !*** external "flarum.core.compat['common/utils/extractText']" ***!
+  \*****************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/utils/extractText'];
+
+/***/ }),
+
+/***/ "flarum/common/utils/string":
+/*!************************************************************!*\
+  !*** external "flarum.core.compat['common/utils/string']" ***!
+  \************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/utils/string'];
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
+(() => {
+"use strict";
+/*!******************!*\
+  !*** ./admin.js ***!
+  \******************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _src_admin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/admin */ "./src/admin/index.ts");
+
+})();
+
+module.exports = __webpack_exports__;
+/******/ })()
+;
 //# sourceMappingURL=admin.js.map
