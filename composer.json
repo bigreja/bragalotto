@@ -23,7 +23,7 @@
     }
   ],
   "require": {
-    "flarum/core": "^1.8.0"
+    "flarum/core": "^1.2.0"
   },
   "authors": [
     {
@@ -48,7 +48,7 @@
       "category": "feature",
       "icon": {
         "name": "fas fa-trophy",
-        "backgroundColor": "#e74c3c",
+        "backgroundColor": "#3498db",
         "color": "#fff"
       }
     },
