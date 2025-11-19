@@ -8,7 +8,7 @@ use Flarum\Http\UrlGenerator;
 use HuseyinFiliz\Pickem\Api\Serializer\PickSerializer;
 use HuseyinFiliz\Pickem\Pick;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str; // YENİ EKLENDİ: Bu import gerekli
+use Illuminate\Support\Str;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
@@ -17,7 +17,7 @@ class ListPicksController extends AbstractListController
     public $serializer = PickSerializer::class;
     public $include = ['event', 'event.homeTeam', 'event.awayTeam', 'event.week', 'user'];
     
-    public $limit = 100;
+    public $limit = 20;
     public $sort = ['createdAt' => 'desc'];
     public $sortFields = ['createdAt', 'updatedAt'];
 
@@ -45,24 +45,23 @@ class ListPicksController extends AbstractListController
             $query->where('user_id', $actor->id);
         }
 
+        // GÜNCELLENDİ: Virgülle ayrılmış çoklu ID desteği eklendi (1,2,3)
         if ($eventId = Arr::get($request->getQueryParams(), 'filter.event')) {
-            $query->where('event_id', $eventId);
+            $eventIds = explode(',', $eventId);
+            $query->whereIn('event_id', $eventIds);
         }
 
-        // --- SAYFALAMA MANTIĞI ---
-        
         $limit = $this->extractLimit($request);
         $offset = $this->extractOffset($request);
         $sort = $this->extractSort($request);
 
         foreach ($sort as $field => $order) {
-            // DÜZELTME: snake_case() yerine Str::snake() kullanıldı
             $query->orderBy(Str::snake($field), $order);
         }
 
         $total = $query->count();
 
-        $results = $query->with(['event', 'event.homeTeam', 'event.awayTeam', 'event.week', 'user'])
+        $results = $query->with($this->include)
                          ->limit($limit)
                          ->offset($offset)
                          ->get();

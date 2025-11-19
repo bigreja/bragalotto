@@ -8,7 +8,8 @@ use Flarum\Http\RequestUtil;
 use HuseyinFiliz\Pickem\Api\Serializer\PickSerializer;
 use HuseyinFiliz\Pickem\Event;
 use HuseyinFiliz\Pickem\Pick;
-use HuseyinFiliz\Pickem\PickemScoringService;
+use HuseyinFiliz\Pickem\Job\RecalculateUserScoreJob;
+use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
@@ -19,12 +20,12 @@ class CreatePickController extends AbstractCreateController
     public $serializer = PickSerializer::class;
     public $include = ['event', 'event.homeTeam', 'event.awayTeam', 'user'];
 
-    protected $scoringService;
+    protected $bus;
     protected $translator;
 
-    public function __construct(PickemScoringService $scoringService, Translator $translator)
+    public function __construct(Dispatcher $bus, Translator $translator)
     {
-        $this->scoringService = $scoringService;
+        $this->bus = $bus;
         $this->translator = $translator;
     }
 
@@ -38,21 +39,20 @@ class CreatePickController extends AbstractCreateController
         $eventId = Arr::get($data, 'eventId');
         $selectedOutcome = Arr::get($data, 'selectedOutcome');
 
-        // GÜNCELLENDİ: Eksik veri kontrolü
+        // Eksik veri kontrolü
         if (!$eventId || !$selectedOutcome) {
             throw new ValidationException([
-                // Burada "invalid_outcome" (Geçersiz seçim) kullanıyoruz çünkü kullanıcı
-                // teknik olarak eksik veya geçersiz bir seçim göndermiş oluyor.
                 'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
             ]);
         }
 
         $event = Event::with(['homeTeam', 'awayTeam', 'week'])->findOrFail($eventId);
 
-        // GÜNCELLENDİ: Cutoff (Zaman aşımı) kontrolü
+        // Süre kontrolü (Cutoff)
         if (!$event->canPick()) {
+            // GÜNCELLENDİ: Özel 'cutoff_passed' yerine genel 'invalid_outcome' kullanıyoruz.
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.cutoff_passed')
+                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
             ]);
         }
 
@@ -63,7 +63,7 @@ class CreatePickController extends AbstractCreateController
             ]);
         }
 
-        // Geçerli sonuç kontrolü
+        // Geçerli sonuç tipi kontrolü (home, away, draw)
         $validOutcomes = [Event::RESULT_HOME, Event::RESULT_AWAY, Event::RESULT_DRAW];
         if (!in_array($selectedOutcome, $validOutcomes)) {
             throw new ValidationException([
@@ -71,7 +71,6 @@ class CreatePickController extends AbstractCreateController
             ]);
         }
 
-        // Kaydı bul veya oluştur
         $pick = Pick::firstOrNew([
             'user_id' => $actor->id,
             'event_id' => $eventId,
@@ -83,12 +82,8 @@ class CreatePickController extends AbstractCreateController
         $pick->selected_outcome = $selectedOutcome;
 
         if ($isUpdate && $pick->isDirty('selected_outcome')) {
-            // Eğer kullanıcı daha önce tahmin yapmış ve şimdi değiştiriyorsa,
-            // ve bu maç çoktan sonuçlanmışsa (admin müdahalesi vb.),
-            // doğruluk durumunu sıfırla.
             $pick->is_correct = null;
             
-            // Eğer maç bitmişse, kullanıcının skorunu tekrar hesaplamak gerekebilir
             if ($event->isFinished() || $event->isClosed()) {
                  $recalculateScore = true;
             }
@@ -97,7 +92,7 @@ class CreatePickController extends AbstractCreateController
         $pick->save();
 
         if ($recalculateScore) {
-            $this->scoringService->recalculateUserScore($actor->id);
+            $this->bus->dispatch(new RecalculateUserScoreJob($actor->id));
         }
 
         $pick->load(['event.homeTeam', 'event.awayTeam', 'event.week', 'user']);

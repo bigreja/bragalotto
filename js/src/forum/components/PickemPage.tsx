@@ -10,8 +10,18 @@ import listItems from 'flarum/common/helpers/listItems';
 export default class PickemPage extends Page {
   private activeTab: string = 'matches';
   private loading: boolean = true;
+  
   private picks: Record<string, any> = {};
+  private myPicksLoading: boolean = false;
+  private myPicksHasMore: boolean = false;
+  
   private userScores: any[] = [];
+  private leaderboardLoading: boolean = false;
+  private leaderboardHasMore: boolean = false;
+  
+  // YENİ: Kendi skorunu tutacak state
+  private myScore: any = null;
+
   private filterDataLoaded: boolean = false;
 
   oninit(vnode: any) {
@@ -25,7 +35,12 @@ export default class PickemPage extends Page {
     this.activeTab = 'matches';
     this.loading = true;
     this.picks = {};
+    this.myPicksLoading = false;
+    this.myPicksHasMore = false;
     this.userScores = [];
+    this.leaderboardLoading = false;
+    this.leaderboardHasMore = false;
+    this.myScore = null;
     this.filterDataLoaded = false; 
 
     this.loadInitialData();
@@ -33,7 +48,6 @@ export default class PickemPage extends Page {
 
   oncreate(vnode: any) {
     super.oncreate(vnode);
-    // GÜNCELLENDİ
     app.setTitle(extractText(app.translator.trans('huseyinfiliz-pickem.lib.nav.pickem')));
   }
 
@@ -42,10 +56,12 @@ export default class PickemPage extends Page {
       const promises = [];
 
       if (app.session.user && app.forum.attribute('pickem.makePicks')) {
-        promises.push(this.loadPicks());
+        promises.push(this.loadPicks(0));
+        // YENİ: Eğer giriş yapmışsa kendi sıralamasını çek
+        promises.push(this.loadMyRank());
       }
       
-      promises.push(this.loadLeaderboard());
+      promises.push(this.loadLeaderboard(0));
       promises.push(this.loadFilterData());
 
       await Promise.all(promises);
@@ -59,17 +75,42 @@ export default class PickemPage extends Page {
     }
   }
 
-  async loadPicks() {
-    if (!app.session.user || !app.forum.attribute('pickem.makePicks')) return;
-
+  // YENİ: Kendi sıralamasını çeken fonksiyon
+  async loadMyRank() {
+    if (!app.session.user) return;
+    
     try {
-      const picks = (await app.store.find('pickem-picks', {
+      // ListLeaderboardController'a eklediğimiz 'user' filtresini kullanıyoruz
+      const results = (await app.store.find('pickem-user-scores', {
         filter: { user: app.session.user.id() },
-        include: 'event,event.homeTeam,event.awayTeam',
+        page: { limit: 1 }
       })) as any[];
 
-      if (picks && Array.isArray(picks)) {
-        this.picks = picks.reduce((acc: Record<string, any>, pick: any) => {
+      if (results && results.length > 0) {
+        this.myScore = results[0];
+      }
+    } catch (error) {
+      console.error('Error loading my rank:', error);
+    }
+  }
+
+  async loadPicks(offset: number = 0) {
+    if (!app.session.user || !app.forum.attribute('pickem.makePicks')) return;
+
+    this.myPicksLoading = true;
+    m.redraw();
+
+    const limit = 20;
+
+    try {
+      const results = (await app.store.find('pickem-picks', {
+        filter: { user: app.session.user.id() },
+        include: 'event,event.homeTeam,event.awayTeam',
+        page: { offset, limit }
+      })) as any[];
+
+      if (results && Array.isArray(results)) {
+        const newPicksMap = results.reduce((acc: Record<string, any>, pick: any) => {
           try {
             const event = pick && (typeof pick.event === 'function' ? pick.event() : pick.event);
             if (event && typeof event.id === 'function') {
@@ -80,18 +121,39 @@ export default class PickemPage extends Page {
           }
           return acc;
         }, {});
+
+        this.picks = { ...this.picks, ...newPicksMap };
+        this.myPicksHasMore = results.length >= limit;
       }
     } catch (error) {
       console.error('Error loading picks:', error);
+    } finally {
+      this.myPicksLoading = false;
+      m.redraw();
     }
   }
 
-  async loadLeaderboard() {
+  async loadLeaderboard(offset: number = 0) {
+    this.leaderboardLoading = true;
+    m.redraw();
+    const limit = 20;
     try {
-      const scores = (await app.store.find('pickem-user-scores', { include: 'user' })) as any[];
-      this.userScores = (scores || []).filter((s: any) => s != null);
+      const results = (await app.store.find('pickem-user-scores', { 
+        include: 'user',
+        page: { offset, limit } 
+      })) as any[];
+      
+      if (offset === 0) {
+        this.userScores = results;
+      } else {
+        this.userScores.push(...results);
+      }
+      this.leaderboardHasMore = results.length >= limit;
     } catch (error) {
       console.error('Error loading leaderboard:', error);
+    } finally {
+      this.leaderboardLoading = false;
+      m.redraw();
     }
   }
 
@@ -110,13 +172,11 @@ export default class PickemPage extends Page {
   view() {
     return (
       <div className="IndexPage PickemPage"> 
-        
         <header className="Hero PickemHero">
           <div className="container">
             <div className="containerNarrow">
               <h1 className="Hero-title">
                 <i className="icon fas fa-trophy" />{' '}
-                {/* GÜNCELLENDİ */}
                 {app.translator.trans('huseyinfiliz-pickem.lib.nav.pickem')}
               </h1>
             </div>
@@ -131,7 +191,6 @@ export default class PickemPage extends Page {
             <div className="IndexPage-results sideNavOffset">
               
               <div className="PickemPage-tabs">
-                {/* GÜNCELLENDİ */}
                 {this.renderTab('matches', app.translator.trans('huseyinfiliz-pickem.lib.nav.matches'))}
                 
                 {app.session.user && app.forum.attribute('pickem.makePicks') &&
@@ -156,13 +215,10 @@ export default class PickemPage extends Page {
 
   renderTab(tabId: string, label: string) {
     const active = this.activeTab === tabId;
-    
     return (
       <button
         className={`Button Button--flat PickemPage-tab ${active ? 'active' : ''}`}
-        onclick={() => {
-          this.activeTab = tabId;
-        }}
+        onclick={() => { this.activeTab = tabId; }}
       >
         {label}
       </button>
@@ -172,34 +228,35 @@ export default class PickemPage extends Page {
   renderAllTabs() {
     return (
       <>
-        <div 
-          className={`PickemPage-tabPane ${this.activeTab === 'matches' ? 'active' : ''}`}
-          data-tab="matches"
-        >
+        <div className={`PickemPage-tabPane ${this.activeTab === 'matches' ? 'active' : ''}`}>
           {this.filterDataLoaded && (
             <MatchesTab
               picks={this.picks}
-              onPickChange={(picks: Record<string, any>) => { 
-                this.picks = picks; 
-              }}
+              onPickChange={(picks: Record<string, any>) => { this.picks = picks; }}
             />
           )}
         </div>
         
         {app.session.user && app.forum.attribute('pickem.makePicks') && (
-          <div 
-            className={`PickemPage-tabPane ${this.activeTab === 'my_picks' ? 'active' : ''}`}
-            data-tab="my_picks"
-          >
-            <MyPicksTab picks={this.picks} />
+          <div className={`PickemPage-tabPane ${this.activeTab === 'my_picks' ? 'active' : ''}`}>
+            <MyPicksTab 
+              picks={this.picks} 
+              loading={this.myPicksLoading}
+              hasMore={this.myPicksHasMore}
+              onLoadMore={() => this.loadPicks(Object.keys(this.picks).length)}
+            />
           </div>
         )}
         
-        <div 
-          className={`PickemPage-tabPane ${this.activeTab === 'leaderboard' ? 'active' : ''}`}
-          data-tab="leaderboard"
-        >
-          <LeaderboardTab userScores={this.userScores} />
+        <div className={`PickemPage-tabPane ${this.activeTab === 'leaderboard' ? 'active' : ''}`}>
+          <LeaderboardTab 
+            userScores={this.userScores}
+            // YENİ: myScore'u gönderiyoruz
+            myScore={this.myScore} 
+            hasMore={this.leaderboardHasMore}
+            loading={this.leaderboardLoading}
+            onLoadMore={() => this.loadLeaderboard(this.userScores.length)}
+          />
         </div>
       </>
     );

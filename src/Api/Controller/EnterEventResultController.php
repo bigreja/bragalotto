@@ -43,7 +43,6 @@ class EnterEventResultController extends AbstractShowController
 
         if ($homeScore === null || $awayScore === null) {
             throw new ValidationException([
-                // GÜNCELLENDİ: scores_must_be_together -> scores_required
                 'scores' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.scores_required')
             ]);
         }
@@ -51,22 +50,23 @@ class EnterEventResultController extends AbstractShowController
         $event->home_score = (int) $homeScore;
         $event->away_score = (int) $awayScore;
         
-        if ($event->home_score > $event->away_score) {
-            $event->result = Event::RESULT_HOME;
-        } elseif ($event->away_score > $event->home_score) {
-            $event->result = Event::RESULT_AWAY;
-        } else {
-            $event->result = Event::RESULT_DRAW;
-        }
+        // DÜZELTME: Sonuç hesaplama mantığı buradan kaldırıldı.
+        // Event::booted() içindeki "saving" listener'ı bunu otomatik yapacak.
         
+        // Durumu manuel olarak finished yapabiliriz veya modelin bunu yapmasına izin verebiliriz.
+        // Modelde "Eğer skorlar girildiyse ve status scheduled ise finished yap" mantığı var.
+        // Ancak admin kapalı (closed) bir maça sonuç giriyorsa model onu finished yapmayabilir.
+        // Bu yüzden burada zorlamak daha güvenli:
         $event->status = Event::STATUS_FINISHED;
         
         $event->save(); 
 
+        // Bildirim ve puan hesaplama işini kuyruğa at
         $this->bus->dispatch(
             new ProcessEventResultsJob($event->id)
         );
 
+        // Güncel veriyi döndür
         $event->load(['homeTeam', 'awayTeam', 'week']);
 
         return $event;

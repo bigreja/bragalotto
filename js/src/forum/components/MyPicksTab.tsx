@@ -1,18 +1,21 @@
 import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
+import Pick from '../../common/models/Pick';
+import PickemEvent from '../../common/models/Event';
+import Team from '../../common/models/Team';
 
 declare global {
   const dayjs: any;
 }
 
-export default class MyPicksTab extends Component {
-  picksPage: number = 0;
+interface MyPicksTabAttrs {
+  picks: Record<string, Pick>;
+  loading: boolean;
+  hasMore: boolean;
+  onLoadMore: () => void;
+}
 
-  oninit(vnode: any) {
-    super.oninit(vnode);
-    this.picksPage = 0;
-  }
-
+export default class MyPicksTab extends Component<MyPicksTabAttrs> {
   view() {
     if (!app.session.user) {
       return (
@@ -22,10 +25,10 @@ export default class MyPicksTab extends Component {
       );
     }
 
-    const { picks } = this.attrs;
-    const myPicks = Object.values(picks || {});
+    const { picks, loading, hasMore, onLoadMore } = this.attrs;
+    const myPicks = Object.values(picks || {}) as Pick[];
 
-    if (!myPicks || myPicks.length === 0) {
+    if ((!myPicks || myPicks.length === 0) && !loading) {
       return (
         <div className="MyPicksPage-empty">
           <i className="fas fa-clipboard-list" style="font-size: 48px; opacity: 0.3; margin-bottom: 16px;" />
@@ -34,36 +37,27 @@ export default class MyPicksTab extends Component {
       );
     }
 
-    // Sort by date (newest first)
+    // Sıralama: Yeni tarihten eskiye doğru
     const sortedPicks = myPicks
-      .filter((pick: any) => {
-        try {
-          const ev = pick && (typeof pick.event === 'function' ? pick.event() : pick.event);
-          return ev != null;
-        } catch {
-          return false;
-        }
+      .filter((pick) => {
+        const ev = pick.event();
+        return ev !== false && ev !== null;
       })
-      .sort((a: any, b: any) => {
-        try {
-          const eventA = typeof a.event === 'function' ? a.event() : a.event;
-          const eventB = typeof b.event === 'function' ? b.event() : b.event;
-          const dateA = eventA && typeof eventA.matchDate === 'function' ? new Date(eventA.matchDate()).getTime() : 0;
-          const dateB = eventB && typeof eventB.matchDate === 'function' ? new Date(eventB.matchDate()).getTime() : 0;
-          return dateB - dateA;
-        } catch {
-          return 0;
-        }
-      });
+      .sort((a, b) => {
+        const eventA = a.event() as PickemEvent | false;
+        const eventB = b.event() as PickemEvent | false;
+        
+        if (!eventA || !eventB) return 0;
 
-    const displayPicks = sortedPicks.slice(0, (this.picksPage + 1) * 10);
-    const hasMore = sortedPicks.length > displayPicks.length;
+        const dateA = eventA.matchDate() ? new Date(eventA.matchDate()!).getTime() : 0;
+        const dateB = eventB.matchDate() ? new Date(eventB.matchDate()!).getTime() : 0;
+        return dateB - dateA;
+      });
 
     return (
       <div>
-        {/* YENİ: Div tabanlı liste yapısı */}
         <div className="PickemList PickemList--my-picks">
-          {/* Header (Desktop) */}
+          {/* Header */}
           <div className="PickemList-header">
             <div className="PickemList-cell type-match">{app.translator.trans('huseyinfiliz-pickem.lib.common.match')}</div>
             <div className="PickemList-cell type-date">{app.translator.trans('huseyinfiliz-pickem.lib.common.date')}</div>
@@ -72,18 +66,17 @@ export default class MyPicksTab extends Component {
             <div className="PickemList-cell type-status">{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</div>
           </div>
 
-          {/* Body (Items) */}
+          {/* Liste */}
           <div className="PickemList-body">
-            {displayPicks.map((pick: any) => {
-              const event = typeof pick.event === 'function' ? pick.event() : pick.event;
+            {sortedPicks.map((pick) => {
+              const event = pick.event() as PickemEvent | false;
               if (!event) return null;
 
-              const homeTeam = event.homeTeam ? event.homeTeam() : null;
-              const awayTeam = event.awayTeam ? event.awayTeam() : null;
-              const pickId = pick && (typeof pick.id === 'function' ? pick.id() : pick.id);
-              const isCorrect = pick.isCorrect && typeof pick.isCorrect === 'function' ? pick.isCorrect() : null;
+              const homeTeam = event.homeTeam() as Team | false;
+              const awayTeam = event.awayTeam() as Team | false;
+              const pickId = pick.id();
+              const isCorrect = pick.isCorrect();
 
-              // Satır için sınıf belirleme
               let itemClass = 'pending';
               if (isCorrect === true) itemClass = 'correct';
               if (isCorrect === false) itemClass = 'incorrect';
@@ -94,9 +87,8 @@ export default class MyPicksTab extends Component {
               } catch {}
 
               return (
-                <div key={String(pickId || Math.random())} className={`PickemList-item ${itemClass}`}>
+                <div key={String(pickId)} className={`PickemList-item ${itemClass}`}>
                   
-                  {/* Maç (Mobilde başlık olacak) */}
                   <div className="PickemList-cell type-match">
                     <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.common.match')}</span>
                     <span className="value">
@@ -106,25 +98,21 @@ export default class MyPicksTab extends Component {
                     </span>
                   </div>
 
-                  {/* Tarih */}
                   <div className="PickemList-cell type-date">
                     <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.common.date')}</span>
                     <span className="value">{matchDate}</span>
                   </div>
 
-                  {/* Tahmin */}
                   <div className="PickemList-cell type-pick">
                     <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.forum.picks.your_pick')}</span>
                     <span className="value">{this.formatResult(pick.selectedOutcome(), homeTeam, awayTeam)}</span>
                   </div>
 
-                  {/* Sonuç */}
                   <div className="PickemList-cell type-result">
                     <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.common.result')}</span>
-                    <span className="value">{event.result && event.result() ? this.formatResult(event.result(), homeTeam, awayTeam) : '-'}</span>
+                    <span className="value">{event.result() ? this.formatResult(event.result(), homeTeam, awayTeam) : '-'}</span>
                   </div>
 
-                  {/* Durum (Mobilde footer olacak) */}
                   <div className="PickemList-cell type-status">
                     <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</span>
                     <span className="value">
@@ -149,16 +137,13 @@ export default class MyPicksTab extends Component {
             })}
           </div>
         </div>
-        {/* ESKİ YAPI BİTTİ */}
 
         {hasMore && (
           <div className="LoadMore">
             <Button
               className="Button Button--primary"
-              onclick={() => {
-                this.picksPage++;
-                m.redraw();
-              }}
+              onclick={onLoadMore}
+              loading={loading}
             >
               {app.translator.trans('huseyinfiliz-pickem.lib.buttons.load_more')}
             </Button>
@@ -168,7 +153,7 @@ export default class MyPicksTab extends Component {
     );
   }
 
-  formatResult(result: string, homeTeam: any, awayTeam: any) {
+  formatResult(result: string | null, homeTeam: Team | false | null, awayTeam: Team | false | null) {
     if (result === 'home') return homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home');
     if (result === 'away') return awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away');
     if (result === 'draw') return app.translator.trans('huseyinfiliz-pickem.lib.common.draw');

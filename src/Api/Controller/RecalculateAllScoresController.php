@@ -5,7 +5,7 @@ namespace HuseyinFiliz\Pickem\Api\Controller;
 use Flarum\Http\RequestUtil;
 use HuseyinFiliz\Pickem\Pick;
 use HuseyinFiliz\Pickem\Job\RecalculateUserScoreJob;
-use Illuminate\Contracts\Bus\Dispatcher as BusDispatcher; // Sadece bu yeterli
+use Illuminate\Contracts\Bus\Dispatcher as BusDispatcher;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -25,30 +25,27 @@ class RecalculateAllScoresController implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        // Sadece admin yetkisi olanlar bu işlemi yapabilir
         $actor = RequestUtil::getActor($request);
         $actor->assertCan('pickem.manage');
 
-        // 1. En az bir tahmini olan tüm benzersiz kullanıcı ID'lerini al
-        $userIds = Pick::query()->distinct()->pluck('user_id');
-        $jobCount = $userIds->count();
+        // Chunking kullanarak belleği koruyoruz. 
+        // Her seferinde 100 kullanıcı ID'si çekip işliyoruz.
+        $totalJobs = 0;
 
-        if ($jobCount > 0) {
-            // 2. DÜZELTME: Toplu iş (batch) kullanmak yerine, her kullanıcı için
-            // tek tek görevleri kuyruğa gönder.
-            // Flarum'un kurulu kuyruk sistemi (örn: database, redis)
-            // bunları arka planda işleyecektir.
-            // Kuyruk kurulu değilse (veya driver 'sync' ise), Flarum bunları 
-            // anında, bu API isteği içinde sırayla çalıştırır.
-            foreach ($userIds as $userId) {
-                $this->bus->dispatch(new RecalculateUserScoreJob($userId));
-            }
-        }
+        Pick::query()
+            ->distinct()
+            ->select('user_id')
+            ->chunk(100, function ($picks) use (&$totalJobs) {
+                foreach ($picks as $pick) {
+                    $this->bus->dispatch(new RecalculateUserScoreJob($pick->user_id));
+                    $totalJobs++;
+                }
+            });
         
-        // 3. Admin paneline işlemin başladığına dair JSON yanıtı dön
         return new JsonResponse([
-            'status' => 'dispatched', // 'queued' yerine 'dispatched' daha doğru
-            'jobCount' => $jobCount,
+            'status' => 'dispatched',
+            'jobCount' => $totalJobs,
+            'message' => $totalJobs . ' users queued for recalculation.'
         ]);
     }
 }

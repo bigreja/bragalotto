@@ -98,4 +98,25 @@ class UserScore extends AbstractModel
     {
         return $this->total_picks > 0;
     }
+
+    /**
+     * YENİ: Kullanıcının sıralamasını hesaplar.
+     * Mantık: Benden yüksek puanı olanlar + (Puanı eşit olup daha çok doğrusu olanlar) + 1
+     */
+    public function calculateRank(): int
+    {
+        // Sadece global sıralama (season_id IS NULL)
+        $query = self::query()->whereNull('season_id');
+
+        $higherPoints = $query->clone()
+            ->where('total_points', '>', $this->total_points)
+            ->count();
+
+        $equalPointsBetterTieBreaker = $query->clone()
+            ->where('total_points', '=', $this->total_points)
+            ->where('correct_picks', '>', $this->correct_picks)
+            ->count();
+            
+        return $higherPoints + $equalPointsBetterTieBreaker + 1;
+    }
 }

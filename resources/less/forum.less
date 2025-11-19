@@ -322,7 +322,7 @@
       font-size: 40px; 
       font-weight: 600;
       color: white;
-      background: @primary-color; 
+      background: #5e5e5e; 
       flex-shrink: 0;
       border: 2px solid var(--body-bg-light); 
       box-shadow: 0 1px 3px var(--shadow-color, rgba(0,0,0,0.1)); 
@@ -1042,6 +1042,129 @@
       thead th,
       tbody td {
         padding: 8px 10px;
+      }
+    }
+  }
+}
+
+// ============================================
+// USER HIGHLIGHT & FINAL TOUCHES
+// ============================================
+
+.PickemList-item {
+  &.is-me {
+    background: fade(@primary-color, 8%) !important; // Hafif primary renk arka planı
+    border-left: 3px solid @primary-color !important;
+    
+    .value {
+      font-weight: 700;
+      color: @primary-color;
+    }
+  }
+}
+
+.Podium-card {
+  &.is-me {
+    background: fade(@primary-color, 8%);
+    border-color: @primary-color;
+    transform: translateY(-5px); // Hafifçe yukarı çıkar
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    
+    .username {
+      color: @primary-color;
+    }
+  }
+}
+
+// Mobilde "Benim" kartım daha belirgin olsun
+@media (max-width: 767.98px) {
+  .PickemList-item.is-me {
+    border: 2px solid fade(@primary-color, 30%) !important;
+    box-shadow: 0 4px 12px fade(@primary-color, 15%);
+  }
+}
+
+// ============================================
+// MY RANK CARD (STICKY)
+// ============================================
+
+.MyRankCard {
+  background: var(--body-bg);
+  border: 2px solid @primary-color;
+  border-radius: var(--border-radius);
+  padding: 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  
+  &-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    @media (max-width: 767.98px) {
+      flex-direction: column;
+      gap: 16px;
+    }
+  }
+  
+  &-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    
+    .Avatar {
+      width: 48px;
+      height: 48px;
+    }
+    
+    .info {
+      display: flex;
+      flex-direction: column;
+      
+      .label {
+        font-size: 11px;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--muted-color);
+      }
+      
+      .rank {
+        font-size: 24px;
+        font-weight: 800;
+        color: @primary-color;
+      }
+    }
+  }
+  
+  &-stats {
+    display: flex;
+    gap: 24px;
+    
+    @media (max-width: 767.98px) {
+      width: 100%;
+      justify-content: space-around;
+      background: var(--body-bg-shaded);
+      padding: 12px;
+      border-radius: var(--border-radius);
+    }
+    
+    .stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      
+      .label {
+        font-size: 10px;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--muted-color);
+        margin-bottom: 4px;
+      }
+      
+      .value {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--heading-color);
       }
     }
   }

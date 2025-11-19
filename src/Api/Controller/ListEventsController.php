@@ -14,6 +14,7 @@ use Tobscure\JsonApi\Document;
 class ListEventsController extends AbstractListController
 {
     public $serializer = EventSerializer::class;
+    // Varsayılan include edilenler
     public $include = ['homeTeam', 'awayTeam', 'week'];
     
     public $sortFields = ['matchDate'];
@@ -31,18 +32,17 @@ class ListEventsController extends AbstractListController
         $actor->assertCan('pickem.view'); 
 
         $query = Event::query();
+        
+        // DÜZELTME: İlişkileri peşin yükle (Eager Loading)
+        // Bu satır N+1 problemini çözer.
+        $query->with($this->include);
+
         $filters = $this->extractFilter($request);
 
-        // --- DÜZELTME BURADA BAŞLIYOR ---
-        // `filter[week]` artık '2,3,4' gibi bir string gelebilir.
         if ($weekIdString = Arr::get($filters, 'week')) {
-            // Bu string'i virgüllerden ayırarak bir diziye dönüştür: ['2', '3', '4']
             $weekIds = explode(',', $weekIdString);
-            
-            // Veritabanı sorgusunda 'whereIn' kullanarak bu dizideki ID'leri ara
             $query->whereIn('week_id', $weekIds);
         }
-        // --- DÜZELTME BURADA BİTİYOR ---
 
         if ($status = Arr::get($filters, 'status')) {
             $query->where('status', $status);

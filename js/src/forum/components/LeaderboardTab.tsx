@@ -1,35 +1,100 @@
 import Component from 'flarum/common/Component';
+import Button from 'flarum/common/components/Button';
 
 interface LeaderboardTabAttrs {
   userScores: any[];
+  myScore: any; // YENİ: Kendi skorumuz
+  hasMore: boolean;
+  loading: boolean;
+  onLoadMore: () => void;
 }
 
 export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
   view() {
-    const { userScores } = this.attrs;
+    const { userScores, myScore, hasMore, loading, onLoadMore } = this.attrs;
 
-    if (!userScores || userScores.length === 0) {
-      return (
-        <div className="LeaderboardTab">
-          <p>{app.translator.trans('huseyinfiliz-pickem.lib.messages.no_data')}</p>
-        </div>
-      );
+    const hasData = userScores && userScores.length > 0;
+
+    if (!hasData && !loading) {
+       return (
+          <div className="LeaderboardTab">
+            <p>{app.translator.trans('huseyinfiliz-pickem.lib.messages.no_data')}</p>
+          </div>
+        );
     }
 
     return (
       <div className="LeaderboardTab">
+        {/* YENİ: Kendi Sıralaman Kartı */}
+        {this.renderMyRankCard(myScore)}
+
         <div className="Leaderboard">
-          {/* Podyum yapısı mobil için zaten uygundu, aynen kalıyor */}
+          {/* Podyum */}
           {userScores.length >= 3 && this.renderPodium(userScores.slice(0, 3))}
           
-          {/* renderTable yerine renderList çağırıyoruz */}
+          {/* Liste */}
           {this.renderList(userScores)}
+
+          {/* Load More */}
+          {hasMore && (
+            <div className="LoadMore">
+              <Button
+                className="Button Button--primary"
+                loading={loading}
+                onclick={onLoadMore}
+              >
+                {app.translator.trans('huseyinfiliz-pickem.lib.buttons.load_more')}
+              </Button>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // YENİ: Kendi sıralamasını gösteren bileşen
+  renderMyRankCard(myScore: any) {
+    if (!myScore || !app.session.user) return null;
+
+    // API'den gelen verileri al
+    const rank = myScore.attribute('rank'); // Serializer'dan gelen rank
+    const points = myScore.totalPoints();
+    const correct = myScore.correctPicks();
+    const accuracy = myScore.accuracy();
+
+    return (
+      <div className="MyRankCard">
+        <div className="MyRankCard-content">
+          <div className="MyRankCard-user">
+             <div className="avatar">
+                <img src={app.session.user.avatarUrl()} alt="" className="Avatar" />
+             </div>
+             <div className="info">
+                <span className="label">{app.translator.trans('huseyinfiliz-pickem.forum.picks.your_pick')}</span>
+                <span className="rank">#{rank}</span>
+             </div>
+          </div>
+          <div className="MyRankCard-stats">
+             <div className="stat">
+               <span className="label">{app.translator.trans('huseyinfiliz-pickem.lib.common.points')}</span>
+               <span className="value">{points}</span>
+             </div>
+             <div className="stat">
+               <span className="label">{app.translator.trans('huseyinfiliz-pickem.lib.headers.correct')}</span>
+               <span className="value">{correct}</span>
+             </div>
+             <div className="stat">
+               <span className="label">{app.translator.trans('huseyinfiliz-pickem.lib.headers.accuracy')}</span>
+               <span className="value">{accuracy}%</span>
+             </div>
+          </div>
         </div>
       </div>
     );
   }
 
   renderPodium(topThree: any[]) {
+    // ... (Eski kod aynı)
     const medals = ['🥇', '🥈', '🥉'];
     const positions = ['first', 'second', 'third'];
 
@@ -39,9 +104,10 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
           const user = score && (typeof score.user === 'function' ? score.user() : score.user);
           const totalPoints = typeof score.totalPoints === 'function' ? score.totalPoints() : score.totalPoints;
           const correctPicks = typeof score.correctPicks === 'function' ? score.correctPicks() : score.correctPicks;
+          const isMe = app.session.user && user && app.session.user.id() === user.id();
 
           return (
-            <div className={`Podium-card ${positions[index]}`} key={index}>
+            <div className={`Podium-card ${positions[index]} ${isMe ? 'is-me' : ''}`} key={index}>
               <div className="medal">{medals[index]}</div>
               <div className="rank">#{index + 1}</div>
               <div className="username">
@@ -68,13 +134,10 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
     );
   }
 
-  /**
-   * YENİ: renderTable yerine Flarum standartlarına uygun responsive liste metodu
-   */
   renderList(userScores: any[]) {
+     // ... (Eski kod aynı, sadece rank'ı backendden almaya gerek yok, index+1 mantığı listede yeterli)
     return (
       <div className="PickemList">
-        {/* Başlıklar (Sadece Masaüstünde görünür) */}
         <div className="PickemList-header">
           <div className="PickemList-cell type-rank">{app.translator.trans('huseyinfiliz-pickem.lib.headers.rank')}</div>
           <div className="PickemList-cell type-player">{app.translator.trans('huseyinfiliz-pickem.lib.headers.player')}</div>
@@ -84,7 +147,6 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
           <div className="PickemList-cell type-stat">{app.translator.trans('huseyinfiliz-pickem.lib.headers.accuracy')}</div>
         </div>
 
-        {/* Liste Öğeleri */}
         <div className="PickemList-body">
           {userScores.map((score: any, index: number) => {
             const user = score && (typeof score.user === 'function' ? score.user() : score.user);
@@ -94,18 +156,17 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
             const correctPicks = typeof score.correctPicks === 'function' ? score.correctPicks() : score.correctPicks;
             const totalPicks = typeof score.totalPicks === 'function' ? score.totalPicks() : score.totalPicks;
             const accuracy = typeof score.accuracy === 'function' ? score.accuracy() : 0;
+            const isMe = app.session.user && user && app.session.user.id() === user.id();
 
             return (
-              <div key={String(scoreId)} className={`PickemList-item ${index < 3 ? `top-${index + 1}` : ''}`}>
+              <div key={String(scoreId)} className={`PickemList-item ${index < 3 ? `top-${index + 1}` : ''} ${isMe ? 'is-me' : ''}`}>
                 
                 <div className="PickemList-cell type-rank">
-                  {/* Mobilde görünecek etiket */}
                   <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.headers.rank')}</span>
                   <span className="value">#{index + 1}</span>
                 </div>
 
                 <div className="PickemList-cell type-player">
-                  {/* Oyuncu adı için mobilde etikete gerek yok */}
                   <span className="value">
                     {user ? (typeof user.displayName === 'function' ? user.displayName() : user.displayName) : app.translator.trans('core.lib.username.deleted_text')}
                   </span>

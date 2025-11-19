@@ -6,7 +6,7 @@ import extractText from 'flarum/common/utils/extractText';
 
 export default class TeamsTab extends Component {
   view() {
-    const teams = app.store.all('pickem-teams') as Team[];
+    const teams = app.store.all<Team>('pickem-teams');
     const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.team');
 
     return (
@@ -29,7 +29,6 @@ export default class TeamsTab extends Component {
         </div>
 
         <div className="CardList">
-          {/* Header */}
           <div className="CardList-header">
             <div>{app.translator.trans('huseyinfiliz-pickem.lib.headers.logo')}</div>
             <div>{app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}</div>
@@ -37,25 +36,20 @@ export default class TeamsTab extends Component {
             <div></div>
           </div>
 
-          {/* Items */}
           {teams.map(team => (
             <div key={team.id()} className="CardList-item">
-              {/* Logo */}
               <div className="CardList-item-cell">
                 {this.renderTeamLogo(team)}
               </div>
 
-              {/* Name */}
               <div className="CardList-item-cell CardList-item-cell--primary" data-label={app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}>
                 {team.name()}
               </div>
 
-              {/* Slug */}
               <div className="CardList-item-cell CardList-item-cell--muted" data-label={app.translator.trans('huseyinfiliz-pickem.lib.headers.slug')}>
                 {team.slug()}
               </div>
 
-              {/* Actions */}
               <div className="CardList-item-actions">
                 <Button
                   className="Button Button--primary"
@@ -99,7 +93,7 @@ export default class TeamsTab extends Component {
     const backgroundColor = stringToColor(teamName || 'Team');
 
     if (logoUrl) {
-      return <img src={logoUrl} alt={teamName} className="TeamLogo TeamLogo--image" />;
+      return <img src={logoUrl} alt={teamName || 'Team'} className="TeamLogo TeamLogo--image" />;
     }
 
     return (

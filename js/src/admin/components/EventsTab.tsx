@@ -2,35 +2,38 @@ import Component from 'flarum/common/Component';
 import extractText from 'flarum/common/utils/extractText';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Placeholder from 'flarum/common/components/Placeholder';
+import Button from 'flarum/common/components/Button';
 import EventModal from './modals/EventModal';
 import ResultModal from './modals/ResultModal';
 import PickemEvent from '../../common/models/Event';
 import Team from '../../common/models/Team';
-import Button from 'flarum/common/components/Button';
+import Season from '../../common/models/Season';
+import Week from '../../common/models/Week';
 
 export default class EventsTab extends Component {
   private selectedSeason: string = 'all';
   private selectedTeam: string = 'all';
   private selectedStatus: string = 'all';
   private sortOrder: string = 'desc';
-  private loading: boolean = true;
+  
+  private loading: boolean = false;
   private events: PickemEvent[] = [];
-  private totalEvents: number = 0;
-  private page: number = 1;
+  private hasMore: boolean = false;
   private limit: number = 20;
+  private page: number = 1; // Offset hesaplaması için
 
   oninit(vnode: any) {
     super.oninit(vnode);
-    this.loadEvents();
+    this.loadEvents(true);
   }
 
   buildFilters() {
     const filters: any = {};
-    const weekIds = [];
+    const weekIds: string[] = [];
 
     if (this.selectedSeason !== 'all') {
-      const weeks = app.store.all('pickem-weeks').filter((week: any) => week.seasonId() == this.selectedSeason);
-      weekIds.push(...weeks.map((week: any) => week.id()));
+      const weeks = app.store.all<Week>('pickem-weeks').filter(week => week.seasonId() == this.selectedSeason);
+      weekIds.push(...weeks.map(week => String(week.id())));
       if (weekIds.length === 0) weekIds.push('0');
       filters.week = weekIds.join(',');
     }
@@ -46,24 +49,28 @@ export default class EventsTab extends Component {
     return filters;
   }
 
-  loadEvents(page: number = 1) {
+  loadEvents(clear: boolean = false) {
     this.loading = true;
-    this.page = page;
     m.redraw();
 
+    const offset = clear ? 0 : this.events.length;
     const filters = this.buildFilters();
     const sort = this.sortOrder === 'desc' ? '-matchDate' : 'matchDate';
-    const offset = (this.page - 1) * this.limit;
 
-    app.store.find('pickem-events', {
+    app.store.find<PickemEvent[]>('pickem-events', {
       include: 'homeTeam,awayTeam,week',
       filter: filters,
       sort: sort,
       page: { limit: this.limit, offset: offset }
-    }).then((results: any) => {
+    }).then((results) => {
+      if (clear) {
+        this.events = results;
+      } else {
+        this.events = [...this.events, ...results];
+      }
+      
+      this.hasMore = results.length >= this.limit;
       this.loading = false;
-      this.events = results as PickemEvent[];
-      this.totalEvents = results.payload.meta.total;
       m.redraw();
     }).catch(err => {
       this.loading = false;
@@ -73,10 +80,9 @@ export default class EventsTab extends Component {
   }
 
   view() {
-    const seasons = app.store.all('pickem-seasons');
-    const teams = app.store.all('pickem-teams');
-    const totalPages = Math.ceil(this.totalEvents / this.limit);
-    const canShowPagination = totalPages > 1;
+    const seasons = app.store.all<Season>('pickem-seasons');
+    const teams = app.store.all<Team>('pickem-teams');
+    const hasEvents = this.events.length > 0;
     const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.match');
 
     return (
@@ -89,7 +95,10 @@ export default class EventsTab extends Component {
           <Button
             className="Button Button--primary"
             icon="fas fa-plus"
-            onclick={() => app.modal.show(EventModal, { event: null, onsave: () => this.loadEvents(this.page) })}
+            onclick={() => app.modal.show(EventModal, { 
+              event: null, 
+              onsave: () => this.loadEvents(true) 
+            })}
           >
             {app.translator.trans('huseyinfiliz-pickem.lib.actions.create', { resource: resourceName })}
           </Button>
@@ -102,11 +111,11 @@ export default class EventsTab extends Component {
               value={this.selectedSeason}
               onchange={(e: any) => {
                 this.selectedSeason = e.target.value;
-                this.loadEvents(1);
+                this.loadEvents(true);
               }}
             >
               <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all')}</option>
-              {seasons.map((season: any) => (
+              {seasons.map(season => (
                 <option key={season.id()} value={season.id()}>
                   {season.name()}
                 </option>
@@ -120,11 +129,11 @@ export default class EventsTab extends Component {
               value={this.selectedTeam}
               onchange={(e: any) => {
                 this.selectedTeam = e.target.value;
-                this.loadEvents(1);
+                this.loadEvents(true);
               }}
             >
               <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all')}</option>
-              {teams.map((team: any) => (
+              {teams.map(team => (
                 <option key={team.id()} value={team.id()}>
                   {team.name()}
                 </option>
@@ -138,7 +147,7 @@ export default class EventsTab extends Component {
               value={this.selectedStatus}
               onchange={(e: any) => {
                 this.selectedStatus = e.target.value;
-                this.loadEvents(1);
+                this.loadEvents(true);
               }}
             >
               <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all')}</option>
@@ -154,7 +163,7 @@ export default class EventsTab extends Component {
               value={this.sortOrder}
               onchange={(e: any) => {
                 this.sortOrder = e.target.value;
-                this.loadEvents(this.page);
+                this.loadEvents(true);
               }}
             >
               <option value="desc">{app.translator.trans('huseyinfiliz-pickem.lib.filters.newest')}</option>
@@ -163,11 +172,14 @@ export default class EventsTab extends Component {
           </div>
         </div>
 
-        {this.loading ? (
-          <LoadingIndicator />
-        ) : this.events.length > 0 ? (
+        {/* Liste */}
+        {!hasEvents && !this.loading ? (
+          <div className="EmptyState">
+            <i className="fas fa-calendar-times" />
+            <p>{app.translator.trans('huseyinfiliz-pickem.lib.messages.no_matches')}</p>
+          </div>
+        ) : (
           <div className="CardList">
-            {/* HEADER - Desktop only */}
             <div className="CardList-header">
               <div>{app.translator.trans('huseyinfiliz-pickem.lib.common.home')}</div>
               <div>{app.translator.trans('huseyinfiliz-pickem.lib.common.away')}</div>
@@ -177,10 +189,9 @@ export default class EventsTab extends Component {
               <div></div>
             </div>
 
-            {/* ITEMS */}
-            {this.events.map((event: PickemEvent) => {
-              const homeTeam = event.homeTeam();
-              const awayTeam = event.awayTeam();
+            {this.events.map((event) => {
+              const homeTeam = event.homeTeam() as Team | false;
+              const awayTeam = event.awayTeam() as Team | false;
 
               return (
                 <div key={event.id()} className="CardList-item">
@@ -224,14 +235,20 @@ export default class EventsTab extends Component {
                     <Button
                       className="Button Button--primary"
                       icon="fas fa-edit"
-                      onclick={() => app.modal.show(EventModal, { event: event, onsave: () => this.loadEvents(this.page) })}
+                      onclick={() => app.modal.show(EventModal, { 
+                        event: event, 
+                        onsave: () => this.loadEvents(true) 
+                      })}
                     >
                       {app.translator.trans('huseyinfiliz-pickem.lib.buttons.edit')}
                     </Button>
                     <Button
                       className="Button Button--success"
                       icon="fas fa-check"
-                      onclick={() => app.modal.show(ResultModal, { event: event, onsave: () => this.loadEvents(this.page) })}
+                      onclick={() => app.modal.show(ResultModal, { 
+                        event: event, 
+                        onsave: () => this.loadEvents(true) 
+                      })}
                     >
                       {app.translator.trans('huseyinfiliz-pickem.lib.actions.enter_result')}
                     </Button>
@@ -247,50 +264,25 @@ export default class EventsTab extends Component {
               );
             })}
           </div>
-        ) : (
-          <div className="EmptyState">
-            <i className="fas fa-calendar-times" />
-            <p>{app.translator.trans('huseyinfiliz-pickem.lib.messages.no_matches')}</p>
-          </div>
         )}
 
-        {canShowPagination && !this.loading && (
-          <nav className="Pagination">
-            <Button
-              className="Button Pagination-button Pagination-previous"
-              icon="fas fa-chevron-left"
-              disabled={this.page === 1}
-              onclick={() => {
-                if (this.page > 1) {
-                  this.loadEvents(this.page - 1);
-                }
-              }}
-            />
-            
-            <span className="Pagination-info">
-              {app.translator.trans('huseyinfiliz-pickem.lib.pagination.page_info', {
-                current: this.page,
-                total: totalPages
-              })}
-            </span>
+        {this.loading && <LoadingIndicator />}
 
+        {this.hasMore && !this.loading && (
+          <div className="LoadMore" style={{ textAlign: 'center', marginTop: '20px' }}>
             <Button
-              className="Button Pagination-button Pagination-next"
-              icon="fas fa-chevron-right"
-              disabled={this.page >= totalPages}
-              onclick={() => {
-                if (this.page < totalPages) {
-                  this.loadEvents(this.page + 1);
-                }
-              }}
-            />
-          </nav>
+              className="Button Button--primary"
+              onclick={() => this.loadEvents(false)}
+            >
+              {app.translator.trans('huseyinfiliz-pickem.lib.buttons.load_more')}
+            </Button>
+          </div>
         )}
       </div>
     );
   }
 
-  renderTeamLogo(team: Team | null) {
+  renderTeamLogo(team: Team | false) {
     if (!team) {
       return (
         <div className="TeamLogo TeamLogo--letter" style={{ backgroundColor: '#999' }}>?</div>
@@ -334,7 +326,9 @@ export default class EventsTab extends Component {
     
     if (confirm(confirmMessage)) {
       event.delete().then(() => {
-        this.loadEvents(this.page);
+        // Silindiğinde listeyi tamamen yenilemek yerine sadece o öğeyi çıkarabiliriz
+        // ama tutarlılık için şimdilik yeniden yüklüyoruz.
+        this.loadEvents(true);
       });
     }
   }

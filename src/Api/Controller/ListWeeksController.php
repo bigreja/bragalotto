@@ -3,7 +3,7 @@
 namespace HuseyinFiliz\Pickem\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
-use Flarum\Http\RequestUtil; // YENİ
+use Flarum\Http\RequestUtil;
 use HuseyinFiliz\Pickem\Api\Serializer\WeekSerializer;
 use HuseyinFiliz\Pickem\Week;
 use Illuminate\Support\Arr;
@@ -18,11 +18,13 @@ class ListWeeksController extends AbstractListController
 
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        // YENİ: Admin yetkisi kontrolü eklendi
         $actor = RequestUtil::getActor($request);
         $actor->assertCan('pickem.manage');
 
         $query = Week::query();
+        
+        // DÜZELTME: Sezon ilişkisini peşin yükle
+        $query->with('season');
 
         if ($seasonId = Arr::get($request->getQueryParams(), 'filter.season')) {
             $query->where('season_id', $seasonId);

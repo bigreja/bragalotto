@@ -3,7 +3,6 @@ import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Button from 'flarum/common/components/Button';
 import Placeholder from 'flarum/common/components/Placeholder';
 import EventCard from './EventCard';
-import Pick from '../../common/models/Pick';
 import PickemEvent from '../../common/models/Event';
 import Season from '../../common/models/Season';
 import Team from '../../common/models/Team';
@@ -19,16 +18,15 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
   private selectedStatus: string = 'all';
   private loading: boolean = false;
   private events: PickemEvent[] = [];
-  private totalEvents: number = 0;
-  private page: number = 1;
+  private hasMore: boolean = false;
   private limit: number = 10;
   private pickLoading: Set<number> = new Set();
-  private picks: Record<string, any>;
+  // DÜZELTME: Yerel 'picks' değişkenini kaldırdık, doğrudan attrs kullanacağız.
 
   oninit(vnode: any) {
     super.oninit(vnode);
-    this.picks = this.attrs.picks;
-    this.loadEvents(1);
+    // this.picks = this.attrs.picks; // BU SATIR HATALIYDI (Referans kopuyordu)
+    this.loadEvents(true);
   }
 
   buildFilters() {
@@ -53,13 +51,12 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
     return filters;
   }
 
-  loadEvents(page: number = 1) {
+  loadEvents(clear: boolean = false) {
     this.loading = true;
-    this.page = page;
     m.redraw();
 
+    const offset = clear ? 0 : this.events.length;
     const filters = this.buildFilters();
-    const offset = (this.page - 1) * this.limit;
 
     app.store.find('pickem-events', {
       include: 'homeTeam,awayTeam,week',
@@ -67,8 +64,18 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
       sort: '-matchDate',
       page: { limit: this.limit, offset: offset }
     }).then((results: any) => {
-      this.events = results as PickemEvent[];
-      this.totalEvents = results.payload.meta.total;
+      const newEvents = results as PickemEvent[];
+      
+      if (clear) {
+        this.events = newEvents;
+      } else {
+        this.events = [...this.events, ...newEvents];
+      }
+      
+      this.hasMore = newEvents.length >= this.limit;
+      
+      this.fetchPicksForEvents(newEvents);
+
     }).catch(error => {
       console.error(error);
     }).finally(() => {
@@ -76,38 +83,71 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
       m.redraw();
     });
   }
+  
+  fetchPicksForEvents(events: PickemEvent[]) {
+    if (!app.session.user || !app.forum.attribute('pickem.makePicks')) return;
+    
+    // DÜZELTME: this.attrs.picks kullanıyoruz
+    const currentPicks = this.attrs.picks || {};
+    
+    const eventsToFetch = events.filter(e => !currentPicks[String(e.id())]);
+    if (eventsToFetch.length === 0) return;
+
+    const eventIds = eventsToFetch.map(e => e.id()).join(',');
+
+    app.store.find('pickem-picks', {
+      filter: { user: app.session.user.id(), event: eventIds }
+    }).then((results: any) => {
+        if (Array.isArray(results) && results.length > 0) {
+            const newPicks = results.reduce((acc: any, pick: any) => {
+                 const eId = pick.event() ? pick.event().id() : pick.attribute('eventId');
+                 if(eId) acc[String(eId)] = pick;
+                 return acc;
+            }, {});
+            
+            // Ana sayfadaki state'i güncelle (Mevcut attrs ile birleştir)
+            const merged = { ...this.attrs.picks, ...newPicks };
+            this.attrs.onPickChange(merged);
+            m.redraw();
+        }
+    });
+  }
 
   async makePick(eventId: number, outcome: string) {
     const eventIdStr = String(eventId);
-    const existingPick = this.picks[eventIdStr];
+    // DÜZELTME: this.attrs.picks kullanıyoruz
+    const existingPick = this.attrs.picks[eventIdStr];
 
     this.pickLoading.add(eventId);
     m.redraw();
 
     try {
+      // Helper fonksiyon: PickemPage'e güncel veriyi gönder
+      const updateParent = (newPickVal: any) => {
+        const newPicks = { ...this.attrs.picks };
+        if (newPickVal === null) {
+            delete newPicks[eventIdStr];
+        } else {
+            newPicks[eventIdStr] = newPickVal;
+        }
+        this.attrs.onPickChange(newPicks);
+      };
+
       if (existingPick && existingPick.selectedOutcome() === outcome) {
-        // Silme işlemi
         await existingPick.delete();
-        delete this.picks[eventIdStr];
-        this.attrs.onPickChange(this.picks);
+        updateParent(null); // Silindi
         app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.deleted'));
       } else if (existingPick) {
-        // Güncelleme işlemi
         const updated = await existingPick.save({ selectedOutcome: outcome });
-        this.picks[eventIdStr] = updated;
-        this.attrs.onPickChange(this.picks);
+        updateParent(updated); // Güncellendi
         app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.saved'));
       } else {
-        // Oluşturma işlemi - DÜZELTME BURADA:
-        // eventId'yi save() metoduna attribute olarak ekliyoruz.
-        // createRecord içine eklemek, JSON:API payload'una girmesini garanti etmez.
         const newPick = app.store.createRecord('pickem-picks');
         const saved = await newPick.save({ 
-          eventId: eventId, // API bu alanı attribute olarak bekliyor
+          eventId: eventId,
           selectedOutcome: outcome 
         });
-        this.picks[eventIdStr] = saved;
-        this.attrs.onPickChange(this.picks);
+        updateParent(saved); // Yeni oluşturuldu
         app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.saved'));
       }
     } catch (error: any) {
@@ -126,13 +166,13 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
   view() {
     const allSeasons = app.store.all('pickem-seasons');
     const allTeams = app.store.all('pickem-teams');
-
     const hasEvents = this.events.length > 0;
-    const canShowPagination = this.totalEvents > this.limit;
+    
+    // DÜZELTME: this.attrs.picks kullanıyoruz
+    const currentPicks = this.attrs.picks || {};
 
     return (
       <div>
-        {/* Filtreler */}
         <div className="EventsTab-filters PickemPage-filters">
           <div className="FilterGroup">
             <label>
@@ -144,10 +184,10 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
               value={this.selectedSeason}
               onchange={(e: any) => {
                 this.selectedSeason = e.target.value;
-                this.loadEvents(1);
+                this.loadEvents(true);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.common.season') })}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all')}</option>
               {allSeasons.map((season: Season) => (
                 <option value={season.id()}>{season.name()}</option>
               ))}
@@ -164,10 +204,10 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
               value={this.selectedTeam}
               onchange={(e: any) => {
                 this.selectedTeam = e.target.value;
-                this.loadEvents(1);
+                this.loadEvents(true);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.common.team') })}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all')}</option>
               {allTeams.map((team: Team) => (
                 <option value={team.id()}>{team.name()}</option>
               ))}
@@ -184,10 +224,10 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
               value={this.selectedStatus}
               onchange={(e: any) => {
                 this.selectedStatus = e.target.value;
-                this.loadEvents(1);
+                this.loadEvents(true);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all', { resource: app.translator.trans('huseyinfiliz-pickem.lib.common.status') })}</option>
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all')}</option>
               <option value="scheduled">{app.translator.trans('huseyinfiliz-pickem.lib.status.scheduled')}</option>
               <option value="closed">{app.translator.trans('huseyinfiliz-pickem.lib.status.closed')}</option>
               <option value="finished">{app.translator.trans('huseyinfiliz-pickem.lib.status.finished')}</option>
@@ -195,16 +235,14 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
           </div>
         </div>
 
-        {/* Content */}
-        {this.loading ? (
-          <LoadingIndicator />
-        ) : !hasEvents ? (
+        {!hasEvents && !this.loading ? (
           <Placeholder text={app.translator.trans('huseyinfiliz-pickem.lib.messages.no_matches')} />
         ) : (
           <div className="MatchesList">
             {this.events.map((event: PickemEvent) => {
               const eventIdStr = String(event.id());
-              const pick = this.picks[eventIdStr];
+              // DÜZELTME: Attrs'dan gelen güncel pick verisini kullan
+              const pick = currentPicks[eventIdStr];
               const isLoading = this.pickLoading.has(Number(event.id()));
 
               return (
@@ -219,34 +257,16 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
           </div>
         )}
 
-        {/* Pagination */}
-        {canShowPagination && !this.loading && (
-          <nav className="Pagination">
-            <Button
-              className="Button Pagination-button Pagination-previous"
-              icon="fas fa-chevron-left"
-              disabled={this.page === 1}
-              onclick={() => {
-                if (this.page > 1) this.loadEvents(this.page - 1);
-              }}
-            />
-            <span className="Pagination-info">
-              {app.translator.trans('huseyinfiliz-pickem.lib.pagination.page_info', {
-                current: this.page,
-                total: Math.ceil(this.totalEvents / this.limit),
-              })}
-            </span>
-            <Button
-              className="Button Pagination-button Pagination-next"
-              icon="fas fa-chevron-right"
-              disabled={this.page >= Math.ceil(this.totalEvents / this.limit)}
-              onclick={() => {
-                if (this.page < Math.ceil(this.totalEvents / this.limit)) {
-                  this.loadEvents(this.page + 1);
-                }
-              }}
-            />
-          </nav>
+        {this.hasMore && (
+          <div className="LoadMore">
+             <Button
+              className="Button Button--primary"
+              loading={this.loading}
+              onclick={() => this.loadEvents(false)}
+            >
+              {app.translator.trans('huseyinfiliz-pickem.lib.buttons.load_more')}
+            </Button>
+          </div>
         )}
       </div>
     );

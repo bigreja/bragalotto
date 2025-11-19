@@ -11,24 +11,14 @@ export default class EventResultNotification extends Notification {
 
   content() {
     const notification = this.attrs.notification;
-    const data = notification.subject();
+    // Model yerine doğrudan bildirimin içeriğindeki veriyi kullanıyoruz
+    const content = notification.content() || {};
 
-    if (!data) {
-      return app.translator.trans('huseyinfiliz-pickem.forum.notification');
-    }
-
-    // GÜNCELLENDİ: Hardcoded stringler yerine çeviri anahtarları ve güvenli erişim
-    // data.homeTeam() bir model döndürür, yoksa çeviriyi kullan.
-    const homeTeam = (data.homeTeam && data.homeTeam()) 
-      ? data.homeTeam().name() 
-      : app.translator.trans('huseyinfiliz-pickem.lib.common.home');
-      
-    const awayTeam = (data.awayTeam && data.awayTeam()) 
-      ? data.awayTeam().name() 
-      : app.translator.trans('huseyinfiliz-pickem.lib.common.away');
-
-    const homeScore = data.homeScore !== undefined ? data.homeScore() : 0;
-    const awayScore = data.awayScore !== undefined ? data.awayScore() : 0;
+    const homeTeam = content.homeTeam || app.translator.trans('huseyinfiliz-pickem.lib.common.home');
+    const awayTeam = content.awayTeam || app.translator.trans('huseyinfiliz-pickem.lib.common.away');
+    
+    const homeScore = content.homeScore !== undefined ? content.homeScore : 0;
+    const awayScore = content.awayScore !== undefined ? content.awayScore : 0;
 
     return app.translator.trans('huseyinfiliz-pickem.forum.notification', {
       home: homeTeam,

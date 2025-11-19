@@ -2,11 +2,12 @@ import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
 import WeekModal from './modals/WeekModal'; 
 import Week from '../../common/models/Week'; 
+import Season from '../../common/models/Season';
 import extractText from 'flarum/common/utils/extractText';
 
 export default class WeeksTab extends Component {
   view() {
-    const weeks = app.store.all('pickem-weeks') as Week[];
+    const weeks = app.store.all<Week>('pickem-weeks');
     const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.week');
 
     return (
@@ -29,7 +30,6 @@ export default class WeeksTab extends Component {
         </div>
 
         <div className="CardList">
-          {/* Header - Desktop only */}
           <div className="CardList-header">
             <div>{app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}</div>
             <div>{app.translator.trans('huseyinfiliz-pickem.lib.common.season')}</div>
@@ -37,7 +37,6 @@ export default class WeeksTab extends Component {
             <div></div>
           </div>
 
-          {/* Items */}
           {weeks.length === 0 ? (
             <div className="EmptyState">
               <i className="fas fa-calendar-times" />
@@ -45,25 +44,21 @@ export default class WeeksTab extends Component {
             </div>
           ) : (
             weeks.map(week => {
-              const season = week.season();
+              const season = week.season() as Season | false;
               return (
                 <div key={week.id()} className="CardList-item">
-                  {/* Name */}
                   <div className="CardList-item-cell CardList-item-cell--primary" data-label={app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}>
                     {week.name()}
                   </div>
 
-                  {/* Season */}
                   <div className="CardList-item-cell" data-label={app.translator.trans('huseyinfiliz-pickem.lib.common.season')}>
                     {season ? season.name() : '-'}
                   </div>
 
-                  {/* Week Number */}
                   <div className="CardList-item-cell CardList-item-cell--muted" data-label={app.translator.trans('huseyinfiliz-pickem.lib.headers.week_number')}>
                     {week.weekNumber()}
                   </div>
 
-                  {/* Actions */}
                   <div className="CardList-item-actions">
                     <Button
                       className="Button Button--primary"

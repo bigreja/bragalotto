@@ -31,8 +31,8 @@ class UserScoreSerializer extends AbstractSerializer
             'totalPoints' => (int) $score->total_points,
             'totalPicks' => (int) $score->total_picks,
             'correctPicks' => (int) $score->correct_picks,
-            // DÜZELTME: Doğrudan modeldeki metod kullanıldı.
             'accuracy' => $score->getAccuracyPercentage(),
+			'rank' => (int) $score->calculateRank(),
             'createdAt' => $score->created_at ? $this->formatDate($score->created_at) : null,
             'updatedAt' => $score->updated_at ? $this->formatDate($score->updated_at) : null,
         ];

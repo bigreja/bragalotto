@@ -1,36 +1,11 @@
 import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
+import Team from '../../common/models/Team';
+import PickemEvent from '../../common/models/Event';
+import Pick from '../../common/models/Pick';
 
 declare global {
   const dayjs: any;
-}
-
-// ... (Arayüz tanımları aynı)
-interface Team {
-  id: () => number;
-  name: () => string;
-  logoUrl: () => string | null;
-}
-
-interface PickemEvent {
-  id: () => number;
-  homeTeam: () => Team | null;
-  awayTeam: () => Team | null;
-  matchDate: () => string;
-  cutoffDate: () => string;
-  result: () => string | null;
-  canPick: () => boolean;
-  allowDraw: () => boolean;
-  status: () => string;
-  homeScore: () => number | null;
-  awayScore: () => number | null;
-}
-
-interface Pick {
-  id: () => number;
-  selectedOutcome: () => string;
-  isCorrect: () => boolean | null;
-  event: () => PickemEvent | null;
 }
 
 interface EventCardAttrs {
@@ -40,7 +15,6 @@ interface EventCardAttrs {
   isLoading: boolean;
 }
 
-
 export default class EventCard extends Component<EventCardAttrs> {
   view() {
     const { event, pick, onMakePick, isLoading } = this.attrs;
@@ -49,13 +23,14 @@ export default class EventCard extends Component<EventCardAttrs> {
       return null;
     }
 
-    const homeTeam = event.homeTeam ? event.homeTeam() : null;
-    const awayTeam = event.awayTeam ? event.awayTeam() : null;
-    const canPick = typeof event.canPick === 'function' ? event.canPick() : false;
-    const status = typeof event.status === 'function' ? event.status() : 'scheduled';
-    const result = typeof event.result === 'function' ? event.result() : null;
-    const homeScore = typeof event.homeScore === 'function' ? event.homeScore() : null;
-    const awayScore = typeof event.awayScore === 'function' ? event.awayScore() : null;
+    // Casting yaparak TS'e bu verilerin Model olduğunu söylüyoruz
+    const homeTeam = event.homeTeam() as Team | false;
+    const awayTeam = event.awayTeam() as Team | false;
+    const canPick = event.canPick();
+    const status = event.status();
+    const result = event.result();
+    const homeScore = event.homeScore();
+    const awayScore = event.awayScore();
 
     let matchDate = '-';
     let cutoffDate = '-';
@@ -70,7 +45,8 @@ export default class EventCard extends Component<EventCardAttrs> {
       cutoffDate = String(event.cutoffDate());
     }
 
-    const countdown = this.getCountdown(event.cutoffDate());
+    const cutoffDateVal = event.cutoffDate();
+    const countdown = cutoffDateVal ? this.getCountdown(cutoffDateVal) : null;
 
     return (
       <div className="EventCard">
@@ -83,7 +59,6 @@ export default class EventCard extends Component<EventCardAttrs> {
         <div className="EventCard-teams">
           <div className="team-container">
             {this.renderTeamLogo(homeTeam)}
-            {/* GÜNCELLENDİ: forum.picks.home -> lib.common.home */}
             <div className="team-name">{homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home')}</div>
           </div>
 
@@ -91,12 +66,11 @@ export default class EventCard extends Component<EventCardAttrs> {
 
           <div className="team-container">
             {this.renderTeamLogo(awayTeam)}
-            {/* GÜNCELLENDİ: forum.picks.away -> lib.common.away */}
             <div className="team-name">{awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away')}</div>
           </div>
         </div>
 
-        {/* Score (if finished) */}
+        {/* Score */}
         {status === 'finished' && homeScore !== null && awayScore !== null && (
           <div className="EventCard-score">
             <div className="score-number">{homeScore}</div>
@@ -126,7 +100,6 @@ export default class EventCard extends Component<EventCardAttrs> {
           {result && (
             <div>
               <i className="fas fa-flag-checkered" />
-              {/* GÜNCELLENDİ: headers.result -> common.result */}
               <strong>{app.translator.trans('huseyinfiliz-pickem.lib.common.result')}:</strong> {this.formatResult(result, homeTeam, awayTeam)}
             </div>
           )}
@@ -136,34 +109,31 @@ export default class EventCard extends Component<EventCardAttrs> {
         {app.session.user && canPick && (
           <div className="EventCard-picks">
             <Button
-              className={`Button ${pick && typeof pick.selectedOutcome === 'function' && pick.selectedOutcome() === 'home' ? 'Button--pickem-selected' : ''}`}
+              className={`Button ${pick && pick.selectedOutcome() === 'home' ? 'Button--pickem-selected' : ''}`}
               onclick={() => onMakePick(Number(event.id()), 'home')}
               loading={isLoading}
               disabled={isLoading}
             >
-              {/* GÜNCELLENDİ: forum.picks.home -> lib.common.home */}
               {homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home')}
             </Button>
 
-            {event.allowDraw && event.allowDraw() && (
+            {event.allowDraw() && (
               <Button
-                className={`Button ${pick && typeof pick.selectedOutcome === 'function' && pick.selectedOutcome() === 'draw' ? 'Button--pickem-selected' : ''}`}
+                className={`Button ${pick && pick.selectedOutcome() === 'draw' ? 'Button--pickem-selected' : ''}`}
                 onclick={() => onMakePick(Number(event.id()), 'draw')}
                 loading={isLoading}
                 disabled={isLoading}
               >
-                {/* GÜNCELLENDİ: forum.picks.draw -> lib.common.draw */}
                 {app.translator.trans('huseyinfiliz-pickem.lib.common.draw')}
               </Button>
             )}
 
             <Button
-              className={`Button ${pick && typeof pick.selectedOutcome === 'function' && pick.selectedOutcome() === 'away' ? 'Button--pickem-selected' : ''}`}
+              className={`Button ${pick && pick.selectedOutcome() === 'away' ? 'Button--pickem-selected' : ''}`}
               onclick={() => onMakePick(Number(event.id()), 'away')}
               loading={isLoading}
               disabled={isLoading}
             >
-              {/* GÜNCELLENDİ: forum.picks.away -> lib.common.away */}
               {awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away')}
             </Button>
           </div>
@@ -173,7 +143,7 @@ export default class EventCard extends Component<EventCardAttrs> {
         {pick && !canPick && (
           <div className="EventCard-pick-result">
             {app.translator.trans('huseyinfiliz-pickem.forum.picks.your_pick')}: <strong>{this.formatResult(pick.selectedOutcome(), homeTeam, awayTeam)}</strong>
-            {pick.isCorrect && typeof pick.isCorrect === 'function' && pick.isCorrect() !== null && (
+            {pick.isCorrect() !== null && (
               <span className={pick.isCorrect() ? 'correct' : 'incorrect'}>
                 {pick.isCorrect() 
                   ? ` ✓ ${app.translator.trans('huseyinfiliz-pickem.lib.status.correct')}` 
@@ -186,7 +156,7 @@ export default class EventCard extends Component<EventCardAttrs> {
     );
   }
 
-  renderTeamLogo(team: Team | null) {
+  renderTeamLogo(team: Team | false | null) {
     if (!team) {
       return (
         <div className="team-logo">
@@ -195,20 +165,21 @@ export default class EventCard extends Component<EventCardAttrs> {
       );
     }
 
-    const logoUrl = typeof team.logoUrl === 'function' ? team.logoUrl() : null;
-    const teamName = typeof team.name === 'function' ? team.name() : app.translator.trans('core.lib.username.deleted_text');
+    const logoUrl = team.logoUrl();
+    const teamName = team.name() || app.translator.trans('core.lib.username.deleted_text');
 
     if (logoUrl) {
       return (
         <div className="team-logo">
-          <img src={logoUrl} alt={teamName} />
+          <img src={logoUrl} alt={String(teamName)} />
         </div>
       );
     }
     
-    const initial = teamName.charAt(0).toUpperCase();
+    const nameStr = String(teamName);
+    const initial = nameStr.charAt(0).toUpperCase();
     const colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#34495e'];
-    const colorIndex = teamName.charCodeAt(0) % colors.length;
+    const colorIndex = nameStr.charCodeAt(0) % colors.length;
     const bgColor = colors[colorIndex];
 
     return (
@@ -218,7 +189,7 @@ export default class EventCard extends Component<EventCardAttrs> {
     );
   }
 
-  getCountdown(cutoffDate: string) {
+  getCountdown(cutoffDate: Date) {
     try {
       const now = dayjs();
       const cutoff = dayjs(cutoffDate);
@@ -253,8 +224,7 @@ export default class EventCard extends Component<EventCardAttrs> {
     }
   }
 
-  formatResult(result: string, homeTeam: Team | null, awayTeam: Team | null) {
-    // GÜNCELLENDİ: forum.picks.* -> lib.common.*
+  formatResult(result: string | null, homeTeam: Team | false | null, awayTeam: Team | false | null) {
     if (result === 'home') return homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home');
     if (result === 'away') return awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away');
     if (result === 'draw') return app.translator.trans('huseyinfiliz-pickem.lib.common.draw');

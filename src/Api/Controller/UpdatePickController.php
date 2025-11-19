@@ -3,12 +3,14 @@
 namespace HuseyinFiliz\Pickem\Api\Controller;
 
 use Flarum\Api\Controller\AbstractShowController;
+use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;
 use HuseyinFiliz\Pickem\Api\Serializer\PickSerializer;
 use HuseyinFiliz\Pickem\Event;
 use HuseyinFiliz\Pickem\Pick;
 use HuseyinFiliz\Pickem\Job\RecalculateUserScoreJob;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
@@ -24,11 +26,18 @@ class UpdatePickController extends AbstractShowController
     protected $bus;
 
     /**
-     * @param Dispatcher $bus
+     * @var Translator
      */
-    public function __construct(Dispatcher $bus)
+    protected $translator;
+
+    /**
+     * @param Dispatcher $bus
+     * @param Translator $translator
+     */
+    public function __construct(Dispatcher $bus, Translator $translator)
     {
         $this->bus = $bus;
+        $this->translator = $translator;
     }
 
     protected function data(ServerRequestInterface $request, Document $document)
@@ -36,13 +45,41 @@ class UpdatePickController extends AbstractShowController
         $actor = RequestUtil::getActor($request);
         $id = Arr::get($request->getQueryParams(), 'id');
         
-        $pick = Pick::findOrFail($id);
+        $pick = Pick::with('event')->findOrFail($id);
         
-        // Yeni PickPolicy'mizi kullanarak yetkiyi denetle
+        // 1. Önce Zaman Aşımı Kontrolü (Cutoff)
+        // Policy'den önce burayı kontrol ediyoruz ki özel hata mesajımız dönsün.
+        if (!$pick->event->canPick()) {
+            // GÜNCELLENDİ: Özel 'cutoff_passed' yerine genel 'invalid_outcome' kullanıyoruz.
+            throw new ValidationException([
+                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
+            ]);
+        }
+
+        // 2. Sonra Yetki Kontrolü (Kullanıcı kendi tahminini mi düzenliyor?)
         $actor->assertCan('edit', $pick);
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
         $selectedOutcome = Arr::get($data, 'selectedOutcome');
+
+        if (!$selectedOutcome) {
+             return $pick;
+        }
+
+        // Beraberlik kontrolü
+        if ($selectedOutcome === Event::RESULT_DRAW && !$pick->event->allow_draw) {
+            throw new ValidationException([
+                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
+            ]);
+        }
+        
+        // Geçerli sonuç tipi kontrolü
+        $validOutcomes = [Event::RESULT_HOME, Event::RESULT_AWAY, Event::RESULT_DRAW];
+        if (!in_array($selectedOutcome, $validOutcomes)) {
+            throw new ValidationException([
+                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
+            ]);
+        }
 
         $recalculateScore = false;
 
@@ -50,7 +87,9 @@ class UpdatePickController extends AbstractShowController
             $pick->selected_outcome = $selectedOutcome;
             $pick->is_correct = null; 
 
-            if ($pick->event && $pick->event->isFinished()) {
+            // Normalde canPick() kontrolü süresi geçmiş maçları engeller ama
+            // yine de ekstra güvenlik olarak kalabilir.
+            if ($pick->event->isFinished()) {
                 $recalculateScore = true;
             }
         }
@@ -59,7 +98,7 @@ class UpdatePickController extends AbstractShowController
 
         if ($recalculateScore) {
             $this->bus->dispatch(
-                new RecalculateUserScoreJob($actor->id)
+                new RecalculateUserScoreJob($pick->user_id)
             );
         }
 

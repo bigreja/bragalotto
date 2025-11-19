@@ -6,7 +6,7 @@ import extractText from 'flarum/common/utils/extractText';
 
 export default class SeasonsTab extends Component {
   view() {
-    const seasons = app.store.all('pickem-seasons') as Season[];
+    const seasons = app.store.all<Season>('pickem-seasons');
     const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.season');
 
     return (
@@ -29,7 +29,6 @@ export default class SeasonsTab extends Component {
         </div>
 
         <div className="CardList">
-          {/* Header - Desktop only */}
           <div className="CardList-header">
             <div>{app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}</div>
             <div>{app.translator.trans('huseyinfiliz-pickem.lib.headers.slug')}</div>
@@ -37,7 +36,6 @@ export default class SeasonsTab extends Component {
             <div></div>
           </div>
 
-          {/* Items */}
           {seasons.length === 0 ? (
             <div className="EmptyState">
               <i className="fas fa-calendar-times" />
@@ -46,30 +44,26 @@ export default class SeasonsTab extends Component {
           ) : (
             seasons.map(season => (
               <div key={season.id()} className="CardList-item">
-                {/* Name */}
                 <div className="CardList-item-cell CardList-item-cell--primary" data-label={app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}>
                   {season.name()}
                 </div>
 
-                {/* Slug */}
                 <div className="CardList-item-cell CardList-item-cell--muted" data-label={app.translator.trans('huseyinfiliz-pickem.lib.headers.slug')}>
                   {season.slug()}
                 </div>
 
-                {/* Dates */}
                 <div className="CardList-item-cell" data-label={app.translator.trans('huseyinfiliz-pickem.lib.common.date')}>
                   {season.startDate() && season.endDate() 
                     ? (
                       <span>
-                        {new Date(season.startDate()).toLocaleDateString()}
+                        {new Date(season.startDate()!).toLocaleDateString()}
                         {' - '}
-                        {new Date(season.endDate()).toLocaleDateString()}
+                        {new Date(season.endDate()!).toLocaleDateString()}
                       </span>
                     )
                     : '-'}
                 </div>
 
-                {/* Actions */}
                 <div className="CardList-item-actions">
                   <Button
                     className="Button Button--primary"

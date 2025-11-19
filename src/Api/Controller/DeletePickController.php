@@ -3,10 +3,12 @@
 namespace HuseyinFiliz\Pickem\Api\Controller;
 
 use Flarum\Api\Controller\AbstractDeleteController;
+use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;
 use HuseyinFiliz\Pickem\Pick;
 use HuseyinFiliz\Pickem\Job\RecalculateUserScoreJob;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\Contracts\Translation\Translator; // Translator eklendi
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -18,11 +20,18 @@ class DeletePickController extends AbstractDeleteController
     protected $bus;
 
     /**
-     * @param Dispatcher $bus
+     * @var Translator
      */
-    public function __construct(Dispatcher $bus)
+    protected $translator;
+
+    /**
+     * @param Dispatcher $bus
+     * @param Translator $translator
+     */
+    public function __construct(Dispatcher $bus, Translator $translator)
     {
         $this->bus = $bus;
+        $this->translator = $translator;
     }
 
     protected function delete(ServerRequestInterface $request)
@@ -32,15 +41,24 @@ class DeletePickController extends AbstractDeleteController
 
         $pick = Pick::findOrFail($id);
         
-        // Use the new PickPolicy to authorize
+        // 1. Önce zaman aşımı kontrolü yap (Özel hata mesajı için)
+        if (!$pick->event->canPick()) {
+            throw new ValidationException([
+                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
+            ]);
+        }
+
+        // 2. Sonra yetki kontrolü yap (Sahiplik vb.)
+        // Policy de canPick kontrolü yapıyor ama yukarıdaki blok sayesinde
+        // süre dolmuşsa kod buraya gelmeden exception fırlatacak.
         $actor->assertCan('delete', $pick);
 
-        // Get the user ID before deleting
+        // Silme işleminden önce user ID'yi al
         $userId = $pick->user_id;
 
         $pick->delete();
 
-        // Recalculate score for the user
+        // Puanı yeniden hesapla
         $this->bus->dispatch(
             new RecalculateUserScoreJob($userId)
         );
