@@ -8,7 +8,6 @@ import extractText from 'flarum/common/utils/extractText';
 export default class WeeksTab extends Component {
   view() {
     const weeks = app.store.all<Week>('pickem-weeks');
-    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.week');
 
     return (
       <div className="WeeksTab">
@@ -25,7 +24,8 @@ export default class WeeksTab extends Component {
               onsave: () => m.redraw() 
             })}
           >
-            {app.translator.trans('huseyinfiliz-pickem.lib.actions.create', { resource: resourceName })}
+            {/* GÜNCELLENDİ: Parametre kaldırıldı */}
+            {app.translator.trans('huseyinfiliz-pickem.lib.actions.create')}
           </Button>
         </div>
 
@@ -88,8 +88,8 @@ export default class WeeksTab extends Component {
   }
 
   deleteWeek(week: Week) {
-    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.week');
-    const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm', { resource: resourceName }));
+    // GÜNCELLENDİ: Parametre kaldırıldı
+    const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm'));
 
     if (!confirm(confirmMessage)) {
       return;

@@ -83,7 +83,6 @@ export default class EventsTab extends Component {
     const seasons = app.store.all<Season>('pickem-seasons');
     const teams = app.store.all<Team>('pickem-teams');
     const hasEvents = this.events.length > 0;
-    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.match');
 
     return (
       <div className="EventsTab">
@@ -100,7 +99,7 @@ export default class EventsTab extends Component {
               onsave: () => this.loadEvents(true) 
             })}
           >
-            {app.translator.trans('huseyinfiliz-pickem.lib.actions.create', { resource: resourceName })}
+            {app.translator.trans('huseyinfiliz-pickem.lib.actions.create')}
           </Button>
         </div>
 
@@ -172,7 +171,6 @@ export default class EventsTab extends Component {
           </div>
         </div>
 
-        {/* Liste */}
         {!hasEvents && !this.loading ? (
           <div className="EmptyState">
             <i className="fas fa-calendar-times" />
@@ -269,7 +267,7 @@ export default class EventsTab extends Component {
         {this.loading && <LoadingIndicator />}
 
         {this.hasMore && !this.loading && (
-          <div className="LoadMore" style={{ textAlign: 'center', marginTop: '20px' }}>
+          <div className="LoadMore">
             <Button
               className="Button Button--primary"
               onclick={() => this.loadEvents(false)}
@@ -321,13 +319,10 @@ export default class EventsTab extends Component {
   }
 
   deleteEvent(event: PickemEvent) {
-    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.match');
-    const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm', { resource: resourceName }));
+    const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm'));
     
     if (confirm(confirmMessage)) {
       event.delete().then(() => {
-        // Silindiğinde listeyi tamamen yenilemek yerine sadece o öğeyi çıkarabiliriz
-        // ama tutarlılık için şimdilik yeniden yüklüyoruz.
         this.loadEvents(true);
       });
     }

@@ -7,7 +7,6 @@ import extractText from 'flarum/common/utils/extractText';
 export default class SeasonsTab extends Component {
   view() {
     const seasons = app.store.all<Season>('pickem-seasons');
-    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.season');
 
     return (
       <div className="SeasonsTab">
@@ -24,7 +23,8 @@ export default class SeasonsTab extends Component {
               onsave: () => m.redraw() 
             })}
           >
-            {app.translator.trans('huseyinfiliz-pickem.lib.actions.create', { resource: resourceName })}
+            {/* GÜNCELLENDİ: Parametre kaldırıldı */}
+            {app.translator.trans('huseyinfiliz-pickem.lib.actions.create')}
           </Button>
         </div>
 
@@ -92,8 +92,8 @@ export default class SeasonsTab extends Component {
   }
 
   deleteSeason(season: Season) {
-    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.season');
-    const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm', { resource: resourceName }));
+    // GÜNCELLENDİ: Parametre kaldırıldı
+    const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm'));
 
     if (!confirm(confirmMessage)) {
       return;

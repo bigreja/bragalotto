@@ -11,9 +11,11 @@ export default class EventResultNotification extends Notification {
 
   content() {
     const notification = this.attrs.notification;
-    // Model yerine doğrudan bildirimin içeriğindeki veriyi kullanıyoruz
     const content = notification.content() || {};
 
+    // Güvenlik ve Çeviri İyileştirmesi:
+    // Eğer veri tabanında takım adı yoksa (örn: takım silindiyse),
+    // varsayılan çeviri anahtarlarını kullanıyoruz.
     const homeTeam = content.homeTeam || app.translator.trans('huseyinfiliz-pickem.lib.common.home');
     const awayTeam = content.awayTeam || app.translator.trans('huseyinfiliz-pickem.lib.common.away');
     

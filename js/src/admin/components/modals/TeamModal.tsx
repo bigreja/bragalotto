@@ -14,6 +14,8 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
   private slug: string = '';
   private logoPath: string = '';
   private loading: boolean = false;
+  // YENİ: Yükleme durumu için state
+  private uploadLoading: boolean = false;
 
   oninit(vnode: any) {
     super.oninit(vnode);
@@ -30,14 +32,15 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
   }
 
   title(): string {
-    // GÜNCELLENDİ: lib.models -> lib.common
-    const resource = app.translator.trans('huseyinfiliz-pickem.lib.common.team');
     return this.team
-      ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit', { resource })
-      : app.translator.trans('huseyinfiliz-pickem.lib.actions.create', { resource });
+      ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit')
+      : app.translator.trans('huseyinfiliz-pickem.lib.actions.create');
   }
 
   content() {
+    // FoF Upload uzantısının aktif olup olmadığını kontrol et
+    const hasFofUpload = 'fof-upload' in app.data.extensions;
+
     return (
       <div className="Modal-body">
         <div className="Form">
@@ -68,13 +71,42 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
 
           <div className="Form-group">
             <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.logo_url')}</label>
-            <input
-              className="FormControl"
-              type="text"
-              value={this.logoPath}
-              oninput={(e: InputEvent) => { this.logoPath = (e.target as HTMLInputElement).value; }}
-              placeholder="https://example.com/logo.png"
-            />
+            
+            {/* YENİ: Input ve Upload butonu yan yana */}
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <input
+                className="FormControl"
+                type="text"
+                value={this.logoPath}
+                oninput={(e: InputEvent) => { this.logoPath = (e.target as HTMLInputElement).value; }}
+                placeholder="https://example.com/logo.png"
+                style={{ flex: 1 }}
+              />
+              
+              {hasFofUpload && (
+                <>
+                  <input
+                    id="pickem-logo-upload"
+                    type="file"
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    onchange={this.handleUpload.bind(this)}
+                  />
+                  <Button
+                    className="Button Button--icon"
+                    icon="fas fa-cloud-upload-alt"
+                    loading={this.uploadLoading}
+                    onclick={() => {
+                        const fileInput = document.getElementById('pickem-logo-upload');
+                        if (fileInput) fileInput.click();
+                    }}
+                    title="Upload with FoF Upload"
+                    type="button"
+                  />
+                </>
+              )}
+            </div>
+
             {this.logoPath && (
               <div style={{ marginTop: '10px' }}>
                 <img
@@ -99,6 +131,42 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
         </div>
       </div>
     );
+  }
+
+  // YENİ: Dosya yükleme işleyicisi
+  async handleUpload(e: Event) {
+    const target = e.target as HTMLInputElement;
+    if (!target.files || target.files.length === 0) return;
+
+    const file = target.files[0];
+    const formData = new FormData();
+    formData.append('files[]', file);
+
+    this.uploadLoading = true;
+    m.redraw();
+
+    try {
+      // FoF Upload API'sine istek at
+      const response: any = await app.request({
+        method: 'POST',
+        url: app.forum.attribute('apiUrl') + '/fof/upload',
+        body: formData,
+        serialize: (raw: any) => raw // FormData'yı JSON'a çevirme, olduğu gibi gönder
+      });
+
+      // Gelen yanıttan URL'i al (FoF Upload JSON:API standardı kullanır)
+      if (response && response.data && response.data[0] && response.data[0].attributes) {
+        this.logoPath = response.data[0].attributes.url;
+        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.saved')); // Opsiyonel başarı mesajı
+      }
+    } catch (error: any) {
+      console.error('Logo upload failed:', error);
+      app.alerts.show({ type: 'error' }, 'Upload failed. Check console for details.');
+    } finally {
+      this.uploadLoading = false;
+      target.value = ''; // Inputu temizle ki aynı dosya tekrar seçilebilsin
+      m.redraw();
+    }
   }
 
   async onsubmit(e: SubmitEvent) {

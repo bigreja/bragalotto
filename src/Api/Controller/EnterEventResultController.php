@@ -20,7 +20,7 @@ class EnterEventResultController extends AbstractShowController
     public $include = ['homeTeam', 'awayTeam', 'week'];
 
     protected $translator;
-    protected $bus; 
+    protected $bus;
 
     public function __construct(Translator $translator, Dispatcher $bus)
     {
@@ -41,27 +41,27 @@ class EnterEventResultController extends AbstractShowController
         $homeScore = Arr::get($data, 'homeScore');
         $awayScore = Arr::get($data, 'awayScore');
 
+        // 1. Skor Doğrulama
         if ($homeScore === null || $awayScore === null) {
             throw new ValidationException([
                 'scores' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.scores_required')
             ]);
         }
 
+        // 2. Skorları Ata
         $event->home_score = (int) $homeScore;
         $event->away_score = (int) $awayScore;
-        
-        // DÜZELTME: Sonuç hesaplama mantığı buradan kaldırıldı.
-        // Event::booted() içindeki "saving" listener'ı bunu otomatik yapacak.
-        
-        // Durumu manuel olarak finished yapabiliriz veya modelin bunu yapmasına izin verebiliriz.
-        // Modelde "Eğer skorlar girildiyse ve status scheduled ise finished yap" mantığı var.
-        // Ancak admin kapalı (closed) bir maça sonuç giriyorsa model onu finished yapmayabilir.
-        // Bu yüzden burada zorlamak daha güvenli:
-        $event->status = Event::STATUS_FINISHED;
-        
-        $event->save(); 
 
-        // Bildirim ve puan hesaplama işini kuyruğa at
+        // 3. Statü Kontrolü ve Güncelleme
+        // Modeldeki 'booted' metodu result'ı otomatik hesaplayacak.
+        // Ancak statüyü 'finished' olmaya zorlamak, özellikle 'closed' durumundaki maçlar için önemlidir.
+        if ($event->status !== Event::STATUS_FINISHED) {
+            $event->status = Event::STATUS_FINISHED;
+        }
+
+        $event->save();
+
+        // 4. Bildirim ve Puan Hesaplama İşini Kuyruğa At
         $this->bus->dispatch(
             new ProcessEventResultsJob($event->id)
         );

@@ -53,11 +53,10 @@ export default class EventModal extends Modal<IEventModalAttrs> {
   }
 
   title(): string {
-    // GÜNCELLENDİ: lib.models -> lib.common
-    const resource = app.translator.trans('huseyinfiliz-pickem.lib.common.match');
+    // GÜNCELLENDİ: resource değişkeni ve parametreler kaldırıldı
     return this.event
-      ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit', { resource })
-      : app.translator.trans('huseyinfiliz-pickem.lib.actions.create', { resource });
+      ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit')
+      : app.translator.trans('huseyinfiliz-pickem.lib.actions.create');
   }
 
   content() {
@@ -78,7 +77,6 @@ export default class EventModal extends Modal<IEventModalAttrs> {
       <div className="Modal-body">
         <div className="Form">
           <div className="Form-group">
-            {/* GÜNCELLENDİ: lib.form.week -> lib.common.week */}
             <label>{app.translator.trans('huseyinfiliz-pickem.lib.common.week')}</label>
             <Select
               className="FormControl"
@@ -181,7 +179,6 @@ export default class EventModal extends Modal<IEventModalAttrs> {
   async onsubmit(e: SubmitEvent) {
     e.preventDefault();
 
-    // VALIDASYON (Generic 'invalid_outcome' mesajını kullanıyoruz)
     if (!this.matchDate || this.matchDate.trim() === '') {
       app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.invalid_outcome'));
       return;

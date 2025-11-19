@@ -7,7 +7,6 @@ import extractText from 'flarum/common/utils/extractText';
 export default class TeamsTab extends Component {
   view() {
     const teams = app.store.all<Team>('pickem-teams');
-    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.team');
 
     return (
       <div className="TeamsTab">
@@ -24,7 +23,8 @@ export default class TeamsTab extends Component {
               onsave: () => m.redraw() 
             })}
           >
-            {app.translator.trans('huseyinfiliz-pickem.lib.actions.create', { resource: resourceName })}
+            {/* GÜNCELLENDİ: Parametre kaldırıldı */}
+            {app.translator.trans('huseyinfiliz-pickem.lib.actions.create')}
           </Button>
         </div>
 
@@ -38,7 +38,7 @@ export default class TeamsTab extends Component {
 
           {teams.map(team => (
             <div key={team.id()} className="CardList-item">
-              <div className="CardList-item-cell">
+              <div className="CardList-item-cell" data-label={app.translator.trans('huseyinfiliz-pickem.lib.headers.logo')}>
                 {this.renderTeamLogo(team)}
               </div>
 
@@ -104,8 +104,8 @@ export default class TeamsTab extends Component {
   }
 
   deleteTeam(team: Team) {
-    const resourceName = app.translator.trans('huseyinfiliz-pickem.lib.common.team');
-    const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm', { resource: resourceName }));
+    // GÜNCELLENDİ: Parametre kaldırıldı
+    const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm'));
     
     if (!confirm(confirmMessage)) {
       return;

@@ -38,11 +38,10 @@ export default class SeasonModal extends Modal<ISeasonModalAttrs> {
   }
 
   title(): string {
-    // GÜNCELLENDİ: lib.models -> lib.common
-    const resource = app.translator.trans('huseyinfiliz-pickem.lib.common.season');
+    // GÜNCELLENDİ: resource değişkeni ve parametreler kaldırıldı
     return this.season
-      ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit', { resource })
-      : app.translator.trans('huseyinfiliz-pickem.lib.actions.create', { resource });
+      ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit')
+      : app.translator.trans('huseyinfiliz-pickem.lib.actions.create');
   }
 
   content() {
