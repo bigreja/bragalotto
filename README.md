@@ -1,21 +1,23 @@
-![](https://flarum.org/extension/huseyinfiliz/pickem/open-graph-image)
+![](https://i.ibb.co/5XYr4Lx7/pickem.gif)
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg) [![Latest Stable Version](https://img.shields.io/packagist/v/huseyinfiliz/pickem.svg)](https://packagist.org/packages/huseyinfiliz/pickem) [![Total Downloads](https://img.shields.io/packagist/dt/huseyinfiliz/pickem.svg)](https://packagist.org/packages/huseyinfiliz/pickem)
 
 # Pick'em
 A comprehensive sports prediction game extension for [Flarum](https://flarum.org) forums. Engage your community by allowing users to predict match outcomes, compete on a global leaderboard, and track their statistics.
 
+**Credits:** This extension sponsored by [@ernestdefoe ](https://discuss.flarum.org/u/ernestdefoe)& [@KBExit ](https://discuss.flarum.org/u/KBExit)✨
+
 ### ⚽ Matches & Predictions
-![Matches Demo](https://i.ibb.co/placeholder/matches.png)
+![Matches Demo](https://i.ibb.co/FkqKT9zJ/image.png)
 
 ### 🏆 Leaderboard System
-![Leaderboard Demo](https://i.ibb.co/placeholder/leaderboard.png)
+![Leaderboard Demo](https://i.ibb.co/WWpWKGpv/image.png)
 
 ### 📝 My Picks Dashboard
-![My Picks Demo](https://i.ibb.co/placeholder/mypicks.png)
+![My Picks Demo](https://i.ibb.co/qMGPk3kC/image.png)
 
 ### ⚙️ Admin Management
-![Admin Demo](https://i.ibb.co/placeholder/admin.png)
+![Admin Demo](https://i.ibb.co/1wf6mb4/image.png)
 
 ## Features
 
@@ -136,8 +138,3 @@ If you find this extension useful, consider:
 
   - ⭐ Starring the repository on GitHub
   - 💬 Leaving feedback on the Flarum discussion
-  - **Issues**: [GitHub Issues](https://github.com/huseyinfiliz/pickem/issues)
-
------
-
-**Developed by** ❤️ [Hüseyin Filiz](https://huseyinfiliz.com/en)
