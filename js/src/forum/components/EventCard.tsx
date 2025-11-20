@@ -3,10 +3,7 @@ import Button from 'flarum/common/components/Button';
 import Team from '../../common/models/Team';
 import PickemEvent from '../../common/models/Event';
 import Pick from '../../common/models/Pick';
-
-declare global {
-  const dayjs: any;
-}
+import dayjs from 'dayjs';
 
 interface EventCardAttrs {
   event: PickemEvent;
@@ -23,7 +20,6 @@ export default class EventCard extends Component<EventCardAttrs> {
       return null;
     }
 
-    // Casting yaparak TS'e bu verilerin Model olduğunu söylüyoruz
     const homeTeam = event.homeTeam() as Team | false;
     const awayTeam = event.awayTeam() as Team | false;
     const canPick = event.canPick();
@@ -50,12 +46,10 @@ export default class EventCard extends Component<EventCardAttrs> {
 
     return (
       <div className="EventCard">
-        {/* Status Badge */}
         <div className={`EventCard-status ${status}`}>
           {app.translator.trans(`huseyinfiliz-pickem.lib.status.${status}`)}
         </div>
 
-        {/* Teams */}
         <div className="EventCard-teams">
           <div className="team-container">
             {this.renderTeamLogo(homeTeam)}
@@ -70,7 +64,6 @@ export default class EventCard extends Component<EventCardAttrs> {
           </div>
         </div>
 
-        {/* Score */}
         {status === 'finished' && homeScore !== null && awayScore !== null && (
           <div className="EventCard-score">
             <div className="score-number">{homeScore}</div>
@@ -79,7 +72,6 @@ export default class EventCard extends Component<EventCardAttrs> {
           </div>
         )}
 
-        {/* Info */}
         <div className="EventCard-info">
           <div>
             <i className="fas fa-calendar" />
@@ -105,7 +97,6 @@ export default class EventCard extends Component<EventCardAttrs> {
           )}
         </div>
 
-        {/* Pick Buttons */}
         {app.session.user && canPick && (
           <div className="EventCard-picks">
             <Button
@@ -139,7 +130,6 @@ export default class EventCard extends Component<EventCardAttrs> {
           </div>
         )}
 
-        {/* Pick Result */}
         {pick && !canPick && (
           <div className="EventCard-pick-result">
             {app.translator.trans('huseyinfiliz-pickem.forum.picks.your_pick')}: <strong>{this.formatResult(pick.selectedOutcome(), homeTeam, awayTeam)}</strong>

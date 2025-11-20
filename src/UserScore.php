@@ -24,9 +24,14 @@ class UserScore extends AbstractModel
 
     protected $table = 'pickem_user_scores';
 
-    // YENİ EKLENDİ: Bu satır, Eloquent'in created_at ve updated_at
-    // alanlarını otomatik olarak yönetmesini sağlar.
     public $timestamps = true; 
+	
+    /**
+     * N+1 sorununu çözmek için runtime sırasında hesaplanan sıralamayı tutar.
+     * Veritabanında böyle bir kolon yoktur.
+     * @var int|null
+     */
+    public $calculatedRank = null;
 
     protected $fillable = [
         'user_id',

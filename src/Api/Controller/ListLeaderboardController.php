@@ -34,10 +34,11 @@ class ListLeaderboardController extends AbstractListController
         $query = UserScore::query();
         $query->whereNull('season_id');
         
-        // YENİ: Kullanıcı filtresi eklendi
         $filters = $this->extractFilter($request);
-        if ($userId = Arr::get($filters, 'user')) {
-            $query->where('user_id', $userId);
+        $filterUser = Arr::get($filters, 'user');
+
+        if ($filterUser) {
+            $query->where('user_id', $filterUser);
         }
 
         $query->orderBy('total_points', 'desc')
@@ -53,6 +54,15 @@ class ListLeaderboardController extends AbstractListController
         $results = $query->limit($limit)
                          ->offset($offset)
                          ->get();
+
+        // N+1 Çözümü: Eğer belirli bir kullanıcı filtrelenmiyorsa (Genel Liste),
+        // sıralamayı veritabanı yerine burada hesapla.
+        if (!$filterUser) {
+            $startRank = $offset + 1;
+            $results->each(function ($score, $index) use ($startRank) {
+                $score->calculatedRank = $startRank + $index;
+            });
+        }
 
         $document->addPaginationLinks(
             $this->url->to('api')->route('pickem.leaderboard.index'),

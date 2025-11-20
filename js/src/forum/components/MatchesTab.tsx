@@ -21,11 +21,9 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
   private hasMore: boolean = false;
   private limit: number = 10;
   private pickLoading: Set<number> = new Set();
-  // DÜZELTME: Yerel 'picks' değişkenini kaldırdık, doğrudan attrs kullanacağız.
 
   oninit(vnode: any) {
     super.oninit(vnode);
-    // this.picks = this.attrs.picks; // BU SATIR HATALIYDI (Referans kopuyordu)
     this.loadEvents(true);
   }
 
@@ -87,7 +85,6 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
   fetchPicksForEvents(events: PickemEvent[]) {
     if (!app.session.user || !app.forum.attribute('pickem.makePicks')) return;
     
-    // DÜZELTME: this.attrs.picks kullanıyoruz
     const currentPicks = this.attrs.picks || {};
     
     const eventsToFetch = events.filter(e => !currentPicks[String(e.id())]);
@@ -105,7 +102,6 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
                  return acc;
             }, {});
             
-            // Ana sayfadaki state'i güncelle (Mevcut attrs ile birleştir)
             const merged = { ...this.attrs.picks, ...newPicks };
             this.attrs.onPickChange(merged);
             m.redraw();
@@ -115,14 +111,12 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
 
   async makePick(eventId: number, outcome: string) {
     const eventIdStr = String(eventId);
-    // DÜZELTME: this.attrs.picks kullanıyoruz
     const existingPick = this.attrs.picks[eventIdStr];
 
     this.pickLoading.add(eventId);
     m.redraw();
 
     try {
-      // Helper fonksiyon: PickemPage'e güncel veriyi gönder
       const updateParent = (newPickVal: any) => {
         const newPicks = { ...this.attrs.picks };
         if (newPickVal === null) {
@@ -168,7 +162,6 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
     const allTeams = app.store.all('pickem-teams');
     const hasEvents = this.events.length > 0;
     
-    // DÜZELTME: this.attrs.picks kullanıyoruz
     const currentPicks = this.attrs.picks || {};
 
     return (
@@ -241,7 +234,6 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
           <div className="MatchesList">
             {this.events.map((event: PickemEvent) => {
               const eventIdStr = String(event.id());
-              // DÜZELTME: Attrs'dan gelen güncel pick verisini kullan
               const pick = currentPicks[eventIdStr];
               const isLoading = this.pickLoading.has(Number(event.id()));
 

@@ -86,10 +86,9 @@ huseyinfiliz-pickem:
     messages:
       delete_confirm: "Are you sure you want to delete this?"
       saved: "Saved successfully."
-      deleted: "Item deleted."
+      deleted: "Deleted successfully."
       result_saved: "Result saved successfully."
       in_use: "Cannot delete because this item is in use."
-      cutoff_passed: "Picks are closed."
       login_required: "Please login to play."
       invalid_outcome: "Invalid selection."
       scores_required: "Enter both scores." 

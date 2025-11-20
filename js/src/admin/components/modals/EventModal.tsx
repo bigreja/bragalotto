@@ -53,7 +53,6 @@ export default class EventModal extends Modal<IEventModalAttrs> {
   }
 
   title(): string {
-    // GÜNCELLENDİ: resource değişkeni ve parametreler kaldırıldı
     return this.event
       ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit')
       : app.translator.trans('huseyinfiliz-pickem.lib.actions.create');
@@ -189,12 +188,12 @@ export default class EventModal extends Modal<IEventModalAttrs> {
       return;
     }
 
-    if (this.homeTeamId === '0' || this.homeTeamId === '' || !this.homeTeamId) {
+    if (this.homeTeamId === '0' || !this.homeTeamId) {
       app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.invalid_outcome'));
       return;
     }
 
-    if (this.awayTeamId === '0' || this.awayTeamId === '' || !this.awayTeamId) {
+    if (this.awayTeamId === '0' || !this.awayTeamId) {
       app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.invalid_outcome'));
       return;
     }
@@ -207,12 +206,15 @@ export default class EventModal extends Modal<IEventModalAttrs> {
     this.loading = true;
     m.redraw();
 
+    const matchDateIso = new Date(this.matchDate).toISOString();
+    const cutoffDateIso = new Date(this.cutoffDate).toISOString();
+
     const data = {
       weekId: this.weekId === '0' ? null : parseInt(this.weekId),
       homeTeamId: parseInt(this.homeTeamId),
       awayTeamId: parseInt(this.awayTeamId),
-      matchDate: this.matchDate,
-      cutoffDate: this.cutoffDate,
+      matchDate: matchDateIso,
+      cutoffDate: cutoffDateIso,
       allowDraw: this.allowDraw,
       status: this.status,
     };
