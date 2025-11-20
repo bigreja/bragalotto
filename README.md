@@ -88,15 +88,15 @@ Navigate to **Admin → Pick'em** to configure the system. The admin panel is di
 
   - **Recalculate Scores**: A utility tool to recalculate all user scores and rankings from scratch if needed
 
-## 🎯 Use Cases
+### 🎯 Use Cases
 
-### Sports Communities
+#### Sports Communities
 
   - Football/Soccer leagues (Premier League, La Liga, etc.)
   - Basketball tournaments (NBA, EuroLeague)
   - Weekly NFL pick'em pools
 
-### E-Sports Forums
+#### E-Sports Forums
 
   - Tournament prediction brackets for games like LoL, CS:GO, or Valorant
   - Team performance tracking
@@ -106,15 +106,15 @@ Navigate to **Admin → Pick'em** to configure the system. The admin panel is di
   - Reality show elimination predictions
   - Award show winners (Oscars, Grammys) pools
 
-## 🔧 Advanced Details
+### 🔧 Advanced Details
 
-### Scoring System
+#### Scoring System
 
   - **Points**: Users earn **1 point** for every correct prediction.
   - **Accuracy**: Calculated as `(Correct Picks / Total Picks) * 100`.
   - **Ranking**: The leaderboard is sorted by Total Points (primary) and Correct Pick count (secondary).
 
-### Permissions
+#### Permissions
 
 You can configure permissions via the Flarum Permission grid:
 
@@ -122,19 +122,20 @@ You can configure permissions via the Flarum Permission grid:
   - **Make picks**: Allows users to participate in the game.
   - **View Pick'em page**: Controls visibility of the extension page.
 
-### Automated Logic
+#### Automated Logic
 
   - **Result Calculation**: When an admin enters the score, the system automatically determines the winner (Home/Away/Draw).
   - **Status Updates**: Matches are automatically marked as "Finished" when results are saved.
   - **Notifications**: Users who predicted a match receive a notification when the result is entered.
 
-## 🌍 Translations
+#### 🌍 Translations
 
-This extension comes with English translations. Community translations are welcome\!
+This extension comes with English translations. Community translations are welcome!
+[![Translate](https://weblate.rob006.net/widgets/flarum/-/huseyinfiliz-pickem/multi-auto.svg)](https://weblate.rob006.net/projects/flarum/huseyinfiliz-pickem/)
 
-## 💖 Support & Contributing
+#### 💖 Support & Contributing
 
 If you find this extension useful, consider:
 
   - ⭐ Starring the repository on GitHub
-  - 💬 Leaving feedback on the Flarum discussion
+  - 💬 Leaving feedback on the [Flarum discussion](https://discuss.flarum.org/d/38433-pickem-match-prediction-extension)
