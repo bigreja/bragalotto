@@ -28,6 +28,8 @@ export default class MyPicksTab extends Component<MyPicksTabAttrs> {
     const { picks, loading, hasMore, onLoadMore } = this.attrs;
     const myPicks = Object.values(picks || {}) as Pick[];
 
+    const reverse = app.forum.attribute<boolean>('pickem.reverseDisplay');
+
     if ((!myPicks || myPicks.length === 0) && !loading) {
       return (
         <div className="MyPicksPage-empty">
@@ -37,7 +39,6 @@ export default class MyPicksTab extends Component<MyPicksTabAttrs> {
       );
     }
 
-    // Sıralama: Yeni tarihten eskiye doğru
     const sortedPicks = myPicks
       .filter((pick) => {
         const ev = pick.event();
@@ -57,7 +58,6 @@ export default class MyPicksTab extends Component<MyPicksTabAttrs> {
     return (
       <div>
         <div className="PickemList PickemList--my-picks">
-          {/* Header */}
           <div className="PickemList-header">
             <div className="PickemList-cell type-match">{app.translator.trans('huseyinfiliz-pickem.lib.common.match')}</div>
             <div className="PickemList-cell type-date">{app.translator.trans('huseyinfiliz-pickem.lib.common.date')}</div>
@@ -66,7 +66,6 @@ export default class MyPicksTab extends Component<MyPicksTabAttrs> {
             <div className="PickemList-cell type-status">{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</div>
           </div>
 
-          {/* Liste */}
           <div className="PickemList-body">
             {sortedPicks.map((pick) => {
               const event = pick.event() as PickemEvent | false;
@@ -86,15 +85,23 @@ export default class MyPicksTab extends Component<MyPicksTabAttrs> {
                 matchDate = dayjs(event.matchDate()).format('DD MMM YYYY');
               } catch {}
 
+              const firstTeamName = reverse 
+                ? (awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away'))
+                : (homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home'));
+              
+              const secondTeamName = reverse 
+                ? (homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home'))
+                : (awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away'));
+
               return (
                 <div key={String(pickId)} className={`PickemList-item ${itemClass}`}>
                   
                   <div className="PickemList-cell type-match">
                     <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.common.match')}</span>
                     <span className="value">
-                        {homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home')}{' '}
+                        {firstTeamName}{' '}
                         {app.translator.trans('huseyinfiliz-pickem.lib.common.vs')}{' '}
-                        {awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away')}
+                        {secondTeamName}
                     </span>
                   </div>
 

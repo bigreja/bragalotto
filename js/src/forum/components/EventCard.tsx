@@ -28,6 +28,8 @@ export default class EventCard extends Component<EventCardAttrs> {
     const homeScore = event.homeScore();
     const awayScore = event.awayScore();
 
+    const reverse = app.forum.attribute<boolean>('pickem.reverseDisplay');
+
     let matchDate = '-';
     let cutoffDate = '-';
     try {
@@ -44,6 +46,17 @@ export default class EventCard extends Component<EventCardAttrs> {
     const cutoffDateVal = event.cutoffDate();
     const countdown = cutoffDateVal ? this.getCountdown(cutoffDateVal) : null;
 
+    const firstTeam = reverse ? awayTeam : homeTeam;
+    const secondTeam = reverse ? homeTeam : awayTeam;
+    const firstTeamLabel = reverse ? app.translator.trans('huseyinfiliz-pickem.lib.common.away') : app.translator.trans('huseyinfiliz-pickem.lib.common.home');
+    const secondTeamLabel = reverse ? app.translator.trans('huseyinfiliz-pickem.lib.common.home') : app.translator.trans('huseyinfiliz-pickem.lib.common.away');
+    
+    const firstScore = reverse ? awayScore : homeScore;
+    const secondScore = reverse ? homeScore : awayScore;
+
+    const firstOutcome = reverse ? 'away' : 'home';
+    const secondOutcome = reverse ? 'home' : 'away';
+
     return (
       <div className="EventCard">
         <div className={`EventCard-status ${status}`}>
@@ -52,23 +65,23 @@ export default class EventCard extends Component<EventCardAttrs> {
 
         <div className="EventCard-teams">
           <div className="team-container">
-            {this.renderTeamLogo(homeTeam)}
-            <div className="team-name">{homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home')}</div>
+            {this.renderTeamLogo(firstTeam)}
+            <div className="team-name">{firstTeam ? firstTeam.name() : firstTeamLabel}</div>
           </div>
 
           <div className="vs">{app.translator.trans('huseyinfiliz-pickem.lib.common.vs')}</div>
 
           <div className="team-container">
-            {this.renderTeamLogo(awayTeam)}
-            <div className="team-name">{awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away')}</div>
+            {this.renderTeamLogo(secondTeam)}
+            <div className="team-name">{secondTeam ? secondTeam.name() : secondTeamLabel}</div>
           </div>
         </div>
 
         {status === 'finished' && homeScore !== null && awayScore !== null && (
           <div className="EventCard-score">
-            <div className="score-number">{homeScore}</div>
+            <div className="score-number">{firstScore}</div>
             <div className="score-separator">-</div>
-            <div className="score-number">{awayScore}</div>
+            <div className="score-number">{secondScore}</div>
           </div>
         )}
 
@@ -100,12 +113,12 @@ export default class EventCard extends Component<EventCardAttrs> {
         {app.session.user && canPick && (
           <div className="EventCard-picks">
             <Button
-              className={`Button ${pick && pick.selectedOutcome() === 'home' ? 'Button--pickem-selected' : ''}`}
-              onclick={() => onMakePick(Number(event.id()), 'home')}
+              className={`Button ${pick && pick.selectedOutcome() === firstOutcome ? 'Button--pickem-selected' : ''}`}
+              onclick={() => onMakePick(Number(event.id()), firstOutcome)}
               loading={isLoading}
               disabled={isLoading}
             >
-              {homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home')}
+              {firstTeam ? firstTeam.name() : firstTeamLabel}
             </Button>
 
             {event.allowDraw() && (
@@ -120,12 +133,12 @@ export default class EventCard extends Component<EventCardAttrs> {
             )}
 
             <Button
-              className={`Button ${pick && pick.selectedOutcome() === 'away' ? 'Button--pickem-selected' : ''}`}
-              onclick={() => onMakePick(Number(event.id()), 'away')}
+              className={`Button ${pick && pick.selectedOutcome() === secondOutcome ? 'Button--pickem-selected' : ''}`}
+              onclick={() => onMakePick(Number(event.id()), secondOutcome)}
               loading={isLoading}
               disabled={isLoading}
             >
-              {awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away')}
+              {secondTeam ? secondTeam.name() : secondTeamLabel}
             </Button>
           </div>
         )}

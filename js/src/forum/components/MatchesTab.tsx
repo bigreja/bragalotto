@@ -6,6 +6,7 @@ import EventCard from './EventCard';
 import PickemEvent from '../../common/models/Event';
 import Season from '../../common/models/Season';
 import Team from '../../common/models/Team';
+import Week from '../../common/models/Week';
 
 interface IMatchesTabAttrs {
   picks: Record<string, any>;
@@ -14,6 +15,7 @@ interface IMatchesTabAttrs {
 
 export default class MatchesTab extends Component<IMatchesTabAttrs> {
   private selectedSeason: string = 'all';
+  private selectedWeek: string = 'all';
   private selectedTeam: string = 'all';
   private selectedStatus: string = 'all';
   private loading: boolean = false;
@@ -24,6 +26,12 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
 
   oninit(vnode: any) {
     super.oninit(vnode);
+
+    const seasons = app.store.all<Season>('pickem-seasons');
+    if (seasons.length === 1) {
+      this.selectedSeason = seasons[0].id()!;
+    }
+
     this.loadEvents(true);
   }
 
@@ -31,10 +39,15 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
     const filters: any = {};
     const weekIds = [];
 
-    if (this.selectedSeason !== 'all') {
-      const weeks = app.store.all('pickem-weeks').filter((week: any) => week.seasonId() == this.selectedSeason);
-      weekIds.push(...weeks.map((week: any) => week.id()));
-      if (weekIds.length === 0) weekIds.push('0');
+    if (this.selectedWeek !== 'all') {
+        filters.week = this.selectedWeek;
+    } 
+    else if (this.selectedSeason !== 'all') {
+      const weeks = app.store.all<Week>('pickem-weeks').filter((week) => week.seasonId() == this.selectedSeason);
+      weekIds.push(...weeks.map((week) => week.id()));
+      
+      weekIds.push('null'); 
+      
       filters.week = weekIds.join(',');
     }
 
@@ -56,23 +69,20 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
     const offset = clear ? 0 : this.events.length;
     const filters = this.buildFilters();
 
-    app.store.find('pickem-events', {
+    app.store.find<PickemEvent[]>('pickem-events', {
       include: 'homeTeam,awayTeam,week',
       filter: filters,
       sort: '-matchDate',
       page: { limit: this.limit, offset: offset }
-    }).then((results: any) => {
-      const newEvents = results as PickemEvent[];
-      
+    }).then((results) => {
       if (clear) {
-        this.events = newEvents;
+        this.events = results;
       } else {
-        this.events = [...this.events, ...newEvents];
+        this.events = [...this.events, ...results];
       }
       
-      this.hasMore = newEvents.length >= this.limit;
-      
-      this.fetchPicksForEvents(newEvents);
+      this.hasMore = results.length >= this.limit;
+      this.fetchPicksForEvents(results);
 
     }).catch(error => {
       console.error(error);
@@ -86,22 +96,20 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
     if (!app.session.user || !app.forum.attribute('pickem.makePicks')) return;
     
     const currentPicks = this.attrs.picks || {};
-    
     const eventsToFetch = events.filter(e => !currentPicks[String(e.id())]);
     if (eventsToFetch.length === 0) return;
 
     const eventIds = eventsToFetch.map(e => e.id()).join(',');
 
-    app.store.find('pickem-picks', {
+    app.store.find<any[]>('pickem-picks', {
       filter: { user: app.session.user.id(), event: eventIds }
-    }).then((results: any) => {
+    }).then((results) => {
         if (Array.isArray(results) && results.length > 0) {
             const newPicks = results.reduce((acc: any, pick: any) => {
                  const eId = pick.event() ? pick.event().id() : pick.attribute('eventId');
                  if(eId) acc[String(eId)] = pick;
                  return acc;
             }, {});
-            
             const merged = { ...this.attrs.picks, ...newPicks };
             this.attrs.onPickChange(merged);
             m.redraw();
@@ -129,11 +137,11 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
 
       if (existingPick && existingPick.selectedOutcome() === outcome) {
         await existingPick.delete();
-        updateParent(null); // Silindi
+        updateParent(null);
         app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.deleted'));
       } else if (existingPick) {
         const updated = await existingPick.save({ selectedOutcome: outcome });
-        updateParent(updated); // Güncellendi
+        updateParent(updated);
         app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.saved'));
       } else {
         const newPick = app.store.createRecord('pickem-picks');
@@ -141,7 +149,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
           eventId: eventId,
           selectedOutcome: outcome 
         });
-        updateParent(saved); // Yeni oluşturuldu
+        updateParent(saved);
         app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.saved'));
       }
     } catch (error: any) {
@@ -158,10 +166,21 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
   }
 
   view() {
-    const allSeasons = app.store.all('pickem-seasons');
-    const allTeams = app.store.all('pickem-teams');
+    const allSeasons = app.store.all<Season>('pickem-seasons');
+    const allTeams = app.store.all<Team>('pickem-teams');
     const hasEvents = this.events.length > 0;
     
+    let availableWeeks: Week[] = [];
+    if (this.selectedSeason !== 'all') {
+        availableWeeks = app.store.all<Week>('pickem-weeks')
+            .filter(week => week.seasonId() == this.selectedSeason)
+            .sort((a, b) => {
+                const numA = parseInt(String(a.weekNumber() || 0));
+                const numB = parseInt(String(b.weekNumber() || 0));
+                return numA - numB;
+            });
+    }
+
     const currentPicks = this.attrs.picks || {};
 
     return (
@@ -177,12 +196,34 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
               value={this.selectedSeason}
               onchange={(e: any) => {
                 this.selectedSeason = e.target.value;
+                this.selectedWeek = 'all';
                 this.loadEvents(true);
               }}
             >
               <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all')}</option>
               {allSeasons.map((season: Season) => (
                 <option value={season.id()}>{season.name()}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="FilterGroup">
+            <label>
+              <i className="fas fa-calendar-week" />
+              <span>{app.translator.trans('huseyinfiliz-pickem.lib.common.week')}</span>
+            </label>
+            <select
+              className="FormControl"
+              value={this.selectedWeek}
+              disabled={this.selectedSeason === 'all' || availableWeeks.length === 0}
+              onchange={(e: any) => {
+                this.selectedWeek = e.target.value;
+                this.loadEvents(true);
+              }}
+            >
+              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all')}</option>
+              {availableWeeks.map((week: Week) => (
+                <option value={week.id()}>{week.name()}</option>
               ))}
             </select>
           </div>

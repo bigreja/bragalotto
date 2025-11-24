@@ -14,7 +14,6 @@ use Tobscure\JsonApi\Document;
 class ListEventsController extends AbstractListController
 {
     public $serializer = EventSerializer::class;
-    // Varsayılan include edilenler
     public $include = ['homeTeam', 'awayTeam', 'week'];
     
     public $sortFields = ['matchDate'];
@@ -32,16 +31,27 @@ class ListEventsController extends AbstractListController
         $actor->assertCan('pickem.view'); 
 
         $query = Event::query();
-        
-        // DÜZELTME: İlişkileri peşin yükle (Eager Loading)
-        // Bu satır N+1 problemini çözer.
         $query->with($this->include);
 
         $filters = $this->extractFilter($request);
 
         if ($weekIdString = Arr::get($filters, 'week')) {
             $weekIds = explode(',', $weekIdString);
-            $query->whereIn('week_id', $weekIds);
+            
+            $query->where(function ($q) use ($weekIds) {
+                $ids = array_diff($weekIds, ['null']);
+                
+                if (!empty($ids)) {
+                    $q->whereIn('week_id', $ids);
+                } 
+                elseif (!in_array('null', $weekIds)) {
+                    $q->whereRaw('1=0');
+                }
+
+                if (in_array('null', $weekIds)) {
+                    $q->orWhereNull('week_id');
+                }
+            });
         }
 
         if ($status = Arr::get($filters, 'status')) {

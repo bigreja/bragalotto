@@ -13,14 +13,22 @@ export default class EventResultNotification extends Notification {
     const notification = this.attrs.notification;
     const content = notification.content() || {};
 
-    // Güvenlik ve Çeviri İyileştirmesi:
-    // Eğer veri tabanında takım adı yoksa (örn: takım silindiyse),
-    // varsayılan çeviri anahtarlarını kullanıyoruz.
     const homeTeam = content.homeTeam || app.translator.trans('huseyinfiliz-pickem.lib.common.home');
     const awayTeam = content.awayTeam || app.translator.trans('huseyinfiliz-pickem.lib.common.away');
     
     const homeScore = content.homeScore !== undefined ? content.homeScore : 0;
     const awayScore = content.awayScore !== undefined ? content.awayScore : 0;
+
+    const reverse = app.forum.attribute<boolean>('pickem.reverseDisplay');
+
+    if (reverse) {
+        return app.translator.trans('huseyinfiliz-pickem.forum.notification', {
+            home: awayTeam,
+            hScore: awayScore,
+            aScore: homeScore,
+            away: homeTeam,
+        });
+    }
 
     return app.translator.trans('huseyinfiliz-pickem.forum.notification', {
       home: homeTeam,

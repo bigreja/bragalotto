@@ -41,15 +41,20 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
     if (this.homeScore !== '' && this.awayScore !== '') {
       if (home > away) resultText = homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home');
       else if (away > home) resultText = awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away');
-      // GÜNCELLENDİ: forum.picks.draw -> lib.common.draw
       else resultText = app.translator.trans('huseyinfiliz-pickem.lib.common.draw');
     }
 
     return (
       <div className="Modal-body">
         <div className="Form">
+          
           <div className="Form-group">
-            <label>{homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.form.home_team')}</label>
+            <div className="TeamCell" style={{marginBottom: '8px'}}>
+               {this.renderTeamLogo(homeTeam)}
+               <label style={{margin: 0}}>
+                 {homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.form.home_team')}
+               </label>
+            </div>
             <input
               className="FormControl"
               type="number"
@@ -62,7 +67,12 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
           </div>
 
           <div className="Form-group">
-            <label>{awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.form.away_team')}</label>
+            <div className="TeamCell" style={{marginBottom: '8px'}}>
+               {this.renderTeamLogo(awayTeam)}
+               <label style={{margin: 0}}>
+                 {awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.form.away_team')}
+               </label>
+            </div>
             <input
               className="FormControl"
               type="number"
@@ -77,7 +87,6 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
           {resultText && (
             <div className="Form-group">
               <p>
-                {/* GÜNCELLENDİ: headers.result -> common.result */}
                 <strong>{app.translator.trans('huseyinfiliz-pickem.lib.common.result')}: </strong>
                 {resultText}
               </p>
@@ -90,6 +99,43 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
             </Button>
           </div>
         </div>
+      </div>
+    );
+  }
+
+  renderTeamLogo(team: Team | null) {
+    if (!team) {
+      return <div className="TeamLogo TeamLogo--letter" style={{ backgroundColor: '#999' }}>?</div>;
+    }
+
+    const logoUrl = team.logoUrl();
+    const teamName = team.name();
+    const firstLetter = teamName ? teamName.charAt(0).toUpperCase() : 'T';
+    
+    const stringToColor = (str: string) => {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      const hue = hash % 360;
+      return `hsl(${hue}, 65%, 50%)`;
+    };
+    
+    if (logoUrl) {
+      return (
+        <img 
+          src={logoUrl} 
+          alt={teamName || 'Team'} 
+          className="TeamLogo TeamLogo--image" 
+        />
+      );
+    }
+
+    const backgroundColor = stringToColor(teamName || 'Team');
+    
+    return (
+      <div className="TeamLogo TeamLogo--letter" style={{ backgroundColor }}>
+        {firstLetter}
       </div>
     );
   }

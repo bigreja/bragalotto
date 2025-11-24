@@ -21,6 +21,9 @@ export default class EventModal extends Modal<IEventModalAttrs> {
   private status: string = 'scheduled';
   private loading: boolean = false;
 
+  private homeTeamFilter: string = '';
+  private awayTeamFilter: string = '';
+
   oninit(vnode: any) {
     super.oninit(vnode);
 
@@ -62,10 +65,31 @@ export default class EventModal extends Modal<IEventModalAttrs> {
     const teams = app.store.all<Team>('pickem-teams');
     const weeks = app.store.all<Week>('pickem-weeks');
 
-    const teamOptions: Record<string, string> = teams.reduce((acc, team) => {
+    const filteredHomeTeams = teams.filter(team => 
+      team.name()?.toLowerCase().includes(this.homeTeamFilter.toLowerCase())
+    );
+    if (this.homeTeamId !== '0' && !filteredHomeTeams.find(t => t.id() === this.homeTeamId)) {
+        const selected = teams.find(t => t.id() === this.homeTeamId);
+        if (selected) filteredHomeTeams.unshift(selected);
+    }
+    const homeTeamOptions: Record<string, string> = filteredHomeTeams.reduce((acc, team) => {
       acc[team.id()!] = team.name()!;
       return acc;
     }, {} as Record<string, string>);
+
+
+    const filteredAwayTeams = teams.filter(team => 
+        team.name()?.toLowerCase().includes(this.awayTeamFilter.toLowerCase())
+    );
+    if (this.awayTeamId !== '0' && !filteredAwayTeams.find(t => t.id() === this.awayTeamId)) {
+        const selected = teams.find(t => t.id() === this.awayTeamId);
+        if (selected) filteredAwayTeams.unshift(selected);
+    }
+    const awayTeamOptions: Record<string, string> = filteredAwayTeams.reduce((acc, team) => {
+      acc[team.id()!] = team.name()!;
+      return acc;
+    }, {} as Record<string, string>);
+
 
     const weekOptions: Record<string, string> = weeks.reduce((acc, week) => {
       acc[week.id()!] = week.name()!;
@@ -88,26 +112,44 @@ export default class EventModal extends Modal<IEventModalAttrs> {
             </Select>
           </div>
 
+          {/* HOME TEAM SELECTION */}
           <div className="Form-group">
             <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.home_team')}</label>
+            <input 
+                className="FormControl" 
+                type="text" 
+                placeholder={app.translator.trans('huseyinfiliz-pickem.lib.form.search_team')}
+                value={this.homeTeamFilter}
+                oninput={(e: InputEvent) => { this.homeTeamFilter = (e.target as HTMLInputElement).value; }}
+                style="margin-bottom: 5px; font-size: 12px;"
+            />
             <Select
               className="FormControl"
               value={this.homeTeamId}
               onchange={(value: string) => { this.homeTeamId = value; }}
-              options={teamOptions}
+              options={homeTeamOptions}
               default="0"
             >
               <option value="0">{app.translator.trans('huseyinfiliz-pickem.lib.form.select_team')}</option>
             </Select>
           </div>
 
+          {/* AWAY TEAM SELECTION */}
           <div className="Form-group">
             <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.away_team')}</label>
+            <input 
+                className="FormControl" 
+                type="text" 
+                placeholder={app.translator.trans('huseyinfiliz-pickem.lib.form.search_team')}
+                value={this.awayTeamFilter}
+                oninput={(e: InputEvent) => { this.awayTeamFilter = (e.target as HTMLInputElement).value; }}
+                style="margin-bottom: 5px; font-size: 12px;"
+            />
             <Select
               className="FormControl"
               value={this.awayTeamId}
               onchange={(value: string) => { this.awayTeamId = value; }}
-              options={teamOptions}
+              options={awayTeamOptions}
               default="0"
             >
               <option value="0">{app.translator.trans('huseyinfiliz-pickem.lib.form.select_team')}</option>

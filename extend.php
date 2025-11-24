@@ -73,15 +73,16 @@ return [
         // Admin Tools
         ->post('/pickem/recalculate-all-scores', 'pickem.recalculate_scores', Controller\RecalculateAllScoresController::class),
 
-    // API Serializers
     (new Extend\ApiSerializer(ForumSerializer::class))
         ->attributes(function ($serializer) { 
             $actor = $serializer->getActor();
-
+            $settings = resolve(\Flarum\Settings\SettingsRepositoryInterface::class);
+            
             return [
                 'pickem.canManage' => $actor->can('pickem.manage'),
                 'pickem.canView' => $actor->can('pickem.view'),
-                'pickem.makePicks' => $actor->can('pickem.makePicks') 
+                'pickem.makePicks' => $actor->can('pickem.makePicks'),
+                'pickem.reverseDisplay' => (bool) $settings->get('huseyinfiliz-pickem.reverse_display'),
             ];
         }),
 

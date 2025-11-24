@@ -1,9 +1,10 @@
 import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
+import avatar from 'flarum/common/helpers/avatar';
 
 interface LeaderboardTabAttrs {
   userScores: any[];
-  myScore: any; // YENİ: Kendi skorumuz
+  myScore: any;
   hasMore: boolean;
   loading: boolean;
   onLoadMore: () => void;
@@ -25,17 +26,13 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
 
     return (
       <div className="LeaderboardTab">
-        {/* YENİ: Kendi Sıralaman Kartı */}
         {this.renderMyRankCard(myScore)}
 
         <div className="Leaderboard">
-          {/* Podyum */}
           {userScores.length >= 3 && this.renderPodium(userScores.slice(0, 3))}
           
-          {/* Liste */}
           {this.renderList(userScores)}
 
-          {/* Load More */}
           {hasMore && (
             <div className="LoadMore">
               <Button
@@ -52,12 +49,10 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
     );
   }
 
-  // YENİ: Kendi sıralamasını gösteren bileşen
   renderMyRankCard(myScore: any) {
     if (!myScore || !app.session.user) return null;
 
-    // API'den gelen verileri al
-    const rank = myScore.attribute('rank'); // Serializer'dan gelen rank
+    const rank = myScore.attribute('rank');
     const points = myScore.totalPoints();
     const correct = myScore.correctPicks();
     const accuracy = myScore.accuracy();
@@ -67,7 +62,7 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
         <div className="MyRankCard-content">
           <div className="MyRankCard-user">
              <div className="avatar">
-                <img src={app.session.user.avatarUrl()} alt="" className="Avatar" />
+                {avatar(app.session.user, { className: 'Avatar' })}
              </div>
              <div className="info">
                 <span className="label">{app.translator.trans('huseyinfiliz-pickem.forum.picks.your_pick')}</span>
@@ -94,7 +89,6 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
   }
 
   renderPodium(topThree: any[]) {
-    // ... (Eski kod aynı)
     const medals = ['🥇', '🥈', '🥉'];
     const positions = ['first', 'second', 'third'];
 
@@ -110,6 +104,11 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
             <div className={`Podium-card ${positions[index]} ${isMe ? 'is-me' : ''}`} key={index}>
               <div className="medal">{medals[index]}</div>
               <div className="rank">#{index + 1}</div>
+              
+              <div className="podium-avatar" style={{marginBottom: '5px'}}>
+                 {user ? avatar(user, { className: 'Avatar' }) : null}
+              </div>
+
               <div className="username">
                 {user ? (typeof user.displayName === 'function' ? user.displayName() : user.displayName) : app.translator.trans('core.lib.username.deleted_text')}
               </div>
@@ -135,7 +134,6 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
   }
 
   renderList(userScores: any[]) {
-     // ... (Eski kod aynı, sadece rank'ı backendden almaya gerek yok, index+1 mantığı listede yeterli)
     return (
       <div className="PickemList">
         <div className="PickemList-header">
@@ -167,9 +165,12 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
                 </div>
 
                 <div className="PickemList-cell type-player">
-                  <span className="value">
-                    {user ? (typeof user.displayName === 'function' ? user.displayName() : user.displayName) : app.translator.trans('core.lib.username.deleted_text')}
-                  </span>
+                  <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                      {user ? avatar(user, {className: 'Avatar--small'}) : null}
+                      <span className="value">
+                        {user ? (typeof user.displayName === 'function' ? user.displayName() : user.displayName) : app.translator.trans('core.lib.username.deleted_text')}
+                      </span>
+                  </div>
                 </div>
 
                 <div className="PickemList-cell type-stat">

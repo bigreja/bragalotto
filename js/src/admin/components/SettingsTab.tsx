@@ -1,8 +1,15 @@
 import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
+import Switch from 'flarum/common/components/Switch';
 
 export default class SettingsTab extends Component {
   loading: boolean = false;
+  reverseDisplay: boolean = false;
+
+  oninit(vnode: any) {
+    super.oninit(vnode);
+    this.reverseDisplay = app.data.settings['huseyinfiliz-pickem.reverse_display'] === '1';
+  }
 
   view() {
     return (
@@ -12,6 +19,21 @@ export default class SettingsTab extends Component {
             <i className="fas fa-cogs" />
             {app.translator.trans('huseyinfiliz-pickem.lib.nav.settings')}
           </h3>
+          
+          <div className="Form-group">
+            <Switch
+              state={this.reverseDisplay}
+              onchange={this.toggleReverseDisplay.bind(this)}
+            >
+              {app.translator.trans('huseyinfiliz-pickem.admin.settings.reverse_display_label')}
+            </Switch>
+            <div className="helpText">
+              {app.translator.trans('huseyinfiliz-pickem.admin.settings.reverse_display_help')}
+            </div>
+          </div>
+
+          <hr />
+
           <p>
             {app.translator.trans('huseyinfiliz-pickem.admin.settings.recalc_help')}
           </p>
@@ -26,6 +48,17 @@ export default class SettingsTab extends Component {
         </div>
       </div>
     );
+  }
+
+  toggleReverseDisplay(value: boolean) {
+    this.reverseDisplay = value;
+    app.request({
+      method: 'POST',
+      url: app.forum.attribute('apiUrl') + '/settings',
+      body: {
+        'huseyinfiliz-pickem.reverse_display': value ? '1' : '0'
+      }
+    });
   }
 
   recalculateScores() {
