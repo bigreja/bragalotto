@@ -50,9 +50,8 @@ class UpdatePickController extends AbstractShowController
         // 1. Önce Zaman Aşımı Kontrolü (Cutoff)
         // Policy'den önce burayı kontrol ediyoruz ki özel hata mesajımız dönsün.
         if (!$pick->event->canPick()) {
-            // GÜNCELLENDİ: Özel 'cutoff_passed' yerine genel 'invalid_outcome' kullanıyoruz.
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
+                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.cutoff_passed')
             ]);
         }
 
@@ -69,7 +68,7 @@ class UpdatePickController extends AbstractShowController
         // Beraberlik kontrolü
         if ($selectedOutcome === Event::RESULT_DRAW && !$pick->event->allow_draw) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
+                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.draw_not_allowed')
             ]);
         }
         

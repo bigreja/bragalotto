@@ -50,16 +50,15 @@ class CreatePickController extends AbstractCreateController
 
         // Süre kontrolü (Cutoff)
         if (!$event->canPick()) {
-            // GÜNCELLENDİ: Özel 'cutoff_passed' yerine genel 'invalid_outcome' kullanıyoruz.
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
+                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.cutoff_passed')
             ]);
         }
 
         // Beraberlik kontrolü
         if ($selectedOutcome === Event::RESULT_DRAW && !$event->allow_draw) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
+                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.draw_not_allowed')
             ]);
         }
 

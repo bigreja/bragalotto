@@ -43,12 +43,12 @@ class EventValidator extends AbstractValidator
 
         return [
             'homeTeamId.different' => $prefix . 'same_team',
-            'cutoffDate.before' => $prefix . 'invalid_outcome', 
+            'cutoffDate.before' => $prefix . 'cutoff_must_be_before_match',
             'homeScore.required_with' => $prefix . 'scores_required',
             'awayScore.required_with' => $prefix . 'scores_required',
-            'homeTeamId.exists' => $prefix . 'invalid_outcome',
-            'awayTeamId.exists' => $prefix . 'invalid_outcome',
-            'weekId.exists' => $prefix . 'invalid_outcome',
+            'homeTeamId.exists' => $prefix . 'invalid_reference',
+            'awayTeamId.exists' => $prefix . 'invalid_reference',
+            'weekId.exists' => $prefix . 'invalid_reference',
         ];
     }
 }

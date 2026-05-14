@@ -83,7 +83,9 @@ export default class MyPicksTab extends Component<MyPicksTabAttrs> {
               let matchDate = '-';
               try {
                 matchDate = dayjs(event.matchDate()).format('DD MMM YYYY');
-              } catch {}
+              } catch {
+                matchDate = '-';
+              }
 
               const firstTeamName = reverse 
                 ? (awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away'))

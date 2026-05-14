@@ -5,7 +5,7 @@ namespace HuseyinFiliz\Pickem;
 use HuseyinFiliz\Pickem\Event;
 use HuseyinFiliz\Pickem\Pick;
 use HuseyinFiliz\Pickem\UserScore;
-use Illuminate\Database\ConnectionInterface; // DÜZELTME: Facade yerine Interface
+use Illuminate\Database\Connection;
 
 /**
  * Skorlama mantığını merkezileştiren servis sınıfı
@@ -13,15 +13,15 @@ use Illuminate\Database\ConnectionInterface; // DÜZELTME: Facade yerine Interfa
 class PickemScoringService
 {
     /**
-     * @var ConnectionInterface
+    * @var Connection
      */
     protected $db;
 
     /**
      * Veritabanı bağlantısını enjekte ediyoruz
-     * @param ConnectionInterface $db
+     * @param Connection $db
      */
-    public function __construct(ConnectionInterface $db)
+    public function __construct(Connection $db)
     {
         $this->db = $db;
     }
@@ -95,9 +95,6 @@ class PickemScoringService
         // Puanlama sistemi: Her doğru tahmin 1 puan
         $totalPoints = $correctPicks; 
         
-        // Accuracy hesaplama
-        $accuracy = $totalPicks > 0 ? round(($correctPicks / $totalPicks) * 100, 2) : 0;
-
         // 2. Skor kaydını güncelle veya oluştur (Sezon ID her zaman NULL)
         UserScore::updateOrCreate(
             [
@@ -108,7 +105,6 @@ class PickemScoringService
                 'total_points' => $totalPoints,
                 'total_picks' => $totalPicks,
                 'correct_picks' => $correctPicks,
-                'accuracy' => $accuracy
             ]
         );
     }

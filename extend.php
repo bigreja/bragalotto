@@ -102,8 +102,7 @@ return [
 
     // Event Listeners
     (new Extend\Event())
-        ->listen(\Illuminate\Database\Events\Saved::class, Listener\UpdateUserScoresListener::class)
-        ->listen(\Illuminate\Database\Events\Saved::class, Listener\SendResultNotificationsListener::class),
+        ->listen(\Illuminate\Database\Eloquent\Events\Saved::class, Listener\UpdateUserScoresListener::class),
 
     // Notifications
     (new Extend\Notification())

@@ -11,8 +11,6 @@ use HuseyinFiliz\Pickem\Event;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
-use Illuminate\Contracts\Bus\Dispatcher;
-use HuseyinFiliz\Pickem\Job\ProcessEventResultsJob;
 
 class EnterEventResultController extends AbstractShowController
 {
@@ -20,12 +18,10 @@ class EnterEventResultController extends AbstractShowController
     public $include = ['homeTeam', 'awayTeam', 'week'];
 
     protected $translator;
-    protected $bus;
 
-    public function __construct(Translator $translator, Dispatcher $bus)
+    public function __construct(Translator $translator)
     {
         $this->translator = $translator;
-        $this->bus = $bus;
     }
 
     protected function data(ServerRequestInterface $request, Document $document)
@@ -60,11 +56,6 @@ class EnterEventResultController extends AbstractShowController
         }
 
         $event->save();
-
-        // 4. Bildirim ve Puan Hesaplama İşini Kuyruğa At
-        $this->bus->dispatch(
-            new ProcessEventResultsJob($event->id)
-        );
 
         // Güncel veriyi döndür
         $event->load(['homeTeam', 'awayTeam', 'week']);
