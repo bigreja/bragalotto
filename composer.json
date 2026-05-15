@@ -1,6 +1,6 @@
 {
-  "name": "huseyinfiliz/pickem",
-  "description": "Pick'em game extension for Flarum",
+  "name": "bigreja/bragalotto",
+  "description": "Bragalotto for superbraga.com, a Pick'em style extension for Flarum",
   "keywords": [
     "flarum",
     "extension",
@@ -11,15 +11,15 @@
   "type": "flarum-extension",
   "license": "MIT",
   "support": {
-    "issues": "https://github.com/huseyinfiliz/pickem/issues",
-    "source": "https://github.com/huseyinfiliz/pickem",
+    "issues": "https://github.com/bigreja/bragalotto/issues",
+    "source": "https://github.com/bigreja/bragalotto",
     "forum": "https://discuss.flarum.org/d/your-discussion-id"
   },
-  "homepage": "https://github.com/huseyinfiliz/pickem",
+  "homepage": "https://github.com/bigreja/bragalotto",
   "funding": [
     {
       "type": "website",
-      "url": "https://github.com/huseyinfiliz"
+      "url": "https://github.com/bigreja"
     }
   ],
   "require": {
@@ -30,21 +30,26 @@
       "name": "Hüseyin Filiz",
       "email": "mysuperuser01@gmail.com",
       "role": "Developer"
+    },
+    {
+      "name": "Bruno Igreja",
+      "email": "bruno@igreja.com.pt",
+      "role": "Developer"
     }
   ],
   "autoload": {
     "psr-4": {
-      "HuseyinFiliz\\Pickem\\": "src/"
+      "Bigreja\\Bragalotto\\Commands": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "HuseyinFiliz\\Pickem\\Tests\\": "tests/"
+      "Bigreja\\Bragalotto \\Tests\\": "tests/"
     }
   },
   "extra": {
     "flarum-extension": {
-      "title": "Pick'em",
+      "title": "Bragalotto",
       "category": "feature",
       "icon": {
         "name": "fas fa-trophy",
