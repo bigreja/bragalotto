@@ -39,7 +39,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Bigreja\\Bragalotto\\Commands": "src/"
+      "Bigreja\\Bragalotto\\Commands\\": "src/"
     }
   },
   "autoload-dev": {
