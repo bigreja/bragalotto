@@ -19,7 +19,7 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
     if (!hasData && !loading) {
        return (
           <div className="LeaderboardTab">
-            <p>{app.translator.trans('huseyinfiliz-pickem.lib.messages.no_data')}</p>
+            <p>{app.translator.trans('bigreja-bragalotto.lib.messages.no_data')}</p>
           </div>
         );
     }
@@ -40,7 +40,7 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
                 loading={loading}
                 onclick={onLoadMore}
               >
-                {app.translator.trans('huseyinfiliz-pickem.lib.buttons.load_more')}
+                {app.translator.trans('bigreja-bragalotto.lib.buttons.load_more')}
               </Button>
             </div>
           )}
@@ -65,21 +65,21 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
                 {avatar(app.session.user, { className: 'Avatar' })}
              </div>
              <div className="info">
-                <span className="label">{app.translator.trans('huseyinfiliz-pickem.forum.picks.your_pick')}</span>
+                <span className="label">{app.translator.trans('bigreja-bragalotto.forum.picks.your_pick')}</span>
                 <span className="rank">#{rank}</span>
              </div>
           </div>
           <div className="MyRankCard-stats">
              <div className="stat">
-               <span className="label">{app.translator.trans('huseyinfiliz-pickem.lib.common.points')}</span>
+               <span className="label">{app.translator.trans('bigreja-bragalotto.lib.common.points')}</span>
                <span className="value">{points}</span>
              </div>
              <div className="stat">
-               <span className="label">{app.translator.trans('huseyinfiliz-pickem.lib.headers.correct')}</span>
+               <span className="label">{app.translator.trans('bigreja-bragalotto.lib.headers.correct')}</span>
                <span className="value">{correct}</span>
              </div>
              <div className="stat">
-               <span className="label">{app.translator.trans('huseyinfiliz-pickem.lib.headers.accuracy')}</span>
+               <span className="label">{app.translator.trans('bigreja-bragalotto.lib.headers.accuracy')}</span>
                <span className="value">{accuracy}%</span>
              </div>
           </div>
@@ -114,15 +114,15 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
               </div>
               <div className="points">
                 {totalPoints}
-                <small>{app.translator.trans('huseyinfiliz-pickem.lib.common.points')}</small>
+                <small>{app.translator.trans('bigreja-bragalotto.lib.common.points')}</small>
               </div>
               <div className="stats">
                 <div className="stat">
-                  <div className="label">{app.translator.trans('huseyinfiliz-pickem.lib.headers.correct')}</div>
+                  <div className="label">{app.translator.trans('bigreja-bragalotto.lib.headers.correct')}</div>
                   <div className="value">{correctPicks}</div>
                 </div>
                 <div className="stat">
-                  <div className="label">{app.translator.trans('huseyinfiliz-pickem.lib.headers.accuracy')}</div>
+                  <div className="label">{app.translator.trans('bigreja-bragalotto.lib.headers.accuracy')}</div>
                   <div className="value">{score.accuracy()}%</div>
                 </div>
               </div>
@@ -135,17 +135,17 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
 
   renderList(userScores: any[]) {
     return (
-      <div className="PickemList">
-        <div className="PickemList-header">
-          <div className="PickemList-cell type-rank">{app.translator.trans('huseyinfiliz-pickem.lib.headers.rank')}</div>
-          <div className="PickemList-cell type-player">{app.translator.trans('huseyinfiliz-pickem.lib.headers.player')}</div>
-          <div className="PickemList-cell type-stat">{app.translator.trans('huseyinfiliz-pickem.lib.common.points')}</div>
-          <div className="PickemList-cell type-stat">{app.translator.trans('huseyinfiliz-pickem.lib.headers.correct')}</div>
-          <div className="PickemList-cell type-stat">{app.translator.trans('huseyinfiliz-pickem.lib.headers.total')}</div>
-          <div className="PickemList-cell type-stat">{app.translator.trans('huseyinfiliz-pickem.lib.headers.accuracy')}</div>
+      <div className="bragalottoList">
+        <div className="bragalottoList-header">
+          <div className="bragalottoList-cell type-rank">{app.translator.trans('bigreja-bragalotto.lib.headers.rank')}</div>
+          <div className="bragalottoList-cell type-player">{app.translator.trans('bigreja-bragalotto.lib.headers.player')}</div>
+          <div className="bragalottoList-cell type-stat">{app.translator.trans('bigreja-bragalotto.lib.common.points')}</div>
+          <div className="bragalottoList-cell type-stat">{app.translator.trans('bigreja-bragalotto.lib.headers.correct')}</div>
+          <div className="bragalottoList-cell type-stat">{app.translator.trans('bigreja-bragalotto.lib.headers.total')}</div>
+          <div className="bragalottoList-cell type-stat">{app.translator.trans('bigreja-bragalotto.lib.headers.accuracy')}</div>
         </div>
 
-        <div className="PickemList-body">
+        <div className="bragalottoList-body">
           {userScores.map((score: any, index: number) => {
             const user = score && (typeof score.user === 'function' ? score.user() : score.user);
             const scoreId = (score && (typeof score.id === 'function' ? score.id() : score.id)) || index;
@@ -157,14 +157,14 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
             const isMe = app.session.user && user && app.session.user.id() === user.id();
 
             return (
-              <div key={String(scoreId)} className={`PickemList-item ${index < 3 ? `top-${index + 1}` : ''} ${isMe ? 'is-me' : ''}`}>
+              <div key={String(scoreId)} className={`bragalottoList-item ${index < 3 ? `top-${index + 1}` : ''} ${isMe ? 'is-me' : ''}`}>
                 
-                <div className="PickemList-cell type-rank">
-                  <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.headers.rank')}</span>
+                <div className="bragalottoList-cell type-rank">
+                  <span className="mobile-label">{app.translator.trans('bigreja-bragalotto.lib.headers.rank')}</span>
                   <span className="value">#{index + 1}</span>
                 </div>
 
-                <div className="PickemList-cell type-player">
+                <div className="bragalottoList-cell type-player">
                   <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
                       {user ? avatar(user, {className: 'Avatar--small'}) : null}
                       <span className="value">
@@ -173,23 +173,23 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
                   </div>
                 </div>
 
-                <div className="PickemList-cell type-stat">
-                  <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.common.points')}</span>
+                <div className="bragalottoList-cell type-stat">
+                  <span className="mobile-label">{app.translator.trans('bigreja-bragalotto.lib.common.points')}</span>
                   <span className="value"><strong>{totalPoints}</strong></span>
                 </div>
 
-                <div className="PickemList-cell type-stat">
-                  <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.headers.correct')}</span>
+                <div className="bragalottoList-cell type-stat">
+                  <span className="mobile-label">{app.translator.trans('bigreja-bragalotto.lib.headers.correct')}</span>
                   <span className="value">{correctPicks}</span>
                 </div>
 
-                <div className="PickemList-cell type-stat">
-                  <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.headers.total')}</span>
+                <div className="bragalottoList-cell type-stat">
+                  <span className="mobile-label">{app.translator.trans('bigreja-bragalotto.lib.headers.total')}</span>
                   <span className="value">{totalPicks}</span>
                 </div>
 
-                <div className="PickemList-cell type-stat">
-                  <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.headers.accuracy')}</span>
+                <div className="bragalottoList-cell type-stat">
+                  <span className="mobile-label">{app.translator.trans('bigreja-bragalotto.lib.headers.accuracy')}</span>
                   <span className="value">{accuracy}%</span>
                 </div>
 

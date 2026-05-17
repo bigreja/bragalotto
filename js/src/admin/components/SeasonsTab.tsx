@@ -6,14 +6,14 @@ import extractText from 'flarum/common/utils/extractText';
 
 export default class SeasonsTab extends Component {
   view() {
-    const seasons = app.store.all<Season>('pickem-seasons');
+    const seasons = app.store.all<Season>('bragalotto-seasons');
 
     return (
       <div className="SeasonsTab">
         <div className="SeasonsTab-header">
           <h3>
             <i className="fas fa-calendar-alt" />
-            {app.translator.trans('huseyinfiliz-pickem.lib.nav.seasons')}
+            {app.translator.trans('bigreja-bragalotto.lib.nav.seasons')}
           </h3>
           <Button
             className="Button Button--primary"
@@ -24,35 +24,35 @@ export default class SeasonsTab extends Component {
             })}
           >
             {/* GÜNCELLENDİ: Parametre kaldırıldı */}
-            {app.translator.trans('huseyinfiliz-pickem.lib.actions.create')}
+            {app.translator.trans('bigreja-bragalotto.lib.actions.create')}
           </Button>
         </div>
 
         <div className="CardList">
           <div className="CardList-header">
-            <div>{app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}</div>
-            <div>{app.translator.trans('huseyinfiliz-pickem.lib.headers.slug')}</div>
-            <div>{app.translator.trans('huseyinfiliz-pickem.lib.common.date')}</div>
+            <div>{app.translator.trans('bigreja-bragalotto.lib.headers.name')}</div>
+            <div>{app.translator.trans('bigreja-bragalotto.lib.headers.slug')}</div>
+            <div>{app.translator.trans('bigreja-bragalotto.lib.common.date')}</div>
             <div></div>
           </div>
 
           {seasons.length === 0 ? (
             <div className="EmptyState">
               <i className="fas fa-calendar-times" />
-              <p>{app.translator.trans('huseyinfiliz-pickem.lib.messages.no_data')}</p>
+              <p>{app.translator.trans('bigreja-bragalotto.lib.messages.no_data')}</p>
             </div>
           ) : (
             seasons.map(season => (
               <div key={season.id()} className="CardList-item">
-                <div className="CardList-item-cell CardList-item-cell--primary" data-label={app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}>
+                <div className="CardList-item-cell CardList-item-cell--primary" data-label={app.translator.trans('bigreja-bragalotto.lib.headers.name')}>
                   {season.name()}
                 </div>
 
-                <div className="CardList-item-cell CardList-item-cell--muted" data-label={app.translator.trans('huseyinfiliz-pickem.lib.headers.slug')}>
+                <div className="CardList-item-cell CardList-item-cell--muted" data-label={app.translator.trans('bigreja-bragalotto.lib.headers.slug')}>
                   {season.slug()}
                 </div>
 
-                <div className="CardList-item-cell" data-label={app.translator.trans('huseyinfiliz-pickem.lib.common.date')}>
+                <div className="CardList-item-cell" data-label={app.translator.trans('bigreja-bragalotto.lib.common.date')}>
                   {season.startDate() && season.endDate() 
                     ? (
                       <span>
@@ -73,14 +73,14 @@ export default class SeasonsTab extends Component {
                       onsave: () => m.redraw() 
                     })}
                   >
-                    {app.translator.trans('huseyinfiliz-pickem.lib.buttons.edit')}
+                    {app.translator.trans('bigreja-bragalotto.lib.buttons.edit')}
                   </Button>
                   <Button
                     className="Button Button--danger"
                     icon="fas fa-trash"
                     onclick={() => this.deleteSeason(season)}
                   >
-                    {app.translator.trans('huseyinfiliz-pickem.lib.buttons.delete')}
+                    {app.translator.trans('bigreja-bragalotto.lib.buttons.delete')}
                   </Button>
                 </div>
               </div>
@@ -93,7 +93,7 @@ export default class SeasonsTab extends Component {
 
   deleteSeason(season: Season) {
     // GÜNCELLENDİ: Parametre kaldırıldı
-    const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm'));
+    const confirmMessage = extractText(app.translator.trans('bigreja-bragalotto.lib.messages.delete_confirm'));
 
     if (!confirm(confirmMessage)) {
       return;

@@ -1,12 +1,12 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace bigreja\bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
 use Flarum\Http\UrlGenerator;
 use Flarum\Http\RequestUtil;
-use HuseyinFiliz\Pickem\Api\Serializer\EventSerializer;
-use HuseyinFiliz\Pickem\Event;
+use bigreja\bragalotto\Api\Serializer\EventSerializer;
+use bigreja\bragalotto\Event;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
@@ -28,7 +28,7 @@ class ListEventsController extends AbstractListController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.view'); 
+        $actor->assertCan('bragalotto.view'); 
 
         $query = Event::query();
         $query->with($this->include);
@@ -85,7 +85,7 @@ class ListEventsController extends AbstractListController
         $results = $query->limit($limit)->offset($offset)->get();
         
         $document->addPaginationLinks(
-            $this->url->to('api')->route('pickem.events.index'),
+            $this->url->to('api')->route('bragalotto.events.index'),
             $request->getQueryParams(),
             $offset,
             $limit,

@@ -1,10 +1,10 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Access;
+namespace bigreja\bragalotto\Access;
 
 use Flarum\User\User;
 use Flarum\User\Access\AbstractPolicy;
-use HuseyinFiliz\Pickem\Pick; 
+use bigreja\bragalotto\Pick; 
 
 class PickPolicy extends AbstractPolicy 
 {
@@ -15,11 +15,11 @@ class PickPolicy extends AbstractPolicy
      */
     public function can(User $actor, string $ability)
     {
-        if ($actor->can('pickem.makePicks') && $ability === 'create') {
+        if ($actor->can('bragalotto.makePicks') && $ability === 'create') {
             return true;
         }
 
-        if ($actor->can('pickem.makePicks') && $ability === 'view') {
+        if ($actor->can('bragalotto.makePicks') && $ability === 'view') {
             return true;
         }
     }
@@ -54,6 +54,6 @@ class PickPolicy extends AbstractPolicy
      */
     public function view(User $actor, Pick $pick)
     {
-        return $actor->id === $pick->user_id || $actor->can('pickem.manage');
+        return $actor->id === $pick->user_id || $actor->can('bragalotto.manage');
     }
 }

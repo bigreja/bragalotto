@@ -1,10 +1,10 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Listener;
+namespace bigreja\bragalotto\Listener;
 
-use HuseyinFiliz\Pickem\Event;
-use HuseyinFiliz\Pickem\PickemScoringService;
-use HuseyinFiliz\Pickem\Job\ProcessEventResultsJob; // EKLENDİ (Yeni Job'umuz)
+use bigreja\bragalotto\Event;
+use bigreja\bragalotto\bragalottoScoringService;
+use bigreja\bragalotto\Job\ProcessEventResultsJob; // EKLENDİ (Yeni Job'umuz)
 use Illuminate\Database\Eloquent\Events\Saved;
 use Illuminate\Contracts\Bus\Dispatcher; // EKLENDİ (Kuyruk için)
 
@@ -13,7 +13,7 @@ class UpdateUserScoresListener
     protected $scoringService; // Bu artık kullanılmayacak ama kalsa da olur
     protected $bus; // EKLENDİ
 
-    public function __construct(PickemScoringService $scoringService, Dispatcher $bus) // Dispatcher eklendi
+    public function __construct(bragalottoScoringService $scoringService, Dispatcher $bus) // Dispatcher eklendi
     {
         $this->scoringService = $scoringService;
         $this->bus = $bus; // EKLENDİ

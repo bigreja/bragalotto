@@ -1,27 +1,27 @@
 import app from 'flarum/admin/app';
 import extenders from './extend';
-import PickemPage from './components/PickemPage';
+import bragalottoPage from './components/bragalottoPage';
 
-app.initializers.add('huseyinfiliz/pickem', () => {
+app.initializers.add('bigreja/bragalotto', () => {
   extenders.forEach(extender => extender.extend(app));
 
   app.extensionData
-    .for('huseyinfiliz-pickem')
-    .registerPage(PickemPage)
+    .for('bigreja-bragalotto')
+    .registerPage(bragalottoPage)
     .registerPermission({
       icon: 'fas fa-trophy',
-      label: app.translator.trans('huseyinfiliz-pickem.admin.permissions.manage'),
-      permission: 'pickem.manage'
+      label: app.translator.trans('bigreja-bragalotto.admin.permissions.manage'),
+      permission: 'bragalotto.manage'
     }, 'moderate')
     .registerPermission({
       icon: 'fas fa-check-circle',
-      label: app.translator.trans('huseyinfiliz-pickem.admin.permissions.make_picks'),
-      permission: 'pickem.makePicks'
+      label: app.translator.trans('bigreja-bragalotto.admin.permissions.make_picks'),
+      permission: 'bragalotto.makePicks'
     }, 'start')
     .registerPermission({
       icon: 'fas fa-eye',
-      label: app.translator.trans('huseyinfiliz-pickem.admin.permissions.view_page'),
-      permission: 'pickem.view',
+      label: app.translator.trans('bigreja-bragalotto.admin.permissions.view_page'),
+      permission: 'bragalotto.view',
 	  allowGuest: true 
     }, 'view');
 });

@@ -1,6 +1,6 @@
-![](https://i.ibb.co/5XYr4Lx7/pickem.gif)
+![](https://i.ibb.co/5XYr4Lx7/bragalotto.gif)
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg) [![Latest Stable Version](https://img.shields.io/packagist/v/huseyinfiliz/pickem.svg)](https://packagist.org/packages/huseyinfiliz/pickem) [![Total Downloads](https://img.shields.io/packagist/dt/huseyinfiliz/pickem.svg)](https://packagist.org/packages/huseyinfiliz/pickem)
+![License](https://img.shields.io/badge/license-MIT-blue.svg) [![Latest Stable Version](https://img.shields.io/packagist/v/bigreja/bragalotto.svg)](https://packagist.org/packages/bigreja/bragalotto) [![Total Downloads](https://img.shields.io/packagist/dt/bigreja/bragalotto.svg)](https://packagist.org/packages/bigreja/bragalotto)
 
 # Pick'em
 A comprehensive sports prediction game extension for [Flarum](https://flarum.org) forums. Engage your community by allowing users to predict match outcomes, compete on a global leaderboard, and track their statistics.
@@ -34,18 +34,18 @@ A comprehensive sports prediction game extension for [Flarum](https://flarum.org
 ### Installation
 
 ```bash
-composer require huseyinfiliz/pickem
+composer require bigreja/bragalotto
 ```
 
-You can also install with Extension Manager: `huseyinfiliz/pickem`
+You can also install with Extension Manager: `bigreja/bragalotto`
 
 ### Updating
 
 ```sh
-composer update huseyinfiliz/pickem
+composer update bigreja/bragalotto
 ```
 
-To remove simply run `composer remove huseyinfiliz/pickem`
+To remove simply run `composer remove bigreja/bragalotto`
 
 ## Quick Start
 
@@ -131,11 +131,11 @@ You can configure permissions via the Flarum Permission grid:
 #### 🌍 Translations
 
 This extension comes with English translations. Community translations are welcome!
-[![Translate](https://weblate.rob006.net/widgets/flarum/-/huseyinfiliz-pickem/multi-auto.svg)](https://weblate.rob006.net/projects/flarum/huseyinfiliz-pickem/)
+[![Translate](https://weblate.rob006.net/widgets/flarum/-/bigreja-bragalotto/multi-auto.svg)](https://weblate.rob006.net/projects/flarum/bigreja-bragalotto/)
 
 #### 💖 Support & Contributing
 
 If you find this extension useful, consider:
 
   - ⭐ Starring the repository on GitHub
-  - 💬 Leaving feedback on the [Flarum discussion](https://discuss.flarum.org/d/38433-pickem-match-prediction-extension)
+  - 💬 Leaving feedback on the [Flarum discussion](https://discuss.flarum.org/d/38433-bragalotto-match-prediction-extension)

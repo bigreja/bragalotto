@@ -1,7 +1,7 @@
 import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
 import Pick from '../../common/models/Pick';
-import PickemEvent from '../../common/models/Event';
+import bragalottoEvent from '../../common/models/Event';
 import Team from '../../common/models/Team';
 
 declare global {
@@ -20,7 +20,7 @@ export default class MyPicksTab extends Component<MyPicksTabAttrs> {
     if (!app.session.user) {
       return (
         <div className="MyPicksPage-empty">
-          <p>{app.translator.trans('huseyinfiliz-pickem.lib.messages.login_required')}</p>
+          <p>{app.translator.trans('bigreja-bragalotto.lib.messages.login_required')}</p>
         </div>
       );
     }
@@ -28,13 +28,13 @@ export default class MyPicksTab extends Component<MyPicksTabAttrs> {
     const { picks, loading, hasMore, onLoadMore } = this.attrs;
     const myPicks = Object.values(picks || {}) as Pick[];
 
-    const reverse = app.forum.attribute<boolean>('pickem.reverseDisplay');
+    const reverse = app.forum.attribute<boolean>('bragalotto.reverseDisplay');
 
     if ((!myPicks || myPicks.length === 0) && !loading) {
       return (
         <div className="MyPicksPage-empty">
           <i className="fas fa-clipboard-list" style="font-size: 48px; opacity: 0.3; margin-bottom: 16px;" />
-          <p>{app.translator.trans('huseyinfiliz-pickem.lib.messages.no_data')}</p>
+          <p>{app.translator.trans('bigreja-bragalotto.lib.messages.no_data')}</p>
         </div>
       );
     }
@@ -45,8 +45,8 @@ export default class MyPicksTab extends Component<MyPicksTabAttrs> {
         return ev !== false && ev !== null;
       })
       .sort((a, b) => {
-        const eventA = a.event() as PickemEvent | false;
-        const eventB = b.event() as PickemEvent | false;
+        const eventA = a.event() as bragalottoEvent | false;
+        const eventB = b.event() as bragalottoEvent | false;
         
         if (!eventA || !eventB) return 0;
 
@@ -57,18 +57,18 @@ export default class MyPicksTab extends Component<MyPicksTabAttrs> {
 
     return (
       <div>
-        <div className="PickemList PickemList--my-picks">
-          <div className="PickemList-header">
-            <div className="PickemList-cell type-match">{app.translator.trans('huseyinfiliz-pickem.lib.common.match')}</div>
-            <div className="PickemList-cell type-date">{app.translator.trans('huseyinfiliz-pickem.lib.common.date')}</div>
-            <div className="PickemList-cell type-pick">{app.translator.trans('huseyinfiliz-pickem.forum.picks.your_pick')}</div>
-            <div className="PickemList-cell type-result">{app.translator.trans('huseyinfiliz-pickem.lib.common.result')}</div>
-            <div className="PickemList-cell type-status">{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</div>
+        <div className="bragalottoList bragalottoList--my-picks">
+          <div className="bragalottoList-header">
+            <div className="bragalottoList-cell type-match">{app.translator.trans('bigreja-bragalotto.lib.common.match')}</div>
+            <div className="bragalottoList-cell type-date">{app.translator.trans('bigreja-bragalotto.lib.common.date')}</div>
+            <div className="bragalottoList-cell type-pick">{app.translator.trans('bigreja-bragalotto.forum.picks.your_pick')}</div>
+            <div className="bragalottoList-cell type-result">{app.translator.trans('bigreja-bragalotto.lib.common.result')}</div>
+            <div className="bragalottoList-cell type-status">{app.translator.trans('bigreja-bragalotto.lib.common.status')}</div>
           </div>
 
-          <div className="PickemList-body">
+          <div className="bragalottoList-body">
             {sortedPicks.map((pick) => {
-              const event = pick.event() as PickemEvent | false;
+              const event = pick.event() as bragalottoEvent | false;
               if (!event) return null;
 
               const homeTeam = event.homeTeam() as Team | false;
@@ -88,54 +88,54 @@ export default class MyPicksTab extends Component<MyPicksTabAttrs> {
               }
 
               const firstTeamName = reverse 
-                ? (awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away'))
-                : (homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home'));
+                ? (awayTeam ? awayTeam.name() : app.translator.trans('bigreja-bragalotto.lib.common.away'))
+                : (homeTeam ? homeTeam.name() : app.translator.trans('bigreja-bragalotto.lib.common.home'));
               
               const secondTeamName = reverse 
-                ? (homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home'))
-                : (awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away'));
+                ? (homeTeam ? homeTeam.name() : app.translator.trans('bigreja-bragalotto.lib.common.home'))
+                : (awayTeam ? awayTeam.name() : app.translator.trans('bigreja-bragalotto.lib.common.away'));
 
               return (
-                <div key={String(pickId)} className={`PickemList-item ${itemClass}`}>
+                <div key={String(pickId)} className={`bragalottoList-item ${itemClass}`}>
                   
-                  <div className="PickemList-cell type-match">
-                    <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.common.match')}</span>
+                  <div className="bragalottoList-cell type-match">
+                    <span className="mobile-label">{app.translator.trans('bigreja-bragalotto.lib.common.match')}</span>
                     <span className="value">
                         {firstTeamName}{' '}
-                        {app.translator.trans('huseyinfiliz-pickem.lib.common.vs')}{' '}
+                        {app.translator.trans('bigreja-bragalotto.lib.common.vs')}{' '}
                         {secondTeamName}
                     </span>
                   </div>
 
-                  <div className="PickemList-cell type-date">
-                    <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.common.date')}</span>
+                  <div className="bragalottoList-cell type-date">
+                    <span className="mobile-label">{app.translator.trans('bigreja-bragalotto.lib.common.date')}</span>
                     <span className="value">{matchDate}</span>
                   </div>
 
-                  <div className="PickemList-cell type-pick">
-                    <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.forum.picks.your_pick')}</span>
+                  <div className="bragalottoList-cell type-pick">
+                    <span className="mobile-label">{app.translator.trans('bigreja-bragalotto.forum.picks.your_pick')}</span>
                     <span className="value">{this.formatResult(pick.selectedOutcome(), homeTeam, awayTeam)}</span>
                   </div>
 
-                  <div className="PickemList-cell type-result">
-                    <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.common.result')}</span>
+                  <div className="bragalottoList-cell type-result">
+                    <span className="mobile-label">{app.translator.trans('bigreja-bragalotto.lib.common.result')}</span>
                     <span className="value">{event.result() ? this.formatResult(event.result(), homeTeam, awayTeam) : '-'}</span>
                   </div>
 
-                  <div className="PickemList-cell type-status">
-                    <span className="mobile-label">{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</span>
+                  <div className="bragalottoList-cell type-status">
+                    <span className="mobile-label">{app.translator.trans('bigreja-bragalotto.lib.common.status')}</span>
                     <span className="value">
                       {isCorrect === null ? (
                         <span className="PickStatus PickStatus--pending">
-                          <i className="fas fa-hourglass-half" /> {app.translator.trans('huseyinfiliz-pickem.lib.status.pending')}
+                          <i className="fas fa-hourglass-half" /> {app.translator.trans('bigreja-bragalotto.lib.status.pending')}
                         </span>
                       ) : isCorrect ? (
                         <span className="PickStatus PickStatus--correct">
-                          <i className="fas fa-check" /> {app.translator.trans('huseyinfiliz-pickem.lib.status.correct')}
+                          <i className="fas fa-check" /> {app.translator.trans('bigreja-bragalotto.lib.status.correct')}
                         </span>
                       ) : (
                         <span className="PickStatus PickStatus--incorrect">
-                          <i className="fas fa-times" /> {app.translator.trans('huseyinfiliz-pickem.lib.status.incorrect')}
+                          <i className="fas fa-times" /> {app.translator.trans('bigreja-bragalotto.lib.status.incorrect')}
                         </span>
                       )}
                     </span>
@@ -154,7 +154,7 @@ export default class MyPicksTab extends Component<MyPicksTabAttrs> {
               onclick={onLoadMore}
               loading={loading}
             >
-              {app.translator.trans('huseyinfiliz-pickem.lib.buttons.load_more')}
+              {app.translator.trans('bigreja-bragalotto.lib.buttons.load_more')}
             </Button>
           </div>
         )}
@@ -163,9 +163,9 @@ export default class MyPicksTab extends Component<MyPicksTabAttrs> {
   }
 
   formatResult(result: string | null, homeTeam: Team | false | null, awayTeam: Team | false | null) {
-    if (result === 'home') return homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home');
-    if (result === 'away') return awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away');
-    if (result === 'draw') return app.translator.trans('huseyinfiliz-pickem.lib.common.draw');
+    if (result === 'home') return homeTeam ? homeTeam.name() : app.translator.trans('bigreja-bragalotto.lib.common.home');
+    if (result === 'away') return awayTeam ? awayTeam.name() : app.translator.trans('bigreja-bragalotto.lib.common.away');
+    if (result === 'draw') return app.translator.trans('bigreja-bragalotto.lib.common.draw');
     return result;
   }
 }

@@ -33,8 +33,8 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
 
   title(): string {
     return this.team
-      ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit')
-      : app.translator.trans('huseyinfiliz-pickem.lib.actions.create');
+      ? app.translator.trans('bigreja-bragalotto.lib.actions.edit')
+      : app.translator.trans('bigreja-bragalotto.lib.actions.create');
   }
 
   content() {
@@ -45,7 +45,7 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
       <div className="Modal-body">
         <div className="Form">
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.name')}</label>
+            <label>{app.translator.trans('bigreja-bragalotto.lib.form.name')}</label>
             <input
               className="FormControl"
               type="text"
@@ -60,7 +60,7 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.slug')}</label>
+            <label>{app.translator.trans('bigreja-bragalotto.lib.form.slug')}</label>
             <input
               className="FormControl"
               type="text"
@@ -70,7 +70,7 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.logo_url')}</label>
+            <label>{app.translator.trans('bigreja-bragalotto.lib.form.logo_url')}</label>
             
             {/* YENİ: Input ve Upload butonu yan yana */}
             <div style={{ display: 'flex', gap: '8px' }}>
@@ -86,7 +86,7 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
               {hasFofUpload && (
                 <>
                   <input
-                    id="pickem-logo-upload"
+                    id="bragalotto-logo-upload"
                     type="file"
                     accept="image/*"
                     style={{ display: 'none' }}
@@ -97,7 +97,7 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
                     icon="fas fa-cloud-upload-alt"
                     loading={this.uploadLoading}
                     onclick={() => {
-                        const fileInput = document.getElementById('pickem-logo-upload');
+                        const fileInput = document.getElementById('bragalotto-logo-upload');
                         if (fileInput) fileInput.click();
                     }}
                     title="Upload with FoF Upload"
@@ -125,7 +125,7 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
               type="submit"
               loading={this.loading}
             >
-              {app.translator.trans('huseyinfiliz-pickem.lib.buttons.save')}
+              {app.translator.trans('bigreja-bragalotto.lib.buttons.save')}
             </Button>
           </div>
         </div>
@@ -157,7 +157,7 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
       // Gelen yanıttan URL'i al (FoF Upload JSON:API standardı kullanır)
       if (response && response.data && response.data[0] && response.data[0].attributes) {
         this.logoPath = response.data[0].attributes.url;
-        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.saved')); // Opsiyonel başarı mesajı
+        app.alerts.show({ type: 'success' }, app.translator.trans('bigreja-bragalotto.lib.messages.saved')); // Opsiyonel başarı mesajı
       }
     } catch (error: any) {
       console.error('Logo upload failed:', error);
@@ -181,7 +181,7 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
     try {
       const promise = this.team
         ? this.team.save(data)
-        : app.store.createRecord('pickem-teams').save(data);
+        : app.store.createRecord('bragalotto-teams').save(data);
 
       await promise;
       this.attrs.onsave(); 

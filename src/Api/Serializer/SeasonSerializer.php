@@ -1,13 +1,13 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Serializer;
+namespace bigreja\bragalotto\Api\Serializer;
 
 use Flarum\Api\Serializer\AbstractSerializer;
-use HuseyinFiliz\Pickem\Season;
+use bigreja\bragalotto\Season;
 
 class SeasonSerializer extends AbstractSerializer
 {
-    protected $type = 'pickem-seasons';
+    protected $type = 'bragalotto-seasons';
 
     protected function getDefaultAttributes($season)
     {

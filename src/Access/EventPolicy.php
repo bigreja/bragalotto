@@ -1,10 +1,10 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Access;
+namespace bigreja\bragalotto\Access;
 
 use Flarum\User\User;
 use Flarum\User\Access\AbstractPolicy; 
-use HuseyinFiliz\Pickem\Event;
+use bigreja\bragalotto\Event;
 
 class EventPolicy extends AbstractPolicy
 {
@@ -15,9 +15,9 @@ class EventPolicy extends AbstractPolicy
      */
     public function can(User $actor, string $ability)
     {
-        // 'pickem.view' iznine sahip olanlar
+        // 'bragalotto.view' iznine sahip olanlar
         // 'view' (görüntüleme) yetkisine sahiptir.
-        if ($actor->can('pickem.view') && $ability === 'view') {
+        if ($actor->can('bragalotto.view') && $ability === 'view') {
             return true;
         }
     }
@@ -30,6 +30,6 @@ class EventPolicy extends AbstractPolicy
      */
     public function view(User $actor, Event $event)
     {
-        return $actor->can('pickem.view');
+        return $actor->can('bragalotto.view');
     }
 }

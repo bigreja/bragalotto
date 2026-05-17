@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Builder;
 
 return [
     'up' => function (Builder $schema) {
-        $schema->create('pickem_events', function (Blueprint $table) {
+        $schema->create('bragalotto_events', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('week_id')->nullable();
             $table->unsignedInteger('home_team_id');
@@ -19,12 +19,12 @@ return [
             $table->enum('result', ['home', 'away', 'draw'])->nullable();
             $table->timestamps();
 
-            $table->foreign('week_id')->references('id')->on('pickem_weeks')->onDelete('cascade');
-            $table->foreign('home_team_id')->references('id')->on('pickem_teams')->onDelete('cascade');
-            $table->foreign('away_team_id')->references('id')->on('pickem_teams')->onDelete('cascade');
+            $table->foreign('week_id')->references('id')->on('bragalotto_weeks')->onDelete('cascade');
+            $table->foreign('home_team_id')->references('id')->on('bragalotto_teams')->onDelete('cascade');
+            $table->foreign('away_team_id')->references('id')->on('bragalotto_teams')->onDelete('cascade');
         });
     },
     'down' => function (Builder $schema) {
-        $schema->dropIfExists('pickem_events');
+        $schema->dropIfExists('bragalotto_events');
     }
 ];

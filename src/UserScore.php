@@ -1,6 +1,6 @@
 <?php
 
-namespace HuseyinFiliz\Pickem;
+namespace bigreja\bragalotto;
 
 use Flarum\Database\AbstractModel;
 use Flarum\Database\ScopeVisibilityTrait;
@@ -22,7 +22,7 @@ class UserScore extends AbstractModel
 {
     use ScopeVisibilityTrait;
 
-    protected $table = 'pickem_user_scores';
+    protected $table = 'bragalotto_user_scores';
 
     public $timestamps = true; 
 	

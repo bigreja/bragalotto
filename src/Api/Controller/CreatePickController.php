@@ -1,14 +1,14 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace bigreja\bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractCreateController;
 use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;
-use HuseyinFiliz\Pickem\Api\Serializer\PickSerializer;
-use HuseyinFiliz\Pickem\Event;
-use HuseyinFiliz\Pickem\Pick;
-use HuseyinFiliz\Pickem\Job\RecalculateUserScoreJob;
+use bigreja\bragalotto\Api\Serializer\PickSerializer;
+use bigreja\bragalotto\Event;
+use bigreja\bragalotto\Pick;
+use bigreja\bragalotto\Job\RecalculateUserScoreJob;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Arr;
@@ -32,7 +32,7 @@ class CreatePickController extends AbstractCreateController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.makePicks');
+        $actor->assertCan('bragalotto.makePicks');
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
         
@@ -42,7 +42,7 @@ class CreatePickController extends AbstractCreateController
         // Eksik veri kontrolü
         if (!$eventId || !$selectedOutcome) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
+                'message' => $this->translator->trans('bigreja-bragalotto.lib.messages.invalid_outcome')
             ]);
         }
 
@@ -51,14 +51,14 @@ class CreatePickController extends AbstractCreateController
         // Süre kontrolü (Cutoff)
         if (!$event->canPick()) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.cutoff_passed')
+                'message' => $this->translator->trans('bigreja-bragalotto.lib.messages.cutoff_passed')
             ]);
         }
 
         // Beraberlik kontrolü
         if ($selectedOutcome === Event::RESULT_DRAW && !$event->allow_draw) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.draw_not_allowed')
+                'message' => $this->translator->trans('bigreja-bragalotto.lib.messages.draw_not_allowed')
             ]);
         }
 
@@ -66,7 +66,7 @@ class CreatePickController extends AbstractCreateController
         $validOutcomes = [Event::RESULT_HOME, Event::RESULT_AWAY, Event::RESULT_DRAW];
         if (!in_array($selectedOutcome, $validOutcomes)) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
+                'message' => $this->translator->trans('bigreja-bragalotto.lib.messages.invalid_outcome')
             ]);
         }
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Notification;
+namespace bigreja\bragalotto\Notification;
 
 use Flarum\Notification\Blueprint\BlueprintInterface;
-use HuseyinFiliz\Pickem\Event;
+use bigreja\bragalotto\Event;
 
 class EventResultBlueprint implements BlueprintInterface
 {
@@ -37,8 +37,8 @@ class EventResultBlueprint implements BlueprintInterface
 
         return [
             'eventId' => $this->event->id,
-            'homeTeam' => $this->event->homeTeam ? $this->event->homeTeam->name : $translator->trans('huseyinfiliz-pickem.lib.common.home'),
-            'awayTeam' => $this->event->awayTeam ? $this->event->awayTeam->name : $translator->trans('huseyinfiliz-pickem.lib.common.away'),
+            'homeTeam' => $this->event->homeTeam ? $this->event->homeTeam->name : $translator->trans('bigreja-bragalotto.lib.common.home'),
+            'awayTeam' => $this->event->awayTeam ? $this->event->awayTeam->name : $translator->trans('bigreja-bragalotto.lib.common.away'),
             'result' => $this->event->result,
             'homeScore' => $this->event->home_score,
             'awayScore' => $this->event->away_score,
@@ -47,7 +47,7 @@ class EventResultBlueprint implements BlueprintInterface
 
     public static function getType()
     {
-        return 'pickem_event_result';
+        return 'bragalotto_event_result';
     }
 
     public static function getSubjectModel()

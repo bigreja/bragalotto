@@ -6,14 +6,14 @@ import extractText from 'flarum/common/utils/extractText';
 
 export default class TeamsTab extends Component {
   view() {
-    const teams = app.store.all<Team>('pickem-teams');
+    const teams = app.store.all<Team>('bragalotto-teams');
 
     return (
       <div className="TeamsTab">
         <div className="TeamsTab-header">
           <h3>
             <i className="fas fa-users" />
-            {app.translator.trans('huseyinfiliz-pickem.lib.nav.teams')}
+            {app.translator.trans('bigreja-bragalotto.lib.nav.teams')}
           </h3>
           <Button
             className="Button Button--primary"
@@ -24,29 +24,29 @@ export default class TeamsTab extends Component {
             })}
           >
             {/* GÜNCELLENDİ: Parametre kaldırıldı */}
-            {app.translator.trans('huseyinfiliz-pickem.lib.actions.create')}
+            {app.translator.trans('bigreja-bragalotto.lib.actions.create')}
           </Button>
         </div>
 
         <div className="CardList">
           <div className="CardList-header">
-            <div>{app.translator.trans('huseyinfiliz-pickem.lib.headers.logo')}</div>
-            <div>{app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}</div>
-            <div>{app.translator.trans('huseyinfiliz-pickem.lib.headers.slug')}</div>
+            <div>{app.translator.trans('bigreja-bragalotto.lib.headers.logo')}</div>
+            <div>{app.translator.trans('bigreja-bragalotto.lib.headers.name')}</div>
+            <div>{app.translator.trans('bigreja-bragalotto.lib.headers.slug')}</div>
             <div></div>
           </div>
 
           {teams.map(team => (
             <div key={team.id()} className="CardList-item">
-              <div className="CardList-item-cell" data-label={app.translator.trans('huseyinfiliz-pickem.lib.headers.logo')}>
+              <div className="CardList-item-cell" data-label={app.translator.trans('bigreja-bragalotto.lib.headers.logo')}>
                 {this.renderTeamLogo(team)}
               </div>
 
-              <div className="CardList-item-cell CardList-item-cell--primary" data-label={app.translator.trans('huseyinfiliz-pickem.lib.headers.name')}>
+              <div className="CardList-item-cell CardList-item-cell--primary" data-label={app.translator.trans('bigreja-bragalotto.lib.headers.name')}>
                 {team.name()}
               </div>
 
-              <div className="CardList-item-cell CardList-item-cell--muted" data-label={app.translator.trans('huseyinfiliz-pickem.lib.headers.slug')}>
+              <div className="CardList-item-cell CardList-item-cell--muted" data-label={app.translator.trans('bigreja-bragalotto.lib.headers.slug')}>
                 {team.slug()}
               </div>
 
@@ -59,14 +59,14 @@ export default class TeamsTab extends Component {
                     onsave: () => m.redraw()
                   })}
                 >
-                  {app.translator.trans('huseyinfiliz-pickem.lib.buttons.edit')}
+                  {app.translator.trans('bigreja-bragalotto.lib.buttons.edit')}
                 </Button>
                 <Button
                   className="Button Button--danger"
                   icon="fas fa-trash"
                   onclick={() => this.deleteTeam(team)}
                 >
-                  {app.translator.trans('huseyinfiliz-pickem.lib.buttons.delete')}
+                  {app.translator.trans('bigreja-bragalotto.lib.buttons.delete')}
                 </Button>
               </div>
             </div>
@@ -105,7 +105,7 @@ export default class TeamsTab extends Component {
 
   deleteTeam(team: Team) {
     // GÜNCELLENDİ: Parametre kaldırıldı
-    const confirmMessage = extractText(app.translator.trans('huseyinfiliz-pickem.lib.messages.delete_confirm'));
+    const confirmMessage = extractText(app.translator.trans('bigreja-bragalotto.lib.messages.delete_confirm'));
     
     if (!confirm(confirmMessage)) {
       return;

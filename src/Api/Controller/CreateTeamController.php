@@ -1,12 +1,12 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace bigreja\bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractCreateController;
 use Flarum\Http\RequestUtil;
-use HuseyinFiliz\Pickem\Api\Serializer\TeamSerializer;
-use HuseyinFiliz\Pickem\Team;
-use HuseyinFiliz\Pickem\Validator\TeamValidator;
+use bigreja\bragalotto\Api\Serializer\TeamSerializer;
+use bigreja\bragalotto\Team;
+use bigreja\bragalotto\Validator\TeamValidator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Psr\Http\Message\ServerRequestInterface;
@@ -26,7 +26,7 @@ class CreateTeamController extends AbstractCreateController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.manage');
+        $actor->assertCan('bragalotto.manage');
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
 

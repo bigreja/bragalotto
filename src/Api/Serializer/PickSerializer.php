@@ -1,14 +1,14 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Serializer;
+namespace bigreja\bragalotto\Api\Serializer;
 
 use Flarum\Api\Serializer\AbstractSerializer;
 use Flarum\Api\Serializer\BasicUserSerializer;
-use HuseyinFiliz\Pickem\Pick;
+use bigreja\bragalotto\Pick;
 
 class PickSerializer extends AbstractSerializer
 {
-    protected $type = 'pickem-picks';
+    protected $type = 'bragalotto-picks';
 
     /**
      * Get the default set of serialized attributes for a model.

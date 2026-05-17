@@ -1,6 +1,6 @@
 <?php
 
-namespace HuseyinFiliz\Pickem;
+namespace bigreja\bragalotto;
 
 use Flarum\Database\AbstractModel;
 use Flarum\Database\ScopeVisibilityTrait;
@@ -22,7 +22,7 @@ class Week extends AbstractModel
     // YENİ EKLENDİ: Zaman damgalarını otomatik yönet
     public $timestamps = true;
 
-    protected $table = 'pickem_weeks';
+    protected $table = 'bragalotto_weeks';
 
     protected $fillable = ['name', 'season_id', 'week_number', 'start_date', 'end_date'];
 

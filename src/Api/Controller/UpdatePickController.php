@@ -1,14 +1,14 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace bigreja\bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;
-use HuseyinFiliz\Pickem\Api\Serializer\PickSerializer;
-use HuseyinFiliz\Pickem\Event;
-use HuseyinFiliz\Pickem\Pick;
-use HuseyinFiliz\Pickem\Job\RecalculateUserScoreJob;
+use bigreja\bragalotto\Api\Serializer\PickSerializer;
+use bigreja\bragalotto\Event;
+use bigreja\bragalotto\Pick;
+use bigreja\bragalotto\Job\RecalculateUserScoreJob;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Arr;
@@ -51,7 +51,7 @@ class UpdatePickController extends AbstractShowController
         // Policy'den önce burayı kontrol ediyoruz ki özel hata mesajımız dönsün.
         if (!$pick->event->canPick()) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.cutoff_passed')
+                'message' => $this->translator->trans('bigreja-bragalotto.lib.messages.cutoff_passed')
             ]);
         }
 
@@ -68,7 +68,7 @@ class UpdatePickController extends AbstractShowController
         // Beraberlik kontrolü
         if ($selectedOutcome === Event::RESULT_DRAW && !$pick->event->allow_draw) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.draw_not_allowed')
+                'message' => $this->translator->trans('bigreja-bragalotto.lib.messages.draw_not_allowed')
             ]);
         }
         
@@ -76,7 +76,7 @@ class UpdatePickController extends AbstractShowController
         $validOutcomes = [Event::RESULT_HOME, Event::RESULT_AWAY, Event::RESULT_DRAW];
         if (!in_array($selectedOutcome, $validOutcomes)) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
+                'message' => $this->translator->trans('bigreja-bragalotto.lib.messages.invalid_outcome')
             ]);
         }
 

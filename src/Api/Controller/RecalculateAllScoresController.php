@@ -1,10 +1,10 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace bigreja\bragalotto\Api\Controller;
 
 use Flarum\Http\RequestUtil;
-use HuseyinFiliz\Pickem\Pick;
-use HuseyinFiliz\Pickem\Job\RecalculateUserScoreJob;
+use bigreja\bragalotto\Pick;
+use bigreja\bragalotto\Job\RecalculateUserScoreJob;
 use Illuminate\Contracts\Bus\Dispatcher as BusDispatcher;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
@@ -26,7 +26,7 @@ class RecalculateAllScoresController implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.manage');
+        $actor->assertCan('bragalotto.manage');
 
         // Chunking kullanarak belleği koruyoruz. 
         // Her seferinde 100 kullanıcı ID'si çekip işliyoruz.

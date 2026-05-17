@@ -1,17 +1,17 @@
 import Modal from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
 import Select from 'flarum/common/components/Select';
-import PickemEvent from '../../../common/models/Event';
+import bragalottoEvent from '../../../common/models/Event';
 import Week from '../../../common/models/Week';
 import Team from '../../../common/models/Team';
 
 interface IEventModalAttrs {
-  event?: PickemEvent | null;
+  event?: bragalottoEvent | null;
   onsave: () => void;
 }
 
 export default class EventModal extends Modal<IEventModalAttrs> {
-  private event: PickemEvent | null | undefined;
+  private event: bragalottoEvent | null | undefined;
   private homeTeamId: string = '0';
   private awayTeamId: string = '0';
   private weekId: string = '0';
@@ -57,13 +57,13 @@ export default class EventModal extends Modal<IEventModalAttrs> {
 
   title(): string {
     return this.event
-      ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit')
-      : app.translator.trans('huseyinfiliz-pickem.lib.actions.create');
+      ? app.translator.trans('bigreja-bragalotto.lib.actions.edit')
+      : app.translator.trans('bigreja-bragalotto.lib.actions.create');
   }
 
   content() {
-    const teams = app.store.all<Team>('pickem-teams');
-    const weeks = app.store.all<Week>('pickem-weeks');
+    const teams = app.store.all<Team>('bragalotto-teams');
+    const weeks = app.store.all<Week>('bragalotto-weeks');
 
     const filteredHomeTeams = teams.filter(team => 
       team.name()?.toLowerCase().includes(this.homeTeamFilter.toLowerCase())
@@ -100,7 +100,7 @@ export default class EventModal extends Modal<IEventModalAttrs> {
       <div className="Modal-body">
         <div className="Form">
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.lib.common.week')}</label>
+            <label>{app.translator.trans('bigreja-bragalotto.lib.common.week')}</label>
             <Select
               className="FormControl"
               value={this.weekId}
@@ -108,17 +108,17 @@ export default class EventModal extends Modal<IEventModalAttrs> {
               options={weekOptions}
               default="0"
             >
-              <option value="0">{app.translator.trans('huseyinfiliz-pickem.lib.form.no_week')}</option>
+              <option value="0">{app.translator.trans('bigreja-bragalotto.lib.form.no_week')}</option>
             </Select>
           </div>
 
           {/* HOME TEAM SELECTION */}
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.home_team')}</label>
+            <label>{app.translator.trans('bigreja-bragalotto.lib.form.home_team')}</label>
             <input 
                 className="FormControl" 
                 type="text" 
-                placeholder={app.translator.trans('huseyinfiliz-pickem.lib.form.search_team')}
+                placeholder={app.translator.trans('bigreja-bragalotto.lib.form.search_team')}
                 value={this.homeTeamFilter}
                 oninput={(e: InputEvent) => { this.homeTeamFilter = (e.target as HTMLInputElement).value; }}
                 style="margin-bottom: 5px; font-size: 12px;"
@@ -130,17 +130,17 @@ export default class EventModal extends Modal<IEventModalAttrs> {
               options={homeTeamOptions}
               default="0"
             >
-              <option value="0">{app.translator.trans('huseyinfiliz-pickem.lib.form.select_team')}</option>
+              <option value="0">{app.translator.trans('bigreja-bragalotto.lib.form.select_team')}</option>
             </Select>
           </div>
 
           {/* AWAY TEAM SELECTION */}
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.away_team')}</label>
+            <label>{app.translator.trans('bigreja-bragalotto.lib.form.away_team')}</label>
             <input 
                 className="FormControl" 
                 type="text" 
-                placeholder={app.translator.trans('huseyinfiliz-pickem.lib.form.search_team')}
+                placeholder={app.translator.trans('bigreja-bragalotto.lib.form.search_team')}
                 value={this.awayTeamFilter}
                 oninput={(e: InputEvent) => { this.awayTeamFilter = (e.target as HTMLInputElement).value; }}
                 style="margin-bottom: 5px; font-size: 12px;"
@@ -152,12 +152,12 @@ export default class EventModal extends Modal<IEventModalAttrs> {
               options={awayTeamOptions}
               default="0"
             >
-              <option value="0">{app.translator.trans('huseyinfiliz-pickem.lib.form.select_team')}</option>
+              <option value="0">{app.translator.trans('bigreja-bragalotto.lib.form.select_team')}</option>
             </Select>
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.lib.headers.match_date')}</label>
+            <label>{app.translator.trans('bigreja-bragalotto.lib.headers.match_date')}</label>
             <input
               className="FormControl"
               type="datetime-local"
@@ -168,7 +168,7 @@ export default class EventModal extends Modal<IEventModalAttrs> {
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.lib.headers.cutoff_date')}</label>
+            <label>{app.translator.trans('bigreja-bragalotto.lib.headers.cutoff_date')}</label>
             <input
               className="FormControl"
               type="datetime-local"
@@ -185,20 +185,20 @@ export default class EventModal extends Modal<IEventModalAttrs> {
                 checked={this.allowDraw}
                 onchange={(e: InputEvent) => { this.allowDraw = (e.target as HTMLInputElement).checked; }}
               />
-              {app.translator.trans('huseyinfiliz-pickem.lib.form.allow_draw')}
+              {app.translator.trans('bigreja-bragalotto.lib.form.allow_draw')}
             </label>
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</label>
+            <label>{app.translator.trans('bigreja-bragalotto.lib.common.status')}</label>
             <Select
               className="FormControl"
               value={this.status}
               onchange={(value: string) => { this.status = value; }}
               options={{
-                scheduled: app.translator.trans('huseyinfiliz-pickem.lib.status.scheduled'),
-                closed: app.translator.trans('huseyinfiliz-pickem.lib.status.closed'),
-                finished: app.translator.trans('huseyinfiliz-pickem.lib.status.finished'),
+                scheduled: app.translator.trans('bigreja-bragalotto.lib.status.scheduled'),
+                closed: app.translator.trans('bigreja-bragalotto.lib.status.closed'),
+                finished: app.translator.trans('bigreja-bragalotto.lib.status.finished'),
               }}
             />
           </div>
@@ -209,7 +209,7 @@ export default class EventModal extends Modal<IEventModalAttrs> {
               type="submit"
               loading={this.loading}
             >
-              {app.translator.trans('huseyinfiliz-pickem.lib.buttons.save')}
+              {app.translator.trans('bigreja-bragalotto.lib.buttons.save')}
             </Button>
           </div>
         </div>
@@ -221,27 +221,27 @@ export default class EventModal extends Modal<IEventModalAttrs> {
     e.preventDefault();
 
     if (!this.matchDate || this.matchDate.trim() === '') {
-      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.invalid_outcome'));
+      app.alerts.show({ type: 'error' }, app.translator.trans('bigreja-bragalotto.lib.messages.invalid_outcome'));
       return;
     }
 
     if (!this.cutoffDate || this.cutoffDate.trim() === '') {
-      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.invalid_outcome'));
+      app.alerts.show({ type: 'error' }, app.translator.trans('bigreja-bragalotto.lib.messages.invalid_outcome'));
       return;
     }
 
     if (this.homeTeamId === '0' || !this.homeTeamId) {
-      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.invalid_outcome'));
+      app.alerts.show({ type: 'error' }, app.translator.trans('bigreja-bragalotto.lib.messages.invalid_outcome'));
       return;
     }
 
     if (this.awayTeamId === '0' || !this.awayTeamId) {
-      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.invalid_outcome'));
+      app.alerts.show({ type: 'error' }, app.translator.trans('bigreja-bragalotto.lib.messages.invalid_outcome'));
       return;
     }
 
     if (this.homeTeamId === this.awayTeamId) {
-      app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.same_team'));
+      app.alerts.show({ type: 'error' }, app.translator.trans('bigreja-bragalotto.lib.messages.same_team'));
       return;
     }
 
@@ -264,7 +264,7 @@ export default class EventModal extends Modal<IEventModalAttrs> {
     try {
       const promise = this.event
         ? this.event.save(data)
-        : app.store.createRecord('pickem-events').save(data);
+        : app.store.createRecord('bragalotto-events').save(data);
 
       await promise;
 

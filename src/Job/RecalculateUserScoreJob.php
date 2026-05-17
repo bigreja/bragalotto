@@ -1,13 +1,13 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Job;
+namespace bigreja\bragalotto\Job;
 
 use Flarum\Queue\AbstractJob;
-use HuseyinFiliz\Pickem\PickemScoringService; // Import the scoring service
+use bigreja\bragalotto\bragalottoScoringService; // Import the scoring service
 use Flarum\User\User;
 // Unused imports removed
-// use HuseyinFiliz\Pickem\Pick;
-// use HuseyinFiliz\Pickem\UserScore;
+// use bigreja\bragalotto\Pick;
+// use bigreja\bragalotto\UserScore;
 // use Illuminate\Database\DatabaseManager;
 // use Illuminate\Database\Eloquent\Builder;
 // use Illuminate\Support\Carbon;
@@ -28,9 +28,9 @@ class RecalculateUserScoreJob extends AbstractJob
      * Inject the service directly into the handle method.
      * Flarum's Queue system will automatically resolve this dependency.
      *
-     * @param PickemScoringService $scoringService
+     * @param bragalottoScoringService $scoringService
      */
-    public function handle(PickemScoringService $scoringService)
+    public function handle(bragalottoScoringService $scoringService)
     {
         if (User::find($this->userId) === null) {
             // If user doesn't exist, stop the job.

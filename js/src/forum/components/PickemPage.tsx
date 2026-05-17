@@ -7,7 +7,7 @@ import LeaderboardTab from './LeaderboardTab';
 import IndexPage from 'flarum/forum/components/IndexPage';
 import listItems from 'flarum/common/helpers/listItems';
 
-export default class PickemPage extends Page {
+export default class bragalottoPage extends Page {
   private activeTab: string = 'matches';
   private loading: boolean = true;
   
@@ -27,7 +27,7 @@ export default class PickemPage extends Page {
   oninit(vnode: any) {
     super.oninit(vnode);
 
-    if (!app.forum.attribute('pickem.canView')) {
+    if (!app.forum.attribute('bragalotto.canView')) {
       m.route.set('/'); 
       return;
     }
@@ -48,14 +48,14 @@ export default class PickemPage extends Page {
 
   oncreate(vnode: any) {
     super.oncreate(vnode);
-    app.setTitle(extractText(app.translator.trans('huseyinfiliz-pickem.lib.nav.pickem')));
+    app.setTitle(extractText(app.translator.trans('bigreja-bragalotto.lib.nav.bragalotto')));
   }
 
   async loadInitialData() {
     try {
       const promises = [];
 
-      if (app.session.user && app.forum.attribute('pickem.makePicks')) {
+      if (app.session.user && app.forum.attribute('bragalotto.makePicks')) {
         promises.push(this.loadPicks(0));
         // YENİ: Eğer giriş yapmışsa kendi sıralamasını çek
         promises.push(this.loadMyRank());
@@ -81,7 +81,7 @@ export default class PickemPage extends Page {
     
     try {
       // ListLeaderboardController'a eklediğimiz 'user' filtresini kullanıyoruz
-      const results = (await app.store.find('pickem-user-scores', {
+      const results = (await app.store.find('bragalotto-user-scores', {
         filter: { user: app.session.user.id() },
         page: { limit: 1 }
       })) as any[];
@@ -95,7 +95,7 @@ export default class PickemPage extends Page {
   }
 
   async loadPicks(offset: number = 0) {
-    if (!app.session.user || !app.forum.attribute('pickem.makePicks')) return;
+    if (!app.session.user || !app.forum.attribute('bragalotto.makePicks')) return;
 
     this.myPicksLoading = true;
     m.redraw();
@@ -103,7 +103,7 @@ export default class PickemPage extends Page {
     const limit = 20;
 
     try {
-      const results = (await app.store.find('pickem-picks', {
+      const results = (await app.store.find('bragalotto-picks', {
         filter: { user: app.session.user.id() },
         include: 'event,event.homeTeam,event.awayTeam',
         page: { offset, limit }
@@ -138,7 +138,7 @@ export default class PickemPage extends Page {
     m.redraw();
     const limit = 20;
     try {
-      const results = (await app.store.find('pickem-user-scores', { 
+      const results = (await app.store.find('bragalotto-user-scores', { 
         include: 'user',
         page: { offset, limit } 
       })) as any[];
@@ -160,9 +160,9 @@ export default class PickemPage extends Page {
   async loadFilterData() {
     try {
       await Promise.all([
-        app.store.find('pickem-public-seasons'),
-        app.store.find('pickem-public-teams'),
-        app.store.find('pickem-public-weeks')
+        app.store.find('bragalotto-public-seasons'),
+        app.store.find('bragalotto-public-teams'),
+        app.store.find('bragalotto-public-weeks')
       ]);
     } catch (error) {
       console.error('Error loading filter data:', error);
@@ -171,13 +171,13 @@ export default class PickemPage extends Page {
 
   view() {
     return (
-      <div className="IndexPage PickemPage"> 
-        <header className="Hero PickemHero">
+      <div className="IndexPage bragalottoPage"> 
+        <header className="Hero bragalottoHero">
           <div className="container">
             <div className="containerNarrow">
               <h1 className="Hero-title">
                 <i className="icon fas fa-trophy" />{' '}
-                {app.translator.trans('huseyinfiliz-pickem.lib.nav.pickem')}
+                {app.translator.trans('bigreja-bragalotto.lib.nav.bragalotto')}
               </h1>
             </div>
           </div>
@@ -190,19 +190,19 @@ export default class PickemPage extends Page {
             </nav>
             <div className="IndexPage-results sideNavOffset">
               
-              <div className="PickemPage-tabs">
-                {this.renderTab('matches', app.translator.trans('huseyinfiliz-pickem.lib.nav.matches'))}
+              <div className="bragalottoPage-tabs">
+                {this.renderTab('matches', app.translator.trans('bigreja-bragalotto.lib.nav.matches'))}
                 
-                {app.session.user && app.forum.attribute('pickem.makePicks') &&
-                  this.renderTab('my_picks', app.translator.trans('huseyinfiliz-pickem.lib.nav.my_picks'))}
+                {app.session.user && app.forum.attribute('bragalotto.makePicks') &&
+                  this.renderTab('my_picks', app.translator.trans('bigreja-bragalotto.lib.nav.my_picks'))}
 
-                {this.renderTab('leaderboard', app.translator.trans('huseyinfiliz-pickem.lib.nav.leaderboard'))}
+                {this.renderTab('leaderboard', app.translator.trans('bigreja-bragalotto.lib.nav.leaderboard'))}
               </div>
 
               {this.loading ? (
                 <LoadingIndicator />
               ) : (
-                <div className="PickemPage-tabContent">
+                <div className="bragalottoPage-tabContent">
                   {this.renderAllTabs()}
                 </div>
               )}
@@ -217,7 +217,7 @@ export default class PickemPage extends Page {
     const active = this.activeTab === tabId;
     return (
       <button
-        className={`Button Button--flat PickemPage-tab ${active ? 'active' : ''}`}
+        className={`Button Button--flat bragalottoPage-tab ${active ? 'active' : ''}`}
         onclick={() => { this.activeTab = tabId; }}
       >
         {label}
@@ -228,7 +228,7 @@ export default class PickemPage extends Page {
   renderAllTabs() {
     return (
       <>
-        <div className={`PickemPage-tabPane ${this.activeTab === 'matches' ? 'active' : ''}`}>
+        <div className={`bragalottoPage-tabPane ${this.activeTab === 'matches' ? 'active' : ''}`}>
           {this.filterDataLoaded && (
             <MatchesTab
               picks={this.picks}
@@ -237,8 +237,8 @@ export default class PickemPage extends Page {
           )}
         </div>
         
-        {app.session.user && app.forum.attribute('pickem.makePicks') && (
-          <div className={`PickemPage-tabPane ${this.activeTab === 'my_picks' ? 'active' : ''}`}>
+        {app.session.user && app.forum.attribute('bragalotto.makePicks') && (
+          <div className={`bragalottoPage-tabPane ${this.activeTab === 'my_picks' ? 'active' : ''}`}>
             <MyPicksTab 
               picks={this.picks} 
               loading={this.myPicksLoading}
@@ -248,7 +248,7 @@ export default class PickemPage extends Page {
           </div>
         )}
         
-        <div className={`PickemPage-tabPane ${this.activeTab === 'leaderboard' ? 'active' : ''}`}>
+        <div className={`bragalottoPage-tabPane ${this.activeTab === 'leaderboard' ? 'active' : ''}`}>
           <LeaderboardTab 
             userScores={this.userScores}
             // YENİ: myScore'u gönderiyoruz

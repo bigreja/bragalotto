@@ -1,14 +1,14 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Serializer;
+namespace bigreja\bragalotto\Api\Serializer;
 
 use Flarum\Api\Serializer\AbstractSerializer;
 use Flarum\Api\Serializer\BasicUserSerializer;
-use HuseyinFiliz\Pickem\UserScore;
+use bigreja\bragalotto\UserScore;
 
 class UserScoreSerializer extends AbstractSerializer
 {
-    protected $type = 'pickem-user-scores';
+    protected $type = 'bragalotto-user-scores';
 
     /**
      * @param UserScore $score

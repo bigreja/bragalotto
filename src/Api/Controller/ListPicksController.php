@@ -1,12 +1,12 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace bigreja\bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
 use Flarum\Http\RequestUtil;
 use Flarum\Http\UrlGenerator;
-use HuseyinFiliz\Pickem\Api\Serializer\PickSerializer;
-use HuseyinFiliz\Pickem\Pick;
+use bigreja\bragalotto\Api\Serializer\PickSerializer;
+use bigreja\bragalotto\Pick;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Psr\Http\Message\ServerRequestInterface;
@@ -31,12 +31,12 @@ class ListPicksController extends AbstractListController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.makePicks');
+        $actor->assertCan('bragalotto.makePicks');
 
         $query = Pick::query();
 
         if ($userId = Arr::get($request->getQueryParams(), 'filter.user')) {
-            if ($actor->hasPermission('pickem.manage') || $actor->id == $userId) {
+            if ($actor->hasPermission('bragalotto.manage') || $actor->id == $userId) {
                 $query->where('user_id', $userId);
             } else {
                 $query->where('user_id', $actor->id);
@@ -67,7 +67,7 @@ class ListPicksController extends AbstractListController
                          ->get();
 
         $document->addPaginationLinks(
-            $this->url->to('api')->route('pickem.picks.index'),
+            $this->url->to('api')->route('bragalotto.picks.index'),
             $request->getQueryParams(),
             $offset,
             $limit,

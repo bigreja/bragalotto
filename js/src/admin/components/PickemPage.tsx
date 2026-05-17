@@ -7,7 +7,7 @@ import WeeksTab from './WeeksTab';
 import EventsTab from './EventsTab';
 import SettingsTab from './SettingsTab'; 
 
-export default class PickemPage extends ExtensionPage {
+export default class bragalottoPage extends ExtensionPage {
   private activeTab: string = 'events';
   private loading: boolean = true;
   private error: string | null = null; 
@@ -26,13 +26,13 @@ export default class PickemPage extends ExtensionPage {
   async loadData() {
     try {
       await Promise.all([
-        app.store.find('pickem-teams'),
-        app.store.find('pickem-seasons'),
-        app.store.find('pickem-weeks', { include: 'season' }),
+        app.store.find('bragalotto-teams'),
+        app.store.find('bragalotto-seasons'),
+        app.store.find('bragalotto-weeks', { include: 'season' }),
       ]);
       this.error = null;
     } catch (error: any) {
-      console.error('Pickem admin data load error:', error);
+      console.error('bragalotto admin data load error:', error);
       this.error = error.message || 'An unknown error occurred while loading data.';
     } finally {
       this.loading = false;
@@ -56,18 +56,18 @@ export default class PickemPage extends ExtensionPage {
     }
 
     return (
-      <div className="PickemPage">
+      <div className="bragalottoPage">
         <div className="container">
-          <div className="PickemPage-tabs">
+          <div className="bragalottoPage-tabs">
             {/* GÜNCELLENDİ: .events -> .matches */}
-            {this.renderTab('events', 'fas fa-futbol', app.translator.trans('huseyinfiliz-pickem.lib.nav.matches'))}
-            {this.renderTab('teams', 'fas fa-users', app.translator.trans('huseyinfiliz-pickem.lib.nav.teams'))}
-            {this.renderTab('seasons', 'fas fa-calendar-alt', app.translator.trans('huseyinfiliz-pickem.lib.nav.seasons'))}
-            {this.renderTab('weeks', 'fas fa-calendar-week', app.translator.trans('huseyinfiliz-pickem.lib.nav.weeks'))}
-            {this.renderTab('settings', 'fas fa-cogs', app.translator.trans('huseyinfiliz-pickem.lib.nav.settings'))}
+            {this.renderTab('events', 'fas fa-futbol', app.translator.trans('bigreja-bragalotto.lib.nav.matches'))}
+            {this.renderTab('teams', 'fas fa-users', app.translator.trans('bigreja-bragalotto.lib.nav.teams'))}
+            {this.renderTab('seasons', 'fas fa-calendar-alt', app.translator.trans('bigreja-bragalotto.lib.nav.seasons'))}
+            {this.renderTab('weeks', 'fas fa-calendar-week', app.translator.trans('bigreja-bragalotto.lib.nav.weeks'))}
+            {this.renderTab('settings', 'fas fa-cogs', app.translator.trans('bigreja-bragalotto.lib.nav.settings'))}
           </div>
 
-          <div className="PickemPage-content">
+          <div className="bragalottoPage-content">
             {tabContent}
           </div>
         </div>

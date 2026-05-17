@@ -1,6 +1,6 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace bigreja\\Api\Controller;
 
 use Flarum\Api\Controller\AbstractDeleteController;
 use Flarum\Foundation\ValidationException;
@@ -51,7 +51,7 @@ abstract class AbstractDeleteControllerWithRelationCheck extends AbstractDeleteC
     protected function delete(ServerRequestInterface $request)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.manage');
+        $actor->assertCan('.manage');
 
         $id = $request->getQueryParams()['id'];
         $modelClass = $this->getModelClass();

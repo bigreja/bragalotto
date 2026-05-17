@@ -1,4 +1,4 @@
-huseyinfiliz-pickem:
+bigreja-bragalotto:
   lib:
     common:
       season: "Season"
@@ -16,7 +16,7 @@ huseyinfiliz-pickem:
       result: "Result"
       score: "Score"
     nav:
-      pickem: "Pick'em"
+      bragalotto: "Pick'em"
       matches: "Matches"
       my_picks: "My Picks"
       leaderboard: "Leaderboard"

@@ -1,11 +1,11 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace bigreja\bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
 use Flarum\Http\RequestUtil; // YENİ
-use HuseyinFiliz\Pickem\Api\Serializer\SeasonSerializer;
-use HuseyinFiliz\Pickem\Season;
+use bigreja\bragalotto\Api\Serializer\SeasonSerializer;
+use bigreja\bragalotto\Season;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
@@ -17,7 +17,7 @@ class ListSeasonsController extends AbstractListController
     {
         // YENİ: Admin yetkisi kontrolü eklendi
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.manage');
+        $actor->assertCan('bragalotto.manage');
 
         return Season::orderBy('start_date', 'desc')->get();
     }

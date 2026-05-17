@@ -1,8 +1,8 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace bigreja\bragalotto\Api\Controller;
 
-use HuseyinFiliz\Pickem\Season;
+use bigreja\bragalotto\Season;
 
 class DeleteSeasonController extends AbstractDeleteControllerWithRelationCheck
 {
@@ -28,6 +28,6 @@ class DeleteSeasonController extends AbstractDeleteControllerWithRelationCheck
     protected function getErrorMessageKey(): string
     {
         // GÜNCELLENDİ: lib.validation.errors.season_in_use -> lib.messages.in_use
-        return 'huseyinfiliz-pickem.lib.messages.in_use';
+        return 'bigreja-bragalotto.lib.messages.in_use';
     }
 }

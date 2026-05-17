@@ -1,6 +1,6 @@
 <?php
 
-namespace HuseyinFiliz\Pickem;
+namespace bigreja\bragalotto;
 
 use Flarum\Database\AbstractModel;
 use Flarum\Database\ScopeVisibilityTrait;
@@ -24,7 +24,7 @@ class Team extends AbstractModel
     // YENİ EKLENDİ: Zaman damgalarını otomatik yönet
     public $timestamps = true;
 
-    protected $table = 'pickem_teams';
+    protected $table = 'bragalotto_teams';
 
     protected $fillable = ['name', 'slug', 'logo_path'];
 

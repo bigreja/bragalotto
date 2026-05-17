@@ -1,6 +1,6 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Validator;
+namespace bigreja\bragalotto\Validator;
 
 use Flarum\Foundation\AbstractValidator;
 use Illuminate\Validation\Rule;
@@ -18,7 +18,7 @@ class TeamValidator extends AbstractValidator
                 'string',
                 'max:100',
                 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
-                Rule::unique('pickem_teams', 'slug')->ignore($id),
+                Rule::unique('bragalotto_teams', 'slug')->ignore($id),
             ],
             'logoPath' => ['nullable', 'string', 'url', 'max:255'],
         ];
@@ -28,7 +28,7 @@ class TeamValidator extends AbstractValidator
     {
         return [
             // GÜNCELLENDİ: lib.messages.slug_unique
-            'slug.unique' => 'huseyinfiliz-pickem.lib.messages.slug_unique',
+            'slug.unique' => 'bigreja-bragalotto.lib.messages.slug_unique',
         ];
     }
 }

@@ -1,16 +1,16 @@
 <?php
 
-namespace HuseyinFiliz\Pickem;
+namespace bigreja\bragalotto;
 
-use HuseyinFiliz\Pickem\Event;
-use HuseyinFiliz\Pickem\Pick;
-use HuseyinFiliz\Pickem\UserScore;
+use bigreja\bragalotto\Event;
+use bigreja\bragalotto\Pick;
+use bigreja\bragalotto\UserScore;
 use Illuminate\Database\Connection;
 
 /**
  * Skorlama mantığını merkezileştiren servis sınıfı
  */
-class PickemScoringService
+class bragalottoScoringService
 {
     /**
     * @var Connection

@@ -1,12 +1,12 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace bigreja\bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
 use Flarum\Http\RequestUtil;
 use Flarum\Http\UrlGenerator;
-use HuseyinFiliz\Pickem\Api\Serializer\UserScoreSerializer;
-use HuseyinFiliz\Pickem\UserScore;
+use bigreja\bragalotto\Api\Serializer\UserScoreSerializer;
+use bigreja\bragalotto\UserScore;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
@@ -29,7 +29,7 @@ class ListLeaderboardController extends AbstractListController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.view');
+        $actor->assertCan('bragalotto.view');
         
         $query = UserScore::query();
         $query->whereNull('season_id');
@@ -65,7 +65,7 @@ class ListLeaderboardController extends AbstractListController
         }
 
         $document->addPaginationLinks(
-            $this->url->to('api')->route('pickem.leaderboard.index'),
+            $this->url->to('api')->route('bragalotto.leaderboard.index'),
             $request->getQueryParams(),
             $offset,
             $limit,

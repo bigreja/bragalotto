@@ -1,6 +1,6 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Validator;
+namespace bigreja\bragalotto\Validator;
 
 use Flarum\Foundation\AbstractValidator;
 use Illuminate\Validation\Rule;
@@ -16,7 +16,7 @@ class WeekValidator extends AbstractValidator
             'seasonId' => [
                 'nullable', // Sezonsuz haftalara izin ver
                 'integer',
-                Rule::exists('pickem_seasons', 'id') // Ama ID varsa, 'seasons' tablosunda var olmalı
+                Rule::exists('bragalotto_seasons', 'id') // Ama ID varsa, 'seasons' tablosunda var olmalı
             ],
             'weekNumber' => ['nullable', 'integer'],
         ];

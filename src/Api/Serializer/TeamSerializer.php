@@ -1,13 +1,13 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Serializer;
+namespace bigreja\bragalotto\Api\Serializer;
 
 use Flarum\Api\Serializer\AbstractSerializer;
-use HuseyinFiliz\Pickem\Team;
+use bigreja\bragalotto\Team;
 
 class TeamSerializer extends AbstractSerializer
 {
-    protected $type = 'pickem-teams';
+    protected $type = 'bragalotto-teams';
 
     protected function getDefaultAttributes($team)
     {

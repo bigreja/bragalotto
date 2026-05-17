@@ -1,13 +1,13 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Serializer;
+namespace bigreja\bragalotto\Api\Serializer;
 
 use Flarum\Api\Serializer\AbstractSerializer;
-use HuseyinFiliz\Pickem\Week;
+use bigreja\bragalotto\Week;
 
 class WeekSerializer extends AbstractSerializer
 {
-    protected $type = 'pickem-weeks';
+    protected $type = 'bragalotto-weeks';
 
     protected function getDefaultAttributes($week)
     {

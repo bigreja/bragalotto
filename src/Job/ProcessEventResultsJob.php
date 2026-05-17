@@ -1,13 +1,13 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Job;
+namespace bigreja\bragalotto\Job;
 
 use Flarum\Queue\AbstractJob;
 use Flarum\Notification\NotificationSyncer;
-use HuseyinFiliz\Pickem\Event;
-use HuseyinFiliz\Pickem\Pick;
-use HuseyinFiliz\Pickem\Notification\EventResultBlueprint;
-use HuseyinFiliz\Pickem\PickemScoringService;
+use bigreja\bragalotto\Event;
+use bigreja\bragalotto\Pick;
+use bigreja\bragalotto\Notification\EventResultBlueprint;
+use bigreja\bragalotto\bragalottoScoringService;
 
 class ProcessEventResultsJob extends AbstractJob
 {
@@ -21,7 +21,7 @@ class ProcessEventResultsJob extends AbstractJob
         $this->eventId = $eventId;
     }
 
-    public function handle(PickemScoringService $scoringService, NotificationSyncer $notifications)
+    public function handle(bragalottoScoringService $scoringService, NotificationSyncer $notifications)
     {
         $event = Event::find($this->eventId);
 
@@ -29,7 +29,7 @@ class ProcessEventResultsJob extends AbstractJob
             return;
         }
 
-        // 1. Puanları yeniden hesapla (Bu, PickemScoringService'ten gelen mantık)
+        // 1. Puanları yeniden hesapla (Bu, bragalottoScoringService'ten gelen mantık)
         $scoringService->updateScoresForEvent($event);
 
         // 2. Bildirimleri gönder (Bu, EnterEventResultController'dan taşınan mantık)

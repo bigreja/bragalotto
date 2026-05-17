@@ -33,12 +33,12 @@ export default class WeekModal extends Modal<IWeekModalAttrs> {
   title(): string {
     // GÜNCELLENDİ: resource değişkeni ve parametreler kaldırıldı
     return this.week
-      ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit')
-      : app.translator.trans('huseyinfiliz-pickem.lib.actions.create');
+      ? app.translator.trans('bigreja-bragalotto.lib.actions.edit')
+      : app.translator.trans('bigreja-bragalotto.lib.actions.create');
   }
 
   content() {
-    const seasons = app.store.all('pickem-seasons') as Season[];
+    const seasons = app.store.all('bragalotto-seasons') as Season[];
     const seasonOptions: Record<string, string> = seasons.reduce((options: Record<string, string>, season) => {
       options[season.id()] = season.name();
       return options;
@@ -48,7 +48,7 @@ export default class WeekModal extends Modal<IWeekModalAttrs> {
       <div className="Modal-body">
         <div className="Form">
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.name')}</label>
+            <label>{app.translator.trans('bigreja-bragalotto.lib.form.name')}</label>
             <input
               className="FormControl"
               type="text"
@@ -59,7 +59,7 @@ export default class WeekModal extends Modal<IWeekModalAttrs> {
 
           <div className="Form-group">
             {/* GÜNCELLENDİ: lib.form.season -> lib.common.season */}
-            <label>{app.translator.trans('huseyinfiliz-pickem.lib.common.season')}</label>
+            <label>{app.translator.trans('bigreja-bragalotto.lib.common.season')}</label>
             <Select
               className="FormControl"
               value={this.seasonId}
@@ -67,12 +67,12 @@ export default class WeekModal extends Modal<IWeekModalAttrs> {
               options={seasonOptions}
               default="0"
             >
-              <option value="0">{app.translator.trans('huseyinfiliz-pickem.lib.form.select_season')}</option>
+              <option value="0">{app.translator.trans('bigreja-bragalotto.lib.form.select_season')}</option>
             </Select>
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.week_number')}</label>
+            <label>{app.translator.trans('bigreja-bragalotto.lib.form.week_number')}</label>
             <input
               className="FormControl"
               type="number"
@@ -87,7 +87,7 @@ export default class WeekModal extends Modal<IWeekModalAttrs> {
               type="submit"
               loading={this.loading}
             >
-              {app.translator.trans('huseyinfiliz-pickem.lib.buttons.save')}
+              {app.translator.trans('bigreja-bragalotto.lib.buttons.save')}
             </Button>
           </div>
         </div>
@@ -107,7 +107,7 @@ export default class WeekModal extends Modal<IWeekModalAttrs> {
     try {
       const promise = this.week
         ? this.week.save(data)
-        : app.store.createRecord('pickem-weeks').save(data);
+        : app.store.createRecord('bragalotto-weeks').save(data);
 
       await promise;
       this.attrs.onsave();

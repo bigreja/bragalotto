@@ -2,7 +2,7 @@ import Model from 'flarum/common/Model';
 import Week from './Week';
 import Team from './Team';
 
-export default class PickemEvent extends Model {
+export default class bragalottoEvent extends Model {
   weekId = Model.attribute<string | number | null>('weekId');
   homeTeamId = Model.attribute<string | number>('homeTeamId');
   awayTeamId = Model.attribute<string | number>('awayTeamId');

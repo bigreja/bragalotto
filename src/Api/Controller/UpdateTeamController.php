@@ -1,12 +1,12 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace bigreja\bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Http\RequestUtil;
-use HuseyinFiliz\Pickem\Api\Serializer\TeamSerializer;
-use HuseyinFiliz\Pickem\Team;
-use HuseyinFiliz\Pickem\Validator\TeamValidator;
+use bigreja\bragalotto\Api\Serializer\TeamSerializer;
+use bigreja\bragalotto\Team;
+use bigreja\bragalotto\Validator\TeamValidator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str; // EKLENDİ
 use Psr\Http\Message\ServerRequestInterface;
@@ -26,7 +26,7 @@ class UpdateTeamController extends AbstractShowController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.manage');
+        $actor->assertCan('bragalotto.manage');
 
         $id = Arr::get($request->getQueryParams(), 'id');
         $team = Team::findOrFail($id);

@@ -4,24 +4,24 @@
 // VARIABLES
 // ============================================
 
-@pickem-success-color: #27ae60;
-@pickem-danger-color: #e74c3c;
-@pickem-warning-color: #f39c12;
-@pickem-info-color: #3498db;
-@pickem-finished-color: @muted-color; 
+@bragalotto-success-color: #27ae60;
+@bragalotto-danger-color: #e74c3c;
+@bragalotto-warning-color: #f39c12;
+@bragalotto-info-color: #3498db;
+@bragalotto-finished-color: @muted-color; 
 
 // ============================================
-// TÜM STILLER .PickemPage SCOPE'UNDA
+// TÜM STILLER .bragalottoPage SCOPE'UNDA
 // ============================================
 
-.PickemPage {
+.bragalottoPage {
   // Gerekli media query değişkenlerini scope içine tanımla
   @desktop-up: ~"screen and (min-width: 992px)";
   @tablet-down: ~"screen and (max-width: 991.98px)";
   @phone-down: ~"screen and (max-width: 767.98px)";
 	
 	@media (min-width: 768px) {
-    	.Hero.PickemHero .container {
+    	.Hero.bragalottoHero .container {
         	padding-bottom:40px
     	}
 	}
@@ -30,7 +30,7 @@
   // TABS - Flarum Native Style + YENİ SİSTEM
   // ============================================
   
-  .PickemPage-tabs {
+  .bragalottoPage-tabs {
     display: flex;
     gap: 0;
     margin-bottom: 20px;
@@ -49,7 +49,7 @@
       display: none;
     }
 
-    .Button.PickemPage-tab {
+    .Button.bragalottoPage-tab {
       background: transparent;
       border: none;
       border-radius: 0;
@@ -124,7 +124,7 @@
   // ============================================
   // ✅ YENİ: TAB CONTENT CONTAINER
   // ============================================
-  .PickemPage-tabContent {
+  .bragalottoPage-tabContent {
     position: relative;
     margin-top: 20px;
   }
@@ -134,7 +134,7 @@
    * Tüm tab'ler DOM'da kalır, CSS ile toggle edilir
    * Component lifecycle KORUNUR, state kaybolmaz
    */
-  .PickemPage-tabPane {
+  .bragalottoPage-tabPane {
     display: none; // Default: gizli
     
     &.active {
@@ -157,15 +157,15 @@
     }
   }
 
-  // ESKİ .PickemPage-tab-content class'ı da uyumluluk için bırakılabilir
-  .PickemPage-tab-content {
+  // ESKİ .bragalottoPage-tab-content class'ı da uyumluluk için bırakılabilir
+  .bragalottoPage-tab-content {
     margin-top: 20px;
   }
 
   // ============================================
   // FİLTRELER (MatchesTab.tsx için)
   // ============================================
-  .PickemPage-filters {
+  .bragalottoPage-filters {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
@@ -272,15 +272,15 @@
       border-top: none;
 
       &.scheduled {
-        background: @pickem-success-color;
+        background: @bragalotto-success-color;
         color: white;
       }
       &.closed {
-        background: @pickem-danger-color;
+        background: @bragalotto-danger-color;
         color: white;
       }
       &.finished {
-        background: @pickem-finished-color;
+        background: @bragalotto-finished-color;
         color: white;
       }
     }
@@ -426,7 +426,7 @@
       align-items: center;
       gap: 4px;
       padding: 3px 8px;
-      background: @pickem-warning-color; // İmza rengi
+      background: @bragalotto-warning-color; // İmza rengi
       color: white;
       border-radius: 3px;
       font-weight: 700;
@@ -437,7 +437,7 @@
       }
 
       &.urgent {
-        background: @pickem-danger-color; // İmza rengi
+        background: @bragalotto-danger-color; // İmza rengi
         animation: pulse 1.5s ease-in-out infinite;
       }
     }
@@ -466,7 +466,7 @@
         transition: all 0.2s ease-in-out;
         box-shadow: 0 1px 2px rgba(0,0,0,0.02); 
         
-        &:not(.Button--pickem-selected):hover:not(:disabled) {
+        &:not(.Button--bragalotto-selected):hover:not(:disabled) {
           border-color: @primary-color; 
           color: @primary-color; 
           background: fade(@primary-color, 10%); 
@@ -474,7 +474,7 @@
           box-shadow: 0 3px 6px rgba(0,0,0,0.05);
         }
         
-        &.Button--pickem-selected {
+        &.Button--bragalotto-selected {
           background-color: var(--button-primary-bg); 
           border-color: var(--button-primary-bg);
           color: var(--button-primary-color); 
@@ -507,12 +507,12 @@
       }
 
       .correct {
-        color: @pickem-success-color; // İmza rengi
+        color: @bragalotto-success-color; // İmza rengi
         font-weight: 700;
       }
 
       .incorrect {
-        color: @pickem-danger-color; // İmza rengi
+        color: @bragalotto-danger-color; // İmza rengi
         font-weight: 700;
       }
     }
@@ -535,7 +535,7 @@
 
   // ============================================
   // MY PICKS TABLE (Modernize Edildi)
-  // --- SİLİNDİ --- (Yeni .PickemList--my-picks bunun yerini aldı)
+  // --- SİLİNDİ --- (Yeni .bragalottoList--my-picks bunun yerini aldı)
   // ============================================
 
 
@@ -637,7 +637,7 @@
   // YENİ RESPONSIVE LIST STRUCTURE (Leaderboard & MyPicks)
   // ============================================
 
-  .PickemList {
+  .bragalottoList {
     background: var(--control-bg);
     border-radius: var(--border-radius);
     border: 1px solid var(--control-bg-shaded);
@@ -792,25 +792,25 @@
   }
 
   // MyPicksList için Özelleştirme
-  .PickemList--my-picks {
-    background: transparent; // Ana .PickemList arka planını iptal et
+  .bragalottoList--my-picks {
+    background: transparent; // Ana .bragalottoList arka planını iptal et
     border: none;
     
-    .PickemList-item {
+    .bragalottoList-item {
       // Renkli kenarlıklar
-      &.correct { border-left: 3px solid @pickem-success-color; }
-      &.incorrect { border-left: 3px solid @pickem-danger-color; }
-      &.pending { border-left: 3px solid @pickem-warning-color; }
+      &.correct { border-left: 3px solid @bragalotto-success-color; }
+      &.incorrect { border-left: 3px solid @bragalotto-danger-color; }
+      &.pending { border-left: 3px solid @bragalotto-warning-color; }
 
       // Mobilde kenarlığı koru
       @media (max-width: 767.98px) {
-        &.correct { border-left: 4px solid @pickem-success-color; }
-        &.incorrect { border-left: 4px solid @pickem-danger-color; }
-        &.pending { border-left: 4px solid @pickem-warning-color; }
+        &.correct { border-left: 4px solid @bragalotto-success-color; }
+        &.incorrect { border-left: 4px solid @bragalotto-danger-color; }
+        &.pending { border-left: 4px solid @bragalotto-warning-color; }
       }
     }
     
-    .PickemList-cell {
+    .bragalottoList-cell {
       // Masaüstü için özel genişlikler
       &.type-match { flex: 2.5; font-weight: 600; color: var(--heading-color); }
       &.type-date { flex: 1; text-align: center; }
@@ -820,11 +820,11 @@
     }
 
     @media (max-width: 767.98px) {
-      .PickemList-item {
+      .bragalottoList-item {
         padding-top: 0; // Başlık üste yapışsın
       }
 
-      .PickemList-cell {
+      .bragalottoList-cell {
         // Kart başlığı
         &.type-match {
           font-size: 15px;
@@ -869,13 +869,13 @@
 
     i { font-size: 12px; }
 
-    &--pending { color: @pickem-warning-color; }
-    &--correct { color: @pickem-success-color; }
-    &--incorrect { color: @pickem-danger-color; }
+    &--pending { color: @bragalotto-warning-color; }
+    &--correct { color: @bragalotto-success-color; }
+    &--incorrect { color: @bragalotto-danger-color; }
   }
 
 
-  // Eski LeaderboardTable stillerini mobilde gizle (Artık .PickemList içinde)
+  // Eski LeaderboardTable stillerini mobilde gizle (Artık .bragalottoList içinde)
   @media (max-width: 767.98px) {
     .LeaderboardTable {
       display: none;
@@ -933,11 +933,11 @@
 
   @media @tablet-down { 
     
-    .PickemPage-filters {
+    .bragalottoPage-filters {
       padding: 12px;
     }
 
-    .PickemPage-tabs {
+    .bragalottoPage-tabs {
       .Button {
         flex-shrink: 0;
         padding: 10px 14px;
@@ -1051,7 +1051,7 @@
 // USER HIGHLIGHT & FINAL TOUCHES
 // ============================================
 
-.PickemList-item {
+.bragalottoList-item {
   &.is-me {
     background: fade(@primary-color, 8%) !important; // Hafif primary renk arka planı
     border-left: 3px solid @primary-color !important;
@@ -1078,7 +1078,7 @@
 
 // Mobilde "Benim" kartım daha belirgin olsun
 @media (max-width: 767.98px) {
-  .PickemList-item.is-me {
+  .bragalottoList-item.is-me {
     border: 2px solid fade(@primary-color, 30%) !important;
     box-shadow: 0 4px 12px fade(@primary-color, 15%);
   }

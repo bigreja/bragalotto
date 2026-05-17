@@ -1,6 +1,6 @@
 <?php
 
-namespace HuseyinFiliz\Pickem;
+namespace bigreja\bragalotto;
 
 use Flarum\Database\AbstractModel;
 use Flarum\Database\ScopeVisibilityTrait;
@@ -21,7 +21,7 @@ class Season extends AbstractModel
     // YENİ EKLENDİ: Zaman damgalarını otomatik yönet
     public $timestamps = true;
 
-    protected $table = 'pickem_seasons';
+    protected $table = 'bragalotto_seasons';
 
     protected $fillable = ['name', 'slug', 'start_date', 'end_date'];
 

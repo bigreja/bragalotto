@@ -1,6 +1,6 @@
 <?php
 
-namespace HuseyinFiliz\Pickem;
+namespace bigreja\bragalotto;
 
 use Carbon\Carbon;
 use Flarum\Database\AbstractModel;
@@ -31,7 +31,7 @@ class Event extends AbstractModel
 
     public $timestamps = true;
 
-    protected $table = 'pickem_events';
+    protected $table = 'bragalotto_events';
 
     protected $fillable = [
         'week_id', 

@@ -1,19 +1,19 @@
 <?php
 
-namespace HuseyinFiliz\Pickem;
+namespace bigreja\Pickem;
 
 use Flarum\Extend;
 use Flarum\User\User;
-use HuseyinFiliz\Pickem\Api\Controller;
-use HuseyinFiliz\Pickem\Api\Serializer;
+use bigreja\Pickem\Api\Controller;
+use bigreja\Pickem\Api\Serializer;
 use Flarum\Api\Serializer\ForumSerializer;
-use HuseyinFiliz\Pickem\Access\EventPolicy;
-use HuseyinFiliz\Pickem\Access\PickPolicy;
-use HuseyinFiliz\Pickem\Event;
-use HuseyinFiliz\Pickem\Pick;
-use HuseyinFiliz\Pickem\UserScore;
-use HuseyinFiliz\Pickem\Listener;
-use HuseyinFiliz\Pickem\Notification;
+use bigreja\Pickem\Access\EventPolicy;
+use bigreja\Pickem\Access\PickPolicy;
+use bigreja\Pickem\Event;
+use bigreja\Pickem\Pick;
+use bigreja\Pickem\UserScore;
+use bigreja\Pickem\Listener;
+use bigreja\Pickem\Notification;
 
 return [
     // Frontend Assets
@@ -82,7 +82,7 @@ return [
                 'pickem.canManage' => $actor->can('pickem.manage'),
                 'pickem.canView' => $actor->can('pickem.view'),
                 'pickem.makePicks' => $actor->can('pickem.makePicks'),
-                'pickem.reverseDisplay' => (bool) $settings->get('huseyinfiliz-pickem.reverse_display'),
+                'pickem.reverseDisplay' => (bool) $settings->get('bigreja-pickem.reverse_display'),
             ];
         }),
 

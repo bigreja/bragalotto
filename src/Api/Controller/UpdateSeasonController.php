@@ -1,12 +1,12 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace bigreja\bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Http\RequestUtil;
-use HuseyinFiliz\Pickem\Api\Serializer\SeasonSerializer;
-use HuseyinFiliz\Pickem\Season;
-use HuseyinFiliz\Pickem\Validator\SeasonValidator;
+use bigreja\bragalotto\Api\Serializer\SeasonSerializer;
+use bigreja\bragalotto\Season;
+use bigreja\bragalotto\Validator\SeasonValidator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str; // EKLENDİ
 use Psr\Http\Message\ServerRequestInterface;
@@ -27,7 +27,7 @@ class UpdateSeasonController extends AbstractShowController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.manage');
+        $actor->assertCan('bragalotto.manage');
 
         $id = Arr::get($request->getQueryParams(), 'id');
         $season = Season::findOrFail($id);

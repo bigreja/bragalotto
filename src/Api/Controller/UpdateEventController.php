@@ -1,12 +1,12 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace bigreja\bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Http\RequestUtil;
-use HuseyinFiliz\Pickem\Api\Serializer\EventSerializer;
-use HuseyinFiliz\Pickem\Event;
-use HuseyinFiliz\Pickem\Validator\EventValidator;
+use bigreja\bragalotto\Api\Serializer\EventSerializer;
+use bigreja\bragalotto\Event;
+use bigreja\bragalotto\Validator\EventValidator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Psr\Http\Message\ServerRequestInterface;
@@ -28,7 +28,7 @@ class UpdateEventController extends AbstractShowController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.manage');
+        $actor->assertCan('bragalotto.manage');
 
         $id = Arr::get($request->getQueryParams(), 'id');
         $event = Event::with(['homeTeam', 'awayTeam', 'week'])->findOrFail($id);

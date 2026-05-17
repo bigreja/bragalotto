@@ -40,8 +40,8 @@ export default class SeasonModal extends Modal<ISeasonModalAttrs> {
   title(): string {
     // GÜNCELLENDİ: resource değişkeni ve parametreler kaldırıldı
     return this.season
-      ? app.translator.trans('huseyinfiliz-pickem.lib.actions.edit')
-      : app.translator.trans('huseyinfiliz-pickem.lib.actions.create');
+      ? app.translator.trans('bigreja-bragalotto.lib.actions.edit')
+      : app.translator.trans('bigreja-bragalotto.lib.actions.create');
   }
 
   content() {
@@ -49,7 +49,7 @@ export default class SeasonModal extends Modal<ISeasonModalAttrs> {
       <div className="Modal-body">
         <div className="Form">
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.name')}</label>
+            <label>{app.translator.trans('bigreja-bragalotto.lib.form.name')}</label>
             <input
               className="FormControl"
               type="text"
@@ -64,7 +64,7 @@ export default class SeasonModal extends Modal<ISeasonModalAttrs> {
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.slug')}</label>
+            <label>{app.translator.trans('bigreja-bragalotto.lib.form.slug')}</label>
             <input
               className="FormControl"
               type="text"
@@ -74,7 +74,7 @@ export default class SeasonModal extends Modal<ISeasonModalAttrs> {
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.start_date')}</label>
+            <label>{app.translator.trans('bigreja-bragalotto.lib.form.start_date')}</label>
             <input
               className="FormControl"
               type="date"
@@ -84,7 +84,7 @@ export default class SeasonModal extends Modal<ISeasonModalAttrs> {
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('huseyinfiliz-pickem.lib.form.end_date')}</label>
+            <label>{app.translator.trans('bigreja-bragalotto.lib.form.end_date')}</label>
             <input
               className="FormControl"
               type="date"
@@ -99,7 +99,7 @@ export default class SeasonModal extends Modal<ISeasonModalAttrs> {
               type="submit"
               loading={this.loading}
             >
-              {app.translator.trans('huseyinfiliz-pickem.lib.buttons.save')}
+              {app.translator.trans('bigreja-bragalotto.lib.buttons.save')}
             </Button>
           </div>
         </div>
@@ -121,7 +121,7 @@ export default class SeasonModal extends Modal<ISeasonModalAttrs> {
     try {
       const promise = this.season
         ? this.season.save(data)
-        : app.store.createRecord('pickem-seasons').save(data);
+        : app.store.createRecord('bragalotto-seasons').save(data);
 
       await promise;
       this.attrs.onsave();

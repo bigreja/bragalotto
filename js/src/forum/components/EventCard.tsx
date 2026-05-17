@@ -1,12 +1,12 @@
 import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
 import Team from '../../common/models/Team';
-import PickemEvent from '../../common/models/Event';
+import bragalottoEvent from '../../common/models/Event';
 import Pick from '../../common/models/Pick';
 import dayjs from 'dayjs';
 
 interface EventCardAttrs {
-  event: PickemEvent;
+  event: bragalottoEvent;
   pick?: Pick;
   onMakePick: (eventId: number, outcome: string) => Promise<void>;
   isLoading: boolean;
@@ -28,7 +28,7 @@ export default class EventCard extends Component<EventCardAttrs> {
     const homeScore = event.homeScore();
     const awayScore = event.awayScore();
 
-    const reverse = app.forum.attribute<boolean>('pickem.reverseDisplay');
+    const reverse = app.forum.attribute<boolean>('bragalotto.reverseDisplay');
 
     let matchDate = '-';
     let cutoffDate = '-';
@@ -48,8 +48,8 @@ export default class EventCard extends Component<EventCardAttrs> {
 
     const firstTeam = reverse ? awayTeam : homeTeam;
     const secondTeam = reverse ? homeTeam : awayTeam;
-    const firstTeamLabel = reverse ? app.translator.trans('huseyinfiliz-pickem.lib.common.away') : app.translator.trans('huseyinfiliz-pickem.lib.common.home');
-    const secondTeamLabel = reverse ? app.translator.trans('huseyinfiliz-pickem.lib.common.home') : app.translator.trans('huseyinfiliz-pickem.lib.common.away');
+    const firstTeamLabel = reverse ? app.translator.trans('bigreja-bragalotto.lib.common.away') : app.translator.trans('bigreja-bragalotto.lib.common.home');
+    const secondTeamLabel = reverse ? app.translator.trans('bigreja-bragalotto.lib.common.home') : app.translator.trans('bigreja-bragalotto.lib.common.away');
     
     const firstScore = reverse ? awayScore : homeScore;
     const secondScore = reverse ? homeScore : awayScore;
@@ -60,7 +60,7 @@ export default class EventCard extends Component<EventCardAttrs> {
     return (
       <div className="EventCard">
         <div className={`EventCard-status ${status}`}>
-          {app.translator.trans(`huseyinfiliz-pickem.lib.status.${status}`)}
+          {app.translator.trans(`bigreja-bragalotto.lib.status.${status}`)}
         </div>
 
         <div className="EventCard-teams">
@@ -69,7 +69,7 @@ export default class EventCard extends Component<EventCardAttrs> {
             <div className="team-name">{firstTeam ? firstTeam.name() : firstTeamLabel}</div>
           </div>
 
-          <div className="vs">{app.translator.trans('huseyinfiliz-pickem.lib.common.vs')}</div>
+          <div className="vs">{app.translator.trans('bigreja-bragalotto.lib.common.vs')}</div>
 
           <div className="team-container">
             {this.renderTeamLogo(secondTeam)}
@@ -88,11 +88,11 @@ export default class EventCard extends Component<EventCardAttrs> {
         <div className="EventCard-info">
           <div>
             <i className="fas fa-calendar" />
-            <strong>{app.translator.trans('huseyinfiliz-pickem.lib.headers.match_date')}:</strong> {matchDate}
+            <strong>{app.translator.trans('bigreja-bragalotto.lib.headers.match_date')}:</strong> {matchDate}
           </div>
           <div>
             <i className="fas fa-clock" />
-            <strong>{app.translator.trans('huseyinfiliz-pickem.lib.headers.cutoff_date')}:</strong> {cutoffDate}
+            <strong>{app.translator.trans('bigreja-bragalotto.lib.headers.cutoff_date')}:</strong> {cutoffDate}
           </div>
           {countdown && canPick && (
             <div>
@@ -105,7 +105,7 @@ export default class EventCard extends Component<EventCardAttrs> {
           {result && (
             <div>
               <i className="fas fa-flag-checkered" />
-              <strong>{app.translator.trans('huseyinfiliz-pickem.lib.common.result')}:</strong> {this.formatResult(result, homeTeam, awayTeam)}
+              <strong>{app.translator.trans('bigreja-bragalotto.lib.common.result')}:</strong> {this.formatResult(result, homeTeam, awayTeam)}
             </div>
           )}
         </div>
@@ -113,7 +113,7 @@ export default class EventCard extends Component<EventCardAttrs> {
         {app.session.user && canPick && (
           <div className="EventCard-picks">
             <Button
-              className={`Button ${pick && pick.selectedOutcome() === firstOutcome ? 'Button--pickem-selected' : ''}`}
+              className={`Button ${pick && pick.selectedOutcome() === firstOutcome ? 'Button--bragalotto-selected' : ''}`}
               onclick={() => onMakePick(Number(event.id()), firstOutcome)}
               loading={isLoading}
               disabled={isLoading}
@@ -123,17 +123,17 @@ export default class EventCard extends Component<EventCardAttrs> {
 
             {event.allowDraw() && (
               <Button
-                className={`Button ${pick && pick.selectedOutcome() === 'draw' ? 'Button--pickem-selected' : ''}`}
+                className={`Button ${pick && pick.selectedOutcome() === 'draw' ? 'Button--bragalotto-selected' : ''}`}
                 onclick={() => onMakePick(Number(event.id()), 'draw')}
                 loading={isLoading}
                 disabled={isLoading}
               >
-                {app.translator.trans('huseyinfiliz-pickem.lib.common.draw')}
+                {app.translator.trans('bigreja-bragalotto.lib.common.draw')}
               </Button>
             )}
 
             <Button
-              className={`Button ${pick && pick.selectedOutcome() === secondOutcome ? 'Button--pickem-selected' : ''}`}
+              className={`Button ${pick && pick.selectedOutcome() === secondOutcome ? 'Button--bragalotto-selected' : ''}`}
               onclick={() => onMakePick(Number(event.id()), secondOutcome)}
               loading={isLoading}
               disabled={isLoading}
@@ -145,12 +145,12 @@ export default class EventCard extends Component<EventCardAttrs> {
 
         {pick && !canPick && (
           <div className="EventCard-pick-result">
-            {app.translator.trans('huseyinfiliz-pickem.forum.picks.your_pick')}: <strong>{this.formatResult(pick.selectedOutcome(), homeTeam, awayTeam)}</strong>
+            {app.translator.trans('bigreja-bragalotto.forum.picks.your_pick')}: <strong>{this.formatResult(pick.selectedOutcome(), homeTeam, awayTeam)}</strong>
             {pick.isCorrect() !== null && (
               <span className={pick.isCorrect() ? 'correct' : 'incorrect'}>
                 {pick.isCorrect() 
-                  ? ` ✓ ${app.translator.trans('huseyinfiliz-pickem.lib.status.correct')}` 
-                  : ` ✗ ${app.translator.trans('huseyinfiliz-pickem.lib.status.incorrect')}`}
+                  ? ` ✓ ${app.translator.trans('bigreja-bragalotto.lib.status.correct')}` 
+                  : ` ✗ ${app.translator.trans('bigreja-bragalotto.lib.status.incorrect')}`}
               </span>
             )}
           </div>
@@ -205,21 +205,21 @@ export default class EventCard extends Component<EventCardAttrs> {
 
       if (hours < 1) {
         return {
-          text: app.translator.trans('huseyinfiliz-pickem.lib.time.minutes_remaining', { minutes }),
+          text: app.translator.trans('bigreja-bragalotto.lib.time.minutes_remaining', { minutes }),
           urgent: minutes < 30,
         };
       }
 
       if (hours < 24) {
         return {
-          text: app.translator.trans('huseyinfiliz-pickem.lib.time.hours_remaining', { hours, minutes }),
+          text: app.translator.trans('bigreja-bragalotto.lib.time.hours_remaining', { hours, minutes }),
           urgent: hours < 2,
         };
       }
 
       const days = Math.floor(hours / 24);
       return {
-        text: app.translator.trans('huseyinfiliz-pickem.lib.time.days_remaining', { days }),
+        text: app.translator.trans('bigreja-bragalotto.lib.time.days_remaining', { days }),
         urgent: false,
       };
     } catch {
@@ -228,9 +228,9 @@ export default class EventCard extends Component<EventCardAttrs> {
   }
 
   formatResult(result: string | null, homeTeam: Team | false | null, awayTeam: Team | false | null) {
-    if (result === 'home') return homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home');
-    if (result === 'away') return awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away');
-    if (result === 'draw') return app.translator.trans('huseyinfiliz-pickem.lib.common.draw');
+    if (result === 'home') return homeTeam ? homeTeam.name() : app.translator.trans('bigreja-bragalotto.lib.common.home');
+    if (result === 'away') return awayTeam ? awayTeam.name() : app.translator.trans('bigreja-bragalotto.lib.common.away');
+    if (result === 'draw') return app.translator.trans('bigreja-bragalotto.lib.common.draw');
     return result;
   }
 }

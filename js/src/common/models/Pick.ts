@@ -1,5 +1,5 @@
 import Model from 'flarum/common/Model';
-import PickemEvent from './Event';
+import bragalottoEvent from './Event';
 import User from 'flarum/common/models/User';
 
 export default class Pick extends Model {
@@ -8,6 +8,6 @@ export default class Pick extends Model {
   selectedOutcome = Model.attribute<'home' | 'away' | 'draw'>('selectedOutcome');
   isCorrect = Model.attribute<boolean | null>('isCorrect');
   
-  event = Model.hasOne<PickemEvent | false>('event');
+  event = Model.hasOne<bragalottoEvent | false>('event');
   user = Model.hasOne<User | false>('user');
 }

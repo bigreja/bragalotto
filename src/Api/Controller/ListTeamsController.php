@@ -1,11 +1,11 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace bigreja\bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
 use Flarum\Http\RequestUtil; // YENİ: Import et
-use HuseyinFiliz\Pickem\Api\Serializer\TeamSerializer;
-use HuseyinFiliz\Pickem\Team;
+use bigreja\bragalotto\Api\Serializer\TeamSerializer;
+use bigreja\bragalotto\Team;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
@@ -17,7 +17,7 @@ class ListTeamsController extends AbstractListController
     {
         // YENİ: Admin yetkisi kontrolü eklendi
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.manage');
+        $actor->assertCan('bragalotto.manage');
 
         return Team::all();
     }

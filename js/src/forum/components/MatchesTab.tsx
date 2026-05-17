@@ -3,7 +3,7 @@ import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Button from 'flarum/common/components/Button';
 import Placeholder from 'flarum/common/components/Placeholder';
 import EventCard from './EventCard';
-import PickemEvent from '../../common/models/Event';
+import bragalottoEvent from '../../common/models/Event';
 import Season from '../../common/models/Season';
 import Team from '../../common/models/Team';
 import Week from '../../common/models/Week';
@@ -19,7 +19,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
   private selectedTeam: string = 'all';
   private selectedStatus: string = 'all';
   private loading: boolean = false;
-  private events: PickemEvent[] = [];
+  private events: bragalottoEvent[] = [];
   private hasMore: boolean = false;
   private limit: number = 10;
   private pickLoading: Set<number> = new Set();
@@ -27,7 +27,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
   oninit(vnode: any) {
     super.oninit(vnode);
 
-    const seasons = app.store.all<Season>('pickem-seasons');
+    const seasons = app.store.all<Season>('bragalotto-seasons');
     if (seasons.length === 1) {
       this.selectedSeason = seasons[0].id()!;
     }
@@ -43,7 +43,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
         filters.week = this.selectedWeek;
     } 
     else if (this.selectedSeason !== 'all') {
-      const weeks = app.store.all<Week>('pickem-weeks').filter((week) => week.seasonId() == this.selectedSeason);
+      const weeks = app.store.all<Week>('bragalotto-weeks').filter((week) => week.seasonId() == this.selectedSeason);
       weekIds.push(...weeks.map((week) => week.id()));
       
       weekIds.push('null'); 
@@ -69,7 +69,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
     const offset = clear ? 0 : this.events.length;
     const filters = this.buildFilters();
 
-    app.store.find<PickemEvent[]>('pickem-events', {
+    app.store.find<bragalottoEvent[]>('bragalotto-events', {
       include: 'homeTeam,awayTeam,week',
       filter: filters,
       sort: '-matchDate',
@@ -92,8 +92,8 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
     });
   }
   
-  fetchPicksForEvents(events: PickemEvent[]) {
-    if (!app.session.user || !app.forum.attribute('pickem.makePicks')) return;
+  fetchPicksForEvents(events: bragalottoEvent[]) {
+    if (!app.session.user || !app.forum.attribute('bragalotto.makePicks')) return;
     
     const currentPicks = this.attrs.picks || {};
     const eventsToFetch = events.filter(e => !currentPicks[String(e.id())]);
@@ -101,7 +101,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
 
     const eventIds = eventsToFetch.map(e => e.id()).join(',');
 
-    app.store.find<any[]>('pickem-picks', {
+    app.store.find<any[]>('bragalotto-picks', {
       filter: { user: app.session.user.id(), event: eventIds }
     }).then((results) => {
         if (Array.isArray(results) && results.length > 0) {
@@ -138,26 +138,26 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
       if (existingPick && existingPick.selectedOutcome() === outcome) {
         await existingPick.delete();
         updateParent(null);
-        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.deleted'));
+        app.alerts.show({ type: 'success' }, app.translator.trans('bigreja-bragalotto.lib.messages.deleted'));
       } else if (existingPick) {
         const updated = await existingPick.save({ selectedOutcome: outcome });
         updateParent(updated);
-        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.saved'));
+        app.alerts.show({ type: 'success' }, app.translator.trans('bigreja-bragalotto.lib.messages.saved'));
       } else {
-        const newPick = app.store.createRecord('pickem-picks');
+        const newPick = app.store.createRecord('bragalotto-picks');
         const saved = await newPick.save({ 
           eventId: eventId,
           selectedOutcome: outcome 
         });
         updateParent(saved);
-        app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.saved'));
+        app.alerts.show({ type: 'success' }, app.translator.trans('bigreja-bragalotto.lib.messages.saved'));
       }
     } catch (error: any) {
       console.error('Pick error:', error);
       if (error.response && error.response.errors && error.response.errors[0]) {
         app.alerts.show({ type: 'error' }, error.response.errors[0].detail);
       } else {
-        app.alerts.show({ type: 'error' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.invalid_outcome'));
+        app.alerts.show({ type: 'error' }, app.translator.trans('bigreja-bragalotto.lib.messages.invalid_outcome'));
       }
     } finally {
       this.pickLoading.delete(eventId);
@@ -166,13 +166,13 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
   }
 
   view() {
-    const allSeasons = app.store.all<Season>('pickem-seasons');
-    const allTeams = app.store.all<Team>('pickem-teams');
+    const allSeasons = app.store.all<Season>('bragalotto-seasons');
+    const allTeams = app.store.all<Team>('bragalotto-teams');
     const hasEvents = this.events.length > 0;
     
     let availableWeeks: Week[] = [];
     if (this.selectedSeason !== 'all') {
-        availableWeeks = app.store.all<Week>('pickem-weeks')
+        availableWeeks = app.store.all<Week>('bragalotto-weeks')
             .filter(week => week.seasonId() == this.selectedSeason)
             .sort((a, b) => {
                 const numA = parseInt(String(a.weekNumber() || 0));
@@ -185,11 +185,11 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
 
     return (
       <div>
-        <div className="EventsTab-filters PickemPage-filters">
+        <div className="EventsTab-filters bragalottoPage-filters">
           <div className="FilterGroup">
             <label>
               <i className="fas fa-calendar-alt" />
-              <span>{app.translator.trans('huseyinfiliz-pickem.lib.common.season')}</span>
+              <span>{app.translator.trans('bigreja-bragalotto.lib.common.season')}</span>
             </label>
             <select
               className="FormControl"
@@ -200,7 +200,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
                 this.loadEvents(true);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all')}</option>
+              <option value="all">{app.translator.trans('bigreja-bragalotto.lib.filters.all')}</option>
               {allSeasons.map((season: Season) => (
                 <option value={season.id()}>{season.name()}</option>
               ))}
@@ -210,7 +210,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
           <div className="FilterGroup">
             <label>
               <i className="fas fa-calendar-week" />
-              <span>{app.translator.trans('huseyinfiliz-pickem.lib.common.week')}</span>
+              <span>{app.translator.trans('bigreja-bragalotto.lib.common.week')}</span>
             </label>
             <select
               className="FormControl"
@@ -221,7 +221,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
                 this.loadEvents(true);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all')}</option>
+              <option value="all">{app.translator.trans('bigreja-bragalotto.lib.filters.all')}</option>
               {availableWeeks.map((week: Week) => (
                 <option value={week.id()}>{week.name()}</option>
               ))}
@@ -231,7 +231,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
           <div className="FilterGroup">
             <label>
               <i className="fas fa-users" />
-              <span>{app.translator.trans('huseyinfiliz-pickem.lib.common.team')}</span>
+              <span>{app.translator.trans('bigreja-bragalotto.lib.common.team')}</span>
             </label>
             <select
               className="FormControl"
@@ -241,7 +241,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
                 this.loadEvents(true);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all')}</option>
+              <option value="all">{app.translator.trans('bigreja-bragalotto.lib.filters.all')}</option>
               {allTeams.map((team: Team) => (
                 <option value={team.id()}>{team.name()}</option>
               ))}
@@ -251,7 +251,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
           <div className="FilterGroup">
             <label>
               <i className="fas fa-filter" />
-              <span>{app.translator.trans('huseyinfiliz-pickem.lib.common.status')}</span>
+              <span>{app.translator.trans('bigreja-bragalotto.lib.common.status')}</span>
             </label>
             <select
               className="FormControl"
@@ -261,19 +261,19 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
                 this.loadEvents(true);
               }}
             >
-              <option value="all">{app.translator.trans('huseyinfiliz-pickem.lib.filters.all')}</option>
-              <option value="scheduled">{app.translator.trans('huseyinfiliz-pickem.lib.status.scheduled')}</option>
-              <option value="closed">{app.translator.trans('huseyinfiliz-pickem.lib.status.closed')}</option>
-              <option value="finished">{app.translator.trans('huseyinfiliz-pickem.lib.status.finished')}</option>
+              <option value="all">{app.translator.trans('bigreja-bragalotto.lib.filters.all')}</option>
+              <option value="scheduled">{app.translator.trans('bigreja-bragalotto.lib.status.scheduled')}</option>
+              <option value="closed">{app.translator.trans('bigreja-bragalotto.lib.status.closed')}</option>
+              <option value="finished">{app.translator.trans('bigreja-bragalotto.lib.status.finished')}</option>
             </select>
           </div>
         </div>
 
         {!hasEvents && !this.loading ? (
-          <Placeholder text={app.translator.trans('huseyinfiliz-pickem.lib.messages.no_matches')} />
+          <Placeholder text={app.translator.trans('bigreja-bragalotto.lib.messages.no_matches')} />
         ) : (
           <div className="MatchesList">
-            {this.events.map((event: PickemEvent) => {
+            {this.events.map((event: bragalottoEvent) => {
               const eventIdStr = String(event.id());
               const pick = currentPicks[eventIdStr];
               const isLoading = this.pickLoading.has(Number(event.id()));
@@ -297,7 +297,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
               loading={this.loading}
               onclick={() => this.loadEvents(false)}
             >
-              {app.translator.trans('huseyinfiliz-pickem.lib.buttons.load_more')}
+              {app.translator.trans('bigreja-bragalotto.lib.buttons.load_more')}
             </Button>
           </div>
         )}

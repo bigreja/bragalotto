@@ -1,15 +1,15 @@
 import Modal from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
-import PickemEvent from '../../../common/models/Event';
+import bragalottoEvent from '../../../common/models/Event';
 import Team from '../../../common/models/Team';
 
 interface IResultModalAttrs {
-  event: PickemEvent;
+  event: bragalottoEvent;
   onsave: () => void;
 }
 
 export default class ResultModal extends Modal<IResultModalAttrs> {
-  private event: PickemEvent;
+  private event: bragalottoEvent;
   private homeScore: string | number = '';
   private awayScore: string | number = '';
   private loading: boolean = false;
@@ -27,7 +27,7 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
   }
 
   title(): string {
-    return app.translator.trans('huseyinfiliz-pickem.lib.actions.enter_result');
+    return app.translator.trans('bigreja-bragalotto.lib.actions.enter_result');
   }
 
   content() {
@@ -39,9 +39,9 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
     const away = Number(this.awayScore);
 
     if (this.homeScore !== '' && this.awayScore !== '') {
-      if (home > away) resultText = homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.home');
-      else if (away > home) resultText = awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.common.away');
-      else resultText = app.translator.trans('huseyinfiliz-pickem.lib.common.draw');
+      if (home > away) resultText = homeTeam ? homeTeam.name() : app.translator.trans('bigreja-bragalotto.lib.common.home');
+      else if (away > home) resultText = awayTeam ? awayTeam.name() : app.translator.trans('bigreja-bragalotto.lib.common.away');
+      else resultText = app.translator.trans('bigreja-bragalotto.lib.common.draw');
     }
 
     return (
@@ -52,7 +52,7 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
             <div className="TeamCell" style={{marginBottom: '8px'}}>
                {this.renderTeamLogo(homeTeam)}
                <label style={{margin: 0}}>
-                 {homeTeam ? homeTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.form.home_team')}
+                 {homeTeam ? homeTeam.name() : app.translator.trans('bigreja-bragalotto.lib.form.home_team')}
                </label>
             </div>
             <input
@@ -70,7 +70,7 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
             <div className="TeamCell" style={{marginBottom: '8px'}}>
                {this.renderTeamLogo(awayTeam)}
                <label style={{margin: 0}}>
-                 {awayTeam ? awayTeam.name() : app.translator.trans('huseyinfiliz-pickem.lib.form.away_team')}
+                 {awayTeam ? awayTeam.name() : app.translator.trans('bigreja-bragalotto.lib.form.away_team')}
                </label>
             </div>
             <input
@@ -87,7 +87,7 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
           {resultText && (
             <div className="Form-group">
               <p>
-                <strong>{app.translator.trans('huseyinfiliz-pickem.lib.common.result')}: </strong>
+                <strong>{app.translator.trans('bigreja-bragalotto.lib.common.result')}: </strong>
                 {resultText}
               </p>
             </div>
@@ -95,7 +95,7 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
 
           <div className="Form-group">
             <Button className="Button Button--primary" type="submit" loading={this.loading}>
-              {app.translator.trans('huseyinfiliz-pickem.lib.buttons.save')}
+              {app.translator.trans('bigreja-bragalotto.lib.buttons.save')}
             </Button>
           </div>
         </div>
@@ -148,10 +148,10 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
     try {
       const response = await app.request({
         method: 'POST',
-        url: `${app.forum.attribute('apiUrl')}/pickem-events/${this.event.id()}/result`,
+        url: `${app.forum.attribute('apiUrl')}/bragalotto-events/${this.event.id()}/result`,
         body: {
           data: {
-            type: 'pickem-events',
+            type: 'bragalotto-events',
             attributes: {
               homeScore: parseInt(this.homeScore as string) || 0,
               awayScore: parseInt(this.awayScore as string) || 0,
@@ -162,7 +162,7 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
 
       app.store.pushPayload(response);
 
-      app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.lib.messages.result_saved'));
+      app.alerts.show({ type: 'success' }, app.translator.trans('bigreja-bragalotto.lib.messages.result_saved'));
       this.attrs.onsave();
       this.hide();
 

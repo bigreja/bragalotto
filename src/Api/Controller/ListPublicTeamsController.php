@@ -1,11 +1,11 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace bigreja\bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
 use Flarum\Http\RequestUtil;
-use HuseyinFiliz\Pickem\Api\Serializer\TeamSerializer;
-use HuseyinFiliz\Pickem\Team;
+use bigreja\bragalotto\Api\Serializer\TeamSerializer;
+use bigreja\bragalotto\Team;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
@@ -15,9 +15,9 @@ class ListPublicTeamsController extends AbstractListController
 
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        // Use 'pickem.view' permission instead of 'pickem.manage'
+        // Use 'bragalotto.view' permission instead of 'bragalotto.manage'
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.view');
+        $actor->assertCan('bragalotto.view');
 
         return Team::all();
     }

@@ -1,12 +1,12 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace bigreja\bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractDeleteController;
 use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;
-use HuseyinFiliz\Pickem\Pick;
-use HuseyinFiliz\Pickem\Job\RecalculateUserScoreJob;
+use bigreja\bragalotto\Pick;
+use bigreja\bragalotto\Job\RecalculateUserScoreJob;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Translation\Translator; // Translator eklendi
 use Illuminate\Support\Arr;
@@ -44,7 +44,7 @@ class DeletePickController extends AbstractDeleteController
         // 1. Önce zaman aşımı kontrolü yap (Özel hata mesajı için)
         if (!$pick->event->canPick()) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
+                'message' => $this->translator->trans('bigreja-bragalotto.lib.messages.invalid_outcome')
             ]);
         }
 

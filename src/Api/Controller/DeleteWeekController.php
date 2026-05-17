@@ -1,8 +1,8 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace bigreja\bragalotto\Api\Controller;
 
-use HuseyinFiliz\Pickem\Week;
+use bigreja\bragalotto\Week;
 
 class DeleteWeekController extends AbstractDeleteControllerWithRelationCheck
 {
@@ -28,6 +28,6 @@ class DeleteWeekController extends AbstractDeleteControllerWithRelationCheck
     protected function getErrorMessageKey(): string
     {
         // GÜNCELLENDİ: lib.validation.errors.week_in_use -> lib.messages.in_use
-        return 'huseyinfiliz-pickem.lib.messages.in_use';
+        return 'bigreja-bragalotto.lib.messages.in_use';
     }
 }

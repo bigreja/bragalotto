@@ -1,6 +1,6 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Validator;
+namespace bigreja\bragalotto\Validator;
 
 use Flarum\Foundation\AbstractValidator;
 use Illuminate\Validation\Rule;
@@ -13,18 +13,18 @@ class EventValidator extends AbstractValidator
             'homeTeamId' => [
                 'required',
                 'integer',
-                Rule::exists('pickem_teams', 'id'),
+                Rule::exists('bragalotto_teams', 'id'),
                 'different:awayTeamId'
             ],
             'awayTeamId' => [
                 'required',
                 'integer',
-                Rule::exists('pickem_teams', 'id')
+                Rule::exists('bragalotto_teams', 'id')
             ],
             'weekId' => [
                 'nullable',
                 'integer',
-                Rule::exists('pickem_weeks', 'id')
+                Rule::exists('bragalotto_weeks', 'id')
             ],
             'matchDate' => ['required', 'date'],
             'cutoffDate' => ['required', 'date', 'before:matchDate'],
@@ -39,7 +39,7 @@ class EventValidator extends AbstractValidator
     protected function getMessages()
     {
         // GÜNCELLENDİ: Yeni sadeleştirilmiş mesaj yapısı
-        $prefix = 'huseyinfiliz-pickem.lib.messages.';
+        $prefix = 'bigreja-bragalotto.lib.messages.';
 
         return [
             'homeTeamId.different' => $prefix . 'same_team',
