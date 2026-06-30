@@ -1,4 +1,4 @@
-import Component from 'flarum/common/Component';
+﻿import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
 import Switch from 'flarum/common/components/Switch';
 
@@ -8,7 +8,7 @@ export default class SettingsTab extends Component {
 
   oninit(vnode: any) {
     super.oninit(vnode);
-    this.reverseDisplay = app.data.settings['huseyinfiliz-pickem.reverse_display'] === '1';
+    this.reverseDisplay = app.data.settings['bigreja-bragalotto.reverse_display'] === '1';
   }
 
   view() {
@@ -17,7 +17,7 @@ export default class SettingsTab extends Component {
         <div className="Form-group">
           <h3>
             <i className="fas fa-cogs" />
-            {app.translator.trans('huseyinfiliz-pickem.lib.nav.settings')}
+            {app.translator.trans('bigreja-bragalotto.lib.nav.settings')}
           </h3>
           
           <div className="Form-group">
@@ -25,17 +25,17 @@ export default class SettingsTab extends Component {
               state={this.reverseDisplay}
               onchange={this.toggleReverseDisplay.bind(this)}
             >
-              {app.translator.trans('huseyinfiliz-pickem.admin.settings.reverse_display_label')}
+              {app.translator.trans('bigreja-bragalotto.admin.settings.reverse_display_label')}
             </Switch>
             <div className="helpText">
-              {app.translator.trans('huseyinfiliz-pickem.admin.settings.reverse_display_help')}
+              {app.translator.trans('bigreja-bragalotto.admin.settings.reverse_display_help')}
             </div>
           </div>
 
           <hr />
 
           <p>
-            {app.translator.trans('huseyinfiliz-pickem.admin.settings.recalc_help')}
+            {app.translator.trans('bigreja-bragalotto.admin.settings.recalc_help')}
           </p>
           <Button
             className="Button Button--primary"
@@ -43,7 +43,7 @@ export default class SettingsTab extends Component {
             loading={this.loading}
             onclick={this.recalculateScores.bind(this)}
           >
-            {app.translator.trans('huseyinfiliz-pickem.admin.settings.recalc_btn')}
+            {app.translator.trans('bigreja-bragalotto.admin.settings.recalc_btn')}
           </Button>
         </div>
       </div>
@@ -56,7 +56,7 @@ export default class SettingsTab extends Component {
       method: 'POST',
       url: app.forum.attribute('apiUrl') + '/settings',
       body: {
-        'huseyinfiliz-pickem.reverse_display': value ? '1' : '0'
+        'bigreja-bragalotto.reverse_display': value ? '1' : '0'
       }
     });
   }
@@ -64,7 +64,7 @@ export default class SettingsTab extends Component {
   recalculateScores() {
     if (this.loading) return;
 
-    if (!confirm(app.translator.trans('huseyinfiliz-pickem.admin.settings.recalc_confirm'))) {
+    if (!confirm(app.translator.trans('bigreja-bragalotto.admin.settings.recalc_confirm'))) {
       return;
     }
 
@@ -76,7 +76,7 @@ export default class SettingsTab extends Component {
     }).then(response => {
       this.loading = false;
       m.redraw();
-      app.alerts.show({ type: 'success' }, app.translator.trans('huseyinfiliz-pickem.admin.settings.recalc_queued'));
+      app.alerts.show({ type: 'success' }, app.translator.trans('bigreja-bragalotto.admin.settings.recalc_queued'));
     }).catch(error => {
       this.loading = false;
       m.redraw();

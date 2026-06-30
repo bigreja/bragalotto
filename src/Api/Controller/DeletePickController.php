@@ -1,12 +1,12 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace Bigreja\Bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractDeleteController;
 use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;
-use HuseyinFiliz\Pickem\Pick;
-use HuseyinFiliz\Pickem\Job\RecalculateUserScoreJob;
+use Bigreja\Bragalotto\Pick;
+use Bigreja\Bragalotto\Job\RecalculateUserScoreJob;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Translation\Translator; // Translator eklendi
 use Illuminate\Support\Arr;

@@ -1,12 +1,12 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace Bigreja\Bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Http\RequestUtil;
-use HuseyinFiliz\Pickem\Api\Serializer\EventSerializer;
-use HuseyinFiliz\Pickem\Event;
-use HuseyinFiliz\Pickem\Validator\EventValidator;
+use Bigreja\Bragalotto\Api\Serializer\EventSerializer;
+use Bigreja\Bragalotto\Event;
+use Bigreja\Bragalotto\Validator\EventValidator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Psr\Http\Message\ServerRequestInterface;

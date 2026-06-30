@@ -1,11 +1,11 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace Bigreja\Bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractDeleteController;
 use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;
-use HuseyinFiliz\Pickem\Team;
+use Bigreja\Bragalotto\Team;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Illuminate\Contracts\Translation\Translator;

@@ -10,7 +10,7 @@ import UserScore from './models/UserScore';
 
 export default [
   new Extend.Store()
-    .add('pickem-teams', Team),
+    .add('bragalotto-teams', Team),
   
   new Extend.Model(Team)
     .attribute('name')
@@ -19,7 +19,7 @@ export default [
     .attribute('logoUrl'),
 
   new Extend.Store()
-    .add('pickem-seasons', Season),
+    .add('bragalotto-seasons', Season),
   
   new Extend.Model(Season)
     .attribute('name')
@@ -28,7 +28,7 @@ export default [
     .attribute<Date>('endDate', Model.transformDate),   // Tip ataması
 
   new Extend.Store()
-    .add('pickem-weeks', Week),
+    .add('bragalotto-weeks', Week),
   
   new Extend.Model(Week)
     .attribute('name')
@@ -37,7 +37,7 @@ export default [
     .hasOne('season'),
 
   new Extend.Store()
-    .add('pickem-events', PickemEvent),
+    .add('bragalotto-events', PickemEvent),
   
   new Extend.Model(PickemEvent)
     .attribute('weekId')
@@ -56,7 +56,7 @@ export default [
     .hasOne('awayTeam'),
 
   new Extend.Store()
-    .add('pickem-picks', Pick),
+    .add('bragalotto-picks', Pick),
   
   new Extend.Model(Pick)
     .attribute('userId')
@@ -67,7 +67,7 @@ export default [
     .hasOne('user'),
 
   new Extend.Store()
-    .add('pickem-user-scores', UserScore),
+    .add('bragalotto-user-scores', UserScore),
   
   new Extend.Model(UserScore)
     .attribute('userId')

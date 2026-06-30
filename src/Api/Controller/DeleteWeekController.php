@@ -1,8 +1,8 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace Bigreja\Bragalotto\Api\Controller;
 
-use HuseyinFiliz\Pickem\Week;
+use Bigreja\Bragalotto\Week;
 
 class DeleteWeekController extends AbstractDeleteControllerWithRelationCheck
 {

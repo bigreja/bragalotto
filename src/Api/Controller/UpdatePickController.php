@@ -1,14 +1,14 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace Bigreja\Bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;
-use HuseyinFiliz\Pickem\Api\Serializer\PickSerializer;
-use HuseyinFiliz\Pickem\Event;
-use HuseyinFiliz\Pickem\Pick;
-use HuseyinFiliz\Pickem\Job\RecalculateUserScoreJob;
+use Bigreja\Bragalotto\Api\Serializer\PickSerializer;
+use Bigreja\Bragalotto\Event;
+use Bigreja\Bragalotto\Pick;
+use Bigreja\Bragalotto\Job\RecalculateUserScoreJob;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Arr;

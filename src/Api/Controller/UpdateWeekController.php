@@ -1,12 +1,12 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace Bigreja\Bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Http\RequestUtil;
-use HuseyinFiliz\Pickem\Api\Serializer\WeekSerializer;
-use HuseyinFiliz\Pickem\Week;
-use HuseyinFiliz\Pickem\Validator\WeekValidator;
+use Bigreja\Bragalotto\Api\Serializer\WeekSerializer;
+use Bigreja\Bragalotto\Week;
+use Bigreja\Bragalotto\Validator\WeekValidator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str; // EKLENDİ
 use Psr\Http\Message\ServerRequestInterface;

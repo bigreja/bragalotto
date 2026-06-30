@@ -1,12 +1,12 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace Bigreja\Bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Http\RequestUtil;
-use HuseyinFiliz\Pickem\Api\Serializer\SeasonSerializer;
-use HuseyinFiliz\Pickem\Season;
-use HuseyinFiliz\Pickem\Validator\SeasonValidator;
+use Bigreja\Bragalotto\Api\Serializer\SeasonSerializer;
+use Bigreja\Bragalotto\Season;
+use Bigreja\Bragalotto\Validator\SeasonValidator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str; // EKLENDİ
 use Psr\Http\Message\ServerRequestInterface;

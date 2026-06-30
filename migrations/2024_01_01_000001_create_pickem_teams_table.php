@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Builder;
 
 return [
     'up' => function (Builder $schema) {
-        $schema->create('pickem_teams', function (Blueprint $table) {
+        $schema->create('bragalotto_teams', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('slug')->unique();
@@ -14,6 +14,6 @@ return [
         });
     },
     'down' => function (Builder $schema) {
-        $schema->dropIfExists('pickem_teams');
+        $schema->dropIfExists('bragalotto_teams');
     }
 ];

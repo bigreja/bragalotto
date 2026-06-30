@@ -1,10 +1,10 @@
 <?php
 
-namespace HuseyinFiliz\Pickem;
+namespace Bigreja\Bragalotto;
 
-use HuseyinFiliz\Pickem\Event;
-use HuseyinFiliz\Pickem\Pick;
-use HuseyinFiliz\Pickem\UserScore;
+use Bigreja\Bragalotto\Event;
+use Bigreja\Bragalotto\Pick;
+use Bigreja\Bragalotto\UserScore;
 use Illuminate\Database\ConnectionInterface; // DÜZELTME: Facade yerine Interface
 
 /**

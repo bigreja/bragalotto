@@ -7,13 +7,13 @@ import commonExtenders from '../common/extend';
 import PickemPage from './components/PickemPage';
 import EventResultNotification from './components/EventResultNotification';
 
-app.initializers.add('huseyinfiliz/pickem', () => {
+app.initializers.add('bigreja/bragalotto', () => {
   commonExtenders.forEach((extender) => extender.extend(app));
 
-  app.routes.pickem = { path: '/pickem', component: PickemPage };
+  app.routes.bragalotto = { path: '/bragalotto', component: PickemPage };
 
   extend(IndexPage.prototype, 'navItems', function (items) {
-    if (app.forum.attribute('pickem.canView')) {
+    if (app.forum.attribute('bragalotto.canView')) {
       items.add(
         'pickem',
         LinkButton.component(
@@ -21,12 +21,12 @@ app.initializers.add('huseyinfiliz/pickem', () => {
             href: app.route('pickem'),
             icon: 'fas fa-trophy',
           },
-          app.translator.trans('huseyinfiliz-pickem.lib.nav.pickem')
+          app.translator.trans('bigreja-bragalotto.lib.nav.pickem')
         ),
         85
       );
     }
   });
 
-  app.notificationComponents.pickem_event_result = EventResultNotification;
+  app.notificationComponents.bragalotto_event_result = EventResultNotification;
 });

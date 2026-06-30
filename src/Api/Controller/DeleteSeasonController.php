@@ -1,8 +1,8 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace Bigreja\Bragalotto\Api\Controller;
 
-use HuseyinFiliz\Pickem\Season;
+use Bigreja\Bragalotto\Season;
 
 class DeleteSeasonController extends AbstractDeleteControllerWithRelationCheck
 {

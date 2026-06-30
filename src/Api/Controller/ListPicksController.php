@@ -1,12 +1,12 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace Bigreja\Bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
 use Flarum\Http\RequestUtil;
 use Flarum\Http\UrlGenerator;
-use HuseyinFiliz\Pickem\Api\Serializer\PickSerializer;
-use HuseyinFiliz\Pickem\Pick;
+use Bigreja\Bragalotto\Api\Serializer\PickSerializer;
+use Bigreja\Bragalotto\Pick;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Psr\Http\Message\ServerRequestInterface;

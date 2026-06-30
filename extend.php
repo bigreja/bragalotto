@@ -1,26 +1,26 @@
 <?php
 
-namespace HuseyinFiliz\Pickem;
+namespace Bigreja\Bragalotto;
 
 use Flarum\Extend;
 use Flarum\User\User;
-use HuseyinFiliz\Pickem\Api\Controller;
-use HuseyinFiliz\Pickem\Api\Serializer;
+use Bigreja\Bragalotto\Api\Controller;
+use Bigreja\Bragalotto\Api\Serializer;
 use Flarum\Api\Serializer\ForumSerializer;
-use HuseyinFiliz\Pickem\Access\EventPolicy;
-use HuseyinFiliz\Pickem\Access\PickPolicy;
-use HuseyinFiliz\Pickem\Event;
-use HuseyinFiliz\Pickem\Pick;
-use HuseyinFiliz\Pickem\UserScore;
-use HuseyinFiliz\Pickem\Listener;
-use HuseyinFiliz\Pickem\Notification;
+use Bigreja\Bragalotto\Access\EventPolicy;
+use Bigreja\Bragalotto\Access\PickPolicy;
+use Bigreja\Bragalotto\Event;
+use Bigreja\Bragalotto\Pick;
+use Bigreja\Bragalotto\UserScore;
+use Bigreja\Bragalotto\Listener;
+use Bigreja\Bragalotto\Notification;
 
 return [
     // Frontend Assets
     (new Extend\Frontend('forum'))
         ->js(__DIR__.'/js/dist/forum.js')
         ->css(__DIR__.'/resources/less/forum.less')
-        ->route('/pickem', 'pickem'),
+        ->route('/bragalotto', 'bragalotto'),
 
     (new Extend\Frontend('admin'))
         ->js(__DIR__.'/js/dist/admin.js')
@@ -32,46 +32,46 @@ return [
     // API Routes
     (new Extend\Routes('api'))
         // Teams (Admin)
-        ->get('/pickem-teams', 'pickem.teams.index', Controller\ListTeamsController::class)
-        ->post('/pickem-teams', 'pickem.teams.create', Controller\CreateTeamController::class)
-        ->patch('/pickem-teams/{id}', 'pickem.teams.update', Controller\UpdateTeamController::class)
-        ->delete('/pickem-teams/{id}', 'pickem.teams.delete', Controller\DeleteTeamController::class)
+        ->get('/bragalotto-teams', 'bragalotto.teams.index', Controller\ListTeamsController::class)
+        ->post('/bragalotto-teams', 'bragalotto.teams.create', Controller\CreateTeamController::class)
+        ->patch('/bragalotto-teams/{id}', 'bragalotto.teams.update', Controller\UpdateTeamController::class)
+        ->delete('/bragalotto-teams/{id}', 'bragalotto.teams.delete', Controller\DeleteTeamController::class)
         
         // Seasons (Admin)
-        ->get('/pickem-seasons', 'pickem.seasons.index', Controller\ListSeasonsController::class)
-        ->post('/pickem-seasons', 'pickem.seasons.create', Controller\CreateSeasonController::class)
-        ->patch('/pickem-seasons/{id}', 'pickem.seasons.update', Controller\UpdateSeasonController::class)
-        ->delete('/pickem-seasons/{id}', 'pickem.seasons.delete', Controller\DeleteSeasonController::class)
+        ->get('/bragalotto-seasons', 'bragalotto.seasons.index', Controller\ListSeasonsController::class)
+        ->post('/bragalotto-seasons', 'bragalotto.seasons.create', Controller\CreateSeasonController::class)
+        ->patch('/bragalotto-seasons/{id}', 'bragalotto.seasons.update', Controller\UpdateSeasonController::class)
+        ->delete('/bragalotto-seasons/{id}', 'bragalotto.seasons.delete', Controller\DeleteSeasonController::class)
         
         // Weeks (Admin)
-        ->get('/pickem-weeks', 'pickem.weeks.index', Controller\ListWeeksController::class)
-        ->post('/pickem-weeks', 'pickem.weeks.create', Controller\CreateWeekController::class)
-        ->patch('/pickem-weeks/{id}', 'pickem.weeks.update', Controller\UpdateWeekController::class)
-        ->delete('/pickem-weeks/{id}', 'pickem.weeks.delete', Controller\DeleteWeekController::class)
+        ->get('/bragalotto-weeks', 'bragalotto.weeks.index', Controller\ListWeeksController::class)
+        ->post('/bragalotto-weeks', 'bragalotto.weeks.create', Controller\CreateWeekController::class)
+        ->patch('/bragalotto-weeks/{id}', 'bragalotto.weeks.update', Controller\UpdateWeekController::class)
+        ->delete('/bragalotto-weeks/{id}', 'bragalotto.weeks.delete', Controller\DeleteWeekController::class)
         
         // Events (Matches)
-        ->get('/pickem-events', 'pickem.events.index', Controller\ListEventsController::class)
-        ->post('/pickem-events', 'pickem.events.create', Controller\CreateEventController::class)
-        ->patch('/pickem-events/{id}', 'pickem.events.update', Controller\UpdateEventController::class)
-        ->delete('/pickem-events/{id}', 'pickem.events.delete', Controller\DeleteEventController::class)
-	    ->post('/pickem-events/{id}/result', 'pickem.events.result', Controller\EnterEventResultController::class)
+        ->get('/bragalotto-events', 'bragalotto.events.index', Controller\ListEventsController::class)
+        ->post('/bragalotto-events', 'bragalotto.events.create', Controller\CreateEventController::class)
+        ->patch('/bragalotto-events/{id}', 'bragalotto.events.update', Controller\UpdateEventController::class)
+        ->delete('/bragalotto-events/{id}', 'bragalotto.events.delete', Controller\DeleteEventController::class)
+	    ->post('/bragalotto-events/{id}/result', 'bragalotto.events.result', Controller\EnterEventResultController::class)
 
         // Picks
-        ->get('/pickem-picks', 'pickem.picks.index', Controller\ListPicksController::class)
-        ->post('/pickem-picks', 'pickem.picks.create', Controller\CreatePickController::class)
-        ->patch('/pickem-picks/{id}', 'pickem.picks.update', Controller\UpdatePickController::class)
-        ->delete('/pickem-picks/{id}', 'pickem.picks.delete', Controller\DeletePickController::class)
+        ->get('/bragalotto-picks', 'bragalotto.picks.index', Controller\ListPicksController::class)
+        ->post('/bragalotto-picks', 'bragalotto.picks.create', Controller\CreatePickController::class)
+        ->patch('/bragalotto-picks/{id}', 'bragalotto.picks.update', Controller\UpdatePickController::class)
+        ->delete('/bragalotto-picks/{id}', 'bragalotto.picks.delete', Controller\DeletePickController::class)
         
         // Leaderboard
-        ->get('/pickem-user-scores', 'pickem.leaderboard.index', Controller\ListLeaderboardController::class)
+        ->get('/bragalotto-user-scores', 'bragalotto.leaderboard.index', Controller\ListLeaderboardController::class)
 
         // Public (Forum) data for filters
-        ->get('/pickem-public-seasons', 'pickem.public.seasons.index', Controller\ListPublicSeasonsController::class)
-        ->get('/pickem-public-teams', 'pickem.public.teams.index', Controller\ListPublicTeamsController::class)
-        ->get('/pickem-public-weeks', 'pickem.public.weeks.index', Controller\ListPublicWeeksController::class)
+        ->get('/bragalotto-public-seasons', 'bragalotto.public.seasons.index', Controller\ListPublicSeasonsController::class)
+        ->get('/bragalotto-public-teams', 'bragalotto.public.teams.index', Controller\ListPublicTeamsController::class)
+        ->get('/bragalotto-public-weeks', 'bragalotto.public.weeks.index', Controller\ListPublicWeeksController::class)
 
         // Admin Tools
-        ->post('/pickem/recalculate-all-scores', 'pickem.recalculate_scores', Controller\RecalculateAllScoresController::class),
+        ->post('/bragalotto/recalculate-all-scores', 'bragalotto.recalculate_scores', Controller\RecalculateAllScoresController::class),
 
     (new Extend\ApiSerializer(ForumSerializer::class))
         ->attributes(function ($serializer) { 
@@ -79,10 +79,10 @@ return [
             $settings = resolve(\Flarum\Settings\SettingsRepositoryInterface::class);
             
             return [
-                'pickem.canManage' => $actor->can('pickem.manage'),
-                'pickem.canView' => $actor->can('pickem.view'),
-                'pickem.makePicks' => $actor->can('pickem.makePicks'),
-                'pickem.reverseDisplay' => (bool) $settings->get('huseyinfiliz-pickem.reverse_display'),
+                'bragalotto.canManage' => $actor->can('bragalotto.manage'),
+                'bragalotto.canView' => $actor->can('bragalotto.view'),
+                'bragalotto.makePicks' => $actor->can('bragalotto.makePicks'),
+                'bragalotto.reverseDisplay' => (bool) $settings->get('bigreja-bragalotto.reverse_display'),
             ];
         }),
 
@@ -93,10 +93,10 @@ return [
 
     // User Model Relationships
     (new Extend\Model(User::class))
-        ->relationship('pickemPicks', function ($model) {
+        ->relationship('bragalottoPicks', function ($model) {
             return $model->hasMany(Pick::class, 'user_id');
         })
-        ->relationship('pickemScores', function ($model) {
+        ->relationship('bragalottoScores', function ($model) {
             return $model->hasMany(UserScore::class, 'user_id');
         }),
 

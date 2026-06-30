@@ -1,12 +1,12 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace Bigreja\Bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
 use Flarum\Http\RequestUtil;
 use Flarum\Http\UrlGenerator;
-use HuseyinFiliz\Pickem\Api\Serializer\UserScoreSerializer;
-use HuseyinFiliz\Pickem\UserScore;
+use Bigreja\Bragalotto\Api\Serializer\UserScoreSerializer;
+use Bigreja\Bragalotto\UserScore;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;

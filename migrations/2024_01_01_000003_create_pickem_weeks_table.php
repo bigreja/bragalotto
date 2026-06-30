@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Builder;
 
 return [
     'up' => function (Builder $schema) {
-        $schema->create('pickem_weeks', function (Blueprint $table) {
+        $schema->create('bragalotto_weeks', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->unsignedInteger('season_id')->nullable();
@@ -14,10 +14,10 @@ return [
             $table->date('end_date')->nullable();
             $table->timestamps();
 
-            $table->foreign('season_id')->references('id')->on('pickem_seasons')->onDelete('cascade');
+            $table->foreign('season_id')->references('id')->on('bragalotto_seasons')->onDelete('cascade');
         });
     },
     'down' => function (Builder $schema) {
-        $schema->dropIfExists('pickem_weeks');
+        $schema->dropIfExists('bragalotto_weeks');
     }
 ];

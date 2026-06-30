@@ -1,13 +1,13 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace Bigreja\Bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Http\RequestUtil;
 use Flarum\Foundation\ValidationException;
 use Illuminate\Contracts\Translation\Translator;
-use HuseyinFiliz\Pickem\Api\Serializer\EventSerializer;
-use HuseyinFiliz\Pickem\Event;
+use Bigreja\Bragalotto\Api\Serializer\EventSerializer;
+use Bigreja\Bragalotto\Event;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;

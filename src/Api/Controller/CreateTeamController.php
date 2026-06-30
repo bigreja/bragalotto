@@ -1,12 +1,12 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Controller;
+namespace Bigreja\Bragalotto\Api\Controller;
 
 use Flarum\Api\Controller\AbstractCreateController;
 use Flarum\Http\RequestUtil;
-use HuseyinFiliz\Pickem\Api\Serializer\TeamSerializer;
-use HuseyinFiliz\Pickem\Team;
-use HuseyinFiliz\Pickem\Validator\TeamValidator;
+use Bigreja\Bragalotto\Api\Serializer\TeamSerializer;
+use Bigreja\Bragalotto\Team;
+use Bigreja\Bragalotto\Validator\TeamValidator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Psr\Http\Message\ServerRequestInterface;

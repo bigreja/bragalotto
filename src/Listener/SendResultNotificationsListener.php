@@ -1,11 +1,11 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Listener;
+namespace Bigreja\Bragalotto\Listener;
 
 use Flarum\Notification\NotificationSyncer;
-use HuseyinFiliz\Pickem\Event;
-use HuseyinFiliz\Pickem\Notification\EventResultBlueprint;
-use HuseyinFiliz\Pickem\Pick;
+use Bigreja\Bragalotto\Event;
+use Bigreja\Bragalotto\Notification\EventResultBlueprint;
+use Bigreja\Bragalotto\Pick;
 use Illuminate\Database\Eloquent\Events\Saved;
 
 /**

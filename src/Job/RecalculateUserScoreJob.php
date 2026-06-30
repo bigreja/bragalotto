@@ -1,9 +1,9 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Job;
+namespace Bigreja\Bragalotto\Job;
 
 use Flarum\Queue\AbstractJob;
-use HuseyinFiliz\Pickem\PickemScoringService; // Import the scoring service
+use Bigreja\Bragalotto\PickemScoringService; // Import the scoring service
 use Flarum\User\User;
 // Unused imports removed
 // use HuseyinFiliz\Pickem\Pick;

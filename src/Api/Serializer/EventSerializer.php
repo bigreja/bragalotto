@@ -1,13 +1,13 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Api\Serializer;
+namespace Bigreja\Bragalotto\Api\Serializer;
 
 use Flarum\Api\Serializer\AbstractSerializer;
-use HuseyinFiliz\Pickem\Event;
+use Bigreja\Bragalotto\Event;
 
 class EventSerializer extends AbstractSerializer
 {
-    protected $type = 'pickem-events';
+    protected $type = 'bragalotto-events';
 
     /**
      * Get the default set of serialized attributes for a model.

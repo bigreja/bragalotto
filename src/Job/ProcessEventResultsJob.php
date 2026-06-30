@@ -1,13 +1,13 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Job;
+namespace Bigreja\Bragalotto\Job;
 
 use Flarum\Queue\AbstractJob;
 use Flarum\Notification\NotificationSyncer;
-use HuseyinFiliz\Pickem\Event;
-use HuseyinFiliz\Pickem\Pick;
-use HuseyinFiliz\Pickem\Notification\EventResultBlueprint;
-use HuseyinFiliz\Pickem\PickemScoringService;
+use Bigreja\Bragalotto\Event;
+use Bigreja\Bragalotto\Pick;
+use Bigreja\Bragalotto\Notification\EventResultBlueprint;
+use Bigreja\Bragalotto\PickemScoringService;
 
 class ProcessEventResultsJob extends AbstractJob
 {

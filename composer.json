@@ -1,5 +1,5 @@
 {
-  "name": "huseyinfiliz/pickem",
+  "name": "bigreja/bragalotto",
   "description": "Pick'em game extension for Flarum",
   "keywords": [
     "flarum",
@@ -34,12 +34,12 @@
   ],
   "autoload": {
     "psr-4": {
-      "HuseyinFiliz\\Pickem\\": "src/"
+      "Bigreja\\Bragalotto\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "HuseyinFiliz\\Pickem\\Tests\\": "tests/"
+      "Bigreja\\Bragalotto\\Tests\\": "tests/"
     }
   },
   "extra": {

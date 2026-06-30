@@ -1,10 +1,10 @@
 <?php
 
-namespace HuseyinFiliz\Pickem\Listener;
+namespace Bigreja\Bragalotto\Listener;
 
-use HuseyinFiliz\Pickem\Event;
-use HuseyinFiliz\Pickem\PickemScoringService;
-use HuseyinFiliz\Pickem\Job\ProcessEventResultsJob; // EKLENDİ (Yeni Job'umuz)
+use Bigreja\Bragalotto\Event;
+use Bigreja\Bragalotto\PickemScoringService;
+use Bigreja\Bragalotto\Job\ProcessEventResultsJob; // EKLENDİ (Yeni Job'umuz)
 use Illuminate\Database\Eloquent\Events\Saved;
 use Illuminate\Contracts\Bus\Dispatcher; // EKLENDİ (Kuyruk için)
 

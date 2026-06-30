@@ -1,4 +1,4 @@
-import Page from 'flarum/common/components/Page';
+﻿import Page from 'flarum/common/components/Page';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import extractText from 'flarum/common/utils/extractText';
 import MatchesTab from './MatchesTab';
@@ -27,7 +27,7 @@ export default class PickemPage extends Page {
   oninit(vnode: any) {
     super.oninit(vnode);
 
-    if (!app.forum.attribute('pickem.canView')) {
+    if (!app.forum.attribute('bragalotto.canView')) {
       m.route.set('/'); 
       return;
     }
@@ -48,14 +48,14 @@ export default class PickemPage extends Page {
 
   oncreate(vnode: any) {
     super.oncreate(vnode);
-    app.setTitle(extractText(app.translator.trans('huseyinfiliz-pickem.lib.nav.pickem')));
+    app.setTitle(extractText(app.translator.trans('bigreja-bragalotto.lib.nav.pickem')));
   }
 
   async loadInitialData() {
     try {
       const promises = [];
 
-      if (app.session.user && app.forum.attribute('pickem.makePicks')) {
+      if (app.session.user && app.forum.attribute('bragalotto.makePicks')) {
         promises.push(this.loadPicks(0));
         // YENİ: Eğer giriş yapmışsa kendi sıralamasını çek
         promises.push(this.loadMyRank());
@@ -81,7 +81,7 @@ export default class PickemPage extends Page {
     
     try {
       // ListLeaderboardController'a eklediğimiz 'user' filtresini kullanıyoruz
-      const results = (await app.store.find('pickem-user-scores', {
+      const results = (await app.store.find('bragalotto-user-scores', {
         filter: { user: app.session.user.id() },
         page: { limit: 1 }
       })) as any[];
@@ -95,7 +95,7 @@ export default class PickemPage extends Page {
   }
 
   async loadPicks(offset: number = 0) {
-    if (!app.session.user || !app.forum.attribute('pickem.makePicks')) return;
+    if (!app.session.user || !app.forum.attribute('bragalotto.makePicks')) return;
 
     this.myPicksLoading = true;
     m.redraw();
@@ -103,7 +103,7 @@ export default class PickemPage extends Page {
     const limit = 20;
 
     try {
-      const results = (await app.store.find('pickem-picks', {
+      const results = (await app.store.find('bragalotto-picks', {
         filter: { user: app.session.user.id() },
         include: 'event,event.homeTeam,event.awayTeam',
         page: { offset, limit }
@@ -138,7 +138,7 @@ export default class PickemPage extends Page {
     m.redraw();
     const limit = 20;
     try {
-      const results = (await app.store.find('pickem-user-scores', { 
+      const results = (await app.store.find('bragalotto-user-scores', { 
         include: 'user',
         page: { offset, limit } 
       })) as any[];
@@ -177,7 +177,7 @@ export default class PickemPage extends Page {
             <div className="containerNarrow">
               <h1 className="Hero-title">
                 <i className="icon fas fa-trophy" />{' '}
-                {app.translator.trans('huseyinfiliz-pickem.lib.nav.pickem')}
+                {app.translator.trans('bigreja-bragalotto.lib.nav.pickem')}
               </h1>
             </div>
           </div>
@@ -191,12 +191,12 @@ export default class PickemPage extends Page {
             <div className="IndexPage-results sideNavOffset">
               
               <div className="PickemPage-tabs">
-                {this.renderTab('matches', app.translator.trans('huseyinfiliz-pickem.lib.nav.matches'))}
+                {this.renderTab('matches', app.translator.trans('bigreja-bragalotto.lib.nav.matches'))}
                 
-                {app.session.user && app.forum.attribute('pickem.makePicks') &&
-                  this.renderTab('my_picks', app.translator.trans('huseyinfiliz-pickem.lib.nav.my_picks'))}
+                {app.session.user && app.forum.attribute('bragalotto.makePicks') &&
+                  this.renderTab('my_picks', app.translator.trans('bigreja-bragalotto.lib.nav.my_picks'))}
 
-                {this.renderTab('leaderboard', app.translator.trans('huseyinfiliz-pickem.lib.nav.leaderboard'))}
+                {this.renderTab('leaderboard', app.translator.trans('bigreja-bragalotto.lib.nav.leaderboard'))}
               </div>
 
               {this.loading ? (
@@ -237,7 +237,7 @@ export default class PickemPage extends Page {
           )}
         </div>
         
-        {app.session.user && app.forum.attribute('pickem.makePicks') && (
+        {app.session.user && app.forum.attribute('bragalotto.makePicks') && (
           <div className={`PickemPage-tabPane ${this.activeTab === 'my_picks' ? 'active' : ''}`}>
             <MyPicksTab 
               picks={this.picks} 
