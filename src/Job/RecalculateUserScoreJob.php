@@ -6,8 +6,6 @@ use Flarum\Queue\AbstractJob;
 use Bigreja\Bragalotto\PickemScoringService; // Import the scoring service
 use Flarum\User\User;
 // Unused imports removed
-// use HuseyinFiliz\Pickem\Pick;
-// use HuseyinFiliz\Pickem\UserScore;
 // use Illuminate\Database\DatabaseManager;
 // use Illuminate\Database\Eloquent\Builder;
 // use Illuminate\Support\Carbon;

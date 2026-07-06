@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace Bigreja\Bragalotto\Api\Controller;
 
@@ -26,7 +26,7 @@ class UpdateTeamController extends AbstractShowController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.manage');
+        $actor->assertCan('bragalotto.manage');
 
         $id = Arr::get($request->getQueryParams(), 'id');
         $team = Team::findOrFail($id);

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace Bigreja\Bragalotto\Api\Controller;
 
@@ -51,7 +51,7 @@ abstract class AbstractDeleteControllerWithRelationCheck extends AbstractDeleteC
     protected function delete(ServerRequestInterface $request)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.manage');
+        $actor->assertCan('bragalotto.manage');
 
         $id = $request->getQueryParams()['id'];
         $modelClass = $this->getModelClass();

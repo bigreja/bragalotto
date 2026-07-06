@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace Bigreja\Bragalotto\Api\Controller;
 
@@ -26,7 +26,7 @@ class RecalculateAllScoresController implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.manage');
+        $actor->assertCan('bragalotto.manage');
 
         // Chunking kullanarak belleği koruyoruz. 
         // Her seferinde 100 kullanıcı ID'si çekip işliyoruz.

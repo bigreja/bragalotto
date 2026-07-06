@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace Bigreja\Bragalotto\Access;
 
@@ -54,6 +54,6 @@ class PickPolicy extends AbstractPolicy
      */
     public function view(User $actor, Pick $pick)
     {
-        return $actor->id === $pick->user_id || $actor->can('pickem.manage');
+        return $actor->id === $pick->user_id || $actor->can('bragalotto.manage');
     }
 }

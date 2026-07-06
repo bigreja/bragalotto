@@ -52,7 +52,7 @@ class UpdatePickController extends AbstractShowController
         if (!$pick->event->canPick()) {
             // GÜNCELLENDİ: Özel 'cutoff_passed' yerine genel 'invalid_outcome' kullanıyoruz.
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
+                'message' => $this->translator->trans('bigreja-bragalotto.lib.messages.invalid_outcome')
             ]);
         }
 
@@ -69,7 +69,7 @@ class UpdatePickController extends AbstractShowController
         // Beraberlik kontrolü
         if ($selectedOutcome === Event::RESULT_DRAW && !$pick->event->allow_draw) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
+                'message' => $this->translator->trans('bigreja-bragalotto.lib.messages.invalid_outcome')
             ]);
         }
         
@@ -77,7 +77,7 @@ class UpdatePickController extends AbstractShowController
         $validOutcomes = [Event::RESULT_HOME, Event::RESULT_AWAY, Event::RESULT_DRAW];
         if (!in_array($selectedOutcome, $validOutcomes)) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
+                'message' => $this->translator->trans('bigreja-bragalotto.lib.messages.invalid_outcome')
             ]);
         }
 

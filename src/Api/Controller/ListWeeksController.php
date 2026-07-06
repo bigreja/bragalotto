@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace Bigreja\Bragalotto\Api\Controller;
 
@@ -19,7 +19,7 @@ class ListWeeksController extends AbstractListController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.manage');
+        $actor->assertCan('bragalotto.manage');
 
         $query = Week::query();
         

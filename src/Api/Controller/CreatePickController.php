@@ -32,7 +32,7 @@ class CreatePickController extends AbstractCreateController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.makePicks');
+        $actor->assertCan('bragalotto.makePicks');
 
         $data = Arr::get($request->getParsedBody(), 'data.attributes', []);
         
@@ -42,7 +42,7 @@ class CreatePickController extends AbstractCreateController
         // Eksik veri kontrolü
         if (!$eventId || !$selectedOutcome) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
+                'message' => $this->translator->trans('bigreja-bragalotto.lib.messages.invalid_outcome')
             ]);
         }
 
@@ -52,14 +52,14 @@ class CreatePickController extends AbstractCreateController
         if (!$event->canPick()) {
             // GÜNCELLENDİ: Özel 'cutoff_passed' yerine genel 'invalid_outcome' kullanıyoruz.
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
+                'message' => $this->translator->trans('bigreja-bragalotto.lib.messages.invalid_outcome')
             ]);
         }
 
         // Beraberlik kontrolü
         if ($selectedOutcome === Event::RESULT_DRAW && !$event->allow_draw) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
+                'message' => $this->translator->trans('bigreja-bragalotto.lib.messages.invalid_outcome')
             ]);
         }
 
@@ -67,7 +67,7 @@ class CreatePickController extends AbstractCreateController
         $validOutcomes = [Event::RESULT_HOME, Event::RESULT_AWAY, Event::RESULT_DRAW];
         if (!in_array($selectedOutcome, $validOutcomes)) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
+                'message' => $this->translator->trans('bigreja-bragalotto.lib.messages.invalid_outcome')
             ]);
         }
 

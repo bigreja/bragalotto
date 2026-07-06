@@ -21,7 +21,7 @@ app.initializers.add('bigreja/bragalotto', () => {
     .registerPermission({
       icon: 'fas fa-eye',
       label: app.translator.trans('bigreja-bragalotto.admin.permissions.view_page'),
-      permission: 'pickem.view',
+      permission: 'bragalotto.view',
 	  allowGuest: true 
     }, 'view');
 });

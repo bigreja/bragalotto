@@ -31,12 +31,12 @@ class ListPicksController extends AbstractListController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.makePicks');
+        $actor->assertCan('bragalotto.makePicks');
 
         $query = Pick::query();
 
         if ($userId = Arr::get($request->getQueryParams(), 'filter.user')) {
-            if ($actor->hasPermission('pickem.manage') || $actor->id == $userId) {
+            if ($actor->hasPermission('bragalotto.manage') || $actor->id == $userId) {
                 $query->where('user_id', $userId);
             } else {
                 $query->where('user_id', $actor->id);

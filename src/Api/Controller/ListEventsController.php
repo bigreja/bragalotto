@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace Bigreja\Bragalotto\Api\Controller;
 
@@ -28,7 +28,7 @@ class ListEventsController extends AbstractListController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.view'); 
+        $actor->assertCan('bragalotto.view'); 
 
         $query = Event::query();
         $query->with($this->include);

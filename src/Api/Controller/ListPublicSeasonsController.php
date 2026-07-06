@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace Bigreja\Bragalotto\Api\Controller;
 
@@ -15,9 +15,9 @@ class ListPublicSeasonsController extends AbstractListController
 
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        // Use 'pickem.view' permission instead of 'pickem.manage'
+        // Use 'bragalotto.view' permission instead of 'bragalotto.manage'
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.view');
+        $actor->assertCan('bragalotto.view');
 
         return Season::orderBy('start_date', 'desc')->get();
     }

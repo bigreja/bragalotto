@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace Bigreja\Bragalotto\Api\Controller;
 
@@ -29,7 +29,7 @@ class DeleteEventController extends AbstractDeleteController
     protected function delete(ServerRequestInterface $request)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.manage');
+        $actor->assertCan('bragalotto.manage');
 
         $id = Arr::get($request->getQueryParams(), 'id');
         $event = Event::findOrFail($id);

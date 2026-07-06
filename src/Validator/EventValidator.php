@@ -39,7 +39,7 @@ class EventValidator extends AbstractValidator
     protected function getMessages()
     {
         // GÜNCELLENDİ: Yeni sadeleştirilmiş mesaj yapısı
-        $prefix = 'huseyinfiliz-pickem.lib.messages.';
+        $prefix = 'bigreja-bragalotto.lib.messages.';
 
         return [
             'homeTeamId.different' => $prefix . 'same_team',

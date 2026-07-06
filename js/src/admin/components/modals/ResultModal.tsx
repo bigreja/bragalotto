@@ -148,7 +148,7 @@ export default class ResultModal extends Modal<IResultModalAttrs> {
     try {
       const response = await app.request({
         method: 'POST',
-        url: `${app.forum.attribute('apiUrl')}/pickem-events/${this.event.id()}/result`,
+        url: `${app.forum.attribute('apiUrl')}/bragalotto-events/${this.event.id()}/result`,
         body: {
           data: {
             type: 'bragalotto-events',

@@ -28,6 +28,6 @@ class DeleteSeasonController extends AbstractDeleteControllerWithRelationCheck
     protected function getErrorMessageKey(): string
     {
         // GÜNCELLENDİ: lib.validation.errors.season_in_use -> lib.messages.in_use
-        return 'huseyinfiliz-pickem.lib.messages.in_use';
+        return 'bigreja-bragalotto.lib.messages.in_use';
     }
 }

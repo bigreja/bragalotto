@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace Bigreja\Bragalotto\Api\Controller;
 
@@ -17,7 +17,7 @@ class ListSeasonsController extends AbstractListController
     {
         // YENİ: Admin yetkisi kontrolü eklendi
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.manage');
+        $actor->assertCan('bragalotto.manage');
 
         return Season::orderBy('start_date', 'desc')->get();
     }

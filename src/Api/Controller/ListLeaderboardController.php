@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace Bigreja\Bragalotto\Api\Controller;
 
@@ -29,7 +29,7 @@ class ListLeaderboardController extends AbstractListController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.view');
+        $actor->assertCan('bragalotto.view');
         
         $query = UserScore::query();
         $query->whereNull('season_id');

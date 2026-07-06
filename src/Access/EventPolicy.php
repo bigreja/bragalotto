@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace Bigreja\Bragalotto\Access;
 
@@ -15,7 +15,7 @@ class EventPolicy extends AbstractPolicy
      */
     public function can(User $actor, string $ability)
     {
-        // 'pickem.view' iznine sahip olanlar
+        // 'bragalotto.view' iznine sahip olanlar
         // 'view' (görüntüleme) yetkisine sahiptir.
         if ($actor->can('bragalotto.view') && $ability === 'view') {
             return true;
@@ -30,6 +30,6 @@ class EventPolicy extends AbstractPolicy
      */
     public function view(User $actor, Event $event)
     {
-        return $actor->can('pickem.view');
+        return $actor->can('bragalotto.view');
     }
 }

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace Bigreja\Bragalotto\Api\Controller;
 
@@ -28,7 +28,7 @@ class UpdateEventController extends AbstractShowController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.manage');
+        $actor->assertCan('bragalotto.manage');
 
         $id = Arr::get($request->getQueryParams(), 'id');
         $event = Event::with(['homeTeam', 'awayTeam', 'week'])->findOrFail($id);

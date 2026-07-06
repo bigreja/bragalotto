@@ -12,7 +12,7 @@ use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 use Illuminate\Contracts\Bus\Dispatcher;
-use HuseyinFiliz\Pickem\Job\ProcessEventResultsJob;
+use Bigreja\Bragalotto\Job\ProcessEventResultsJob;
 
 class EnterEventResultController extends AbstractShowController
 {
@@ -31,7 +31,7 @@ class EnterEventResultController extends AbstractShowController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $actor->assertCan('pickem.manage');
+        $actor->assertCan('bragalotto.manage');
 
         $id = Arr::get($request->getQueryParams(), 'id');
         $event = Event::with(['homeTeam', 'awayTeam', 'week'])->findOrFail($id);
@@ -44,7 +44,7 @@ class EnterEventResultController extends AbstractShowController
         // 1. Skor Doğrulama
         if ($homeScore === null || $awayScore === null) {
             throw new ValidationException([
-                'scores' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.scores_required')
+                'scores' => $this->translator->trans('bigreja-bragalotto.lib.messages.scores_required')
             ]);
         }
 

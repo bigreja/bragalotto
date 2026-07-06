@@ -44,7 +44,7 @@ class DeletePickController extends AbstractDeleteController
         // 1. Önce zaman aşımı kontrolü yap (Özel hata mesajı için)
         if (!$pick->event->canPick()) {
             throw new ValidationException([
-                'message' => $this->translator->trans('huseyinfiliz-pickem.lib.messages.invalid_outcome')
+                'message' => $this->translator->trans('bigreja-bragalotto.lib.messages.invalid_outcome')
             ]);
         }
 
