@@ -10,6 +10,7 @@ use Illuminate\Support\Str; // URL kontrolü için eklendi
 /**
  * @property int $id
  * @property string $name
+ * @property string|null $full_name
  * @property string $slug
  * @property string|null $logo_path
  * @property \Carbon\Carbon $created_at
@@ -26,7 +27,7 @@ class Team extends AbstractModel
 
     protected $table = 'bragalotto_teams';
 
-    protected $fillable = ['name', 'slug', 'logo_path'];
+    protected $fillable = ['name', 'full_name', 'slug', 'logo_path'];
 
     protected $casts = [
         'created_at' => 'datetime',

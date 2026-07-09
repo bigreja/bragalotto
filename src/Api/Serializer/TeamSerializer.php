@@ -14,6 +14,7 @@ class TeamSerializer extends AbstractSerializer
         return [
             'id' => (string) $team->id,
             'name' => $team->name,
+            'fullName' => $team->full_name,
             'slug' => $team->slug,
             'logoPath' => $team->logo_path,
             'logoUrl' => $team->logo_url, 
