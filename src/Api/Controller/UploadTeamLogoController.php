@@ -21,7 +21,7 @@ class UploadTeamLogoController extends AbstractShowController
         $actor = RequestUtil::getActor($request);
         $actor->assertCan('bragalotto.manage');
 
-        $id = Arr::get($request->getQueryParams(), 'id');
+        $id = Arr::get($request->getQueryParams(), 'id') ?? $request->getAttribute('id');
         $team = Team::findOrFail($id);
 
         $uploadedFiles = $request->getUploadedFiles();
