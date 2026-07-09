@@ -37,21 +37,15 @@ class UploadTeamLogoController extends AbstractShowController
             throw new \InvalidArgumentException('Only PNG and SVG files are allowed.');
         }
 
-        // Validate actual MIME type via finfo
-        $tmpUri = $file->getStream()->getMetadata('uri');
-        if ($tmpUri && file_exists($tmpUri)) {
-            $mimeType = (new \finfo(FILEINFO_MIME_TYPE))->file($tmpUri);
-        } else {
-            // Fallback: write stream to a temp file
-            $tmpUri = tempnam(sys_get_temp_dir(), 'bragalotto_');
-            file_put_contents($tmpUri, (string) $file->getStream());
-            $mimeType = (new \finfo(FILEINFO_MIME_TYPE))->file($tmpUri);
-            unlink($tmpUri);
-            $tmpUri = null;
-        }
-
-        if (!in_array($mimeType, ['image/png', 'image/svg+xml'])) {
-            throw new \InvalidArgumentException('Only PNG and SVG files are allowed.');
+        // Validate actual MIME type using the PHP tmp path directly.
+        // DO NOT call $file->getStream() here — reading the stream advances its
+        // pointer and causes moveTo() to write an empty file afterwards.
+        $tmpPath = $_FILES['logo']['tmp_name'] ?? null;
+        if ($tmpPath && file_exists($tmpPath)) {
+            $mimeType = (new \finfo(FILEINFO_MIME_TYPE))->file($tmpPath);
+            if (!in_array($mimeType, ['image/png', 'image/svg+xml'])) {
+                throw new \InvalidArgumentException('Only PNG and SVG files are allowed.');
+            }
         }
 
         // Prepare storage directory
