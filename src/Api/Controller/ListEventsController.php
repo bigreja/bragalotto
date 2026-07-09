@@ -85,7 +85,7 @@ class ListEventsController extends AbstractListController
         $results = $query->limit($limit)->offset($offset)->get();
         
         $document->addPaginationLinks(
-            $this->url->to('api')->route('pickem.events.index'),
+            $this->url->to('api')->route('bragalotto.events.index'),
             $request->getQueryParams(),
             $offset,
             $limit,

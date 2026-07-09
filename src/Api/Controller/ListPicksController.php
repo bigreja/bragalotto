@@ -67,7 +67,7 @@ class ListPicksController extends AbstractListController
                          ->get();
 
         $document->addPaginationLinks(
-            $this->url->to('api')->route('pickem.picks.index'),
+            $this->url->to('api')->route('bragalotto.picks.index'),
             $request->getQueryParams(),
             $offset,
             $limit,

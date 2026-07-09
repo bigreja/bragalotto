@@ -65,7 +65,7 @@ class ListLeaderboardController extends AbstractListController
         }
 
         $document->addPaginationLinks(
-            $this->url->to('api')->route('pickem.leaderboard.index'),
+            $this->url->to('api')->route('bragalotto.leaderboard.index'),
             $request->getQueryParams(),
             $offset,
             $limit,
