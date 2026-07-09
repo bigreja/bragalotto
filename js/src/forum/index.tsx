@@ -15,10 +15,10 @@ app.initializers.add('bigreja/bragalotto', () => {
   extend(IndexPage.prototype, 'navItems', function (items) {
     if (app.forum.attribute('bragalotto.canView')) {
       items.add(
-        'pickem',
+        'bragalotto',
         LinkButton.component(
           {
-            href: app.route('pickem'),
+            href: app.route('bragalotto'),
             icon: 'fas fa-trophy',
           },
           app.translator.trans('bigreja-bragalotto.lib.nav.pickem')

@@ -6,7 +6,7 @@ export default class EventResultNotification extends Notification {
   }
 
   href() {
-    return app.route('pickem');
+    return app.route('bragalotto');
   }
 
   content() {
