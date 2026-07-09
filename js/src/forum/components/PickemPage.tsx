@@ -160,9 +160,9 @@ export default class PickemPage extends Page {
   async loadFilterData() {
     try {
       await Promise.all([
-        app.store.find('pickem-public-seasons'),
-        app.store.find('pickem-public-teams'),
-        app.store.find('pickem-public-weeks')
+        app.store.find('bragalotto-public-seasons'),
+        app.store.find('bragalotto-public-teams'),
+        app.store.find('bragalotto-public-weeks')
       ]);
     } catch (error) {
       console.error('Error loading filter data:', error);
