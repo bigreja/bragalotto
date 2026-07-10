@@ -280,7 +280,7 @@ class ImportLigaPortugalCommand extends Command
             }
 
             foreach ($matches as $m) {
-                $mid        = $m['id'] ?? $m['fixture_id'] ?? $m['fixtureId'] ?? $m['matchId'] ?? $m['game_id'] ?? null;
+                $mid        = $m['fixtureCode'] ?? $m['fixture_code'] ?? $m['id'] ?? $m['fixture_id'] ?? $m['fixtureId'] ?? $m['matchId'] ?? $m['game_id'] ?? null;
                 if (empty($mid)) {
                     $this->warn("    Skipping match with no id: " . json_encode(array_slice($m, 0, 5)));
                     $skipCount++;
