@@ -47,8 +47,6 @@ bigreja-bragalotto:
       name: "Name"
       slug: "Slug"
       logo_url: "Logo URL"
-      logo_file: "Logo (PNG or SVG)"
-      full_name: "Full Name"
       start_date: "Start Date"
       end_date: "End Date"
       week_number: "Week Number"

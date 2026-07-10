@@ -1,7 +1,7 @@
 ﻿import Modal from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
 import { slug } from 'flarum/common/utils/string';
-import Team from '../../../common/models/Team';
+import Team from '../../../common/models/Team'; 
 
 interface ITeamModalAttrs {
   team?: Team | null;
@@ -11,19 +11,19 @@ interface ITeamModalAttrs {
 export default class TeamModal extends Modal<ITeamModalAttrs> {
   private team: Team | null | undefined;
   private name: string = '';
-  private fullName: string = '';
   private slug: string = '';
-  private logoFile: File | null = null;
-  private logoPreview: string | null = null;
+  private logoPath: string = '';
   private loading: boolean = false;
+  // YENİ: Yükleme durumu için state
+  private uploadLoading: boolean = false;
 
   oninit(vnode: any) {
     super.oninit(vnode);
     this.team = this.attrs.team;
     if (this.team) {
       this.name = this.team.name() || '';
-      this.fullName = this.team.fullName() || '';
       this.slug = this.team.slug() || '';
+      this.logoPath = this.team.logoPath() || '';
     }
   }
 
@@ -38,8 +38,8 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
   }
 
   content() {
-    const currentLogoUrl = this.team ? this.team.logoUrl() : null;
-    const previewSrc = this.logoPreview || currentLogoUrl;
+    // FoF Upload uzantısının aktif olup olmadığını kontrol et
+    const hasFofUpload = 'fof-upload' in app.data.extensions;
 
     return (
       <div className="Modal-body">
@@ -60,16 +60,6 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('bigreja-bragalotto.lib.form.full_name')}</label>
-            <input
-              className="FormControl"
-              type="text"
-              value={this.fullName}
-              oninput={(e: InputEvent) => { this.fullName = (e.target as HTMLInputElement).value; }}
-            />
-          </div>
-
-          <div className="Form-group">
             <label>{app.translator.trans('bigreja-bragalotto.lib.form.slug')}</label>
             <input
               className="FormControl"
@@ -80,19 +70,49 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
           </div>
 
           <div className="Form-group">
-            <label>{app.translator.trans('bigreja-bragalotto.lib.form.logo_file')}</label>
-            <input
-              className="FormControl"
-              type="file"
-              accept=".png,.svg,image/png,image/svg+xml"
-              onchange={this.handleFileSelect.bind(this)}
-            />
-            {previewSrc && (
-              <div style={{ marginTop: '8px' }}>
+            <label>{app.translator.trans('bigreja-bragalotto.lib.form.logo_url')}</label>
+            
+            {/* YENİ: Input ve Upload butonu yan yana */}
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <input
+                className="FormControl"
+                type="text"
+                value={this.logoPath}
+                oninput={(e: InputEvent) => { this.logoPath = (e.target as HTMLInputElement).value; }}
+                placeholder="https://example.com/logo.png"
+                style={{ flex: 1 }}
+              />
+              
+              {hasFofUpload && (
+                <>
+                  <input
+                    id="pickem-logo-upload"
+                    type="file"
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    onchange={this.handleUpload.bind(this)}
+                  />
+                  <Button
+                    className="Button Button--icon"
+                    icon="fas fa-cloud-upload-alt"
+                    loading={this.uploadLoading}
+                    onclick={() => {
+                        const fileInput = document.getElementById('pickem-logo-upload');
+                        if (fileInput) fileInput.click();
+                    }}
+                    title="Upload with FoF Upload"
+                    type="button"
+                  />
+                </>
+              )}
+            </div>
+
+            {this.logoPath && (
+              <div style={{ marginTop: '10px' }}>
                 <img
-                  src={previewSrc}
+                  src={this.logoPath}
                   alt="Logo preview"
-                  style={{ maxWidth: '80px', maxHeight: '80px', border: '1px solid #ddd', padding: '4px', borderRadius: '4px', objectFit: 'contain' }}
+                  style={{ maxWidth: '100px', maxHeight: '100px', border: '1px solid #ddd', padding: '5px', borderRadius: '4px' }}
                   onerror={(e: any) => { e.target.style.display = 'none'; }}
                 />
               </div>
@@ -113,71 +133,58 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
     );
   }
 
-  handleFileSelect(e: Event) {
+  // YENİ: Dosya yükleme işleyicisi
+  async handleUpload(e: Event) {
     const target = e.target as HTMLInputElement;
-    if (!target.files || target.files.length === 0) {
-      this.logoFile = null;
-      this.logoPreview = null;
-      m.redraw();
-      return;
-    }
+    if (!target.files || target.files.length === 0) return;
 
     const file = target.files[0];
-    const allowed = ['image/png', 'image/svg+xml'];
-    if (!allowed.includes(file.type)) {
-      app.alerts.show({ type: 'error' }, 'Only PNG and SVG files are allowed.');
-      target.value = '';
-      return;
-    }
-
-    this.logoFile = file;
-
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      this.logoPreview = ev.target?.result as string;
-      m.redraw();
-    };
-    reader.readAsDataURL(file);
-  }
-
-  async uploadLogo(teamId: string | number) {
-    if (!this.logoFile) return;
-
     const formData = new FormData();
-    formData.append('logo', this.logoFile);
+    formData.append('files[]', file);
 
-    await app.request({
-      method: 'POST',
-      url: app.forum.attribute('apiUrl') + '/bragalotto-teams/' + teamId + '/logo',
-      body: formData,
-      serialize: (raw: any) => raw,
-    });
+    this.uploadLoading = true;
+    m.redraw();
+
+    try {
+      // FoF Upload API'sine istek at
+      const response: any = await app.request({
+        method: 'POST',
+        url: app.forum.attribute('apiUrl') + '/fof/upload',
+        body: formData,
+        serialize: (raw: any) => raw // FormData'yı JSON'a çevirme, olduğu gibi gönder
+      });
+
+      // Gelen yanıttan URL'i al (FoF Upload JSON:API standardı kullanır)
+      if (response && response.data && response.data[0] && response.data[0].attributes) {
+        this.logoPath = response.data[0].attributes.url;
+        app.alerts.show({ type: 'success' }, app.translator.trans('bigreja-bragalotto.lib.messages.saved')); // Opsiyonel başarı mesajı
+      }
+    } catch (error: any) {
+      console.error('Logo upload failed:', error);
+      app.alerts.show({ type: 'error' }, 'Upload failed. Check console for details.');
+    } finally {
+      this.uploadLoading = false;
+      target.value = ''; // Inputu temizle ki aynı dosya tekrar seçilebilsin
+      m.redraw();
+    }
   }
 
   async onsubmit(e: SubmitEvent) {
     e.preventDefault();
     this.loading = true;
     m.redraw();
-
     const data = {
       name: this.name,
-      fullName: this.fullName,
       slug: this.slug,
+      logoPath: this.logoPath,
     };
-
     try {
-      let team: Team;
-      if (this.team) {
-        team = (await this.team.save(data)) as Team;
-      } else {
-        team = (await app.store.createRecord<Team>('bragalotto-teams').save(data)) as Team;
-      }
+      const promise = this.team
+        ? this.team.save(data)
+        : app.store.createRecord('bragalotto-teams').save(data);
 
-      if (this.logoFile) {
-        await this.uploadLogo(team.id());
-      }
-
-      this.attrs.onsave();
+      await promise;
+      this.attrs.onsave(); 
       this.hide();
     } catch (error: any) {
       this.loading = false;

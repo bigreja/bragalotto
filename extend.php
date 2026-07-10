@@ -36,7 +36,6 @@ return [
         ->post('/bragalotto-teams', 'bragalotto.teams.create', Controller\CreateTeamController::class)
         ->patch('/bragalotto-teams/{id}', 'bragalotto.teams.update', Controller\UpdateTeamController::class)
         ->delete('/bragalotto-teams/{id}', 'bragalotto.teams.delete', Controller\DeleteTeamController::class)
-        ->post('/bragalotto-teams/{id}/logo', 'bragalotto.teams.logo', Controller\UploadTeamLogoController::class)
         
         // Seasons (Admin)
         ->get('/bragalotto-seasons', 'bragalotto.seasons.index', Controller\ListSeasonsController::class)

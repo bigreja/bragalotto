@@ -13,7 +13,6 @@ class TeamValidator extends AbstractValidator
 
         return [
             'name' => ['required', 'string', 'max:100'],
-            'full_name' => ['nullable', 'string', 'max:255'],
             'slug' => [
                 'required',
                 'string',
@@ -21,7 +20,7 @@ class TeamValidator extends AbstractValidator
                 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
                 Rule::unique('bragalotto_teams', 'slug')->ignore($id),
             ],
-            'logo_path' => ['nullable', 'string', 'max:255'],
+            'logoPath' => ['nullable', 'string', 'url', 'max:255'],
         ];
     }
 
