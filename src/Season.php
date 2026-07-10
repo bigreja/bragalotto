@@ -23,7 +23,7 @@ class Season extends AbstractModel
 
     protected $table = 'bragalotto_seasons';
 
-    protected $fillable = ['name', 'slug', 'start_date', 'end_date'];
+    protected $fillable = ['name', 'slug', 'start_date', 'end_date', 'external_id'];
 
     protected $casts = [
         'start_date' => 'datetime',

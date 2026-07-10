@@ -14,8 +14,13 @@ use Bigreja\Bragalotto\Pick;
 use Bigreja\Bragalotto\UserScore;
 use Bigreja\Bragalotto\Listener;
 use Bigreja\Bragalotto\Notification;
+use Bigreja\Bragalotto\Command\ImportLigaPortugalCommand;
 
 return [
+    // Console Commands
+    (new Extend\Console())
+        ->command(ImportLigaPortugalCommand::class),
+
     // Frontend Assets
     (new Extend\Frontend('forum'))
         ->js(__DIR__.'/js/dist/forum.js')

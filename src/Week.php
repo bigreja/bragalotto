@@ -24,7 +24,7 @@ class Week extends AbstractModel
 
     protected $table = 'bragalotto_weeks';
 
-    protected $fillable = ['name', 'season_id', 'week_number', 'start_date', 'end_date'];
+    protected $fillable = ['name', 'season_id', 'week_number', 'start_date', 'end_date', 'external_id'];
 
     protected $casts = [
         'start_date' => 'datetime',

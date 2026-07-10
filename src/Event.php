@@ -34,16 +34,17 @@ class Event extends AbstractModel
     protected $table = 'bragalotto_events';
 
     protected $fillable = [
-        'week_id', 
-        'home_team_id', 
+        'week_id',
+        'home_team_id',
         'away_team_id',
-        'match_date', 
-        'cutoff_date', 
+        'match_date',
+        'cutoff_date',
         'allow_draw',
-        'status', 
-        'home_score', 
-        'away_score', 
-        'result'
+        'status',
+        'home_score',
+        'away_score',
+        'result',
+        'external_id',
     ];
 
     protected $casts = [

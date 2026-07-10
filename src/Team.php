@@ -26,7 +26,7 @@ class Team extends AbstractModel
 
     protected $table = 'bragalotto_teams';
 
-    protected $fillable = ['name', 'slug', 'logo_path'];
+    protected $fillable = ['name', 'slug', 'logo_path', 'external_id'];
 
     protected $casts = [
         'created_at' => 'datetime',
