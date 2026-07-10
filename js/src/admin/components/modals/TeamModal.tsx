@@ -146,22 +146,12 @@ export default class TeamModal extends Modal<ITeamModalAttrs> {
     const formData = new FormData();
     formData.append('logo', this.logoFile);
 
-    // Use native fetch so the browser sets Content-Type: multipart/form-data
-    // automatically — app.request would override it with application/json.
-    const headers: Record<string, string> = {};
-    if (app.session.token) {
-      headers['Authorization'] = 'Token ' + app.session.token;
-    }
-
-    const response = await fetch(
-      app.forum.attribute('apiUrl') + '/bragalotto-teams/' + teamId + '/logo',
-      { method: 'POST', headers, body: formData }
-    );
-
-    if (!response.ok) {
-      const err = await response.json().catch(() => ({}));
-      throw err;
-    }
+    await app.request({
+      method: 'POST',
+      url: app.forum.attribute('apiUrl') + '/bragalotto-teams/' + teamId + '/logo',
+      body: formData,
+      serialize: (raw: any) => raw,
+    });
   }
 
   async onsubmit(e: SubmitEvent) {
