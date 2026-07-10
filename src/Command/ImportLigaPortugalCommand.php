@@ -176,25 +176,37 @@ class ImportLigaPortugalCommand extends Command
 
     private function importRounds(string $competitionSlug, int $seasonId, Season $season, Competition $competition): void
     {
-        $this->line("    Importing rounds…");
+        $this->line("    Importing rounds for competition={$competitionSlug} season={$seasonId}…");
         try {
             $rounds = $this->api->getRounds($competitionSlug, $seasonId);
         } catch (\Exception $e) {
-            $this->warn("    Rounds API failed: " . $e->getMessage());
+            $this->error("    Rounds API failed: " . $e->getMessage());
             return;
         }
 
+        if (empty($rounds)) {
+            $this->warn("    Rounds API returned 0 items. Check competition slug and season ID.");
+            return;
+        }
+
+        $this->line("    API returned " . count($rounds) . " rounds. First item keys: " . implode(', ', array_keys($rounds[0] ?? [])));
+
         $count = 0;
         foreach ($rounds as $r) {
-            if (empty($r['id'])) continue;
-            $name = $r['label'] ?? ('Jornada ' . $r['id']);
+            // Handle both {id, label} and {roundId, name} field names
+            $rid  = $r['id'] ?? $r['roundId'] ?? $r['round'] ?? null;
+            $name = $r['label'] ?? $r['name'] ?? ('Jornada ' . $rid);
 
-            // Unique key: external_id + competition_id (round 1 exists in every competition)
+            if (empty($rid)) {
+                $this->warn('    Skipping round with no id: ' . json_encode($r));
+                continue;
+            }
+
             Week::updateOrCreate(
-                ['external_id' => (string) $r['id'], 'competition_id' => $competition->id],
+                ['external_id' => (string) $rid, 'competition_id' => $competition->id],
                 [
                     'name'           => $name,
-                    'week_number'    => (int) $r['id'],
+                    'week_number'    => (int) $rid,
                     'season_id'      => $season->id,
                     'competition_id' => $competition->id,
                 ]
@@ -217,9 +229,18 @@ class ImportLigaPortugalCommand extends Command
         } else {
             try {
                 $rounds   = $this->api->getRounds($competitionSlug, $seasonId);
-                $roundIds = array_values(array_filter(array_column($rounds, 'id')));
+                // Support both {id} and {roundId} field names
+                $roundIds = array_values(array_filter(array_map(
+                    fn($r) => $r['id'] ?? $r['roundId'] ?? $r['round'] ?? null,
+                    $rounds
+                )));
             } catch (\Exception $e) {
-                $this->warn("    Could not fetch rounds for match import: " . $e->getMessage());
+                $this->error("    Could not fetch rounds for match import: " . $e->getMessage());
+                return;
+            }
+
+            if (empty($roundIds)) {
+                $this->warn('    No round IDs found — cannot import matches.');
                 return;
             }
         }
@@ -247,11 +268,12 @@ class ImportLigaPortugalCommand extends Command
             }
 
             foreach ($matches as $m) {
-                if (empty($m['id'])) continue;
+                $mid        = $m['id'] ?? $m['fixtureId'] ?? $m['matchId'] ?? null;
+                if (empty($mid)) continue;
 
-                $externalId = (string) $m['id'];
-                $homeExtId  = (string) ($m['homeTeam']['id'] ?? '');
-                $awayExtId  = (string) ($m['awayTeam']['id'] ?? '');
+                $externalId = (string) $mid;
+                $homeExtId  = (string) ($m['homeTeam']['id'] ?? $m['home']['id'] ?? '');
+                $awayExtId  = (string) ($m['awayTeam']['id'] ?? $m['away']['id'] ?? '');
                 $homeTeamId = $teamMap[$homeExtId] ?? null;
                 $awayTeamId = $teamMap[$awayExtId] ?? null;
                 $weekId     = $weekMap[(string) $roundId] ?? null;
@@ -283,17 +305,17 @@ class ImportLigaPortugalCommand extends Command
                     $matchCount++;
                 }
 
-                // Resolve status / scores
-                $homeGoals = $m['homeTeamGoals'] ?? null;
-                $awayGoals = $m['awayTeamGoals'] ?? null;
+                // Resolve status / scores (handle multiple possible field names)
+                $homeGoals = $m['homeTeamGoals'] ?? $m['homeScore'] ?? $m['goalsHome'] ?? null;
+                $awayGoals = $m['awayTeamGoals'] ?? $m['awayScore'] ?? $m['goalsAway'] ?? null;
                 $status    = $m['status'] ?? null;
 
                 if ($status === null || $status === 'FINISHED') {
                     try {
-                        $details   = $this->api->getMatchDetails($competitionSlug, $seasonId, $roundId, (int) $m['id']);
+                        $details   = $this->api->getMatchDetails($competitionSlug, $seasonId, $roundId, (int) $mid);
                         $status    = $details['status'] ?? $status;
-                        $homeGoals = $details['homeTeamGoals'] ?? $homeGoals;
-                        $awayGoals = $details['awayTeamGoals'] ?? $awayGoals;
+                        $homeGoals = $details['homeTeamGoals'] ?? $details['homeScore'] ?? $homeGoals;
+                        $awayGoals = $details['awayTeamGoals'] ?? $details['awayScore'] ?? $awayGoals;
                     } catch (\Exception $e) {
                         // Non-fatal
                     }

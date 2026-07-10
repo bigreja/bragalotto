@@ -32,18 +32,30 @@ class LigaPortugalApiService
             throw new \RuntimeException("HTTP request failed: {$url}");
         }
 
-        // Check HTTP status from response headers
+        // Check HTTP status
         if (isset($http_response_header)) {
             $statusLine = $http_response_header[0] ?? '';
             if (preg_match('/HTTP\/\S+\s+(\d+)/', $statusLine, $m) && (int) $m[1] >= 400) {
-                throw new \RuntimeException("HTTP {$m[1]} from: {$url}");
+                throw new \RuntimeException("HTTP {$m[1]} from: {$url} — body: " . substr($json, 0, 300));
             }
         }
 
         $data = json_decode($json, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \RuntimeException('Invalid JSON from: ' . $url . ' — ' . json_last_error_msg());
+            throw new \RuntimeException('Invalid JSON from: ' . $url . ' — ' . json_last_error_msg() . ' — raw: ' . substr($json, 0, 200));
+        }
+
+        // Normalise: if the API wraps its list in an object, extract the array
+        if (is_array($data) && !array_is_list($data)) {
+            // Look for a key that holds the actual list (rounds, matches, teams, data, etc.)
+            foreach (['rounds', 'matches', 'teams', 'data', 'items', 'results'] as $key) {
+                if (isset($data[$key]) && is_array($data[$key])) {
+                    return $data[$key];
+                }
+            }
+            // Return single-item wrapper as one-element array
+            return [$data];
         }
 
         return $data ?? [];
