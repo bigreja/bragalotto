@@ -193,9 +193,9 @@ class ImportLigaPortugalCommand extends Command
 
         $count = 0;
         foreach ($rounds as $r) {
-            // Handle both {id, label} and {roundId, name} field names
-            $rid  = $r['id'] ?? $r['roundId'] ?? $r['round'] ?? null;
-            $name = $r['label'] ?? $r['name'] ?? ('Jornada ' . $rid);
+            // Handle actual API field names: round_number, description
+            $rid  = $r['round_number'] ?? $r['id'] ?? $r['roundId'] ?? $r['round'] ?? null;
+            $name = $r['description'] ?? $r['label'] ?? $r['name'] ?? ('Jornada ' . $rid);
 
             if (empty($rid)) {
                 $this->warn('    Skipping round with no id: ' . json_encode($r));
@@ -229,9 +229,9 @@ class ImportLigaPortugalCommand extends Command
         } else {
             try {
                 $rounds   = $this->api->getRounds($competitionSlug, $seasonId);
-                // Support both {id} and {roundId} field names
+                // Support actual API field names and fallbacks
                 $roundIds = array_values(array_filter(array_map(
-                    fn($r) => $r['id'] ?? $r['roundId'] ?? $r['round'] ?? null,
+                    fn($r) => $r['round_number'] ?? $r['id'] ?? $r['roundId'] ?? $r['round'] ?? null,
                     $rounds
                 )));
             } catch (\Exception $e) {
