@@ -267,13 +267,29 @@ class ImportLigaPortugalCommand extends Command
                 continue;
             }
 
+            if (empty($matches)) {
+                $this->warn("    Round {$roundId}: API returned 0 matches.");
+                continue;
+            }
+
+            // Show first item keys once (only for first round)
+            if ($matchCount === 0 && $skipCount === 0 && $resultCount === 0) {
+                $first = $matches[0];
+                $this->line("    First match keys: " . implode(', ', array_keys($first)));
+                $this->line("    First match sample: " . json_encode(array_slice($first, 0, 8)));
+            }
+
             foreach ($matches as $m) {
-                $mid        = $m['id'] ?? $m['fixtureId'] ?? $m['matchId'] ?? null;
-                if (empty($mid)) continue;
+                $mid        = $m['id'] ?? $m['fixture_id'] ?? $m['fixtureId'] ?? $m['matchId'] ?? $m['game_id'] ?? null;
+                if (empty($mid)) {
+                    $this->warn("    Skipping match with no id: " . json_encode(array_slice($m, 0, 5)));
+                    $skipCount++;
+                    continue;
+                }
 
                 $externalId = (string) $mid;
-                $homeExtId  = (string) ($m['homeTeam']['id'] ?? $m['home']['id'] ?? '');
-                $awayExtId  = (string) ($m['awayTeam']['id'] ?? $m['away']['id'] ?? '');
+                $homeExtId  = (string) ($m['homeTeam']['id'] ?? $m['home_team']['id'] ?? $m['home']['id'] ?? $m['homeTeamId'] ?? $m['home_team_id'] ?? '');
+                $awayExtId  = (string) ($m['awayTeam']['id'] ?? $m['away_team']['id'] ?? $m['away']['id'] ?? $m['awayTeamId'] ?? $m['away_team_id'] ?? '');
                 $homeTeamId = $teamMap[$homeExtId] ?? null;
                 $awayTeamId = $teamMap[$awayExtId] ?? null;
                 $weekId     = $weekMap[(string) $roundId] ?? null;
