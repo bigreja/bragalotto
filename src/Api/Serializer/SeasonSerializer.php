@@ -29,4 +29,12 @@ class SeasonSerializer extends AbstractSerializer
         }
         return $this->hasMany($season, WeekSerializer::class);
     }
+
+    public function competitions($season)
+    {
+        if (!$season->competitions) {
+            return null;
+        }
+        return $this->hasMany($season, CompetitionSerializer::class);
+    }
 }

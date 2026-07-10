@@ -33,6 +33,14 @@ class Season extends AbstractModel
     ];
 
     /**
+     * Get competitions in this season
+     */
+    public function competitions()
+    {
+        return $this->hasMany(Competition::class);
+    }
+
+    /**
      * Get weeks in this season
      */
     public function weeks()

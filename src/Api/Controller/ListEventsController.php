@@ -64,6 +64,12 @@ class ListEventsController extends AbstractListController
                       ->orWhere('away_team_id', $teamId);
             });
         }
+
+        if ($competitionId = Arr::get($filters, 'competition')) {
+            $query->whereHas('week', function ($q) use ($competitionId) {
+                $q->where('competition_id', $competitionId);
+            });
+        }
         
         $sort = $this->extractSort($request);
         $sortOrder = 'desc'; 

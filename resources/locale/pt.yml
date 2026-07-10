@@ -23,6 +23,7 @@ bigreja-bragalotto:
       settings: "Definições"
       teams: "Equipas"
       seasons: "Temporadas"
+      competitions: "Competições"
       weeks: "Semanas"
     status:
       scheduled: "Agendado"

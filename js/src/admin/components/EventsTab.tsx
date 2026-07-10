@@ -9,9 +9,11 @@ import PickemEvent from '../../common/models/Event';
 import Team from '../../common/models/Team';
 import Season from '../../common/models/Season';
 import Week from '../../common/models/Week';
+import Competition from '../../common/models/Competition';
 
 export default class EventsTab extends Component {
   private selectedSeason: string = 'all';
+  private selectedCompetition: string = 'all';
   private selectedTeam: string = 'all';
   private selectedStatus: string = 'all';
   private sortOrder: string = 'desc';
@@ -31,11 +33,12 @@ export default class EventsTab extends Component {
     const filters: any = {};
     const weekIds: string[] = [];
 
-    if (this.selectedSeason !== 'all') {
+    if (this.selectedCompetition !== 'all') {
+      filters.competition = this.selectedCompetition;
+    } else if (this.selectedSeason !== 'all') {
       const weeks = app.store.all<Week>('bragalotto-weeks').filter(week => week.seasonId() == this.selectedSeason);
       weekIds.push(...weeks.map(week => String(week.id())));
       if (weekIds.length === 0) weekIds.push('0');
-      // Admin panelinde de haftasız maçları dahil etmek isteyebiliriz
       weekIds.push('null');
       filters.week = weekIds.join(',');
     }
@@ -84,9 +87,10 @@ export default class EventsTab extends Component {
   view() {
     const seasons = app.store.all<Season>('bragalotto-seasons');
     const teams = app.store.all<Team>('bragalotto-teams');
+    const competitions = app.store.all<Competition>('bragalotto-competitions').filter(
+      c => this.selectedSeason === 'all' || String(c.seasonId()) === this.selectedSeason
+    );
     const hasEvents = this.events.length > 0;
-
-
     const reverse = app.data.settings['bigreja-bragalotto.reverse_display'] === '1';
 
     return (
@@ -123,6 +127,22 @@ export default class EventsTab extends Component {
                 <option key={season.id()} value={season.id()}>
                   {season.name()}
                 </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="FormGroup">
+            <label>{app.translator.trans('bigreja-bragalotto.lib.nav.competitions')}</label>
+            <select
+              value={this.selectedCompetition}
+              onchange={(e: any) => {
+                this.selectedCompetition = e.target.value;
+                this.loadEvents(true);
+              }}
+            >
+              <option value="all">{app.translator.trans('bigreja-bragalotto.lib.filters.all')}</option>
+              {competitions.map(c => (
+                <option key={c.id()} value={c.id()}>{c.name()}</option>
               ))}
             </select>
           </div>

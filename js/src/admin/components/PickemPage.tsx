@@ -3,6 +3,7 @@ import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Alert from 'flarum/common/components/Alert';
 import TeamsTab from './TeamsTab';
 import SeasonsTab from './SeasonsTab';
+import CompetitionsTab from './CompetitionsTab';
 import WeeksTab from './WeeksTab';
 import EventsTab from './EventsTab';
 import SettingsTab from './SettingsTab'; 
@@ -16,7 +17,7 @@ export default class PickemPage extends ExtensionPage {
     super.oninit(vnode);
     
     const urlTab = m.route.param('tab');
-    if (urlTab && ['events', 'teams', 'seasons', 'weeks', 'settings'].includes(urlTab)) {
+    if (urlTab && ['events', 'teams', 'seasons', 'competitions', 'weeks', 'settings'].includes(urlTab)) {
       this.activeTab = urlTab;
     }
     
@@ -28,6 +29,7 @@ export default class PickemPage extends ExtensionPage {
       await Promise.all([
         app.store.find('bragalotto-teams'),
         app.store.find('bragalotto-seasons'),
+        app.store.find('bragalotto-competitions'),
         app.store.find('bragalotto-weeks', { include: 'season' }),
       ]);
       this.error = null;
@@ -63,6 +65,7 @@ export default class PickemPage extends ExtensionPage {
             {this.renderTab('events', 'fas fa-futbol', app.translator.trans('bigreja-bragalotto.lib.nav.matches'))}
             {this.renderTab('teams', 'fas fa-users', app.translator.trans('bigreja-bragalotto.lib.nav.teams'))}
             {this.renderTab('seasons', 'fas fa-calendar-alt', app.translator.trans('bigreja-bragalotto.lib.nav.seasons'))}
+            {this.renderTab('competitions', 'fas fa-trophy', app.translator.trans('bigreja-bragalotto.lib.nav.competitions'))}
             {this.renderTab('weeks', 'fas fa-calendar-week', app.translator.trans('bigreja-bragalotto.lib.nav.weeks'))}
             {this.renderTab('settings', 'fas fa-cogs', app.translator.trans('bigreja-bragalotto.lib.nav.settings'))}
           </div>
@@ -99,6 +102,8 @@ export default class PickemPage extends ExtensionPage {
         return <TeamsTab />;
       case 'seasons':
         return <SeasonsTab />;
+      case 'competitions':
+        return <CompetitionsTab />;
       case 'weeks':
         return <WeeksTab />;
       case 'settings':

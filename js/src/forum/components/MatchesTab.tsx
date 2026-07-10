@@ -7,6 +7,7 @@ import PickemEvent from '../../common/models/Event';
 import Season from '../../common/models/Season';
 import Team from '../../common/models/Team';
 import Week from '../../common/models/Week';
+import Competition from '../../common/models/Competition';
 
 interface IMatchesTabAttrs {
   picks: Record<string, any>;
@@ -15,6 +16,7 @@ interface IMatchesTabAttrs {
 
 export default class MatchesTab extends Component<IMatchesTabAttrs> {
   private selectedSeason: string = 'all';
+  private selectedCompetition: string = 'all';
   private selectedWeek: string = 'all';
   private selectedTeam: string = 'all';
   private selectedStatus: string = 'all';
@@ -39,15 +41,14 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
     const filters: any = {};
     const weekIds = [];
 
-    if (this.selectedWeek !== 'all') {
-        filters.week = this.selectedWeek;
-    } 
-    else if (this.selectedSeason !== 'all') {
+    if (this.selectedCompetition !== 'all') {
+      filters.competition = this.selectedCompetition;
+    } else if (this.selectedWeek !== 'all') {
+      filters.week = this.selectedWeek;
+    } else if (this.selectedSeason !== 'all') {
       const weeks = app.store.all<Week>('bragalotto-weeks').filter((week) => week.seasonId() == this.selectedSeason);
       weekIds.push(...weeks.map((week) => week.id()));
-      
-      weekIds.push('null'); 
-      
+      weekIds.push('null');
       filters.week = weekIds.join(',');
     }
 
@@ -168,8 +169,11 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
   view() {
     const allSeasons = app.store.all<Season>('bragalotto-seasons');
     const allTeams = app.store.all<Team>('bragalotto-teams');
+    const allCompetitions = app.store.all<Competition>('bragalotto-competitions').filter(
+      c => this.selectedSeason === 'all' || String(c.seasonId()) === this.selectedSeason
+    );
     const hasEvents = this.events.length > 0;
-    
+
     let availableWeeks: Week[] = [];
     if (this.selectedSeason !== 'all') {
         availableWeeks = app.store.all<Week>('bragalotto-weeks')
@@ -196,6 +200,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
               value={this.selectedSeason}
               onchange={(e: any) => {
                 this.selectedSeason = e.target.value;
+                this.selectedCompetition = 'all';
                 this.selectedWeek = 'all';
                 this.loadEvents(true);
               }}
@@ -206,6 +211,29 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
               ))}
             </select>
           </div>
+
+          {allCompetitions.length > 0 && (
+            <div className="FilterGroup">
+              <label>
+                <i className="fas fa-trophy" />
+                <span>{app.translator.trans('bigreja-bragalotto.lib.nav.competitions')}</span>
+              </label>
+              <select
+                className="FormControl"
+                value={this.selectedCompetition}
+                onchange={(e: any) => {
+                  this.selectedCompetition = e.target.value;
+                  this.selectedWeek = 'all';
+                  this.loadEvents(true);
+                }}
+              >
+                <option value="all">{app.translator.trans('bigreja-bragalotto.lib.filters.all')}</option>
+                {allCompetitions.map((c: Competition) => (
+                  <option value={c.id()}>{c.name()}</option>
+                ))}
+              </select>
+            </div>
+          )}
 
           <div className="FilterGroup">
             <label>

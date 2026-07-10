@@ -3,6 +3,7 @@ import Model from 'flarum/common/Model';
 
 import Team from './models/Team';
 import Season from './models/Season';
+import Competition from './models/Competition';
 import Week from './models/Week';
 import PickemEvent from './models/Event';
 import Pick from './models/Pick';
@@ -24,8 +25,19 @@ export default [
   new Extend.Model(Season)
     .attribute('name')
     .attribute('slug')
-    .attribute<Date>('startDate', Model.transformDate) // Tip ataması
-    .attribute<Date>('endDate', Model.transformDate),   // Tip ataması
+    .attribute<Date>('startDate', Model.transformDate)
+    .attribute<Date>('endDate', Model.transformDate)
+    .hasMany('competitions'),
+
+  new Extend.Store()
+    .add('bragalotto-competitions', Competition),
+
+  new Extend.Model(Competition)
+    .attribute('externalId')
+    .attribute('seasonId')
+    .attribute('name')
+    .attribute('slug')
+    .hasOne('season'),
 
   new Extend.Store()
     .add('bragalotto-weeks', Week),
@@ -33,8 +45,10 @@ export default [
   new Extend.Model(Week)
     .attribute('name')
     .attribute('seasonId')
+    .attribute('competitionId')
     .attribute('weekNumber')
-    .hasOne('season'),
+    .hasOne('season')
+    .hasOne('competition'),
 
   new Extend.Store()
     .add('bragalotto-events', PickemEvent),

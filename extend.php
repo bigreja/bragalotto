@@ -41,6 +41,12 @@ return [
         ->post('/bragalotto-teams', 'bragalotto.teams.create', Controller\CreateTeamController::class)
         ->patch('/bragalotto-teams/{id}', 'bragalotto.teams.update', Controller\UpdateTeamController::class)
         ->delete('/bragalotto-teams/{id}', 'bragalotto.teams.delete', Controller\DeleteTeamController::class)
+
+        // Competitions (Admin)
+        ->get('/bragalotto-competitions', 'bragalotto.competitions.index', Controller\ListCompetitionsController::class)
+        ->post('/bragalotto-competitions', 'bragalotto.competitions.create', Controller\CreateCompetitionController::class)
+        ->patch('/bragalotto-competitions/{id}', 'bragalotto.competitions.update', Controller\UpdateCompetitionController::class)
+        ->delete('/bragalotto-competitions/{id}', 'bragalotto.competitions.delete', Controller\DeleteCompetitionController::class)
         
         // Seasons (Admin)
         ->get('/bragalotto-seasons', 'bragalotto.seasons.index', Controller\ListSeasonsController::class)
@@ -74,6 +80,7 @@ return [
         ->get('/bragalotto-public-seasons', 'bragalotto.public.seasons.index', Controller\ListPublicSeasonsController::class)
         ->get('/bragalotto-public-teams', 'bragalotto.public.teams.index', Controller\ListPublicTeamsController::class)
         ->get('/bragalotto-public-weeks', 'bragalotto.public.weeks.index', Controller\ListPublicWeeksController::class)
+        ->get('/bragalotto-public-competitions', 'bragalotto.public.competitions.index', Controller\ListPublicCompetitionsController::class)
 
         // Admin Tools
         ->post('/bragalotto/recalculate-all-scores', 'bragalotto.recalculate_scores', Controller\RecalculateAllScoresController::class),

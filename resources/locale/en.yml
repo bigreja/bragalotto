@@ -23,6 +23,7 @@ bigreja-bragalotto:
       settings: "Settings"
       teams: "Teams"
       seasons: "Seasons"
+      competitions: "Competitions"
       weeks: "Weeks"
     status:
       scheduled: "Scheduled"
