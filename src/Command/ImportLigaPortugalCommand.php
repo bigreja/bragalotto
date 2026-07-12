@@ -304,7 +304,7 @@ class ImportLigaPortugalCommand extends Command
                     $event = Event::where('external_id', $externalId)->first();
                     if (!$event) { $skipCount++; continue; }
                 } else {
-                    $matchDate = !empty($m['date']) ? Carbon::parse($m['date']) : Carbon::now();
+                    $matchDate = !empty($m['matchDate']) ? Carbon::parse($m['matchDate']) : Carbon::now();
 
                     $event = Event::updateOrCreate(
                         ['external_id' => $externalId],
