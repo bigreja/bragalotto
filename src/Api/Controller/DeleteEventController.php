@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 namespace Bigreja\Bragalotto\Api\Controller;
 
