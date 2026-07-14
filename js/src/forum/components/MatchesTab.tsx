@@ -39,17 +39,17 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
 
   buildFilters() {
     const filters: any = {};
-    const weekIds = [];
 
     if (this.selectedCompetition !== 'all') {
       filters.competition = this.selectedCompetition;
-    } else if (this.selectedWeek !== 'all') {
-      filters.week = this.selectedWeek;
     } else if (this.selectedSeason !== 'all') {
-      const weeks = app.store.all<Week>('bragalotto-weeks').filter((week) => week.seasonId() == this.selectedSeason);
-      weekIds.push(...weeks.map((week) => week.id()));
-      weekIds.push('null');
-      filters.week = weekIds.join(',');
+      // Filter by all competitions in this season
+      const competitionIds = app.store.all<Competition>('bragalotto-competitions')
+        .filter(c => String(c.seasonId()) === this.selectedSeason)
+        .map(c => String(c.id()));
+      if (competitionIds.length > 0) {
+        filters.competition = competitionIds.join(',');
+      }
     }
 
     if (this.selectedTeam !== 'all') {

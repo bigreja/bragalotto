@@ -30,7 +30,7 @@ export default class PickemPage extends ExtensionPage {
         app.store.find('bragalotto-teams'),
         app.store.find('bragalotto-seasons'),
         app.store.find('bragalotto-competitions'),
-        app.store.find('bragalotto-weeks', { include: 'season' }),
+        app.store.find('bragalotto-weeks', { include: 'competition' }),
       ]);
       this.error = null;
     } catch (error: any) {

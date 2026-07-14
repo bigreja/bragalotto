@@ -31,16 +31,19 @@ export default class EventsTab extends Component {
 
   buildFilters() {
     const filters: any = {};
-    const weekIds: string[] = [];
 
     if (this.selectedCompetition !== 'all') {
       filters.competition = this.selectedCompetition;
     } else if (this.selectedSeason !== 'all') {
-      const weeks = app.store.all<Week>('bragalotto-weeks').filter(week => week.seasonId() == this.selectedSeason);
-      weekIds.push(...weeks.map(week => String(week.id())));
-      if (weekIds.length === 0) weekIds.push('0');
-      weekIds.push('null');
-      filters.week = weekIds.join(',');
+      // Derive competitions for this season, then filter by competition
+      const competitionIds = app.store.all<Competition>('bragalotto-competitions')
+        .filter(c => String(c.seasonId()) === this.selectedSeason)
+        .map(c => String(c.id()));
+      if (competitionIds.length > 0) {
+        // Use first competition as default when season selected without specific competition
+        // Backend filters events by competition via week.competition_id
+        filters.competition = competitionIds.join(',');
+      }
     }
 
     if (this.selectedTeam !== 'all') {

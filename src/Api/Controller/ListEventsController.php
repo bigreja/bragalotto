@@ -65,9 +65,10 @@ class ListEventsController extends AbstractListController
             });
         }
 
-        if ($competitionId = Arr::get($filters, 'competition')) {
-            $query->whereHas('week', function ($q) use ($competitionId) {
-                $q->where('competition_id', $competitionId);
+        if ($competitionFilter = Arr::get($filters, 'competition')) {
+            $ids = array_filter(explode(',', $competitionFilter));
+            $query->whereHas('week', function ($q) use ($ids) {
+                $q->whereIn('competition_id', $ids);
             });
         }
         

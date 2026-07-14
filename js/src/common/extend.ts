@@ -44,10 +44,8 @@ export default [
   
   new Extend.Model(Week)
     .attribute('name')
-    .attribute('seasonId')
     .attribute('competitionId')
     .attribute('weekNumber')
-    .hasOne('season')
     .hasOne('competition'),
 
   new Extend.Store()

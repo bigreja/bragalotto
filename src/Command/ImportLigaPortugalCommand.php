@@ -207,7 +207,6 @@ class ImportLigaPortugalCommand extends Command
                 [
                     'name'           => $name,
                     'week_number'    => (int) $rid,
-                    'season_id'      => $season->id,
                     'competition_id' => $competition->id,
                 ]
             );

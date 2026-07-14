@@ -14,7 +14,6 @@ class WeekSerializer extends AbstractSerializer
         return [
             'id' => (string) $week->id,
             'name' => $week->name,
-            'seasonId' => $week->season_id,
             'competitionId' => $week->competition_id,
             'weekNumber' => $week->week_number,
             'startDate' => $this->formatDate($week->start_date),
@@ -22,14 +21,6 @@ class WeekSerializer extends AbstractSerializer
             'createdAt' => $this->formatDate($week->created_at),
             'updatedAt' => $this->formatDate($week->updated_at),
         ];
-    }
-
-    public function season($week)
-    {
-        if (!$week->season) {
-            return null;
-        }
-        return $this->hasOne($week, SeasonSerializer::class);
     }
 
     public function competition($week)

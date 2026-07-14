@@ -8,7 +8,6 @@ use Flarum\Database\ScopeVisibilityTrait;
 /**
  * @property int $id
  * @property string $name
- * @property int|null $season_id
  * @property int|null $competition_id
  * @property int|null $week_number
  * @property \Carbon\Carbon|null $start_date
@@ -25,7 +24,7 @@ class Week extends AbstractModel
 
     protected $table = 'bragalotto_weeks';
 
-    protected $fillable = ['name', 'season_id', 'competition_id', 'week_number', 'start_date', 'end_date', 'external_id'];
+    protected $fillable = ['name', 'competition_id', 'week_number', 'start_date', 'end_date', 'external_id'];
 
     protected $casts = [
         'start_date' => 'datetime',
@@ -37,11 +36,6 @@ class Week extends AbstractModel
     /**
      * Get the season this week belongs to
      */
-    public function season()
-    {
-        return $this->belongsTo(Season::class);
-    }
-
     public function competition()
     {
         return $this->belongsTo(Competition::class);

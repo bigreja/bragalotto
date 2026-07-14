@@ -2,7 +2,7 @@
 import Button from 'flarum/common/components/Button';
 import WeekModal from './modals/WeekModal'; 
 import Week from '../../common/models/Week'; 
-import Season from '../../common/models/Season';
+import Competition from '../../common/models/Competition';
 import extractText from 'flarum/common/utils/extractText';
 
 export default class WeeksTab extends Component {
@@ -32,7 +32,7 @@ export default class WeeksTab extends Component {
         <div className="CardList">
           <div className="CardList-header">
             <div>{app.translator.trans('bigreja-bragalotto.lib.headers.name')}</div>
-            <div>{app.translator.trans('bigreja-bragalotto.lib.common.season')}</div>
+            <div>{app.translator.trans('bigreja-bragalotto.lib.nav.competitions')}</div>
             <div>{app.translator.trans('bigreja-bragalotto.lib.headers.week_number')}</div>
             <div></div>
           </div>
@@ -44,15 +44,15 @@ export default class WeeksTab extends Component {
             </div>
           ) : (
             weeks.map(week => {
-              const season = week.season() as Season | false;
+              const competition = week.competition() as Competition | false;
               return (
                 <div key={week.id()} className="CardList-item">
                   <div className="CardList-item-cell CardList-item-cell--primary" data-label={app.translator.trans('bigreja-bragalotto.lib.headers.name')}>
                     {week.name()}
                   </div>
 
-                  <div className="CardList-item-cell" data-label={app.translator.trans('bigreja-bragalotto.lib.common.season')}>
-                    {season ? season.name() : '-'}
+                  <div className="CardList-item-cell" data-label={app.translator.trans('bigreja-bragalotto.lib.nav.competitions')}>
+                    {competition ? competition.name() : '-'}
                   </div>
 
                   <div className="CardList-item-cell CardList-item-cell--muted" data-label={app.translator.trans('bigreja-bragalotto.lib.headers.week_number')}>
