@@ -40,7 +40,9 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
   buildFilters() {
     const filters: any = {};
 
-    if (this.selectedCompetition !== 'all') {
+    if (this.selectedWeek !== 'all') {
+      filters.week = this.selectedWeek;
+    } else if (this.selectedCompetition !== 'all') {
       filters.competition = this.selectedCompetition;
     } else if (this.selectedSeason !== 'all') {
       // Filter by all competitions in this season
@@ -175,14 +177,15 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
     const hasEvents = this.events.length > 0;
 
     let availableWeeks: Week[] = [];
-    if (this.selectedSeason !== 'all') {
-        availableWeeks = app.store.all<Week>('bragalotto-weeks')
-            .filter(week => week.seasonId() == this.selectedSeason)
-            .sort((a, b) => {
-                const numA = parseInt(String(a.weekNumber() || 0));
-                const numB = parseInt(String(b.weekNumber() || 0));
-                return numA - numB;
-            });
+    if (this.selectedCompetition !== 'all') {
+      availableWeeks = app.store.all<Week>('bragalotto-weeks')
+        .filter(w => String(w.competitionId()) === this.selectedCompetition)
+        .sort((a, b) => parseInt(String(a.weekNumber() || 0)) - parseInt(String(b.weekNumber() || 0)));
+    } else if (this.selectedSeason !== 'all') {
+      const compIds = allCompetitions.map(c => String(c.id()));
+      availableWeeks = app.store.all<Week>('bragalotto-weeks')
+        .filter(w => compIds.includes(String(w.competitionId())))
+        .sort((a, b) => parseInt(String(a.weekNumber() || 0)) - parseInt(String(b.weekNumber() || 0)));
     }
 
     const currentPicks = this.attrs.picks || {};

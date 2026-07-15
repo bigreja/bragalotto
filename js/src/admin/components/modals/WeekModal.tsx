@@ -2,7 +2,7 @@
 import Button from 'flarum/common/components/Button';
 import Select from 'flarum/common/components/Select';
 import Week from '../../../common/models/Week';
-import Season from '../../../common/models/Season';
+import Competition from '../../../common/models/Competition';
 
 interface IWeekModalAttrs {
   week?: Week | null;
@@ -13,7 +13,7 @@ export default class WeekModal extends Modal<IWeekModalAttrs> {
   private week: Week | null | undefined;
   private name: string = '';
   private weekNumber: string | number = '';
-  private seasonId: string = '0'; 
+  private competitionId: string = '0';
   private loading: boolean = false;
 
   oninit(vnode: any) {
@@ -22,7 +22,7 @@ export default class WeekModal extends Modal<IWeekModalAttrs> {
     if (this.week) {
       this.name = this.week.name() || '';
       this.weekNumber = this.week.weekNumber() || '';
-      this.seasonId = this.week.seasonId() || '0';
+      this.competitionId = String(this.week.competitionId() || '0');
     }
   }
 
@@ -38,10 +38,10 @@ export default class WeekModal extends Modal<IWeekModalAttrs> {
   }
 
   content() {
-    const seasons = app.store.all('bragalotto-seasons') as Season[];
-    const seasonOptions: Record<string, string> = seasons.reduce((options: Record<string, string>, season) => {
-      options[season.id()] = season.name();
-      return options;
+    const competitions = app.store.all<Competition>('bragalotto-competitions');
+    const competitionOptions: Record<string, string> = competitions.reduce((acc: Record<string, string>, c) => {
+      acc[c.id()!] = c.name()!;
+      return acc;
     }, {});
 
     return (
@@ -58,13 +58,12 @@ export default class WeekModal extends Modal<IWeekModalAttrs> {
           </div>
 
           <div className="Form-group">
-            {/* GÜNCELLENDİ: lib.form.season -> lib.common.season */}
-            <label>{app.translator.trans('bigreja-bragalotto.lib.common.season')}</label>
+            <label>{app.translator.trans('bigreja-bragalotto.lib.nav.competitions')}</label>
             <Select
               className="FormControl"
-              value={this.seasonId}
-              onchange={(value: string) => { this.seasonId = value; }}
-              options={seasonOptions}
+              value={this.competitionId}
+              onchange={(value: string) => { this.competitionId = value; }}
+              options={competitionOptions}
               default="0"
             >
               <option value="0">{app.translator.trans('bigreja-bragalotto.lib.form.select_season')}</option>
@@ -102,7 +101,7 @@ export default class WeekModal extends Modal<IWeekModalAttrs> {
     const data = {
       name: this.name,
       weekNumber: this.weekNumber || null,
-      seasonId: this.seasonId === '0' ? null : this.seasonId,
+      competitionId: this.competitionId === '0' ? null : this.competitionId,
     };
     try {
       const promise = this.week
