@@ -3,7 +3,7 @@ bigreja-bragalotto:
     common:
       season: "Temporada"
       team: "Equipa"
-      week: "Semana"
+      week: "Jornada"
       match: "Jogo"
       pick: "Palpite"
       home: "Casa"
@@ -16,7 +16,7 @@ bigreja-bragalotto:
       result: "Resultado"
       score: "Marcador"
     nav:
-      pickem: "Palpites"
+      pickem: "Bragalotto"
       matches: "Jogos"
       my_picks: "Os Meus Palpites"
       leaderboard: "Classificação"
@@ -24,7 +24,7 @@ bigreja-bragalotto:
       teams: "Equipas"
       seasons: "Temporadas"
       competitions: "Competições"
-      weeks: "Semanas"
+      weeks: "Jornadas"
     status:
       scheduled: "Agendado"
       closed: "Fechado"
@@ -43,7 +43,7 @@ bigreja-bragalotto:
       cutoff_date: "Data Limite"
       slug: "Slug"
       name: "Nome"
-      week_number: "Número da Semana"
+      week_number: "Número da Jornada"
     form:
       name: "Nome"
       slug: "Slug"
