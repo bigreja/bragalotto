@@ -14,22 +14,19 @@ class ListWeeksController extends AbstractListController
 {
     public $serializer = WeekSerializer::class;
 
-    public $include = ['season'];
+    public $include = ['competition'];
 
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
         $actor->assertCan('bragalotto.manage');
 
-        $query = Week::query();
-        
-        // DÜZELTME: Sezon ilişkisini peşin yükle
-        $query->with('season');
+        $query = Week::query()->with('competition');
 
-        if ($seasonId = Arr::get($request->getQueryParams(), 'filter.season')) {
-            $query->where('season_id', $seasonId);
+        if ($competitionId = Arr::get($request->getQueryParams(), 'filter.competition')) {
+            $query->where('competition_id', $competitionId);
         }
 
-        return $query->orderBy('start_date', 'desc')->get();
+        return $query->orderBy('week_number')->get();
     }
 }
