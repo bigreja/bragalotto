@@ -13,9 +13,6 @@ return [
             $table->boolean('is_correct')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('event_id')->references('id')->on('bragalotto_events')->onDelete('cascade');
-
             // Unique constraint: one pick per user per event
             $table->unique(['user_id', 'event_id']);
         });

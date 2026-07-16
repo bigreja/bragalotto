@@ -5,15 +5,17 @@ use Illuminate\Database\Schema\Builder;
 
 return [
     'up' => function (Builder $schema) {
-        $schema->create('bragalotto_teams', function (Blueprint $table) {
+        $schema->create('bragalotto_seasons', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('external_id', 100)->nullable();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->string('logo_path')->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->timestamps();
         });
     },
     'down' => function (Builder $schema) {
-        $schema->dropIfExists('bragalotto_teams');
+        $schema->dropIfExists('bragalotto_seasons');
     }
 ];

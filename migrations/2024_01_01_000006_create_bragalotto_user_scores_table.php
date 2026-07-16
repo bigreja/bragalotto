@@ -14,9 +14,6 @@ return [
             $table->integer('correct_picks')->default(0);
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('season_id')->references('id')->on('bragalotto_seasons')->onDelete('cascade');
-
             // Unique constraint: one score record per user per season
             $table->unique(['user_id', 'season_id']);
         });

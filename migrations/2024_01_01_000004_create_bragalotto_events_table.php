@@ -7,6 +7,7 @@ return [
     'up' => function (Builder $schema) {
         $schema->create('bragalotto_events', function (Blueprint $table) {
             $table->increments('id');
+			$table->string('external_id', 100)->nullable()->unique();
             $table->unsignedInteger('week_id')->nullable();
             $table->unsignedInteger('home_team_id');
             $table->unsignedInteger('away_team_id');
@@ -18,10 +19,6 @@ return [
             $table->integer('away_score')->nullable();
             $table->enum('result', ['home', 'away', 'draw'])->nullable();
             $table->timestamps();
-
-            $table->foreign('week_id')->references('id')->on('bragalotto_weeks')->onDelete('cascade');
-            $table->foreign('home_team_id')->references('id')->on('bragalotto_teams')->onDelete('cascade');
-            $table->foreign('away_team_id')->references('id')->on('bragalotto_teams')->onDelete('cascade');
         });
     },
     'down' => function (Builder $schema) {
