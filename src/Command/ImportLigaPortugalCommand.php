@@ -323,12 +323,12 @@ class ImportLigaPortugalCommand extends Command
                 // Resolve status / scores (handle multiple possible field names)
                 $homeGoals = $m['homeTeamGoals'] ?? $m['homeScore'] ?? $m['goalsHome'] ?? null;
                 $awayGoals = $m['awayTeamGoals'] ?? $m['awayScore'] ?? $m['goalsAway'] ?? null;
-                $status    = $m['status'] ?? null;
+                $status    = $m['fixtureStateTypeId'] ?? null;
 
-                if ($status === null || $status === 'FINISHED') {
+                if ($status === null || $status === '5') {
                     try {
                         $details   = $this->api->getMatchDetails($competitionSlug, $seasonId, $roundId, (int) $mid);
-                        $status    = $details['status'] ?? $status;
+                        $status    = $details['fixtureStateTypeId'] ?? $status;
                         $homeGoals = $details['homeTeamGoals'] ?? $details['homeScore'] ?? $homeGoals;
                         $awayGoals = $details['awayTeamGoals'] ?? $details['awayScore'] ?? $awayGoals;
                     } catch (\Exception $e) {
@@ -336,7 +336,7 @@ class ImportLigaPortugalCommand extends Command
                     }
                 }
 
-                if ($status === 'FINISHED' && $homeGoals !== null && $awayGoals !== null) {
+                if ($status === '5' && $homeGoals !== null && $awayGoals !== null) {
                     if ($this->applyResult($event, (int) $homeGoals, (int) $awayGoals)) {
                         $resultCount++;
                     }
