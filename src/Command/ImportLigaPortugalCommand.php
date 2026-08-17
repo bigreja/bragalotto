@@ -324,19 +324,32 @@ class ImportLigaPortugalCommand extends Command
                 $homeGoals = $m['homeTeamGoals'] ?? $m['homeScore'] ?? $m['goalsHome'] ?? null;
                 $awayGoals = $m['awayTeamGoals'] ?? $m['awayScore'] ?? $m['goalsAway'] ?? null;
                 $status    = $m['status'] ?? null;
+                $fixtureStateTypeId    = $m['fixtureStateTypeId'] ?? null;
+                $fixtureSubStateTypeId = $m['fixtureSubStateTypeId'] ?? null;
 
-                if ($status === null || $status === 'FINISHED') {
+                if (
+                    $status === null ||
+                    $status === 'FINISHED' ||
+                    $fixtureStateTypeId === null ||
+                    $fixtureSubStateTypeId === null
+                ) {
                     try {
                         $details   = $this->api->getMatchDetails($competitionSlug, $seasonId, $roundId, (int) $mid);
                         $status    = $details['status'] ?? $status;
                         $homeGoals = $details['homeTeamGoals'] ?? $details['homeScore'] ?? $homeGoals;
                         $awayGoals = $details['awayTeamGoals'] ?? $details['awayScore'] ?? $awayGoals;
+                        $fixtureStateTypeId    = $details['fixtureStateTypeId'] ?? $fixtureStateTypeId;
+                        $fixtureSubStateTypeId = $details['fixtureSubStateTypeId'] ?? $fixtureSubStateTypeId;
                     } catch (\Exception $e) {
                         // Non-fatal
                     }
                 }
 
-                if ($status === 'FINISHED' && $homeGoals !== null && $awayGoals !== null) {
+                if (
+                    $this->isFixtureEnded($status, $fixtureStateTypeId, $fixtureSubStateTypeId) &&
+                    $homeGoals !== null &&
+                    $awayGoals !== null
+                ) {
                     if ($this->applyResult($event, (int) $homeGoals, (int) $awayGoals)) {
                         $resultCount++;
                     }
@@ -347,6 +360,15 @@ class ImportLigaPortugalCommand extends Command
         $this->line("    Matches upserted: {$matchCount}");
         if ($resultCount > 0) $this->line("    Results applied:  {$resultCount}");
         if ($skipCount   > 0) $this->warn("    Skipped:          {$skipCount}");
+    }
+
+    private function isFixtureEnded($status, $fixtureStateTypeId, $fixtureSubStateTypeId): bool
+    {
+        if (is_string($status) && strtoupper($status) === 'FINISHED') {
+            return true;
+        }
+
+        return (int) $fixtureStateTypeId === 5 && (int) $fixtureSubStateTypeId === 11;
     }
 
     private function applyResult(Event $event, int $homeGoals, int $awayGoals): bool
