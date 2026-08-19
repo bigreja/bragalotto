@@ -59,6 +59,12 @@ class EnterEventResultController extends AbstractShowController
             $event->status = Event::STATUS_FINISHED;
         }
 
+        // Skip re-processing if this finished event already has the same result.
+        if (!$event->isDirty(['home_score', 'away_score', 'status'])) {
+            $event->load(['homeTeam', 'awayTeam', 'week']);
+            return $event;
+        }
+
         $event->save();
 
         // 4. Bildirim ve Puan Hesaplama İşini Kuyruğa At

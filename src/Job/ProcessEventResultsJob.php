@@ -3,10 +3,7 @@
 namespace Bigreja\Bragalotto\Job;
 
 use Flarum\Queue\AbstractJob;
-use Flarum\Notification\NotificationSyncer;
 use Bigreja\Bragalotto\Event;
-use Bigreja\Bragalotto\Pick;
-use Bigreja\Bragalotto\Notification\EventResultBlueprint;
 use Bigreja\Bragalotto\PickemScoringService;
 
 class ProcessEventResultsJob extends AbstractJob
@@ -21,7 +18,7 @@ class ProcessEventResultsJob extends AbstractJob
         $this->eventId = $eventId;
     }
 
-    public function handle(PickemScoringService $scoringService, NotificationSyncer $notifications)
+    public function handle(PickemScoringService $scoringService)
     {
         $event = Event::find($this->eventId);
 
@@ -29,23 +26,8 @@ class ProcessEventResultsJob extends AbstractJob
             return;
         }
 
-        // 1. Puanları yeniden hesapla (Bu, PickemScoringService'ten gelen mantık)
+        // Recalculate points only. Notifications are sent by the Saved listener
+        // when result/status actually changes.
         $scoringService->updateScoresForEvent($event);
-
-        // 2. Bildirimleri gönder (Bu, EnterEventResultController'dan taşınan mantık)
-        $picks = Pick::where('event_id', $event->id)
-            ->with('user')
-            ->get();
-
-        $users = $picks->pluck('user')->filter();
-
-        if ($users->isEmpty()) {
-            return;
-        }
-
-        $notifications->sync(
-            new EventResultBlueprint($event),
-            $users->all()
-        );
     }
 }
