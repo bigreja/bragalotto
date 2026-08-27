@@ -37,6 +37,7 @@ app.initializers.add('bigreja/bragalotto', () => {
           'bragalotto',
           <MobileTabItem
             href={app.route('bragalotto')}
+            route={app.route('bragalotto')}
             icon="fas fa-trophy"
             label={app.translator.trans('bigreja-bragalotto.lib.nav.pickem')}
           />,
