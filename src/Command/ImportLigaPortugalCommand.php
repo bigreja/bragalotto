@@ -314,7 +314,6 @@ class ImportLigaPortugalCommand extends Command
                             'match_date'   => $matchDate,
                             'cutoff_date'  => $matchDate,
                             'allow_draw'   => true,
-                            'status'       => Event::STATUS_SCHEDULED,
                         ]
                     );
                     $matchCount++;

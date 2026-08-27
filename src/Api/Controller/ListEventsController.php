@@ -7,6 +7,7 @@ use Flarum\Http\UrlGenerator;
 use Flarum\Http\RequestUtil;
 use Bigreja\Bragalotto\Api\Serializer\EventSerializer;
 use Bigreja\Bragalotto\Event;
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
@@ -71,9 +72,13 @@ class ListEventsController extends AbstractListController
                 $q->whereIn('competition_id', $ids);
             });
         }
+
+        if (Arr::get($filters, 'upcoming')) {
+            $query->where('match_date', '>', Carbon::now());
+        }
         
         $sort = $this->extractSort($request);
-        $sortOrder = 'desc'; 
+        $sortOrder = 'asc'; 
 
         if (is_array($sort) && !empty($sort)) {
             $sortField = ltrim(key($sort), '-');

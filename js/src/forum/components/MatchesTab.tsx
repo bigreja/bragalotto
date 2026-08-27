@@ -60,6 +60,8 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
 
     if (this.selectedStatus !== 'all') {
       filters.status = this.selectedStatus;
+    } else {
+      filters.upcoming = '1';
     }
 
     return filters;
@@ -75,7 +77,7 @@ export default class MatchesTab extends Component<IMatchesTabAttrs> {
     app.store.find<PickemEvent[]>('bragalotto-events', {
       include: 'homeTeam,awayTeam,week',
       filter: filters,
-      sort: '-matchDate',
+      sort: 'matchDate',
       page: { limit: this.limit, offset: offset }
     }).then((results) => {
       if (clear) {
