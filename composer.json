@@ -51,7 +51,10 @@
         "name": "fas fa-trophy",
         "backgroundColor": "#3498db",
         "color": "#fff"
-      }
+      },
+      "optional-dependencies": [
+        "acpl/mobile-tab"
+      ]
     },
     "flarum-cli": {
       "modules": {

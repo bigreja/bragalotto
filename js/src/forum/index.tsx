@@ -3,6 +3,7 @@ import { extend } from 'flarum/common/extend';
 import IndexPage from 'flarum/forum/components/IndexPage';
 import LinkButton from 'flarum/common/components/LinkButton';
 import NotificationGrid from 'flarum/forum/components/NotificationGrid';
+import { components } from '@acpl-mobile-tab';
 import commonExtenders from '../common/extend';
 import PickemPage from './components/PickemPage';
 import EventResultNotification from './components/EventResultNotification';
@@ -27,6 +28,23 @@ app.initializers.add('bigreja/bragalotto', () => {
       );
     }
   });
+
+  if (components && components.MobileTab) {
+    const { MobileTab, MobileTabItem } = components;
+    extend(MobileTab.prototype, 'items', (items) => {
+      if (app.forum.attribute('bragalotto.canView')) {
+        items.add(
+          'bragalotto',
+          <MobileTabItem
+            href={app.route('bragalotto')}
+            icon="fas fa-trophy"
+            label={app.translator.trans('bigreja-bragalotto.lib.nav.pickem')}
+          />,
+          85
+        );
+      }
+    });
+  }
 
   app.notificationComponents.bragalotto_event_result = EventResultNotification;
 });
