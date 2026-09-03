@@ -41,15 +41,19 @@ class ListLeaderboardController extends AbstractListController
             $query->where('user_id', $filterUser);
         }
 
+        // 'id' tie-breaker keeps paging stable: without it MySQL may return rows
+        // with equal points in a different order per page (duplicates / missing rows).
         $query->orderBy('total_points', 'desc')
-              ->orderBy('correct_picks', 'desc');
-        
+              ->orderBy('correct_picks', 'desc')
+              ->orderBy('total_picks', 'asc')
+              ->orderBy('id', 'asc');
+
         $query->with(['user']);
 
         $limit = $this->extractLimit($request);
         $offset = $this->extractOffset($request);
 
-        $total = $query->count();
+        $total = (clone $query)->count();
 
         $results = $query->limit($limit)
                          ->offset($offset)

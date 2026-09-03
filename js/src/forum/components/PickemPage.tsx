@@ -18,6 +18,7 @@ export default class PickemPage extends Page {
   private userScores: any[] = [];
   private leaderboardLoading: boolean = false;
   private leaderboardHasMore: boolean = false;
+  private leaderboardOffset: number = 0;
   
   // YENİ: Kendi skorunu tutacak state
   private myScore: any = null;
@@ -40,6 +41,7 @@ export default class PickemPage extends Page {
     this.userScores = [];
     this.leaderboardLoading = false;
     this.leaderboardHasMore = false;
+    this.leaderboardOffset = 0;
     this.myScore = null;
     this.filterDataLoaded = false; 
 
@@ -134,6 +136,8 @@ export default class PickemPage extends Page {
   }
 
   async loadLeaderboard(offset: number = 0) {
+    if (this.leaderboardLoading) return;
+
     this.leaderboardLoading = true;
     m.redraw();
     const limit = 20;
@@ -141,14 +145,23 @@ export default class PickemPage extends Page {
       const results = (await app.store.find('bragalotto-user-scores', { 
         include: 'user',
         page: { offset, limit } 
-      })) as any[];
-      
+      })) as any;
+
+      const items: any[] = Array.isArray(results) ? results : [];
+
       if (offset === 0) {
-        this.userScores = results;
+        this.userScores = items;
       } else {
-        this.userScores.push(...results);
+        // The store returns shared model instances, so filter out anything already listed.
+        const seen = new Set(this.userScores.map((s: any) => String(s.id())));
+        this.userScores.push(...items.filter((s: any) => !seen.has(String(s.id()))));
       }
-      this.leaderboardHasMore = results.length >= limit;
+
+      this.leaderboardOffset = offset + items.length;
+
+      const total = results?.payload?.meta?.total;
+      this.leaderboardHasMore =
+        typeof total === 'number' ? this.leaderboardOffset < total : items.length >= limit;
     } catch (error) {
       console.error('Error loading leaderboard:', error);
     } finally {
@@ -256,7 +269,7 @@ export default class PickemPage extends Page {
             myScore={this.myScore} 
             hasMore={this.leaderboardHasMore}
             loading={this.leaderboardLoading}
-            onLoadMore={() => this.loadLeaderboard(this.userScores.length)}
+            onLoadMore={() => this.loadLeaderboard(this.leaderboardOffset)}
           />
         </div>
       </>

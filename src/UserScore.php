@@ -119,9 +119,21 @@ class UserScore extends AbstractModel
 
         $equalPointsBetterTieBreaker = $query->clone()
             ->where('total_points', '=', $this->total_points)
-            ->where('correct_picks', '>', $this->correct_picks)
+            ->where(function ($q) {
+                $q->where('correct_picks', '>', $this->correct_picks)
+                  ->orWhere(function ($q2) {
+                      $q2->where('correct_picks', '=', $this->correct_picks)
+                         ->where(function ($q3) {
+                             $q3->where('total_picks', '<', $this->total_picks)
+                                ->orWhere(function ($q4) {
+                                    $q4->where('total_picks', '=', $this->total_picks)
+                                       ->where('id', '<', $this->id);
+                                });
+                         });
+                  });
+            })
             ->count();
-            
+
         return $higherPoints + $equalPointsBetterTieBreaker + 1;
     }
 }

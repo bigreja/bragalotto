@@ -161,7 +161,7 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
                 
                 <div className="PickemList-cell type-rank">
                   <span className="mobile-label">{app.translator.trans('bigreja-bragalotto.lib.headers.rank')}</span>
-                  <span className="value">#{index + 1}</span>
+                  <span className="value">#{score.attribute('rank') ?? index + 1}</span>
                 </div>
 
                 <div className="PickemList-cell type-player">
