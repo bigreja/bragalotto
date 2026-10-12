@@ -85,7 +85,7 @@ class PickemScoringService
     {
         // 1. İstatistikleri veritabanı seviyesinde hesapla (Daha performanslı)
         $stats = Pick::where('user_id', $userId)
-            ->selectRaw('count(*) as total, sum(case when is_correct = 1 then 1 else 0 end) as correct')
+            ->selectRaw('count(*) as total, sum(case when is_correct then 1 else 0 end) as correct')
             ->whereNotNull('is_correct') // Sadece sonuçlanmış maçlar
             ->first();
 

@@ -1,6 +1,6 @@
-﻿import Component from 'flarum/common/Component';
+import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
-import avatar from 'flarum/common/helpers/avatar';
+import Avatar from 'flarum/common/components/Avatar';
 
 interface LeaderboardTabAttrs {
   userScores: any[];
@@ -62,7 +62,7 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
         <div className="MyRankCard-content">
           <div className="MyRankCard-user">
              <div className="avatar">
-                {avatar(app.session.user, { className: 'Avatar' })}
+                <Avatar user={app.session.user} className="Avatar" />
              </div>
              <div className="info">
                 <span className="label">{app.translator.trans('bigreja-bragalotto.forum.picks.your_pick')}</span>
@@ -106,7 +106,7 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
               <div className="rank">#{index + 1}</div>
               
               <div className="podium-avatar" style={{marginBottom: '5px'}}>
-                 {user ? avatar(user, { className: 'Avatar' }) : null}
+                 {user ? <Avatar user={user} className="Avatar" /> : null}
               </div>
 
               <div className="username">
@@ -166,7 +166,7 @@ export default class LeaderboardTab extends Component<LeaderboardTabAttrs> {
 
                 <div className="PickemList-cell type-player">
                   <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                      {user ? avatar(user, {className: 'Avatar--small'}) : null}
+                      {user ? <Avatar user={user} className="Avatar--small" /> : null}
                       <span className="value">
                         {user ? (typeof user.displayName === 'function' ? user.displayName() : user.displayName) : app.translator.trans('core.lib.username.deleted_text')}
                       </span>

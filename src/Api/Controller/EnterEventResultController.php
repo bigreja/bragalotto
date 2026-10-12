@@ -2,25 +2,22 @@
 
 namespace Bigreja\Bragalotto\Api\Controller;
 
-use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Http\RequestUtil;
 use Flarum\Foundation\ValidationException;
 use Illuminate\Contracts\Translation\Translator;
-use Bigreja\Bragalotto\Api\Serializer\EventSerializer;
 use Bigreja\Bragalotto\Event;
 use Illuminate\Support\Arr;
+use Laminas\Diactoros\Response\JsonResponse;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Tobscure\JsonApi\Document;
+use Psr\Http\Server\RequestHandlerInterface;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Bigreja\Bragalotto\Job\ProcessEventResultsJob;
 
-class EnterEventResultController extends AbstractShowController
+class EnterEventResultController implements RequestHandlerInterface
 {
-    public $serializer = EventSerializer::class;
-    public $include = ['homeTeam', 'awayTeam', 'week'];
-
-    protected $translator;
-    protected $bus;
+    protected Translator $translator;
+    protected Dispatcher $bus;
 
     public function __construct(Translator $translator, Dispatcher $bus)
     {
@@ -28,7 +25,7 @@ class EnterEventResultController extends AbstractShowController
         $this->bus = $bus;
     }
 
-    protected function data(ServerRequestInterface $request, Document $document)
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $actor = RequestUtil::getActor($request);
         $actor->assertCan('bragalotto.manage');
@@ -60,21 +57,38 @@ class EnterEventResultController extends AbstractShowController
         }
 
         // Skip re-processing if this finished event already has the same result.
-        if (!$event->isDirty(['home_score', 'away_score', 'status'])) {
-            $event->load(['homeTeam', 'awayTeam', 'week']);
-            return $event;
+        if ($event->isDirty(['home_score', 'away_score', 'status'])) {
+            $event->save();
+
+            // 4. Bildirim ve Puan Hesaplama İşini Kuyruğa At
+            $this->bus->dispatch(
+                new ProcessEventResultsJob($event->id)
+            );
         }
-
-        $event->save();
-
-        // 4. Bildirim ve Puan Hesaplama İşini Kuyruğa At
-        $this->bus->dispatch(
-            new ProcessEventResultsJob($event->id)
-        );
 
         // Güncel veriyi döndür
         $event->load(['homeTeam', 'awayTeam', 'week']);
 
-        return $event;
+        return new JsonResponse([
+            'data' => [
+                'type' => 'bragalotto-events',
+                'id' => (string) $event->id,
+                'attributes' => [
+                    'weekId' => $event->week_id,
+                    'homeTeamId' => $event->home_team_id,
+                    'awayTeamId' => $event->away_team_id,
+                    'matchDate' => $event->match_date ? $event->match_date->toIso8601String() : null,
+                    'cutoffDate' => $event->cutoff_date ? $event->cutoff_date->toIso8601String() : null,
+                    'allowDraw' => (bool) $event->allow_draw,
+                    'status' => $event->status,
+                    'homeScore' => $event->home_score,
+                    'awayScore' => $event->away_score,
+                    'result' => $event->result,
+                    'canPick' => $event->canPick(),
+                    'createdAt' => $event->created_at ? $event->created_at->toIso8601String() : null,
+                    'updatedAt' => $event->updated_at ? $event->updated_at->toIso8601String() : null,
+                ],
+            ],
+        ]);
     }
 }

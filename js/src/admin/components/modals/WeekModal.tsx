@@ -1,4 +1,4 @@
-﻿import Modal from 'flarum/common/components/Modal';
+import FormModal from 'flarum/common/components/FormModal';
 import Button from 'flarum/common/components/Button';
 import Select from 'flarum/common/components/Select';
 import Week from '../../../common/models/Week';
@@ -9,7 +9,7 @@ interface IWeekModalAttrs {
   onsave: () => void;
 }
 
-export default class WeekModal extends Modal<IWeekModalAttrs> {
+export default class WeekModal extends FormModal<IWeekModalAttrs> {
   private week: Week | null | undefined;
   private name: string = '';
   private weekNumber: string | number = '';
