@@ -1,4 +1,4 @@
-﻿import Modal from 'flarum/common/components/Modal';
+import FormModal from 'flarum/common/components/FormModal';
 import Button from 'flarum/common/components/Button';
 import Select from 'flarum/common/components/Select';
 import PickemEvent from '../../../common/models/Event';
@@ -10,7 +10,7 @@ interface IEventModalAttrs {
   onsave: () => void;
 }
 
-export default class EventModal extends Modal<IEventModalAttrs> {
+export default class EventModal extends FormModal<IEventModalAttrs> {
   private event: PickemEvent | null | undefined;
   private homeTeamId: string = '0';
   private awayTeamId: string = '0';

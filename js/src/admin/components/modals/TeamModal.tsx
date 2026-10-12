@@ -1,4 +1,4 @@
-﻿import Modal from 'flarum/common/components/Modal';
+import FormModal from 'flarum/common/components/FormModal';
 import Button from 'flarum/common/components/Button';
 import { slug } from 'flarum/common/utils/string';
 import Team from '../../../common/models/Team'; 
@@ -8,7 +8,7 @@ interface ITeamModalAttrs {
   onsave: () => void;
 }
 
-export default class TeamModal extends Modal<ITeamModalAttrs> {
+export default class TeamModal extends FormModal<ITeamModalAttrs> {
   private team: Team | null | undefined;
   private name: string = '';
   private slug: string = '';

@@ -1,5 +1,1 @@
-const config = require('flarum-webpack-config');
-
-module.exports = config({
-  useExtensions: ['acpl-mobile-tab'],
-});
+module.exports = require('flarum-webpack-config')();

@@ -1,4 +1,4 @@
-﻿import Component from 'flarum/common/Component';
+import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
 import Switch from 'flarum/common/components/Switch';
 
@@ -72,7 +72,7 @@ export default class SettingsTab extends Component {
     m.redraw();
     app.request({
       method: 'POST',
-      url: app.forum.attribute('apiUrl') + '/pickem/recalculate-all-scores',
+      url: app.forum.attribute('apiUrl') + '/bragalotto/recalculate-all-scores',
     }).then(response => {
       this.loading = false;
       m.redraw();

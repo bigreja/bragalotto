@@ -1,11 +1,10 @@
-﻿import Page from 'flarum/common/components/Page';
-import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
+import Page from 'flarum/common/components/Page';
 import extractText from 'flarum/common/utils/extractText';
 import MatchesTab from './MatchesTab';
 import MyPicksTab from './MyPicksTab';
 import LeaderboardTab from './LeaderboardTab';
-import IndexPage from 'flarum/forum/components/IndexPage';
-import listItems from 'flarum/common/helpers/listItems';
+import PageStructure from 'flarum/forum/components/PageStructure';
+import IndexSidebar from 'flarum/forum/components/IndexSidebar';
 
 export default class PickemPage extends Page {
   private activeTab: string = 'matches';
@@ -173,57 +172,54 @@ export default class PickemPage extends Page {
   async loadFilterData() {
     try {
       await Promise.all([
-        app.store.find('bragalotto-public-seasons'),
-        app.store.find('bragalotto-public-teams'),
-        app.store.find('bragalotto-public-weeks'),
-        app.store.find('bragalotto-public-competitions'),
+        app.store.find('bragalotto-seasons'),
+        app.store.find('bragalotto-teams'),
+        app.store.find('bragalotto-weeks'),
+        app.store.find('bragalotto-competitions'),
       ]);
     } catch (error) {
       console.error('Error loading filter data:', error);
     }
   }
 
-  view() {
+  hero() {
     return (
-      <div className="IndexPage PickemPage"> 
-        <header className="Hero PickemHero">
-          <div className="container">
-            <div className="containerNarrow">
-              <h1 className="Hero-title">
-                <i className="icon fas fa-trophy" />{' '}
-                {app.translator.trans('bigreja-bragalotto.lib.nav.pickem')}
-              </h1>
-            </div>
-          </div>
-        </header>
-        
+      <header className="Hero PickemHero">
         <div className="container">
-          <div className="sideNavContainer">
-            <nav className="IndexPage-nav sideNav">
-              <ul>{listItems(IndexPage.prototype.sidebarItems().toArray())}</ul>
-            </nav>
-            <div className="IndexPage-results sideNavOffset">
-              
-              <div className="PickemPage-tabs">
-                {this.renderTab('matches', app.translator.trans('bigreja-bragalotto.lib.nav.matches'))}
-                
-                {app.session.user && app.forum.attribute('bragalotto.makePicks') &&
-                  this.renderTab('my_picks', app.translator.trans('bigreja-bragalotto.lib.nav.my_picks'))}
-
-                {this.renderTab('leaderboard', app.translator.trans('bigreja-bragalotto.lib.nav.leaderboard'))}
-              </div>
-
-              {this.loading ? (
-                <LoadingIndicator />
-              ) : (
-                <div className="PickemPage-tabContent">
-                  {this.renderAllTabs()}
-                </div>
-              )}
-            </div>
+          <div className="containerNarrow">
+            <h1 className="Hero-title">
+              <i className="icon fas fa-trophy" />{' '}
+              {app.translator.trans('bigreja-bragalotto.lib.nav.pickem')}
+            </h1>
           </div>
         </div>
-      </div>
+      </header>
+    );
+  }
+
+  view() {
+    return (
+      <PageStructure
+        className="PickemPage"
+        hero={() => this.hero()}
+        sidebar={() => <IndexSidebar />}
+        loading={this.loading}
+      >
+        <div className="PickemPage-content">
+          <div className="PickemPage-tabs">
+            {this.renderTab('matches', app.translator.trans('bigreja-bragalotto.lib.nav.matches'))}
+            
+            {app.session.user && app.forum.attribute('bragalotto.makePicks') &&
+              this.renderTab('my_picks', app.translator.trans('bigreja-bragalotto.lib.nav.my_picks'))}
+
+            {this.renderTab('leaderboard', app.translator.trans('bigreja-bragalotto.lib.nav.leaderboard'))}
+          </div>
+
+          <div className="PickemPage-tabContent">
+            {this.renderAllTabs()}
+          </div>
+        </div>
+      </PageStructure>
     );
   }
 

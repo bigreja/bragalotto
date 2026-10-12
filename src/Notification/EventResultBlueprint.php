@@ -2,10 +2,11 @@
 
 namespace Bigreja\Bragalotto\Notification;
 
+use Flarum\Notification\AlertableInterface;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Bigreja\Bragalotto\Event;
 
-class EventResultBlueprint implements BlueprintInterface
+class EventResultBlueprint implements BlueprintInterface, AlertableInterface
 {
     public $event;
 

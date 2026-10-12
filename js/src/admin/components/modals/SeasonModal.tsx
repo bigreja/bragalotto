@@ -1,4 +1,4 @@
-﻿import Modal from 'flarum/common/components/Modal';
+import FormModal from 'flarum/common/components/FormModal';
 import Button from 'flarum/common/components/Button';
 import { slug } from 'flarum/common/utils/string';
 import Season from '../../../common/models/Season'; 
@@ -8,7 +8,7 @@ interface ISeasonModalAttrs {
   onsave: () => void;
 }
 
-export default class SeasonModal extends Modal<ISeasonModalAttrs> {
+export default class SeasonModal extends FormModal<ISeasonModalAttrs> {
   private season: Season | null | undefined;
   private name: string = '';
   private slug: string = '';
