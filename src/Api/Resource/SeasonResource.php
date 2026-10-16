@@ -3,13 +3,13 @@
 namespace Bigreja\Bragalotto\Api\Resource;
 
 use Bigreja\Bragalotto\Season;
-use Flarum\Api\Context;
 use Flarum\Api\Endpoint;
 use Flarum\Api\Resource\AbstractDatabaseResource;
 use Flarum\Api\Schema;
 use Flarum\Api\Sort\SortColumn;
 use Flarum\Foundation\ValidationException;
 use Illuminate\Support\Str;
+use Tobyz\JsonApiServer\Context;
 
 /**
  * @extends AbstractDatabaseResource<Season>
@@ -67,11 +67,13 @@ class SeasonResource extends AbstractDatabaseResource
         ];
     }
 
-    public function saving(object $model, Context $context): void
+    public function saving(object $model, Context $context): ?object
     {
         if (empty($model->slug) && !empty($model->name)) {
             $model->slug = Str::slug($model->name);
         }
+
+        return null;
     }
 
     public function deleting(object $model, Context $context): void
@@ -81,6 +83,7 @@ class SeasonResource extends AbstractDatabaseResource
                 'message' => resolve('translator')->trans('bigreja-bragalotto.lib.messages.in_use')
             ]);
         }
+
     }
 
     public function endpoints(): array

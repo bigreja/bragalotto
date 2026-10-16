@@ -5,15 +5,12 @@ namespace Bigreja\Bragalotto\Api\Resource;
 use Bigreja\Bragalotto\Event;
 use Bigreja\Bragalotto\Pick;
 use Bigreja\Bragalotto\Job\RecalculateUserScoreJob;
-use Carbon\Carbon;
-use Flarum\Api\Context;
 use Flarum\Api\Endpoint;
 use Flarum\Api\Resource\AbstractDatabaseResource;
 use Flarum\Api\Schema;
 use Flarum\Api\Sort\SortColumn;
 use Illuminate\Contracts\Bus\Dispatcher;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Arr;
+use Tobyz\JsonApiServer\Context;
 
 /**
  * @extends AbstractDatabaseResource<Event>
@@ -115,52 +112,7 @@ class EventResource extends AbstractDatabaseResource
         foreach ($affectedUserIds as $userId) {
             $bus->dispatch(new RecalculateUserScoreJob($userId));
         }
-    }
 
-    public function scope(Builder $query, Context $context): void
-    {
-        $params = $context->request->getQueryParams();
-        $filters = Arr::get($params, 'filter', []);
-
-        if ($weekIdString = Arr::get($filters, 'week')) {
-            $weekIds = explode(',', $weekIdString);
-
-            $query->where(function ($q) use ($weekIds) {
-                $ids = array_diff($weekIds, ['null']);
-
-                if (!empty($ids)) {
-                    $q->whereIn('week_id', $ids);
-                } elseif (!in_array('null', $weekIds)) {
-                    $q->whereRaw('1=0');
-                }
-
-                if (in_array('null', $weekIds)) {
-                    $q->orWhereNull('week_id');
-                }
-            });
-        }
-
-        if ($status = Arr::get($filters, 'status')) {
-            $query->where('status', $status);
-        }
-
-        if ($teamId = Arr::get($filters, 'team')) {
-            $query->where(function ($q) use ($teamId) {
-                $q->where('home_team_id', $teamId)
-                  ->orWhere('away_team_id', $teamId);
-            });
-        }
-
-        if ($competitionFilter = Arr::get($filters, 'competition')) {
-            $ids = array_filter(explode(',', $competitionFilter));
-            $query->whereHas('week', function ($q) use ($ids) {
-                $q->whereIn('competition_id', $ids);
-            });
-        }
-
-        if (Arr::get($filters, 'upcoming')) {
-            $query->where('match_date', '>', Carbon::now());
-        }
     }
 
     public function endpoints(): array
@@ -184,7 +136,7 @@ class EventResource extends AbstractDatabaseResource
     public function sorts(): array
     {
         return [
-            SortColumn::make('matchDate')->property('match_date'),
+            SortColumn::make('matchDate')->column('match_date'),
         ];
     }
 }

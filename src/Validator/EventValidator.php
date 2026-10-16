@@ -7,7 +7,7 @@ use Illuminate\Validation\Rule;
 
 class EventValidator extends AbstractValidator
 {
-    protected function getRules()
+    protected function getRules(): array
     {
         return [
             'homeTeamId' => [
@@ -36,7 +36,7 @@ class EventValidator extends AbstractValidator
         ];
     }
 
-    protected function getMessages()
+    protected function getMessages(): array
     {
         // GÜNCELLENDİ: Yeni sadeleştirilmiş mesaj yapısı
         $prefix = 'bigreja-bragalotto.lib.messages.';

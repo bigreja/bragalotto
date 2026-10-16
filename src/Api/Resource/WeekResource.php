@@ -3,14 +3,12 @@
 namespace Bigreja\Bragalotto\Api\Resource;
 
 use Bigreja\Bragalotto\Week;
-use Flarum\Api\Context;
 use Flarum\Api\Endpoint;
 use Flarum\Api\Resource\AbstractDatabaseResource;
 use Flarum\Api\Schema;
 use Flarum\Api\Sort\SortColumn;
 use Flarum\Foundation\ValidationException;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Arr;
+use Tobyz\JsonApiServer\Context;
 
 /**
  * @extends AbstractDatabaseResource<Week>
@@ -80,14 +78,7 @@ class WeekResource extends AbstractDatabaseResource
                 'message' => resolve('translator')->trans('bigreja-bragalotto.lib.messages.in_use')
             ]);
         }
-    }
 
-    public function scope(Builder $query, Context $context): void
-    {
-        $params = $context->request->getQueryParams();
-        if ($competitionId = Arr::get($params, 'filter.competition')) {
-            $query->where('competition_id', $competitionId);
-        }
     }
 
     public function endpoints(): array
@@ -110,8 +101,8 @@ class WeekResource extends AbstractDatabaseResource
     public function sorts(): array
     {
         return [
-            SortColumn::make('weekNumber')->property('week_number'),
-            SortColumn::make('startDate')->property('start_date'),
+            SortColumn::make('weekNumber')->column('week_number'),
+            SortColumn::make('startDate')->column('start_date'),
             SortColumn::make('name'),
             SortColumn::make('createdAt'),
         ];

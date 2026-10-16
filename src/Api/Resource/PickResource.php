@@ -5,15 +5,13 @@ namespace Bigreja\Bragalotto\Api\Resource;
 use Bigreja\Bragalotto\Event;
 use Bigreja\Bragalotto\Pick;
 use Bigreja\Bragalotto\Job\RecalculateUserScoreJob;
-use Flarum\Api\Context;
 use Flarum\Api\Endpoint;
 use Flarum\Api\Resource\AbstractDatabaseResource;
 use Flarum\Api\Schema;
 use Flarum\Api\Sort\SortColumn;
 use Flarum\Foundation\ValidationException;
 use Illuminate\Contracts\Bus\Dispatcher;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Arr;
+use Tobyz\JsonApiServer\Context;
 
 /**
  * @extends AbstractDatabaseResource<Pick>
@@ -63,7 +61,7 @@ class PickResource extends AbstractDatabaseResource
         ];
     }
 
-    public function saving(object $model, Context $context): void
+    public function saving(object $model, Context $context): ?object
     {
         $actor = $context->getActor();
 
@@ -94,14 +92,19 @@ class PickResource extends AbstractDatabaseResource
         if ($model->exists && $model->isDirty('selected_outcome')) {
             $model->is_correct = null;
         }
+
+        return null;
     }
 
-    public function saved(object $model, Context $context): void
+    public function saved(object $model, Context $context): ?object
     {
         $event = $model->event ?: Event::find($model->event_id);
         if ($event && ($event->isFinished() || $event->isClosed())) {
             resolve(Dispatcher::class)->dispatch(new RecalculateUserScoreJob($model->user_id));
         }
+
+        return null;
+
     }
 
     public function deleted(object $model, Context $context): void
@@ -110,25 +113,7 @@ class PickResource extends AbstractDatabaseResource
         if ($event && ($event->isFinished() || $event->isClosed())) {
             resolve(Dispatcher::class)->dispatch(new RecalculateUserScoreJob($model->user_id));
         }
-    }
 
-    public function scope(Builder $query, Context $context): void
-    {
-        $actor = $context->getActor();
-        $params = $context->request->getQueryParams();
-        $filters = Arr::get($params, 'filter', []);
-
-        $userId = Arr::get($filters, 'user');
-        if ($userId && ($actor->can('bragalotto.manage') || $actor->id == $userId)) {
-            $query->where('user_id', $userId);
-        } else {
-            $query->where('user_id', $actor->id);
-        }
-
-        if ($eventId = Arr::get($filters, 'event')) {
-            $eventIds = explode(',', $eventId);
-            $query->whereIn('event_id', $eventIds);
-        }
     }
 
     public function endpoints(): array

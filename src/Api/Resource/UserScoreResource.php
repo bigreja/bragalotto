@@ -3,13 +3,12 @@
 namespace Bigreja\Bragalotto\Api\Resource;
 
 use Bigreja\Bragalotto\UserScore;
-use Flarum\Api\Context;
 use Flarum\Api\Endpoint;
 use Flarum\Api\Resource\AbstractDatabaseResource;
 use Flarum\Api\Schema;
 use Flarum\Api\Sort\SortColumn;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
+use Tobyz\JsonApiServer\Context;
 
 /**
  * @extends AbstractDatabaseResource<UserScore>
@@ -64,18 +63,6 @@ class UserScoreResource extends AbstractDatabaseResource
         ];
     }
 
-    public function scope(Builder $query, Context $context): void
-    {
-        $params = $context->request->getQueryParams();
-        $filters = Arr::get($params, 'filter', []);
-
-        $query->whereNull('season_id');
-
-        if ($userId = Arr::get($filters, 'user')) {
-            $query->where('user_id', $userId);
-        }
-    }
-
     public function endpoints(): array
     {
         return [
@@ -103,9 +90,9 @@ class UserScoreResource extends AbstractDatabaseResource
     public function sorts(): array
     {
         return [
-            SortColumn::make('totalPoints')->property('total_points'),
-            SortColumn::make('correctPicks')->property('correct_picks'),
-            SortColumn::make('totalPicks')->property('total_picks'),
+            SortColumn::make('totalPoints')->column('total_points'),
+            SortColumn::make('correctPicks')->column('correct_picks'),
+            SortColumn::make('totalPicks')->column('total_picks'),
             SortColumn::make('id'),
         ];
     }
