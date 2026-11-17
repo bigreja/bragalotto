@@ -5,6 +5,8 @@ import LinkButton from 'flarum/common/components/LinkButton';
 import commonExtenders from '../common/extend';
 import PickemPage from './components/PickemPage';
 import EventResultNotification from './components/EventResultNotification';
+import NotificationGrid from 'flarum/forum/components/NotificationGrid';
+import WeekStartingNotification from './components/WeekStartingNotification';
 
 app.initializers.add('bigreja/bragalotto', () => {
   commonExtenders.forEach((extender) => extender.extend(app));
@@ -43,4 +45,13 @@ app.initializers.add('bigreja/bragalotto', () => {
   }
 
   app.notificationComponents.bragalotto_event_result = EventResultNotification;
+  app.notificationComponents.bragalotto_week_starting = WeekStartingNotification;
+
+  extend(NotificationGrid.prototype, 'notificationTypes', function (items) {
+    items.add('bragalotto_week_starting', {
+      name: 'bragalotto_week_starting',
+      icon: 'fas fa-bell',
+      label: app.translator.trans('bigreja-bragalotto.forum.week_starting_preference'),
+    });
+  });
 });

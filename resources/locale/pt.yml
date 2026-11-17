@@ -101,6 +101,8 @@ bigreja-bragalotto:
     picks:
       your_pick: "O Seu Palpite"
     notification: "Resultado: {home} {hScore} - {aScore} {away}"
+    week_starting_notification: "Bragalotto: {week} começa nas próximas 24 horas. Faz os teus palpites!"
+    week_starting_preference: "Uma jornada do Bragalotto está prestes a começar"
   admin:
     permissions:
       manage: "Gerir sistema de palpites"

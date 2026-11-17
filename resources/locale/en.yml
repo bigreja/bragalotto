@@ -101,6 +101,8 @@ bigreja-bragalotto:
     picks:
       your_pick: "Your Pick"
     notification: "Result: {home} {hScore} - {aScore} {away}"
+    week_starting_notification: "Bragalotto: {week} starts within 24 hours. Make your predictions!"
+    week_starting_preference: "A Bragalotto week is about to start"
   admin:
     permissions:
       manage: "Manage pick'em system"

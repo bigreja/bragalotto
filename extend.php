@@ -14,6 +14,7 @@ use Bigreja\Bragalotto\UserScore;
 use Bigreja\Bragalotto\Listener;
 use Bigreja\Bragalotto\Notification;
 use Bigreja\Bragalotto\Command\ImportLigaPortugalCommand;
+use Bigreja\Bragalotto\Command\SendWeekRemindersCommand;
 use Bigreja\Bragalotto\Search\CompetitionSearcher;
 use Bigreja\Bragalotto\Search\EventSearcher;
 use Bigreja\Bragalotto\Search\PickSearcher;
@@ -42,7 +43,11 @@ $filterValues = static function (array $filters, string $key): array {
 return [
     // Console Commands
     (new Extend\Console())
-        ->command(ImportLigaPortugalCommand::class),
+        ->command(ImportLigaPortugalCommand::class)
+        ->command(SendWeekRemindersCommand::class)
+        ->schedule(SendWeekRemindersCommand::class, function (\Illuminate\Console\Scheduling\Event $event) {
+            $event->dailyAt('08:00')->withoutOverlapping();
+        }),
 
     // Frontend Assets
     (new Extend\Frontend('forum'))
@@ -201,5 +206,6 @@ return [
 
     // Notifications
     (new Extend\Notification())
-        ->type(Notification\EventResultBlueprint::class, ['alert']),
+        ->type(Notification\EventResultBlueprint::class, ['alert'])
+        ->type(Notification\WeekStartingBlueprint::class, ['alert']),
 ];

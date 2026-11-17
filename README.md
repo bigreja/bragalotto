@@ -128,6 +128,24 @@ You can configure permissions via the Flarum Permission grid:
   - **Status Updates**: Matches are automatically marked as "Finished" when results are saved.
   - **Notifications**: Users who predicted a match receive a notification when the result is entered.
 
+#### Week Reminders
+
+Registered users receive an in-app alert once per week when its first match kicks off within the next 24 hours and at least one match is still open for predictions. Notification preferences are respected. Timing uses the earliest match's `match_date`, not the week's `start_date`; imported weeks with an empty start date are supported. Weeks without matches or whose first match has already started are skipped.
+
+After updating the extension, run `php flarum migrate` and `php flarum cache:clear` from the forum root. Reminders are scheduled daily at 08:00 in the scheduler's timezone. Enable Flarum's scheduler with a cron entry (replace the paths for your installation):
+
+```cron
+* * * * * cd /path/to/forum && /usr/bin/php flarum schedule:run >> /path/to/forum/storage/logs/scheduler.log 2>&1
+```
+
+Alternatively, run the reminder command directly from a daily cron job instead of enabling the scheduler:
+
+```cron
+0 8 * * * cd /path/to/forum && /usr/bin/php flarum bragalotto:send-week-reminders >> /path/to/forum/storage/logs/week-reminders.log 2>&1
+```
+
+Run `php flarum bragalotto:send-week-reminders` to process reminders manually. Delivery is batched and progress is saved per week, so repeated or interrupted runs do not resend completed batches. Horizon and a queue worker are not required. Run the command more frequently if match schedules are imported less than a day before kickoff.
+
 #### 🌍 Translations
 
 This extension comes with English translations. Community translations are welcome!
