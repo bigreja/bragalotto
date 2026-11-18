@@ -144,7 +144,7 @@ Alternatively, run the reminder command directly from a daily cron job instead o
 0 8 * * * cd /path/to/forum && /usr/bin/php flarum bragalotto:send-week-reminders >> /path/to/forum/storage/logs/week-reminders.log 2>&1
 ```
 
-Run `php flarum bragalotto:send-week-reminders` to process reminders manually. Delivery is batched and progress is saved per week, so repeated or interrupted runs do not resend completed batches. Horizon and a queue worker are not required. Run the command more frequently if match schedules are imported less than a day before kickoff.
+Run `php flarum bragalotto:send-week-reminders` to process reminders manually. Delivery is batched and progress is saved per week, so repeated or interrupted runs do not resend completed batches. Alerts are written by the command itself. Realtime updates, push (`fof/pwa`) and email opt-ins are queued, so those need a running queue worker. Run the command more frequently if match schedules are imported less than a day before kickoff.
 
 #### 🌍 Translations
 

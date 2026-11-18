@@ -54,7 +54,8 @@
         "color": "#fff"
       },
       "optional-dependencies": [
-        "acpl/mobile-tab"
+        "acpl/mobile-tab",
+        "fof/pwa"
       ],
       "database-support": [
         "mysql",

@@ -62,6 +62,12 @@ return [
     // Localization
     new Extend\Locales(__DIR__.'/resources/locale'),
 
+    (new Extend\View())
+        ->namespace('bigreja-bragalotto', __DIR__.'/views'),
+
+    (new Extend\ServiceProvider())
+        ->register(BragalottoServiceProvider::class),
+
     // API Resources
     new Extend\ApiResource(Resource\TeamResource::class),
     new Extend\ApiResource(Resource\CompetitionResource::class),

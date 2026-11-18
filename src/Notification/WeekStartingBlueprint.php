@@ -4,14 +4,29 @@ namespace Bigreja\Bragalotto\Notification;
 
 use Bigreja\Bragalotto\Week;
 use Flarum\Database\AbstractModel;
+use Flarum\Locale\TranslatorInterface;
 use Flarum\Notification\AlertableInterface;
 use Flarum\Notification\Blueprint\BlueprintInterface;
+use Flarum\Notification\MailableInterface;
 use Flarum\User\User;
 
-class WeekStartingBlueprint implements BlueprintInterface, AlertableInterface
+class WeekStartingBlueprint implements BlueprintInterface, AlertableInterface, MailableInterface
 {
     public function __construct(public Week $week)
     {
+    }
+
+    public function getEmailViews(): array
+    {
+        return [
+            'text' => 'bigreja-bragalotto::emails.plain.weekStarting',
+            'html' => 'bigreja-bragalotto::emails.html.weekStarting',
+        ];
+    }
+
+    public function getEmailSubject(TranslatorInterface $translator): string
+    {
+        return $translator->trans('bigreja-bragalotto.email.week_starting.subject', ['{week}' => $this->week->name]);
     }
 
     public function getSubject(): ?AbstractModel
