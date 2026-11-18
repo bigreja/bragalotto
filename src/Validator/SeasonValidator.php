@@ -7,10 +7,9 @@ use Illuminate\Validation\Rule;
 
 class SeasonValidator extends AbstractValidator
 {
-    protected function getRules()
+    protected function getRules(): array
     {
-        $id = $this->model ? $this->model->id : null;
-        $required = $this->model ? 'sometimes' : 'required';
+        $required = 'required';
 
         return [
             'name' => [$required, 'string', 'max:100'],
@@ -19,14 +18,14 @@ class SeasonValidator extends AbstractValidator
                 'string',
                 'max:100',
                 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
-                Rule::unique('bragalotto_seasons', 'slug')->ignore($id),
+                Rule::unique('bragalotto_seasons', 'slug'),
             ],
             'startDate' => ['nullable', 'date'],
             'endDate' => ['nullable', 'date', 'after_or_equal:startDate'],
         ];
     }
 
-    protected function getMessages()
+    protected function getMessages(): array
     {
         return [
             // GÜNCELLENDİ: lib.messages.slug_unique

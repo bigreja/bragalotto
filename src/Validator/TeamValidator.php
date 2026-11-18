@@ -7,10 +7,8 @@ use Illuminate\Validation\Rule;
 
 class TeamValidator extends AbstractValidator
 {
-    protected function getRules()
+    protected function getRules(): array
     {
-        $id = $this->model ? $this->model->id : null;
-
         return [
             'name' => ['required', 'string', 'max:100'],
             'slug' => [
@@ -18,13 +16,13 @@ class TeamValidator extends AbstractValidator
                 'string',
                 'max:100',
                 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
-                Rule::unique('bragalotto_teams', 'slug')->ignore($id),
+                Rule::unique('bragalotto_teams', 'slug'),
             ],
             'logoPath' => ['nullable', 'string', 'url', 'max:255'],
         ];
     }
 
-    protected function getMessages()
+    protected function getMessages(): array
     {
         return [
             // GÜNCELLENDİ: lib.messages.slug_unique

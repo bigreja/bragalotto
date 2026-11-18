@@ -24,7 +24,8 @@
     }
   ],
   "require": {
-    "flarum/core": "^1.2.0"
+    "php": ">=8.2",
+    "flarum/core": "^2.0.0"
   },
   "authors": [
     {
@@ -53,7 +54,14 @@
         "color": "#fff"
       },
       "optional-dependencies": [
-        "acpl/mobile-tab"
+        "acpl/mobile-tab",
+        "fof/pwa"
+      ],
+      "database-support": [
+        "mysql",
+        "mariadb",
+        "sqlite",
+        "pgsql"
       ]
     },
     "flarum-cli": {
@@ -111,7 +119,7 @@
   "prefer-stable": true,
   "require-dev": {
     "flarum/phpstan": "*",
-    "flarum/testing": "^1.0",
+    "flarum/testing": "^2.0",
     "friendsofphp/php-cs-fixer": "^3.64"
   }
 }

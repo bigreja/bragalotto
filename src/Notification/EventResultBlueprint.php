@@ -2,10 +2,13 @@
 
 namespace Bigreja\Bragalotto\Notification;
 
+use Flarum\Notification\AlertableInterface;
 use Flarum\Notification\Blueprint\BlueprintInterface;
+use Flarum\Database\AbstractModel;
+use Flarum\User\User;
 use Bigreja\Bragalotto\Event;
 
-class EventResultBlueprint implements BlueprintInterface
+class EventResultBlueprint implements BlueprintInterface, AlertableInterface
 {
     public $event;
 
@@ -14,22 +17,22 @@ class EventResultBlueprint implements BlueprintInterface
         $this->event = $event;
     }
 
-    public function getSubject()
+    public function getSubject(): ?AbstractModel
     {
         return $this->event;
     }
 
-    public function getSender()
+    public function getSender(): ?User
     {
         return null;
     }
 
-    public function getFromUser()
+    public function getFromUser(): ?User
     {
         return null;
     }
 
-    public function getData()
+    public function getData(): mixed
     {
         // GÜNCELLENDİ: Sabit 'Home'/'Away' yerine translator kullanımı.
         // Not: Bu metot email template'lerinde de kullanıldığı için burada çevirmek mantıklıdır.
@@ -45,12 +48,12 @@ class EventResultBlueprint implements BlueprintInterface
         ];
     }
 
-    public static function getType()
+    public static function getType(): string
     {
         return 'bragalotto_event_result';
     }
 
-    public static function getSubjectModel()
+    public static function getSubjectModel(): string
     {
         return Event::class;
     }

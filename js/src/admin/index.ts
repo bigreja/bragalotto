@@ -5,7 +5,7 @@ import PickemPage from './components/PickemPage';
 app.initializers.add('bigreja/bragalotto', () => {
   extenders.forEach(extender => extender.extend(app));
 
-  app.extensionData
+  app.registry
     .for('bigreja-bragalotto')
     .registerPage(PickemPage)
     .registerPermission({

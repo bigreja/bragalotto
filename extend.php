@@ -5,8 +5,7 @@ namespace Bigreja\Bragalotto;
 use Flarum\Extend;
 use Flarum\User\User;
 use Bigreja\Bragalotto\Api\Controller;
-use Bigreja\Bragalotto\Api\Serializer;
-use Flarum\Api\Serializer\ForumSerializer;
+use Bigreja\Bragalotto\Api\Resource;
 use Bigreja\Bragalotto\Access\EventPolicy;
 use Bigreja\Bragalotto\Access\PickPolicy;
 use Bigreja\Bragalotto\Event;
@@ -15,11 +14,40 @@ use Bigreja\Bragalotto\UserScore;
 use Bigreja\Bragalotto\Listener;
 use Bigreja\Bragalotto\Notification;
 use Bigreja\Bragalotto\Command\ImportLigaPortugalCommand;
+use Bigreja\Bragalotto\Command\SendWeekRemindersCommand;
+use Bigreja\Bragalotto\Search\CompetitionSearcher;
+use Bigreja\Bragalotto\Search\EventSearcher;
+use Bigreja\Bragalotto\Search\PickSearcher;
+use Bigreja\Bragalotto\Search\UserScoreSearcher;
+use Bigreja\Bragalotto\Search\WeekSearcher;
+use Flarum\Api\Context;
+use Flarum\Api\Resource\ForumResource;
+use Flarum\Api\Schema;
+use Flarum\Search\Database\DatabaseSearchDriver;
+use Flarum\Search\Database\DatabaseSearchState;
+use Flarum\Search\SearchCriteria;
+
+$filterValues = static function (array $filters, string $key): array {
+    $values = $filters[$key] ?? [];
+    $values = is_array($values) ? $values : [$values];
+
+    if ($values === []) {
+        return [];
+    }
+
+    $values = array_merge(...array_map(static fn ($value) => explode(',', (string) $value), $values));
+
+    return array_values(array_filter($values, static fn ($value) => $value !== ''));
+};
 
 return [
     // Console Commands
     (new Extend\Console())
-        ->command(ImportLigaPortugalCommand::class),
+        ->command(ImportLigaPortugalCommand::class)
+        ->command(SendWeekRemindersCommand::class)
+        ->schedule(SendWeekRemindersCommand::class, function (\Illuminate\Console\Scheduling\Event $event) {
+            $event->dailyAt('08:00')->withoutOverlapping();
+        }),
 
     // Frontend Assets
     (new Extend\Frontend('forum'))
@@ -34,69 +62,134 @@ return [
     // Localization
     new Extend\Locales(__DIR__.'/resources/locale'),
 
+    (new Extend\View())
+        ->namespace('bigreja-bragalotto', __DIR__.'/views'),
+
+    (new Extend\ServiceProvider())
+        ->register(BragalottoServiceProvider::class),
+
+    // API Resources
+    new Extend\ApiResource(Resource\TeamResource::class),
+    new Extend\ApiResource(Resource\CompetitionResource::class),
+    new Extend\ApiResource(Resource\SeasonResource::class),
+    new Extend\ApiResource(Resource\WeekResource::class),
+    new Extend\ApiResource(Resource\EventResource::class),
+    new Extend\ApiResource(Resource\PickResource::class),
+    new Extend\ApiResource(Resource\UserScoreResource::class),
+
+    (new Extend\SearchDriver(DatabaseSearchDriver::class))
+        ->addSearcher(Event::class, EventSearcher::class)
+        ->addMutator(EventSearcher::class, static function (DatabaseSearchState $state, SearchCriteria $criteria) use ($filterValues): void {
+            $query = $state->getQuery();
+            $filters = $criteria->filters;
+
+            $weekIds = $filterValues($filters, 'week');
+            if ($weekIds !== []) {
+                $includeUnassigned = in_array('null', $weekIds, true);
+                $weekIds = array_values(array_filter($weekIds, static fn ($id) => $id !== 'null'));
+
+                $query->where(function ($query) use ($weekIds, $includeUnassigned) {
+                    if ($weekIds !== []) {
+                        $query->whereIn('week_id', $weekIds);
+                    } elseif (!$includeUnassigned) {
+                        $query->whereRaw('1 = 0');
+                    }
+
+                    if ($includeUnassigned) {
+                        $weekIds === [] ? $query->whereNull('week_id') : $query->orWhereNull('week_id');
+                    }
+                });
+            }
+
+            $statusValues = $filterValues($filters, 'status');
+            if (count($statusValues) === 1) {
+                $query->where('status', $statusValues[0]);
+            } elseif ($statusValues !== []) {
+                $query->whereIn('status', $statusValues);
+            }
+
+            $teamIds = $filterValues($filters, 'team');
+            if ($teamIds !== []) {
+                $query->where(function ($query) use ($teamIds) {
+                    $query->whereIn('home_team_id', $teamIds)
+                        ->orWhereIn('away_team_id', $teamIds);
+                });
+            }
+
+            $competitionIds = $filterValues($filters, 'competition');
+            if ($competitionIds !== []) {
+                $query->whereHas('week', fn ($query) => $query->whereIn('competition_id', $competitionIds));
+            }
+
+            if (!empty($filters['upcoming'])) {
+                $query->where('match_date', '>', \Carbon\Carbon::now());
+            }
+        })
+        ->addSearcher(Competition::class, CompetitionSearcher::class)
+        ->addMutator(CompetitionSearcher::class, static function (DatabaseSearchState $state, SearchCriteria $criteria) use ($filterValues): void {
+            $seasonIds = $filterValues($criteria->filters, 'season');
+            if (count($seasonIds) === 1) {
+                $state->getQuery()->where('season_id', $seasonIds[0]);
+            } elseif ($seasonIds !== []) {
+                $state->getQuery()->whereIn('season_id', $seasonIds);
+            }
+        })
+        ->addSearcher(Pick::class, PickSearcher::class)
+        ->addMutator(PickSearcher::class, static function (DatabaseSearchState $state, SearchCriteria $criteria) use ($filterValues): void {
+            $query = $state->getQuery();
+            $actor = $state->getActor();
+            $userIds = $filterValues($criteria->filters, 'user');
+            $userId = $userIds[0] ?? null;
+
+            if ($userId !== null && ($actor->can('bragalotto.manage') || (string) $actor->id === $userId)) {
+                $query->where('user_id', $userId);
+            } else {
+                $query->where('user_id', $actor->id);
+            }
+
+            $eventIds = $filterValues($criteria->filters, 'event');
+            if ($eventIds !== []) {
+                $query->whereIn('event_id', $eventIds);
+            }
+        })
+        ->addSearcher(UserScore::class, UserScoreSearcher::class)
+        ->addMutator(UserScoreSearcher::class, static function (DatabaseSearchState $state, SearchCriteria $criteria) use ($filterValues): void {
+            $query = $state->getQuery();
+            $query->whereNull('season_id');
+
+            $userIds = $filterValues($criteria->filters, 'user');
+            if ($userIds !== []) {
+                $query->where('user_id', $userIds[0]);
+            }
+        })
+        ->addSearcher(Week::class, WeekSearcher::class)
+        ->addMutator(WeekSearcher::class, static function (DatabaseSearchState $state, SearchCriteria $criteria) use ($filterValues): void {
+            $competitionIds = $filterValues($criteria->filters, 'competition');
+            if (count($competitionIds) === 1) {
+                $state->getQuery()->where('competition_id', $competitionIds[0]);
+            } elseif ($competitionIds !== []) {
+                $state->getQuery()->whereIn('competition_id', $competitionIds);
+            }
+        }),
+
     // API Routes
     (new Extend\Routes('api'))
-        // Teams (Admin)
-        ->get('/bragalotto-teams', 'bragalotto.teams.index', Controller\ListTeamsController::class)
-        ->post('/bragalotto-teams', 'bragalotto.teams.create', Controller\CreateTeamController::class)
-        ->patch('/bragalotto-teams/{id}', 'bragalotto.teams.update', Controller\UpdateTeamController::class)
-        ->delete('/bragalotto-teams/{id}', 'bragalotto.teams.delete', Controller\DeleteTeamController::class)
-
-        // Competitions (Admin)
-        ->get('/bragalotto-competitions', 'bragalotto.competitions.index', Controller\ListCompetitionsController::class)
-        ->post('/bragalotto-competitions', 'bragalotto.competitions.create', Controller\CreateCompetitionController::class)
-        ->patch('/bragalotto-competitions/{id}', 'bragalotto.competitions.update', Controller\UpdateCompetitionController::class)
-        ->delete('/bragalotto-competitions/{id}', 'bragalotto.competitions.delete', Controller\DeleteCompetitionController::class)
-        
-        // Seasons (Admin)
-        ->get('/bragalotto-seasons', 'bragalotto.seasons.index', Controller\ListSeasonsController::class)
-        ->post('/bragalotto-seasons', 'bragalotto.seasons.create', Controller\CreateSeasonController::class)
-        ->patch('/bragalotto-seasons/{id}', 'bragalotto.seasons.update', Controller\UpdateSeasonController::class)
-        ->delete('/bragalotto-seasons/{id}', 'bragalotto.seasons.delete', Controller\DeleteSeasonController::class)
-        
-        // Weeks (Admin)
-        ->get('/bragalotto-weeks', 'bragalotto.weeks.index', Controller\ListWeeksController::class)
-        ->post('/bragalotto-weeks', 'bragalotto.weeks.create', Controller\CreateWeekController::class)
-        ->patch('/bragalotto-weeks/{id}', 'bragalotto.weeks.update', Controller\UpdateWeekController::class)
-        ->delete('/bragalotto-weeks/{id}', 'bragalotto.weeks.delete', Controller\DeleteWeekController::class)
-        
-        // Events (Matches)
-        ->get('/bragalotto-events', 'bragalotto.events.index', Controller\ListEventsController::class)
-        ->post('/bragalotto-events', 'bragalotto.events.create', Controller\CreateEventController::class)
-        ->patch('/bragalotto-events/{id}', 'bragalotto.events.update', Controller\UpdateEventController::class)
-        ->delete('/bragalotto-events/{id}', 'bragalotto.events.delete', Controller\DeleteEventController::class)
-	    ->post('/bragalotto-events/{id}/result', 'bragalotto.events.result', Controller\EnterEventResultController::class)
-
-        // Picks
-        ->get('/bragalotto-picks', 'bragalotto.picks.index', Controller\ListPicksController::class)
-        ->post('/bragalotto-picks', 'bragalotto.picks.create', Controller\CreatePickController::class)
-        ->patch('/bragalotto-picks/{id}', 'bragalotto.picks.update', Controller\UpdatePickController::class)
-        ->delete('/bragalotto-picks/{id}', 'bragalotto.picks.delete', Controller\DeletePickController::class)
-        
-        // Leaderboard
-        ->get('/bragalotto-user-scores', 'bragalotto.leaderboard.index', Controller\ListLeaderboardController::class)
-
-        // Public (Forum) data for filters
-        ->get('/bragalotto-public-seasons', 'bragalotto.public.seasons.index', Controller\ListPublicSeasonsController::class)
-        ->get('/bragalotto-public-teams', 'bragalotto.public.teams.index', Controller\ListPublicTeamsController::class)
-        ->get('/bragalotto-public-weeks', 'bragalotto.public.weeks.index', Controller\ListPublicWeeksController::class)
-        ->get('/bragalotto-public-competitions', 'bragalotto.public.competitions.index', Controller\ListPublicCompetitionsController::class)
-
-        // Admin Tools
+        ->post('/bragalotto-events/{id}/result', 'bragalotto.events.result', Controller\EnterEventResultController::class)
         ->post('/bragalotto/recalculate-all-scores', 'bragalotto.recalculate_scores', Controller\RecalculateAllScoresController::class),
 
-    (new Extend\ApiSerializer(ForumSerializer::class))
-        ->attributes(function ($serializer) { 
-            $actor = $serializer->getActor();
-            $settings = resolve(\Flarum\Settings\SettingsRepositoryInterface::class);
-            
-            return [
-                'bragalotto.canManage' => $actor->can('bragalotto.manage'),
-                'bragalotto.canView' => $actor->can('bragalotto.view'),
-                'bragalotto.makePicks' => $actor->can('bragalotto.makePicks'),
-                'bragalotto.reverseDisplay' => (bool) $settings->get('bigreja-bragalotto.reverse_display'),
-            ];
-        }),
+    // Forum Attributes
+    (new Extend\ApiResource(ForumResource::class))
+        ->fields(fn () => [
+            Schema\Boolean::make('bragalotto.canManage')
+                ->get(fn (object $forum, Context $context) => $context->getActor()->can('bragalotto.manage')),
+            Schema\Boolean::make('bragalotto.canView')
+                ->get(fn (object $forum, Context $context) => $context->getActor()->can('bragalotto.view')),
+            Schema\Boolean::make('bragalotto.makePicks')
+                ->get(fn (object $forum, Context $context) => $context->getActor()->can('bragalotto.makePicks')),
+        ]),
+
+    (new Extend\Settings())
+        ->serializeToForum('bragalotto.reverseDisplay', 'bigreja-bragalotto.reverse_display', 'boolval'),
 
     // Policies
     (new Extend\Policy())
@@ -114,10 +207,11 @@ return [
 
     // Event Listeners
     (new Extend\Event())
-        ->listen(\Illuminate\Database\Events\Saved::class, Listener\UpdateUserScoresListener::class)
-        ->listen(\Illuminate\Database\Events\Saved::class, Listener\SendResultNotificationsListener::class),
+        ->listen(\Illuminate\Database\Eloquent\Events\Saved::class, Listener\UpdateUserScoresListener::class)
+        ->listen(\Illuminate\Database\Eloquent\Events\Saved::class, Listener\SendResultNotificationsListener::class),
 
     // Notifications
     (new Extend\Notification())
-        ->type(Notification\EventResultBlueprint::class, Serializer\EventSerializer::class, ['alert']),
+        ->type(Notification\EventResultBlueprint::class, ['alert'])
+        ->type(Notification\WeekStartingBlueprint::class, ['alert']),
 ];

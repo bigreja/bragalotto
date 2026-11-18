@@ -7,9 +7,9 @@ use Illuminate\Validation\Rule;
 
 class WeekValidator extends AbstractValidator
 {
-    protected function getRules()
+    protected function getRules(): array
     {
-        $required = $this->model ? 'sometimes' : 'required';
+        $required = 'required';
 
         return [
             'name' => [$required, 'string', 'max:100'],

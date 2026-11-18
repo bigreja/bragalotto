@@ -12,6 +12,8 @@ use Flarum\Database\ScopeVisibilityTrait;
  * @property int|null $week_number
  * @property \Carbon\Carbon|null $start_date
  * @property \Carbon\Carbon|null $end_date
+ * @property \Carbon\Carbon|null $reminder_sent_at
+ * @property int $reminder_last_user_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
@@ -29,6 +31,8 @@ class Week extends AbstractModel
     protected $casts = [
         'start_date' => 'datetime',
         'end_date' => 'datetime',
+        'reminder_sent_at' => 'datetime',
+        'reminder_last_user_id' => 'integer',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];

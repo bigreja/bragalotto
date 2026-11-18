@@ -1,4 +1,4 @@
-﻿import Modal from 'flarum/common/components/Modal';
+import FormModal from 'flarum/common/components/FormModal';
 import Button from 'flarum/common/components/Button';
 import PickemEvent from '../../../common/models/Event';
 import Team from '../../../common/models/Team';
@@ -8,7 +8,7 @@ interface IResultModalAttrs {
   onsave: () => void;
 }
 
-export default class ResultModal extends Modal<IResultModalAttrs> {
+export default class ResultModal extends FormModal<IResultModalAttrs> {
   private event: PickemEvent;
   private homeScore: string | number = '';
   private awayScore: string | number = '';
